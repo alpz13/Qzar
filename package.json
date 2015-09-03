@@ -9,6 +9,7 @@
   "author": "ITESM CQ",
   "license": "ISC",
   "dependencies": {
+    "express": "^4.13.3",
     "mysql": "^2.9.0"
   }
 }
