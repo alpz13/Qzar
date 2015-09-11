@@ -10,6 +10,7 @@ router.post('/', function(req, res) {
 	var nombre = req.body.nombre;
 	var codigo = req.body.codigo;
 
+	// var conexion = crearConexion();
 	// Prepara consulta y la ejecuta.
 	var sql = 'INSERT INTO Modulos(usuarioAdministrador, nombre, numeroModulo) VALUES(2,?,?);';
 	var params = [nombre, codigo];
@@ -17,7 +18,7 @@ router.post('/', function(req, res) {
 	req.bd.query(sql, function(err) {
 		if(err) {
 			console.log(err);
-			res.end('Error: No se pudo crear módulo ' + nombre + '.');
+			res.end('Error: No se pudo crear módulo ' + nombre + '.' + err);
 		} else {
 			res.end('Felicidades: Módulo ' + nombre + " se ha creado exitosamente.");
 		}

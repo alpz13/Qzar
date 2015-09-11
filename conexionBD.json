@@ -1,6 +1,6 @@
 {
 	"host": "localhost",
-	"user": "",
-	"password": "",
+	"user": "marc",
+	"password": "Lacontraseñaesultrasecreta",
 	"database": "qzardb"
 }
