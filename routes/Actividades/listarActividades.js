@@ -1,5 +1,15 @@
 var mysql = require('mysql');
+
+/* Se incluye el archivo que contiene las credenciales de la conexión a la DB: credencialesdb.js*/
 var credenciales = require('../../database/credencialesdb.js')
+
+/*	Funcion listarActividades(res)
+	- Necesita crear la conexión con la base de datos, en base a las credenciales hechas
+	- Se realiza la consulta con una query y una función que maneja tanto el error, como la consulta
+	- Se cierra la conexión con la DB
+	- Se hace el renderizado con la vista: actividades.jade, mandandole la consulta: rows
+
+*/
 
 var listarActividades = function(res){
 	var db =mysql.createConnection(credenciales);
