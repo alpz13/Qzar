@@ -1,8 +1,34 @@
 extends layout
-
+extends menu
 block content
-  h1= title
-  p Welcome to #{title}
-  ul
-    each actividad in actividades
-      li #{actividad.descripcion}	
+  //Contenido de Pagina
+  div#page-wrapper
+    div.container-fluid
+      div.row
+        div.col-lg-12
+          h1 #{title}
+          p La lista de actividades
+      div.col-lg-12
+        table.table.table.striped
+          thead
+            th  Nombre
+            th  Descripcion
+          tbody
+            each actividad in actividades
+              tr
+                td #{actividad.nombre}
+                td #{actividad.descripcion}
+  div#algo
+    p algo
+  //Cierro row
+  //Cierro Container Fluid
+  //Containererro PageWrapper
+  //Cierro Wrapper
+  //Jquery
+  script(src='/bootstrap/js/jquery.js')
+  //Bootstrap Core JS
+  script(src='/bootstrap/js/bootstrap.min.js')
+
+
+
+
