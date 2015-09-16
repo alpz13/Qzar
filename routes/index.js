@@ -1,5 +1,5 @@
 /*jslint
-    indent: 4
+    indent: 4, unparam: true
 */
 var express = require('express');
 var router = express.Router();
@@ -8,7 +8,7 @@ var listar = require('./Actividades/listarActividades.js');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  res.render('index', { title: 'Express' });
+    res.render('index', { title: 'Express' });
 });
 
 /* Se crea la ruta a la página de actividades
