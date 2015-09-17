@@ -1,5 +1,10 @@
 extends layout
-
 block content
-  h1= title
-  p Welcome to #{title}
+  div.top
+    form.form-horizontal(method="post", id="loginForm", action = "sesiones")
+      input.span3(id="nombreUsuario", type="text", name="nombreUsuario", placeholder="Nombre de usuario")
+      input.span3(id="contrasenia", type="password", name="contrasenia", placeholder="Contraseña")
+      input.btn(type="submit", value="Inicia sesión")
+  div.container
+    div.content
+  div.footer

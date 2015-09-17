@@ -1,2 +1,4 @@
 node_modules/*
+sessions/*
+!sessions/readme.md
 desarrollo.js

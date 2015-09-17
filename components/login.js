@@ -24,7 +24,7 @@ var validarCredenciales = function (usuario, contrasenia) {
     return false;
 };
 
-var cargarUsuario = function (nombreDeUsuario, callback) {
+var cargarUsuario = function (nombreUsuario, callback) {
     // FIXME: No hardcodear estos valores.
     var conexion = mysql.createConnection({
         host : 'localhost',
@@ -36,7 +36,7 @@ var cargarUsuario = function (nombreDeUsuario, callback) {
     conexion.connect();
 
     // TODO: Agregar, además, los roles, permisos, etc.
-    conexion.query('SELECT `nombre`,`activo` FROM `Usuarios` WHERE `nombre` LIKE ' + nombreDeUsuario, function (err, renglones) {
+    conexion.query('SELECT `nombre`,`activo` FROM `Usuarios` WHERE `nombre` LIKE ' + nombreUsuario, function (err, renglones) {
         if (err) { throw err; }
         var usuario = {};
 
@@ -48,13 +48,15 @@ var cargarUsuario = function (nombreDeUsuario, callback) {
     conexion.end();
 };
 
-var abrirSesion = function (req, res, nombreDeUsuario, contrasenia, callback) {
+var abrirSesion = function (req, res, callback) {
     // Toda request debe de tener un objeto 'sesion'.
+    var nombreUsuario = req.body.nombreUsuario;
+    var contrasenia = req.body.contrasenia;
     var sesion;
-    if (req.session === null) {
+    if (req.session === null || req.session === undefined) {
         observador.info('Creando sesion nueva para una request.');
-
         sesion = new Sesion({secret: 'Q3UBzdH9GEfiRCTKbi5MTPyChpzXLsTD'});
+        observador.info(sesion.startSession);
         sesion.startSession(req, res, callback);
     }
 
@@ -68,14 +70,14 @@ var abrirSesion = function (req, res, nombreDeUsuario, contrasenia, callback) {
     }
 
     // Existe?
-    if (!validarCredenciales(nombreDeUsuario, contrasenia)) {
+    if (!validarCredenciales(nombreUsuario, contrasenia)) {
         observador.error('Usuario y/o contrasenia incorrectos.');
 
         return false;
     }
 
     observador.info('A esta request se le asignará el \'usuario\' que pidió.');
-    cargarUsuario(nombreDeUsuario, ORMUsuario); // FIXME
+    cargarUsuario(nombreUsuario, ORMUsuario); // FIXME
     sesion.put('usuario', 'value');
     return true;
 };
