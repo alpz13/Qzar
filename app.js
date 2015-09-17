@@ -4,24 +4,13 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var mysql = require('mysql');
 
-// ¿Lo ponemos aquí como dice el tutorial?
-// conexionBD.json lo crea cada quién (tiene el host, user, password, database de tu BD).
-var datosConexion = require('./conexionBD.json');
-var bd = mysql.createConnection(datosConexion);
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var modulos = require('./routes/Modulos/modulos');
 
 var app = express();
-
-// Todo request incluye conexión a BD (así dice en el tutorial).
-app.use(function(req,res,next){
-    req.bd = bd;
-    next();
-});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
