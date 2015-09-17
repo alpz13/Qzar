@@ -1,1 +1,0 @@
-You can try visit our [homepage]($base$/) or search documentation using navigation on left side.

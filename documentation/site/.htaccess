@@ -1,5 +1,0 @@
-<ifModule mod_rewrite.c>
-RewriteEngine on
-RewriteBase /
-ErrorDocument 404 //404/index.html
-</IfModule>
