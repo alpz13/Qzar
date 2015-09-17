@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Sistema de Administracion Qzar</title>
+    <!--Base CSS-->
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Open+Sans:400,700&amp;subset=latin,latin-ext">
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Roboto:300,400,100,700&amp;subset=latin,latin-ext">
+    <link rel="stylesheet" type="text/css" href="./../assets/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" type="text/css" href="./../assets/highlightjs/styles/monokai_sublime.css">
+    <link rel="stylesheet" href="./../assets/template.css">
+    <link rel="stylesheet" href="./../assets/content.css">
+    <!--Custom CSS-->
+    <!--Base scripts-->
+    <script type="text/javascript" src="./../assets/live.js"></script>
+    <script type="text/javascript" src="./../assets/main.js"></script>
+    <!--Custom scripts-->
+    <!--META-->
+    <meta name="viewport" content="width=device-width">
+    <meta name="generator" content="META Doc / https://github.com/metaplatform/meta-doc">
+    <meta name="description" content="Cosas coquetas">
+    <meta name="author" content="Fernando Villers">
+  </head>
+  <body id="top">
+    <header id="header" style="">
+      <button id="menu-open"><i class="mdi mdi-menu"></i></button>
+      <div id="logo"><a href="./../">Sistema de Administracion Qzar</a></div>
+      <div id="header-nav">
+        <button id="menu-close"><i class="mdi mdi-close"></i></button>
+        <nav id="menu">
+          <ul>
+            <li><a href="./../meta/#01_Support">Support</a></li>
+            <li><a href="https://github.com/metaplatform/meta-doc" target="_blank">META Doc on GitHub</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <div id="main">
+      <nav id="toc">
+        <div class="wrap">
+          <button id="toc-toggle"><i class="mdi mdi-format-list-bulleted"></i></button>
+                <ul>
+                  <li data-anchor="#top" class="section"><a href="./../#top">Home</a></li>
+                  <li data-anchor="01_Writers_Guide" class="page"><a href="./../writers-guide/#top"><i class="mdi mdi-school icon"></i>Writers Guide</a>
+                          <ul>
+                            <li data-anchor="00_Get_started" class="section"><a href="./../writers-guide/#00_Get_started">Get started</a></li>
+                            <li data-anchor="01_Directory_structure" class="section"><a href="./../writers-guide/#01_Directory_structure">Directory structure</a></li>
+                            <li data-anchor="02_Naming" class="section"><a href="./../writers-guide/#02_Naming">Naming</a></li>
+                            <li data-anchor="03_Sections" class="section"><a href="./../writers-guide/#03_Sections">Sections</a></li>
+                            <li data-anchor="04_Pages" class="section"><a href="./../writers-guide/#04_Pages">Pages</a></li>
+                            <li data-anchor="05_Excerpt" class="section"><a href="./../writers-guide/#05_Excerpt">Excerpt</a></li>
+                            <li data-anchor="06_Directory" class="section"><a href="./../writers-guide/#06_Directory">Directory</a></li>
+                            <li data-anchor="07_Sidecode" class="section"><a href="./../writers-guide/#07_Sidecode">Sidecode</a></li>
+                            <li data-anchor="08_Shortcodes" class="section"><a href="./../writers-guide/#08_Shortcodes">Shortcodes</a></li>
+                            <li data-anchor="09_Icons" class="section"><a href="./../writers-guide/#09_Icons">Icons</a></li>
+                            <li data-anchor="10_Alert_boxes" class="section"><a href="./../writers-guide/#10_Alert_boxes">Alert boxes</a></li>
+                            <li data-anchor="11_Heading_labels" class="section"><a href="./../writers-guide/#11_Heading_labels">Heading labels</a></li>
+                            <li data-anchor="12_Images" class="section"><a href="./../writers-guide/#12_Images">Images</a></li>
+                            <li data-anchor="13_Landing_page" class="section"><a href="./../writers-guide/#13_Landing_page">Landing page</a></li>
+                            <li data-anchor="14_Global_configuration" class="section"><a href="./../writers-guide/#14_Global_configuration">Global configuration</a></li>
+                            <li data-anchor="15_Constants" class="section"><a href="./../writers-guide/#15_Constants">Constants</a></li>
+                            <li data-anchor="16_Redirects" class="section"><a href="./../writers-guide/#16_Redirects">Redirects</a></li>
+                          </ul>
+                  </li>
+                  <li data-anchor="02_Usage" class="page"><a href="./../usage/#top"><i class="mdi mdi-console icon"></i>Usage</a>
+                          <ul>
+                            <li data-anchor="01_Installation" class="section"><a href="./../usage/#01_Installation">Installation</a></li>
+                            <li data-anchor="02_Command_line_tool" class="section"><a href="./../usage/#02_Command_line_tool">Command line tool</a></li>
+                            <li data-anchor="03_Node_module" class="section"><a href="./../usage/#03_Node_module">Node module</a></li>
+                            <li data-anchor="04_Deployment" class="section"><a href="./../usage/#04_Deployment">Deployment</a></li>
+                          </ul>
+                  </li>
+                  <li data-anchor="03_API_Reference" class="page current-parent current"><a href="./../api-reference/#top"><i class="mdi mdi-code-tags icon"></i>API Reference</a>
+                          <ul class="current">
+                            <li data-anchor="01_#MetaDoc" class="section"><a href="./../api-reference/#01_#MetaDoc">#MetaDoc</a></li>
+                            <li data-anchor="02_#useDefaultShortcodes" class="section"><a href="./../api-reference/#02_#useDefaultShortcodes">#useDefaultShortcodes</a></li>
+                            <li data-anchor="03_#useDefaultHelpers" class="section"><a href="./../api-reference/#03_#useDefaultHelpers">#useDefaultHelpers</a></li>
+                            <li data-anchor="04_#addShortcode" class="section"><a href="./../api-reference/#04_#addShortcode">#addShortcode</a></li>
+                            <li data-anchor="05_#addHelper" class="section"><a href="./../api-reference/#05_#addHelper">#addHelper</a></li>
+                            <li data-anchor="06_#useCompiler" class="section"><a href="./../api-reference/#06_#useCompiler">#useCompiler</a></li>
+                            <li data-anchor="07_#cleanSite" class="section"><a href="./../api-reference/#07_#cleanSite">#cleanSite</a></li>
+                            <li data-anchor="08_#copyMedia" class="section"><a href="./../api-reference/#08_#copyMedia">#copyMedia</a></li>
+                            <li data-anchor="09_#copyAssets" class="section"><a href="./../api-reference/#09_#copyAssets">#copyAssets</a></li>
+                            <li data-anchor="10_#compile" class="section"><a href="./../api-reference/#10_#compile">#compile</a></li>
+                            <li data-anchor="11_#watch" class="section"><a href="./../api-reference/#11_#watch">#watch</a></li>
+                            <li data-anchor="12_Error_event" class="section"><a href="./../api-reference/#12_Error_event">Error event</a></li>
+                          </ul>
+                  </li>
+                  <li data-anchor="04_Contributing" class="page"><a href="./../contributing/#top"><i class="mdi mdi-account-multiple-plus icon"></i>Contributing</a>
+                          <ul>
+                            <li data-anchor="01_How_to_help" class="section"><a href="./../contributing/#01_How_to_help">How to help</a></li>
+                            <li data-anchor="02_Show_your_work" class="section"><a href="./../contributing/#02_Show_your_work">Show your work</a></li>
+                          </ul>
+                  </li>
+                </ul>
+        </div>
+        <div id="created-by"><a href="https://github.com/metaplatform/meta-doc" target="_blank"><span class="center"><i class="mdi mdi-book-open"></i><span class="sub">Generated by </span><span class="bold">META</span><span> Doc</span></span></a></div>
+      </nav>
+      <div id="sidecode"></div>
+      <article id="page" class="with-sidecode">
+        <header class="excerpt"><i class="mdi mdi-code-tags icon"></i>
+          <div class="content"><h1>API Reference</h1>
+<p>Reference of <code>meta-doc</code> NodeJS module.</p>
+</div>
+          <div class="clear"></div>
+        </header>
+        <section class="section">
+          <div id="01_#MetaDoc" class="anchor"></div>
+          <div class="content"><div class="sidecode">
+<div class="side-wrapper">
+<h2>How to create generator object</h2>
+<pre><code class="hljs language-javascript"><span class="hljs-keyword">var</span> MetaDoc = <span class="hljs-built_in">require</span>(<span class="hljs-string">"../index.js"</span>);
+
+<span class="hljs-keyword">try</span> {
+    
+    <span class="hljs-keyword">var</span> doc = MetaDoc({
+        media:    <span class="hljs-string">"./my-media"</span>,
+        pages:    <span class="hljs-string">"./my-pages"</span>,
+        site:     <span class="hljs-string">"./my-site"</span>,
+        template: <span class="hljs-string">"./my-template"</span>,
+        assets:   <span class="hljs-string">"./my-template/assets"</span>,
+        config:   <span class="hljs-string">"./my-config.json"</span>,
+        cache:    <span class="hljs-string">"./my-cache.json"</span>
+    });
+
+    doc.on(<span class="hljs-string">"error"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>)</span>{
+        <span class="hljs-comment">//Handler error</span>
+        <span class="hljs-built_in">console</span>.error(e.toString());
+    });
+
+} <span class="hljs-keyword">catch</span>(e) {
+    logger.error(e.toString());
+}
+</code></pre>
+</div>
+</div>
+<h2 class="tag func"><code>MetaDoc(opts)</code></h2>
+<p>Constructor accepts configuration object with following properties.</p>
+<table>
+<thead>
+<tr>
+<th>Property name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>media</td>
+<td>string</td>
+<td>Path to source media directory.</td>
+<td>./media</td>
+</tr>
+<tr>
+<td>pages</td>
+<td>string</td>
+<td>Path to source pages directory.</td>
+<td>./pages</td>
+</tr>
+<tr>
+<td>site</td>
+<td>string</td>
+<td>Path to documentation output directory.</td>
+<td>./site</td>
+</tr>
+<tr>
+<td>template</td>
+<td>string</td>
+<td>Path to documentation template directory.</td>
+<td>./template</td>
+</tr>
+<tr>
+<td>assets</td>
+<td>string</td>
+<td>Path to documentation template assets directory.</td>
+<td>./template/assets</td>
+</tr>
+<tr>
+<td>config</td>
+<td>string</td>
+<td>Path to global configuration file.</td>
+<td>./config.json</td>
+</tr>
+<tr>
+<td>cache</td>
+<td>string</td>
+<td>Path to compiler cache file.</td>
+<td>./cache.json</td>
+</tr>
+</tbody>
+</table>
+<div class="clear"></div>
+
+            <div class="clear"></div>
+          </div>
+        </section>
+        <section class="section">
+          <div id="02_#useDefaultShortcodes" class="anchor"></div>
+          <div class="content"><div class="sidecode">
+<div class="side-wrapper">
+<h2>Registering default shortcodes</h2>
+<pre><code class="hljs language-javascript"><span class="hljs-comment">//...</span>
+doc.useDefaultShortcodes()
+</code></pre>
+</div>
+</div>
+<h2 class="tag func"><code>useDefaultShortcodes()</code></h2>
+<p>Loads module library <code>./lib/shortcodes.js</code> and registers all default shortcodes.</p>
+<div class="clear"></div>
+
+            <div class="clear"></div>
+          </div>
+        </section>
+        <section class="section">
+          <div id="03_#useDefaultHelpers" class="anchor"></div>
+          <div class="content"><div class="sidecode">
+<div class="side-wrapper">
+<h2>Registering default helpers</h2>
+<pre><code class="hljs language-javascript"><span class="hljs-comment">//...</span>
+doc.useDefaultHelpers()
+</code></pre>
+</div>
+</div>
+<h2 class="tag func"><code>useDefaultHelpers()</code></h2>
+<p>Loads module library <code>./lib/helpers.js</code> and registers all default compiler helpers.</p>
+<div class="clear"></div>
+
+            <div class="clear"></div>
+          </div>
+        </section>
+        <section class="section">
+          <div id="04_#addShortcode" class="anchor"></div>
+          <div class="content"><div class="sidecode">
+<div class="side-wrapper">
+<h2>Registering custom shortcode</h2>
+<pre><code class="hljs language-javascript">doc.addShortcode(<span class="hljs-string">"contact"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">opts, content</span>)</span>{
+    
+    <span class="hljs-keyword">if</span>(!opts.first_name || !opts.last_name) <span class="hljs-keyword">return</span> <span class="hljs-string">"[Invalid arguments]"</span>;
+    <span class="hljs-keyword">return</span> <span class="hljs-string">'&lt;h2&gt;'</span> + opts.first_name + <span class="hljs-string">" "</span> + opts.last_name + <span class="hljs-string">'&lt;/h2&gt;\n&lt;p class="job-title"&gt;'</span> + opts.join(<span class="hljs-string">", "</span>) + <span class="hljs-string">'&lt;/p&gt;\n&lt;p class="about"&gt;'</span> + contents + <span class="hljs-string">'&lt;/p&gt;'</span>;
+
+});
+</code></pre>
+<p>Using custom shortcode:</p>
+<pre><code class="hljs language-plain">[[contact first_name=John last_name=Doe CEO Founder]]Lorem ipsum...[[/contact]]
+</code></pre>
+<p>Results in:</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-title">h2</span>&gt;</span>John Doe<span class="hljs-tag">&lt;/<span class="hljs-title">h2</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">p</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"job-title"</span>&gt;</span>CEO, Founder<span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">p</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"about"</span>&gt;</span>Lorem ipsum...<span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span>
+</code></pre>
+</div>
+</div>
+<h2 class="tag func"><code>addShortcode(name, handlerFn)</code></h2>
+<p>Method registers new shortcode.</p>
+<table>
+<thead>
+<tr>
+<th>Argument</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name</td>
+<td>string</td>
+<td>Shortcode tag name.</td>
+</tr>
+<tr>
+<td>handlerFn</td>
+<td>function</td>
+<td>Function which is called when processing shortcode. Function returns replacement string.</td>
+</tr>
+</tbody>
+</table>
+<p>META Doc is using <a href="https://github.com/metaplatform/meta-shortcodes">meta-shortcodes</a> library and uses it's API. Look at it's documentation for more information.</p>
+<div class="clear"></div>
+
+            <div class="clear"></div>
+          </div>
+        </section>
+        <section class="section">
+          <div id="05_#addHelper" class="anchor"></div>
+          <div class="content"><div class="sidecode">
+<div class="side-wrapper">
+<h2>Registering custom helpers</h2>
+<pre><code class="hljs language-javascript">doc.addHelper([ <span class="hljs-built_in">require</span>(<span class="hljs-string">'markdown-it-attrs'</span>) ]);
+
+doc.addHelper([ <span class="hljs-built_in">require</span>(<span class="hljs-string">'markdown-it-highlightjs'</span>) ]);
+
+doc.addHelper([
+    <span class="hljs-built_in">require</span>(<span class="hljs-string">'markdown-it-container'</span>),
+    <span class="hljs-string">"message"</span>
+]);
+</code></pre>
+</div>
+</div>
+<h2 class="tag func"><code>addHelper(args)</code></h2>
+<p>Method registers new compiler helper.</p>
+<table>
+<thead>
+<tr>
+<th>Argument</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>args</td>
+<td>array</td>
+<td>Array of arguments passed to <code>makrkdown-it</code> module method <code>use</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>META Doc is using <a href="https://www.npmjs.com/package/markdown-it">makrkdown-it</a> module. Look at it's documentation for more information.</p>
+<p>You can also browse <a href="https://www.npmjs.com/browse/keyword/markdown-it-plugin">NPM index</a> for various <code>markdown-it</code> plugins.</p>
+<div class="clear"></div>
+
+            <div class="clear"></div>
+          </div>
+        </section>
+        <section class="section">
+          <div id="06_#useCompiler" class="anchor"></div>
+          <div class="content"><div class="sidecode">
+<div class="side-wrapper">
+<h2>Registering custom compiler</h2>
+<pre><code class="hljs language-javascript"><span class="hljs-keyword">var</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">"fs"</span>);
+
+<span class="hljs-keyword">var</span> myCompiler = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">opts, pagesTree, config</span>)</span>{
+
+    <span class="hljs-keyword">this</span>.options = opts;
+    <span class="hljs-keyword">this</span>.pagesTree = pagesTree;
+    <span class="hljs-keyword">this</span>.config = config;
+    
+};
+
+myCompiler.prototype.compile = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+
+    fs.writeFileSync(<span class="hljs-keyword">this</span>.options.outputDir + <span class="hljs-string">"/test.random"</span>, <span class="hljs-built_in">Math</span>.random());
+    
+};
+
+doc.useCompiler(myCompiler);
+</code></pre>
+</div>
+</div>
+<h2 class="tag func"><code>useCompiler(compiler)</code></h2>
+<p>Method registers new compiler.</p>
+<table>
+<thead>
+<tr>
+<th>Argument</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>compiler</td>
+<td>function</td>
+<td>Constructor of compiler instance.</td>
+</tr>
+</tbody>
+</table>
+<h3>Compiler instance</h3>
+<p>Compiler instance must implement follwing methods:</p>
+<ul>
+<li>#constructor(opts, pagesTree, globalConfig)</li>
+<li>#compile(changedPages, changedFiles)</li>
+</ul>
+<p>For more information look at source code of:</p>
+<ul>
+<li><code>./lib/treeParser.js</code> (pagesTree instance)</li>
+<li><code>./lib/compiler.js</code> (default compiler)</li>
+<li><code>./index.js</code> (compile method)</li>
+</ul>
+<div class="clear"></div>
+
+            <div class="clear"></div>
+          </div>
+        </section>
+        <section class="section">
+          <div id="07_#cleanSite" class="anchor"></div>
+          <div class="content"><div class="sidecode">
+<div class="side-wrapper">
+<h2>Cleaning site directory</h2>
+<pre><code class="hljs language-javascript">doc.cleanSite();
+</code></pre>
+</div>
+</div>
+<h2 class="tag func"><code>cleanSite()</code></h2>
+<p>Method recursively deletes all files and directories in documentation <code>&lt;site&gt;</code> (output) directory. Method is used to clean remaining mess and should be called before compilation and copying of any files into output.</p>
+<div class="clear"></div>
+
+            <div class="clear"></div>
+          </div>
+        </section>
+        <section class="section">
+          <div id="08_#copyMedia" class="anchor"></div>
+          <div class="content"><div class="sidecode">
+<div class="side-wrapper">
+<h2>Copying media directory</h2>
+<pre><code class="hljs language-javascript">doc.copyMedia();
+</code></pre>
+</div>
+</div>
+<h2 class="tag func"><code>copyMedia()</code></h2>
+<p>Method recursively copies all contents of <code>&lt;media&gt;</code> directory into <code>&lt;site&gt;/media</code> directory.</p>
+<div class="clear"></div>
+
+            <div class="clear"></div>
+          </div>
+        </section>
+        <section class="section">
+          <div id="09_#copyAssets" class="anchor"></div>
+          <div class="content"><div class="sidecode">
+<div class="side-wrapper">
+<h2>Copying assets directory</h2>
+<pre><code class="hljs language-javascript">doc.copyAssets();
+</code></pre>
+</div>
+</div>
+<h2 class="tag func"><code>copyAssets()</code></h2>
+<p>Method recursively copies all contents of <code>&lt;assets&gt;</code> directory into <code>&lt;site&gt;/assets</code> directory.</p>
+<div class="clear"></div>
+
+            <div class="clear"></div>
+          </div>
+        </section>
+        <section class="section">
+          <div id="10_#compile" class="anchor"></div>
+          <div class="content"><div class="sidecode">
+<div class="side-wrapper">
+<h2>Compiling documentation</h2>
+<pre><code class="hljs language-javascript">doc.compile();
+</code></pre>
+</div>
+</div>
+<h2 class="tag func"><code>compile()</code></h2>
+<p>Method parses documentation tree structure, check for changes aginst cache and executed compilers which compiles changed or new pages to <code>&lt;site&gt;</code> directory.</p>
+<div class="clear"></div>
+
+            <div class="clear"></div>
+          </div>
+        </section>
+        <section class="section">
+          <div id="11_#watch" class="anchor"></div>
+          <div class="content"><div class="sidecode">
+<div class="side-wrapper">
+<h2>Watching for changes</h2>
+<pre><code class="hljs language-javascript">doc.watch();
+</code></pre>
+</div>
+</div>
+<h2 class="tag func"><code>watch()</code></h2>
+<p>Method watches for changed in following directories and recompiles documentation when change occurs.</p>
+<ul>
+<li><code>&lt;pages&gt;</code></li>
+<li><code>&lt;media&gt;</code></li>
+<li><code>&lt;assets&gt;</code></li>
+<li><code>&lt;template&gt;</code></li>
+<li><code>&lt;config file&gt;</code></li>
+</ul>
+<div class="clear"></div>
+
+            <div class="clear"></div>
+          </div>
+        </section>
+        <section class="section">
+          <div id="12_Error_event" class="anchor"></div>
+          <div class="content"><div class="sidecode">
+<div class="side-wrapper">
+<h2>Handle errors</h2>
+<pre><code class="hljs language-javascript">doc.on(<span class="hljs-string">"error"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>)</span>{
+    <span class="hljs-built_in">console</span>.error(e.toString());
+});
+</code></pre>
+</div>
+</div>
+<h2 class="tag event"><code>error</code></h2>
+<p>This event is emitted when error occurs.</p>
+<p>Error object is passed as event data.</p>
+<div class="clear">
+<h3>Where to go next?</h3>
+<p><a class="cta" href="../usage/"><i class="inline-icon mdi mdi-console"></i> Usage</a> <a class="cta" href="../writers-guide/"><i class="inline-icon mdi mdi-school"></i> Writer's Guide</a></p>
+</div>
+
+            <div class="clear"></div>
+          </div>
+        </section>
+        <footer class="section">
+          <nav id="footer-links">
+            <ul>
+              <li><a href="./../meta/#02_Privacy_policy">Privacy Policy</a></li>
+              <li><a href="https://github.com/metaplatform/meta-doc/issues" target="_blank">Report an issue</a></li>
+            </ul>
+          </nav>
+          <div class="clear"></div>
+        </footer>
+      </article>
+    </div>
+    <div id="lightbox">
+      <div class="placehelper">
+        <div class="wrapper">
+          <div class="container"></div>
+          <div class="preloader"><img src="./../assets/lightbox-preloader.gif"></div>
+          <button class="close"><svg style="width:24px;height:24px" viewBox="0 0 24 24"><path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" /></svg></button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
