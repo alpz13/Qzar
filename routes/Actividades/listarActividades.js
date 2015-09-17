@@ -8,7 +8,7 @@ var credenciales = require('../../database/credencialesdb.js');
 
 /*  Funcion listaractividades(res)
     - Necesita crear la conexión con la base de datos, en base a las credenciales hechas
-    - Se realiza la consulta con una query y una función que maneja tanto el error, como la consulta
+    - Se realiza la consulta con una consulta y una función que maneja tanto el error, como la consulta
     - Se cierra la conexión con la DB
     - Se hace el renderizado con la vista: actividades.jade, mandandole la consulta: rows
 
