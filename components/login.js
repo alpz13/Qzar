@@ -17,8 +17,8 @@ var validarCredenciales = function (nombreUsuario, contrasenia) {
 
 var cargarUsuario = function (nombreUsuario, callback) {
     var conexion = require('../database/credencialesbd.json');
-    observador.debug('Conexion:');
-    observador.debug(conexion);
+    observador.info('Conexion:');
+    observador.info(conexion);
     conexion.connect();
 
     // TODO: Agregar, además, los roles, permisos, etc.
@@ -39,28 +39,22 @@ var abrirSesion = function (req, res, callback) {
     var contrasenia = req.body.contrasenia;
     var sesion;
 
-    observador.info(req.session);
-
     // Existe una sesión abierta?
-    if (typeof req.session !== 'undefined') {
-        observador.debug('Ya existe una sesión abierta.');
+    if (req.session) {
         return callback(new Error('Ya existe una sesión abierta.'));
     }
-    observador.debug('Creando sesión nueva para una request.');
-    sesion = new Sesion({secret: 'Q3UBzdH9GEfiRCTKbi5MTPyChpzXLsTD'});  // TODO
-    // sesion.startSession(req, res, callback);
 
     // Existe un usuario con los datos proporcionados?
     if (!validarCredenciales(nombreUsuario, contrasenia)) {
-        observador.debug('Usuario y/o contraseña incorrectos.');
-        return callback(new Error('Ya existe una sesión abierta.'));
+        return callback(new Error('Usuario y/o contraseña incorrectos.'));
     }
-    observador.debug('A esta request se le asignará el \'usuario\' que pidió.');
+
+    observador.info('Creando sesión nueva para una request.');
+    sesion = new Sesion({secret: 'Q3UBzdH9GEfiRCTKbi5MTPyChpzXLsTD'});  // TODO
+    sesion.startSession(req, res, callback);
     cargarUsuario(nombreUsuario, function (err, usuario) {
         sesion.put('usuario', usuario);
-    }); // FIXME
-
-    // callback(err);
+    });
 
     return true;
 };

@@ -11,8 +11,8 @@ var observador = new Registro('info');
 
 /* GET pantalla de inicio de sesión. */
 router.get('/', function (req, res, next) {
-    observador.info('Controlador:');
-    observador.info(controlador);
+    observador.info('req.session:');
+    observador.info(req.session);
     res.render('index', { title: 'Express' });
 });
 
@@ -24,9 +24,7 @@ router.post('/', function (req, res, next) {
         res.end();
     };
 
-    // observador.info('Antes!!!');
     controlador.abrirSesion(req, res, callback);
-    // observador.info('Despues!!!');
 });
 
 module.exports = router;
