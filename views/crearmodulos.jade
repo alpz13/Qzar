@@ -5,6 +5,6 @@ block content
     div.contentfluid
     h1= title
       form#agregaModulo(name="agregaModulo", method="post", action="nuevo")
-          input#nombre(type="text", placeholder="Nombre del módulo", name="nombre")
-          input#codigo(type="text", placeholder="Código del módulo", name="codigo")
+          input#nombre(type="text", placeholder="Nombre del módulo", name="nombre", required)
+          input#codigo(type="text", placeholder="Código del módulo", name="codigo", required)
           button#submit(type="submit") submit
