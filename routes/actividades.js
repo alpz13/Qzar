@@ -16,7 +16,7 @@ router.get('/', function (req, res, next) {
     - Solo se recibe un response
     + A partir de la variable listar, se manda llamar a la funcion: listarActividades(res)
 */
-router.get('/actividades', function (req, res) {
+router.get('/', function (req, res) {
     listar.listaractividades(res);
 });
 

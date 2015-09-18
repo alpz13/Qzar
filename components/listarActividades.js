@@ -4,7 +4,7 @@
 var mysql = require('mysql');
 
 /* Se incluye el archivo que contiene las credenciales de la conexión a la DB: credencialesdb.js*/
-var credenciales = require('../../database/credencialesdb.js');
+var credenciales = require('../database/credencialesbd.json');
 
 /*  Funcion listaractividades(res)
     - Necesita crear la conexión con la base de datos, en base a las credenciales hechas
@@ -23,6 +23,7 @@ var listaractividades = function (res) {
             db.end();
         }
         db.end();
+        console.log(rows);
         res.render('actividades', {
             title: 'Actividades',
             actividades: rows

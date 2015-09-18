@@ -16,6 +16,7 @@ block content
           tbody
             each actividad in actividades
               tr
+                td(style='display:none;') #{actividad.idActividad}
                 td #{actividad.nombre}
                 td #{actividad.descripcion}
   //Cierro segundo col-lg-12 
