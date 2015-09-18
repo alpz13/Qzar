@@ -9,30 +9,16 @@ var Sesion = require('node-session');
 var Registro = require('log');
 var observador = new Registro('info');
 
-var ORMUsuario = function (copia) {
-    var dato;
-    for (dato in copia) {
-        if (copia.hasOwnProperty(dato)) {
-            this[dato] = copia[dato];
-        }
-    }
-};
-
-var validarCredenciales = function (usuario, contrasenia) {
+var validarCredenciales = function (nombreUsuario, contrasenia) {
     // TODO: Esto es temporal.
-    if (usuario === 'qzar' && contrasenia === 'qzar') { return true; }
+    if (nombreUsuario === 'qzar' && contrasenia === 'qzar') { return true; }
     return false;
 };
 
 var cargarUsuario = function (nombreUsuario, callback) {
-    // FIXME: No hardcodear estos valores.
-    var conexion = mysql.createConnection({
-        host : 'localhost',
-        user : 'qzar',
-        password : 'qzar',
-        database : 'qzar'
-    });
-
+    var conexion = require('../database/credencialesbd.json');
+    observador.debug('Conexion:');
+    observador.debug(conexion);
     conexion.connect();
 
     // TODO: Agregar, además, los roles, permisos, etc.
@@ -43,42 +29,39 @@ var cargarUsuario = function (nombreUsuario, callback) {
         usuario.nombre = renglones[0].nombre;
         usuario.activo = renglones[0].activo;
 
-        callback(usuario);
+        callback(null, usuario);
     });
     conexion.end();
 };
 
 var abrirSesion = function (req, res, callback) {
-    // Toda request debe de tener un objeto 'sesion'.
+    observador.debug('Villers es muy sexy.');
+
     var nombreUsuario = req.body.nombreUsuario;
     var contrasenia = req.body.contrasenia;
     var sesion;
-    if (req.session === null || req.session === undefined) {
-        observador.info('Creando sesion nueva para una request.');
-        sesion = new Sesion({secret: 'Q3UBzdH9GEfiRCTKbi5MTPyChpzXLsTD'});
-        observador.info(sesion.startSession);
-        sesion.startSession(req, res, callback);
+
+    // Existe una sesión abierta?
+    if (req.session) {
+        observador.debug('Ya existe una sesión abierta.');
+        return callback(new Error('Ya existe una sesión abierta.'));
     }
+    observador.debug('Creando sesión nueva para una request.');
+    sesion = new Sesion({secret: 'Q3UBzdH9GEfiRCTKbi5MTPyChpzXLsTD'});  // TODO
+    // sesion.startSession(req, res, callback);
 
-    // Si la request ya tiene un usuario asignado.
-    if (req.session.usuario !== null) {
-        observador.info('Esta request ya cuenta con un \'usuario\'.');
-        observador.debug(req.session);
-
-        req.session.regenerate();
-        return false;
-    }
-
-    // Existe?
+    // Existe un usuario con los datos proporcionados?
     if (!validarCredenciales(nombreUsuario, contrasenia)) {
-        observador.error('Usuario y/o contrasenia incorrectos.');
-
-        return false;
+        observador.debug('Usuario y/o contraseña incorrectos.');
+        return callback(new Error('Ya existe una sesión abierta.'));
     }
+    observador.debug('A esta request se le asignará el \'usuario\' que pidió.');
+    cargarUsuario(nombreUsuario, function (err, usuario) {
+        sesion.put('usuario', usuario);
+    }); // FIXME
 
-    observador.info('A esta request se le asignará el \'usuario\' que pidió.');
-    cargarUsuario(nombreUsuario, ORMUsuario); // FIXME
-    sesion.put('usuario', 'value');
+    // callback(err);
+
     return true;
 };
 
