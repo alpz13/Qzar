@@ -35,14 +35,14 @@ var cargarUsuario = function (nombreUsuario, callback) {
 };
 
 var abrirSesion = function (req, res, callback) {
-    observador.debug('Villers es muy sexy.');
-
     var nombreUsuario = req.body.nombreUsuario;
     var contrasenia = req.body.contrasenia;
     var sesion;
 
+    observador.info(req.session);
+
     // Existe una sesión abierta?
-    if (req.session) {
+    if (typeof req.session !== 'undefined') {
         observador.debug('Ya existe una sesión abierta.');
         return callback(new Error('Ya existe una sesión abierta.'));
     }
