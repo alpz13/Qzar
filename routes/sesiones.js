@@ -21,18 +21,24 @@ router.get('/', function (req, res, next) {
 });
 
 /* POST datos de inicio de sesión. */
-router.post('/', function (req, res, next) {
+router.post('/iniciar', function (req, res, next) {
     var callback = function (err) {
+        res.end();
         observador.info('Proceso de sesiones completado.');
         if (err) {
             observador.error(err);
             return false;
         }
-        res.end();
         return true;
     };
 
     controlador.abrirSesion(req, res, callback);
 });
+
+router.get('/cerrar', function (req, res, next) {
+    res.end();
+    controlador.cerrarSesion(req);
+});
+
 
 module.exports = router;

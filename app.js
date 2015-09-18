@@ -27,7 +27,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
-    secret: 'keyboard cat',
+    secret: '9582a15ab51eec66ec5c5ed55cdaafb1c28c7375',
     resave: true,
     saveUninitialized: true,
     cookie: { secure: false }
