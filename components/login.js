@@ -5,13 +5,20 @@
 
 var mysql = require('mysql');
 var sha1 = require('hash-anything').sha1;
-var Sesion = require('node-session');
 var Registro = require('log');
 var observador = new Registro('info');
 
 var validarCredenciales = function (nombreUsuario, contrasenia) {
     // TODO: Esto es temporal.
-    if (nombreUsuario === 'qzar' && contrasenia === 'qzar') { return true; }
+    if (nombreUsuario === 'adminMatriz' && contrasenia === 'adminMatriz') {
+        return true;
+    }
+    if (nombreUsuario === 'adminModulo' && contrasenia === 'adminModulo') {
+        return true;
+    }
+    if (nombreUsuario === 'usuario' && contrasenia === 'usuario') {
+        return true;
+    }
     return false;
 };
 
@@ -37,31 +44,24 @@ var cargarUsuario = function (nombreUsuario, callback) {
 var abrirSesion = function (req, res, callback) {
     var nombreUsuario = req.body.nombreUsuario;
     var contrasenia = req.body.contrasenia;
-    var sesion;
 
-    // Existe una sesión abierta?
-    if (req.session) {
-        return callback(new Error('Ya existe una sesión abierta.'));
+    if (req.session.usuario) {
+        return callback(new Error('La sesión ya cuenta con un usuario.'));
     }
 
-    // Existe un usuario con los datos proporcionados?
     if (!validarCredenciales(nombreUsuario, contrasenia)) {
         return callback(new Error('Usuario y/o contraseña incorrectos.'));
     }
 
-    observador.info('Creando sesión nueva para una request.');
-    sesion = new Sesion({secret: 'Q3UBzdH9GEfiRCTKbi5MTPyChpzXLsTD'});  // TODO
-    sesion.startSession(req, res, callback);
-    cargarUsuario(nombreUsuario, function (err, usuario) {
-        sesion.put('usuario', usuario);
-    });
+    req.session.usuario = req.body.nombreUsuario;
+    req.session.save();
 
+    callback(null);
     return true;
 };
 
 var cerrarSesion = function (req) {
-    if (req.session === null) { return true; }
-    delete req.session;
+    req.session.destroy();
     return true;
 };
 

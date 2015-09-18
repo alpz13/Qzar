@@ -11,8 +11,15 @@ var observador = new Registro('info');
 
 /* GET pantalla de inicio de sesión. */
 router.get('/', function (req, res, next) {
-    observador.info('req.session:');
-    observador.info(req.session);
+    if (req.session) {
+        req.session.reload(function (err) {
+            observador.error(err);
+        });
+        observador.info('req.session.usuario: ' + req.session.usuario);
+    } else {
+        observador.info('No hay req.session.');
+    }
+
     res.render('index', { title: 'Express' });
 });
 
