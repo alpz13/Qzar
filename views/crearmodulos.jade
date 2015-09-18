@@ -1,0 +1,10 @@
+extends layout
+
+block content
+  div#page-wrapper
+    div.contentfluid
+    h1= title
+      form#agregaModulo(name="agregaModulo", method="post", action="nuevo")
+          input#nombre(type="text", placeholder="Nombre del módulo", name="nombre")
+          input#codigo(type="text", placeholder="Código del módulo", name="codigo")
+          button#submit(type="submit") submit

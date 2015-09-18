@@ -1,6 +1,5 @@
 # El archivo con los datos de conexión a la BD.
-credencialesBD.json
-credencialesDB.json
+credencialesbd.json
 
 # Logs
 logs

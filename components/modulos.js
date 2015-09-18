@@ -2,9 +2,9 @@ var express = require('express');
 var mysql = require('mysql');
 var router = express.Router();
 
-var credenciales = require('../database/credencialesBD.json');
+var credenciales = require('../database/credencialesbd.json');
 
-function crearModulo(nombre, codigo) {
+function crearModulo(nombre, codigo, callback) {
 
 	var bd = mysql.createConnection(credenciales);
 	bd.connect();
@@ -19,11 +19,10 @@ function crearModulo(nombre, codigo) {
 	bd.query(sql, function(err) {
 		if(err) {
 			bd.end();
-			console.log(err);
-			return false;
+			return callback(err);
 		} else {
 			bd.end();
-			return true;
+			return callback(null);
 		}
 	});
 }
