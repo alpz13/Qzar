@@ -1,0 +1,8 @@
+extends layout
+
+block content
+	h1 Forma de agregar huerta
+	form#formcrearHuerta(name="crearHuerta",method="post",action="/modulo/huerta/crear")
+		input#inputAlto(type="text", placeholder="alto", name="alto")
+		input#inputAncho(type="text", placeholder="ancho", name="ancho")
+		button#btnSubmit(type="submit") submit

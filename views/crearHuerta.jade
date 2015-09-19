@@ -1,16 +1,44 @@
 extend layout
 //extend menu
 block content
-  div#page-wrapper
-    div.content-fluid
+  head
+    link(rel='stylesheet', href='/bootstrap/css/bootstrap.min.css')
+    link(rel='stylesheet', href='/bootstrap/css/sb-admin.css')
+    link(rel='stylesheet', href='/bootstrap/css/plugin/morris.css')
+    link(rel='stylesheet', href='/bootstrap/font-awesome/css/font-awesome.min.css', type='text/css')
+    link(rel='stylesheet', href="/stylesheets/tableHuerta.css", type='text/css')
+    script(src='/bootstrap/js/jquery.js')
+    script(src='/bootstrap/js/bootstrap.min.js')
+  body
+    script.
+      var flag = false;
+      $(document).ready(function() {
+        $(".cuadrito").mouseup(function(){flag=false;});
+        $(".cuadrito").mousedown(function(){flag=true;marked($(this));});
+        $(".cuadrito").mouseenter(function(){marked($(this));});
+        });
 
-  div
-    table
-      thead
-        each number in ancho
-          th number
-      tbody
-        each number in alto
-          tr
-            each row in ancho 
-              td number
+
+      var marked = function(cuadrito)
+      {
+        if(flag)
+          {
+            cuadrito.attr("type", "clicked");
+            cuadrito.attr("BGCOLOR","blue");
+          }
+      }
+      
+
+    div#page-wrapper
+      div.content-fluid
+
+    div
+      table.table.table-bordered
+        thead
+          each number in ancho
+            th.cuadrito
+        tbody
+          each number in alto
+            tr
+              each row in ancho 
+                td.cuadrito
