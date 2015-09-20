@@ -6,13 +6,10 @@ block content
     div.container-fluid
       div.row
         div.col-lg-12
-          p #{error}
+          p #{mensaje}
           header #{titulo}
       div.col-lg-12
-        form#agregaModulo(name="agregaModulo", method="post", action="nuevo")
-          input#nombre(type="text", placeholder="Nombre del módulo", name="nombre", required)
-          input#codigo(type="text", placeholder="Código del módulo", name="codigo", required)
-          button#submit(type="submit") Crear
+        a(href='/modulos/nuevo') Nuevo módulo
   //Cierro segundo col-lg-12 
   //Cierro Container Fluid
   //Containererro PageWrapper
