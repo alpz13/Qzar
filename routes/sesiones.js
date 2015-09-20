@@ -17,25 +17,24 @@ router.get('/', function (req, res, next) {
         observador.info('No hay req.session.usuario');
     }
 
-    res.render('index', { title: 'Express' });
+    res.render('iniciodesesion');
 });
 
 /* POST datos de inicio de sesión. */
 router.post('/iniciar', function (req, res, next) {
-    var callback = function (err) {
-        res.end();
+    controlador.abrirSesion(req, res, function (err, usuario) {
         observador.info('Proceso de sesiones completado.');
         if (err) {
             observador.error(err);
-            return false;
+            res.render('index', {mensaje: err, titulo: "Im sexy and I know it"});
+        } else {
+            res.render('index', {mensaje: 'Iniciaste sesión, biatch', titulo: "Im sexy and I know it", usuario: req.session.usuario });
         }
-        return true;
-    };
-
-    controlador.abrirSesion(req, res, callback);
+    });
 });
 
 router.get('/cerrar', function (req, res, next) {
+    res.render('index', {mensaje: 'Sesión cerrada'});
     res.end();
     controlador.cerrarSesion(req);
 });

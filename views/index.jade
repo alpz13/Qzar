@@ -1,10 +1,13 @@
 extends layout
 block content
   div.top
-    form.form-horizontal(method="post", id="loginForm", action = "iniciar")
-      input.span3(id="nombreUsuario", type="text", name="nombreUsuario", placeholder="Nombre de usuario")
-      input.span3(id="contrasenia", type="password", name="contrasenia", placeholder="Contraseña")
-      input.btn(type="submit", value="Inicia sesión")
+    h1 #{titulo} 
+    h2 #{mensaje}
+    if usuario
+      p #{usuario.nombre}
+      a(href='/sesiones/cerrar') Cierra sesión
+    else
+      a(href='/sesiones') Inicia sesión
   div.container
     div.content
   div.footer
