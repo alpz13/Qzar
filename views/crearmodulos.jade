@@ -2,6 +2,7 @@ extends layout
 extends menu
 block content
   //Contenido de Pagina
+  title Nuevo módulo
   div#page-wrapper
     div.container-fluid
       div.row
@@ -11,7 +12,7 @@ block content
       div.col-lg-12
         form#agregaModulo(name="agregaModulo", method="post", action="nuevo")
           input#nombre(type="text", placeholder="Nombre del módulo", name="nombre", required)
-          input#codigo(type="text", placeholder="Código del módulo", name="codigo", required)
+          input#numero(type="number", placeholder="Número del módulo", name="numero", min='1', max='999', required)
           button#submit(type="submit") Crear
   //Cierro segundo col-lg-12 
   //Cierro Container Fluid
