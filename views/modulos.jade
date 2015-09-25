@@ -1,0 +1,21 @@
+extends layout
+extends menu
+block content
+  title Módulos
+  //Contenido de Pagina
+  div#page-wrapper
+    div.container-fluid
+      div.row
+        div.col-lg-12
+          p #{mensaje}
+          header #{titulo}
+      div.col-lg-12
+        a(href='/modulos/nuevo') Nuevo módulo
+  //Cierro segundo col-lg-12 
+  //Cierro Container Fluid
+  //Containererro PageWrapper
+  //Cierro Wrapper
+  //Jquery
+  script(src='/bootstrap/js/jquery.js')
+  //Bootstrap Core JS
+  script(src='/bootstrap/js/bootstrap.min.js')
