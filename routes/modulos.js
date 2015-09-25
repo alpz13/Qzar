@@ -10,7 +10,12 @@ var modulos = require('../components/modulos.js');
 
 // Página principal de módulos
 router.get('/', function (req, res, next) {
-    res.render('modulos', { titulo: 'Módulos' });
+    modulos.listar(function (err, modulos) {
+        if (err) {
+            console.log(err);
+        }
+        res.render('modulos', { titulo: 'Módulos', modulos: modulos });
+	});
 });
 
 // Formulario para crear un nuevo módulo.

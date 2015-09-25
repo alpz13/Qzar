@@ -31,6 +31,26 @@ function crearModulo(nombre, codigo, callback) {
     });
 }
 
+function listarModulos(callback) {
+
+    // Que el usuario no esté jarcodeado.
+    var bd = mysql.createConnection(credenciales),
+        sql = 'SELECT * FROM Modulos;';
+
+    bd.connect();
+
+    // Ejecuta consulta.
+    bd.query(sql, function (err, resultados) {
+        if (err) {
+            bd.end();
+            return callback(err);
+        }
+        bd.end();
+        return callback(null, resultados);
+    });
+}
+
 module.exports = {
-    'crear' : crearModulo
+    'crear' : crearModulo,
+    'listar' : listarModulos
 };
