@@ -10,16 +10,19 @@ block content
           p #{mensaje}
           header #{titulo}
       div.col-lg-12
-        table.table.table.striped
-          thead
-            th Nombre
-            th Número
-          tbody
-            each modulo in modulos
-              tr
-                td(style='display:none;') #{modulo.idModulo}
-                td #[a(href='/modulos/#{modulo.numeroModulo}') #{modulo.nombre}]
-                td #{modulo.numeroModulo}
+        if modulos && modulos.length
+          table.table.table.striped
+            thead
+              th Nombre
+              th Número
+            tbody
+              each modulo in modulos
+                tr
+                  td(style='display:none;') #{modulo.idModulo}
+                  td #[a(href='/modulos/#{modulo.numeroModulo}') #{modulo.nombre}]
+                  td #{modulo.numeroModulo}
+        else
+          p No se han encontrado módulos en el sistema.
         a(href='/modulos/nuevo') Nuevo módulo
   //Cierro segundo col-lg-12 
   //Cierro Container Fluid
