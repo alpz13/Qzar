@@ -43,7 +43,7 @@ function listarModulos(callback) {
     bd.query(sql, function (err, resultados) {
         if (err) {
             bd.end();
-            return callback(err);
+            return callback(err, []);
         }
         bd.end();
         return callback(null, resultados);
