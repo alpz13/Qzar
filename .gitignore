@@ -1,5 +1,5 @@
 # El archivo con los datos de conexión a la BD.
-credencialesbd.json
+database/*
 
 # Vim swap
 *.swp
