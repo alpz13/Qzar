@@ -12,15 +12,18 @@ block content
       div.col-lg-12
         table.table.table.striped
           thead
+            th id del módulo
+            th Administrador
             th Nombre
             th Número
           tbody
             each modulo in modulos
               tr
-                td(style='display:none;') #{modulo.idModulo}
-                td #[a(href='/modulos/vermodulos/#{modulo.idModulo}') #{modulo.nombre}]
+                td #{modulo.idModulo}
+                td #{modulo.usuarioAdministrador}
+                td #{modulo.nombre}
                 td #{modulo.numeroModulo}
-        a(href='/modulos/nuevo') Nuevo módulo
+        a(href='') Nueva Huerta
   //Cierro segundo col-lg-12 
   //Cierro Container Fluid
   //Containererro PageWrapper
