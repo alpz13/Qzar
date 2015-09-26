@@ -26,7 +26,11 @@ router.post('/iniciar', function (req, res, next) {
         observador.info('Proceso de sesiones completado.');
         if (err) {
             observador.error(err);
-            res.render('index', {mensaje: err, titulo: "Im sexy and I know it"});
+            if(err.code === 'ECONNREFUSED') {
+                res.render('index', {mensaje: err, titulo: "###", aviso: {tipo:'danger', icono:'fa fa-plug', mensaje:'Error al conectarse a la base de datos.'}});
+            } else {
+                res.render('index', {mensaje: err, titulo: "###", aviso: {tipo:'danger', icono:'fa fa-exclamation-triangle', mensaje:'Usuario y/o contraseña incorrectos.'}});
+            } 
         } else {
             res.render('index', {mensaje: 'Iniciaste sesión, biatch', titulo: "Im sexy and I know it", usuario: req.session.usuario });
         }

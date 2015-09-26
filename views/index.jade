@@ -8,14 +8,12 @@ block content
       div.container
         div.cuadro-inicio-sesion
           form.form-horizontal(method="post", id="loginForm", action = "/sesiones/iniciar")
-            h2.danger #{mensajepeligro}
-            h2.warning #{mensajeadvertencia}
             div.campo-usuario
               i.fa-user.fa
-                input.span3(id="nombreUsuario", type="text", name="nombreUsuario", placeholder="Nombre de usuario")
+                input.span3(id="nombreUsuario", type="text", name="nombreUsuario", placeholder="Nombre de usuario", required)
             div.campo-contrasenia
               i.fa-unlock-alt.fa
-                input.span3(id="contrasenia", type="password", name="contrasenia", placeholder="Contraseña")
+                input.span3(id="contrasenia", type="password", name="contrasenia", placeholder="Contraseña", required)
             div.enviar
               input.btn(type="submit", value="Inicia sesión")
   div.container
