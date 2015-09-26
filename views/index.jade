@@ -1,13 +1,23 @@
 extends layout
 block content
   div.top
-    h1 #{titulo} 
-    h2 #{mensaje}
     if usuario
       p #{usuario.nombre}
       a(href='/sesiones/cerrar') Cierra sesión
     else
-      a(href='/sesiones') Inicia sesión
+      div.container
+        div.cuadro-inicio-sesion
+          form.form-horizontal(method="post", id="loginForm", action = "/sesiones/iniciar")
+            h2.danger #{mensajepeligro}
+            h2.warning #{mensajeadvertencia}
+            div.campo-usuario
+              i.fa-user.fa
+                input.span3(id="nombreUsuario", type="text", name="nombreUsuario", placeholder="Nombre de usuario")
+            div.campo-contrasenia
+              i.fa-unlock-alt.fa
+                input.span3(id="contrasenia", type="password", name="contrasenia", placeholder="Contraseña")
+            div.enviar
+              input.btn(type="submit", value="Inicia sesión")
   div.container
     div.content
   div.footer

@@ -1,8 +1,29 @@
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background: #F1F1F1;
 }
 
 a {
   color: #00B7FF;
+}
+
+.cuadro-inicio-sesion{
+	background: white;
+	border-color: #85973E;
+	border-style: solid;
+	padding-bottom: 20px;
+	width: 25vw;
+	text-align: center;
+	margin: 0 auto;
+}
+
+.enviar{
+	margin-top: 10px;
+}
+.cuadro-inicio-sesion .btn{
+	background: #85973E;
+	color: white;
+	width: 22vw;
+	border-radius: 0;
+	margin: 0 auto;
 }
