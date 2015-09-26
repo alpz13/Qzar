@@ -1,27 +1,28 @@
 extends layout
 extends menu
 block content
-  title Módulos
+  title #{modulo.nombre}
   //Contenido de Pagina
   div#page-wrapper
     div.container-fluid
       div.row
         div.col-lg-12
           p #{mensaje}
-          header #{titulo}
+          h3 #{titulo} #{modulo.nombre}
       div.col-lg-12
         table.table.table.striped
-          thead
-            th id del módulo
-            th Administrador
-            th Nombre
-            th Número
           tbody
-            each modulo in modulos
               tr
+                td Id del módulo
                 td #{modulo.idModulo}
+              tr
+                td Administrador
                 td #{modulo.usuarioAdministrador}
+              tr
+                td Nombre
                 td #{modulo.nombre}
+              tr
+                td Número
                 td #{modulo.numeroModulo}
         a(href='') Nueva Huerta
   //Cierro segundo col-lg-12 
