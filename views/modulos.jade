@@ -16,12 +16,13 @@ block content
             thead
               th Nombre
               th Número
+              th Administrador
             tbody
               each modulo in modulos
                 tr
-                  td(style='display:none;') #{modulo.idModulo}
                   td #[a(href='/modulos/#{modulo.idModulo}') #{modulo.nombre}]
                   td #{modulo.numeroModulo}
+                  td #{modulo.admin}
         else
           p No se han encontrado módulos en el sistema.
 

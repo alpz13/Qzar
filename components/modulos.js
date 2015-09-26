@@ -35,7 +35,7 @@ function listarModulos(callback) {
 
     // Que el usuario no esté jarcodeado.
     var bd = mysql.createConnection(credenciales),
-        sql = 'SELECT * FROM Modulos;';
+        sql = 'SELECT m.idModulo, m.nombre, m.numeroModulo, u.nombre as admin FROM Modulos as m INNER JOIN Usuarios as u;';
 
     bd.connect();
 
@@ -52,7 +52,7 @@ function listarModulos(callback) {
 
 function mostrarModulos(id, callback) {
     var bd = mysql.createConnection(credenciales),
-        sql = 'SELECT * FROM Modulos where idModulo=?;',
+        sql = 'SELECT m.idModulo, m.nombre, m.numeroModulo, u.nombre as admin FROM Modulos as m INNER JOIN Usuarios as u where idModulo=?;',
         params= [id];
     
     sql = mysql.format(sql, params);
