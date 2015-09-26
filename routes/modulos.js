@@ -19,7 +19,7 @@ router.get('/', function (req, res, next) {
 });
 
 // Página ver modulo
-router.get('/vermodulos/:id', function (req, res, next) {
+router.get('/:id', function (req, res, next) {
     var idmodulo = req.params.id;
     modulos.mostrar(idmodulo, function (err, modulos) {
         if (err) {

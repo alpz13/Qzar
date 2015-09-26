@@ -20,7 +20,7 @@ block content
               each modulo in modulos
                 tr
                   td(style='display:none;') #{modulo.idModulo}
-                  td #[a(href='/modulos/#{modulo.numeroModulo}') #{modulo.nombre}]
+                  td #[a(href='/modulos/#{modulo.idModulo}') #{modulo.nombre}]
                   td #{modulo.numeroModulo}
         else
           p No se han encontrado módulos en el sistema.
