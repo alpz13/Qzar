@@ -9,25 +9,25 @@ var router = express.Router();
 
 var credenciales = require('../database/credencialesbd.json');
 
-function crearModulo(nombre, codigo, callback) {
+function crearModulo(adminModulo, nombre, codigo, callback) {
 
     //  POR HACER:
     //  Que el usuario no esté jarcodeado.
     var bd = mysql.createConnection(credenciales),
-        sql = 'INSERT INTO Modulos(usuarioAdministrador, nombre, numeroModulo) VALUES(2,?,?);',
-        params = [nombre, codigo];
+        sql = 'INSERT INTO Modulos(usuarioAdministrador, nombre, numeroModulo) VALUES(?,?,?);',
+        params = [adminModulo, nombre, codigo];
 
     bd.connect();
 
     // Prepara consulta y la ejecuta.
     sql = mysql.format(sql, params);
-    bd.query(sql, function (err) {
+    bd.query(sql, function (err, resultado) {
         if (err) {
             bd.end();
             return callback(err);
         }
         bd.end();
-        return callback(null);
+        return callback(null, resultado.insertId);
     });
 }
 

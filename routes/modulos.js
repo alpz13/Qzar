@@ -1,12 +1,13 @@
 /*jslint
     indent: 4, unparam: true
- */
+*/
 'use strict';
 
 var express = require('express');
 var router = express.Router();
 
 var modulos = require('../components/modulos.js');
+var usuarios = require('../components/usuarios.js');
 
 // Página principal de módulos
 router.get('/', function (req, res, next) {
@@ -20,21 +21,29 @@ router.get('/', function (req, res, next) {
 
 // Formulario para crear un nuevo módulo.
 router.get('/nuevo', function (req, res, next) {
-    res.render('crearmodulos', { titulo: 'Nuevo módulo' });
+    usuarios.listarAdminModulos(function (err, usuarios) {
+        if (err) {
+            console.log(err);
+        }
+        res.render('crearmodulos', { titulo: 'Nuevo módulo', usuarios: usuarios});
+    });
 });
 
 // Petición de crear nuevo módulo.
 router.post('/nuevo', function (req, res, next) {
-    var mensaje;
+    var mensaje,
+	    adminModulo = req.body.admin,
+	    nombre = req.body.nombre,
+	    numero = req.body.numero;
 
     // Verifica que el nombre y el número de módulo no sean vacíos.
-    if (req.body.nombre.match(/^\s*$/) || req.body.numero.match(/^\s$/)) {
+    if (nombre.match(/^\s*$/) || numero.match(/^\s$/)) {
         res.render('crearmodulos', { titulo: 'Nuevo módulo', error: 'Los campos no pueden estar vacíos.' });
         return;
     }
 
     // Intenta crear módulo.
-    modulos.crear(req.body.nombre, req.body.numero, function (err) {
+    modulos.crear(adminModulo, nombre, numero, function (err, idModulo) {
         // Si hubo error, regresa al formulario de nuevo módulo con el mensaje de error correspondiente.
         if (err) {
             if (err.code === 'ER_DUP_ENTRY') {
@@ -45,21 +54,25 @@ router.post('/nuevo', function (req, res, next) {
             res.render('crearmodulos', { titulo: 'Nuevo módulo', error: mensaje });
 
         } else {
-            res.redirect('/modulos');
+            res.redirect('/modulos/' + idModulo);
         }
     });
 });
 
 // Página ver modulo
-router.get('/:id', function (req, res, next) {
-    var idmodulo = req.params.id;
-    modulos.mostrar(idmodulo, function (err, modulos) {
+router.get('/:id(\\d+)', function (req, res, next) {
+    var idModulo = req.params.id;
+    modulos.mostrar(idModulo, function (err, modulos) {
         if (err) {
             console.log(err);
-        }
-        res.render('vermodulos', { titulo: 'Módulo ', modulo:modulos[0]});
+        } else if (!modulos[0]) {
+			var err = new Error('Not Found');
+			err.status = 404;
+			next(err);
+			return;
+		}
+        res.render('vermodulos', { titulo: 'Módulo ', modulo: modulos[0]});
     });
 });
-
 
 module.exports = router;
