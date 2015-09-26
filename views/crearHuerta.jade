@@ -32,7 +32,15 @@ block content
     div#page-wrapper
       div.content-fluid
 
-    div
+    div.dropdown.col-md-1
+      button#dropdownMenu1.btn(type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true") Dropdown
+        span.caret
+      ul.dropdown-menu(aria-labelledby="dropdownMenu1")
+        li
+          a(href="#") Action
+
+
+    div.col-md-9
       table.table.table-bordered
         thead
           each number in ancho
@@ -42,3 +50,5 @@ block content
             tr
               each row in ancho 
                 td.cuadrito
+
+    
