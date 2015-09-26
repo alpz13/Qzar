@@ -18,17 +18,6 @@ router.get('/', function (req, res, next) {
     });
 });
 
-// Página ver modulo
-router.get('/:id', function (req, res, next) {
-    var idmodulo = req.params.id;
-    modulos.mostrar(idmodulo, function (err, modulos) {
-        if (err) {
-            console.log(err);
-        }
-        res.render('vermodulos', { titulo: 'Ver Módulos', modulos:modulos});
-    });
-});
-
 // Formulario para crear un nuevo módulo.
 router.get('/nuevo', function (req, res, next) {
     res.render('crearmodulos', { titulo: 'Nuevo módulo' });
@@ -60,5 +49,17 @@ router.post('/nuevo', function (req, res, next) {
         }
     });
 });
+
+// Página ver modulo
+router.get('/:id', function (req, res, next) {
+    var idmodulo = req.params.id;
+    modulos.mostrar(idmodulo, function (err, modulos) {
+        if (err) {
+            console.log(err);
+        }
+        res.render('vermodulos', { titulo: 'Módulo ', modulo:modulos[0]});
+    });
+});
+
 
 module.exports = router;
