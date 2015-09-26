@@ -7,6 +7,7 @@ block content
     else
       div.container
         div.cuadro-inicio-sesion
+          div.logo
           form.form-horizontal(method="post", id="loginForm", action = "/sesiones/iniciar")
             div.campo-usuario
               i.fa-user.fa
@@ -15,7 +16,7 @@ block content
               i.fa-unlock-alt.fa
                 input.span3(id="contrasenia", type="password", name="contrasenia", placeholder="Contraseña", required)
             div.enviar
-              input.btn(type="submit", value="Inicia sesión")
+              input.btn(type="submit", value="Iniciar sesión")
   div.container
     div.content
   div.footer
