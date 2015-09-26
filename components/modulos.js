@@ -50,7 +50,27 @@ function listarModulos(callback) {
     });
 }
 
+function mostrarModulos(id, callback) {
+    var bd = mysql.createConnection(credenciales),
+        sql = 'SELECT * FROM Modulos where idModulo=?;',
+        params= [id];
+    
+    sql = mysql.format(sql, params);
+
+    bd.connect();
+
+    bd.query(sql, function (err, resultados) {
+        if (err) {
+            bd.end();
+            return callback(err, []);
+        }
+        bd.end();
+        return callback(null, resultados);
+    });
+}
+
 module.exports = {
     'crear' : crearModulo,
-    'listar' : listarModulos
+    'listar' : listarModulos,
+    'mostrar' : mostrarModulos
 };

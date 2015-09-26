@@ -10,6 +10,7 @@ block content
           p #{mensaje}
           header #{titulo}
       div.col-lg-12
+
         if modulos && modulos.length
           table.table.table.striped
             thead
@@ -23,6 +24,7 @@ block content
                   td #{modulo.numeroModulo}
         else
           p No se han encontrado módulos en el sistema.
+
         a(href='/modulos/nuevo') Nuevo módulo
   //Cierro segundo col-lg-12 
   //Cierro Container Fluid
