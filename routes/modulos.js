@@ -15,7 +15,7 @@ router.get('/', function (req, res, next) {
             console.log(err);
         }
         res.render('modulos', { titulo: 'Módulos', modulos: modulos });
-	});
+    });
 });
 
 // Formulario para crear un nuevo módulo.
