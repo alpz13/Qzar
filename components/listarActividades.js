@@ -23,7 +23,6 @@ var listaractividades = function (res) {
             db.end();
         }
         db.end();
-        console.log(rows);
         res.render('actividades', {
             title: 'Actividades',
             actividades: rows

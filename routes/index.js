@@ -11,13 +11,5 @@ router.get('/', function (req, res, next) {
     res.render('index', { title: 'Express' });
 });
 
-/* Se crea la ruta a la página de actividades
-    - No se requiere request.
-    - Solo se recibe un response
-    + A partir de la variable listar, se manda llamar a la funcion: listarActividades(res)
-*/
-router.get('/actividades', function (req, res) {
-    listar.listaractividades(res);
-});
 
 module.exports = router;
