@@ -29,7 +29,7 @@ block content
           div.modal-header
             button(type='button' class='close' data-dismiss="modal") &times;
             h4.modal-tittle Agregar Actividad
-          form(action="/actividades/agregaactividad" method="post" onsubmit="return checkform(this);" id="AgregaActividad")
+          form(action="/actividades/agregaactividad" method="post" onsubmit="return checkform(this);" id="AgregaActividad" enctype="multipart/form-data")
             div.modal-body  
               label Nombre&nbsp&nbsp&nbsp
               input(type="text" name="nombreactividad" size="58")
@@ -40,7 +40,7 @@ block content
                 textarea(rows='5' cols='60' name="descripcionactividad")
                 p 
               label Foto&nbsp&nbsp&nbsp
-              input(type="file" name="Url" size="58")
+              input(type="file" name="ima" size="58" )
             div.modal-footer
               button(type="submit" class="btn btn-success") Agregar
               button(type="button" class="btn btn-danger" data-dismiss="modal") Cerrar
