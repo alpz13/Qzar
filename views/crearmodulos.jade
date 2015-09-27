@@ -1,0 +1,34 @@
+extends layout
+extends menu
+block content
+  //Contenido de Pagina
+  title Nuevo módulo
+  div#page-wrapper
+    div.container-fluid
+      div.row
+        div.col-lg-12
+          p #{error}
+          h3 #{titulo}
+      div.col-md-6-offset-6
+        div
+          if usuarios && usuarios.length
+              form.form-horizontal#agregaModulo(name="agregaModulo", method="post", action="nuevo")
+                label(for="nombre") Nombre del módulo: 
+                input#nombre(type="text", placeholder="Nombre", name="nombre", required)
+                label(for="numero") Número del módulo: 
+                input#numero(type="number", placeholder="Número", name="numero", min="0", max="999", required)
+                label(for="admin") Administrador del módulo: 
+                select#admin(name="admin", required)
+                  for usuario in usuarios
+                    option(value= usuario.idUsuario) #{usuario.nombre}
+                button#submit(type="submit", class="btn-btn-default") Crear
+          else
+            p Necesitas crear al un usuario con privilegio de administrador de módulo para poder crear un módulo.
+  //Cierro segundo col-lg-12 
+  //Cierro Container Fluid
+  //Containererro PageWrapper
+  //Cierro Wrapper
+  //Jquery
+  script(src='/bootstrap/js/jquery.js')
+  //Bootstrap Core JS
+  script(src='/bootstrap/js/bootstrap.min.js')
