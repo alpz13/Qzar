@@ -16,7 +16,7 @@ router.get('/', function (req, res) {
     listar.listaractividades(res);
 });
 
-router.post('/agregaactividad', function (req, res) {
+router.post('/agregaactividad', function (req, res, next) {
     agrega.agrega(req, res);
 });
 
