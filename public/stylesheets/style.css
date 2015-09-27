@@ -6,6 +6,14 @@ a {
   color: #00B7FF;
 }
 
+.inline{
+	display: inline;
+}
+
+.alert p{
+	margin-left: 10px;
+}
+
 .logo{
 	background: url('../imagenes/LogoQzarsinFondo.png') no-repeat;
 	-webkit-background-size: contain;
@@ -65,3 +73,4 @@ a {
 .alert {
 	margin: 10px;
 }
+
