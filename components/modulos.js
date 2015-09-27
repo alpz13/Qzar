@@ -9,13 +9,13 @@ var router = express.Router();
 
 var credenciales = require('../database/credencialesbd.json');
 
-function crearModulo(adminModulo, nombre, codigo, callback) {
+function crearModulo(adminModulo, nombre, numeroModulo, callback) {
 
     //  POR HACER:
     //  Que el usuario no esté jarcodeado.
     var bd = mysql.createConnection(credenciales),
         sql = 'INSERT INTO Modulos(usuarioAdministrador, nombre, numeroModulo) VALUES(?,?,?);',
-        params = [adminModulo, nombre, codigo];
+        params = [adminModulo, nombre, numeroModulo];
 
     bd.connect();
 

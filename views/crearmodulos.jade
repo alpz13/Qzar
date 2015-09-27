@@ -16,7 +16,7 @@ block content
                 label(for="nombre") Nombre del módulo: 
                 input#nombre(type="text", placeholder="Nombre", name="nombre", required)
                 label(for="numero") Número del módulo: 
-                input#numero(type="text", placeholder="000", name="numero", pattern="\\d{3}", required)
+                input#numero(type="number", placeholder="Número", name="numero", min="0", max="999", required)
                 label(for="admin") Administrador del módulo: 
                 select#admin(name="admin", required)
                   for usuario in usuarios
