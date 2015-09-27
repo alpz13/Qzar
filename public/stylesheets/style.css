@@ -61,3 +61,7 @@ a {
 	margin-bottom: .5vw;
 	font-size: 1.2em;
 }
+
+.alert {
+	margin: 10px;
+}
