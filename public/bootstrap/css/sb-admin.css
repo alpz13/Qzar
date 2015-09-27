@@ -248,3 +248,14 @@ label.leftsidebar:focus{
 .panel-yellow > a:hover {
     color: #df8a13;
 }
+
+.botonagregaractividad{
+    height: 30;
+    width: 30;
+    margin-right: 250;
+    margin-top: -40;
+}
+
+textarea{
+    resize: none;
+}
