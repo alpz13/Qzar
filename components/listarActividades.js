@@ -14,7 +14,7 @@ var credenciales = require('../database/credencialesbd.json');
 
 */
 
-var listaractividades = function (res) {
+var listaractividades = function (req, res) {
     var db = mysql.createConnection(credenciales);
     db.connect();
     db.query('Select * from actividades', function (err, rows) {
@@ -25,7 +25,8 @@ var listaractividades = function (res) {
         db.end();
         res.render('actividades', {
             title: 'Actividades',
-            actividades: rows
+            actividades: rows,
+            usuario: req.session.usuario
         });
     });
 };

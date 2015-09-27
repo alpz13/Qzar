@@ -31,7 +31,7 @@ var agrega = function (req, res) {
         var descripcion = fields.descripcionactividad;
         var img = files.ima[0];
         fs.readFile(img.path, function (err, data) {
-            var path = "./public/imagenes/actividades/" + img.originalFilename;
+            var path = "./public/images/actividades/" + img.originalFilename;
             fs.writeFile(path, data, function (err) {
                 if (err) {
                     console.log(err);

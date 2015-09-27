@@ -8,7 +8,12 @@ var listar = require('../components/listarActividades.js');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-    res.render('index', { titulo: 'Bienvenido', usuario: req.session.usuario });
+    if (!req.session.usuario) {
+        res.render('index');
+    } else {
+        console.log(req.session.usuario);
+        res.render('menu', {usuario: req.session.usuario});
+    }
   // next();
 });
 
