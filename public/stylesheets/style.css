@@ -1,8 +1,76 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background: #F1F1F1;
 }
 
 a {
   color: #00B7FF;
 }
+
+.inline{
+	display: inline;
+}
+
+.alert p{
+	margin-left: 10px;
+}
+
+.logo{
+	background: url('../imagenes/LogoQzarsinFondo.png') no-repeat;
+	-webkit-background-size: contain;
+	background-size: contain;
+	height: 12vh;
+	width: 18vw;
+	margin: auto;
+
+}
+
+.cuadro-inicio-sesion form{
+	margin-top: 10px;
+}
+
+.cuadro-inicio-sesion form div{
+	width: 25vw;
+}
+
+.cuadro-inicio-sesion input.span3{
+	margin-left: 10px;
+}
+
+.cuadro-inicio-sesion{
+	background: white;
+	border-color: #85973E;
+	border-style: solid;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	width: 25vw;
+	min-height: 240px;
+	text-align: center;
+	margin: 0 auto;
+	margin-top: 25vh;
+	height: 30vh;
+}
+
+.enviar{
+}
+
+
+.cuadro-inicio-sesion .btn{
+	background: #85973E;
+	color: white;
+	width: 22vw;
+	border-radius: 0;
+	margin: 0 auto;
+}
+
+
+
+.cuadro-inicio-sesion input{
+	border: none;
+	margin-bottom: .5vw;
+	font-size: 1.2em;
+}
+
+.alert {
+	margin: 10px;
+}
+
