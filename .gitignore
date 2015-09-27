@@ -2,5 +2,8 @@ node_modules/*
 sessions/*
 !sessions/readme.md
 desarrollo.js
+databases/*
 public/imagenes/actividades/*
 !public/imagenes/actividades/readme.md
+*.log
+*.swp
