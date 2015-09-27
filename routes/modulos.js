@@ -21,6 +21,13 @@ router.get('/', function (req, res, next) {
 
 // Formulario para crear un nuevo módulo.
 router.get('/nuevo', function (req, res, next) {
+	
+	// Valida permisos para crear módulo.
+	if (req.session.usuario.idRoles != 1) {
+		res.render('error', { message: 'No puedes.', error: {status: null, stack: null} });
+		return;
+	}
+
     usuarios.listarAdminModulos(function (err, usuarios) {
         if (err) {
             console.log(err);
@@ -35,6 +42,12 @@ router.post('/nuevo', function (req, res, next) {
 	    adminModulo = req.body.admin,
 	    nombre = req.body.nombre,
 	    numero = req.body.numero;
+
+	// Valida permisos para crear módulo.
+	if (req.session.usuario.idRoles != 1) {
+		res.render('error', { message: 'No puedes.', error: {status: null, stack: null} });
+		return;
+	}
 
     // Verifica que el nombre y el número de módulo no sean vacíos.
     if (nombre.match(/^\s*$/) || numero.match(/^\s$/)) {
@@ -69,6 +82,9 @@ router.get('/:id(\\d+)', function (req, res, next) {
 			var err = new Error('Not Found');
 			err.status = 404;
 			next(err);
+			return;
+		} else if (req.session.usuario.idRoles != 1 || modulos[0].usuarioAdministrador != req.session.usuario.idUsuario) {
+		    res.render('error', { message: 'No puedes.', error: {status: null, stack: null} });
 			return;
 		}
         res.render('vermodulos', { titulo: 'Módulo ', modulo: modulos[0]});

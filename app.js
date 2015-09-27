@@ -37,6 +37,14 @@ app.use(session({
 }));
 
 app.use('/', routes);
+// Si no ha iniciado sesión, se va directo a login.
+app.get(/.*/, function(req, res, next) {
+    if (!req.session.usuario) {
+        res.redirect('/');
+    } else {
+        next();
+    }
+});
 app.use('/modulos', modulos);
 app.use('/actividades', actividades);
 app.use('/sesiones', sesiones);
