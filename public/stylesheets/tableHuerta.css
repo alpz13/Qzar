@@ -5,4 +5,28 @@ table{
 .cuadrito{
 	width: 50px;
 	height: 30px;
+	-webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none
+}
+#listaCuadritos{
+	display: inline-block;
+	width: 75%;
+	margin-left: 5px;
+	margin-bottom: 20px;
+}
+#formcrearHuerta input{
+	display: block;
+	width: 70%;
+	margin-left: 5px;
+	margin: 5px auto;
+}
+
+#selectSector{
+	display: inline-block;
+	width: 70%;
+	margin-left: 5px
 }

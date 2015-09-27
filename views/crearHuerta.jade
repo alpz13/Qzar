@@ -1,18 +1,12 @@
 extend layout
-//extend menu
+extend menu
 block content
   head
-    link(rel='stylesheet', href='/bootstrap/css/bootstrap.min.css')
-    link(rel='stylesheet', href='/bootstrap/css/sb-admin.css')
-    link(rel='stylesheet', href='/bootstrap/css/plugin/morris.css')
-    link(rel='stylesheet', href='/bootstrap/font-awesome/css/font-awesome.min.css', type='text/css')
     link(rel='stylesheet', href="/stylesheets/tableHuerta.css", type='text/css')
-    script(src='/bootstrap/js/jquery.js')
-    script(src='/bootstrap/js/bootstrap.min.js')
-  body
     script.
       var flag = false;
       $(document).ready(function() {
+        $("#huerta").mouseleave(function(){flag=false;});
         $(".cuadrito").mouseup(function(){flag=false;});
         $(".cuadrito").mousedown(function(){flag=true;marked($(this));});
         $(".cuadrito").mouseenter(function(){marked($(this));});
@@ -21,34 +15,83 @@ block content
 
       var marked = function(cuadrito)
       {
+        verPositivos();
         if(flag)
           {
-            cuadrito.attr("type", "clicked");
-            cuadrito.attr("BGCOLOR","blue");
+            var color=$('#listaCuadritos').find(":selected").attr('BGCOLOR');
+            var type=$('#listaCuadritos').find(":selected").attr('type');
+            var Sector=$("#selectSector").val();
+            cuadrito.attr("type", type);
+            cuadrito.attr("BGCOLOR",color);
+            cuadrito.html(Sector);
           }
       }
+
+      var verPositivos = function()
+      {
+        var Sector=$("#selectSector").val();
+        if(Sector < 0)
+          {
+            Sector = 0;
+          }
+          Sector = parseInt(Sector);
+          $("#selectSector").val(Sector) ;
+      }
+
+      var guardarHuerta = function()
+      {
+        var cuadritos = [];
+        var renglon = 0;
+        $(".renglon").each(function(){
+          var row = $(this);
+          var columna = 0;
+          $(row).find('td').each(function(){
+              var celda = $(this);
+              var cuadro = [];
+              cuadro['type'] = celda.attr("type");
+              cuadro["sector"] = celda.attr("type");
+              cuadro["ejeX"] = columna;
+              cuadro["ejeY"] = renglon;
+              cuadritos.push(cuadro);
+              columna++;
+            });
+            renglon++;
+          });
+          //mandamos cuadriots al servidor
+          $.post("/modulo/huerta/crearGuardar",
+          {
+              cuadritos: cuadritos,
+              modulo: 1
+          },
+          function(data, status){
+              alert("Data: " + data + "\nStatus: " + status);
+          });
+
+      }
       
-
-    div#page-wrapper
+  div#page-wrapper
       div.content-fluid
+        div.row
+          div.col-lg-12
+            h1 Crear Huerta
+        div.form-group.col-md-2
+          label Sectores:
+          select#listaCuadritos.form-control
+            option(type='0', BGCOLOR='') Vacio
+            option(type='1', BGCOLOR='red') Fresa
+            option(type='2', BGCOLOR='yellow') Piña
+            option(type='3', BGCOLOR='blue') Zarzamora
+          label N° Sector:   
+            input#selectSector.form-control(type="number", min='0', value="0" onchange="verPositivos()")
+          button.btn.btn-primary#btnSubmitHuerta(onclick="guardarHuerta()") Guardar
 
-    div.dropdown.col-md-1
-      button#dropdownMenu1.btn(type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true") Dropdown
-        span.caret
-      ul.dropdown-menu(aria-labelledby="dropdownMenu1")
-        li
-          a(href="#") Action
 
-
-    div.col-md-9
-      table.table.table-bordered
-        thead
-          each number in ancho
-            th.cuadrito
-        tbody
-          each number in alto
-            tr
-              each row in ancho 
-                td.cuadrito
+        div
+          table#huerta.table.table-bordered
+            tbody
+              each number in alto
+                tr.renglon
+                  each row in ancho 
+                    td.cuadrito &nbsp
 
     
