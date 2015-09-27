@@ -13,7 +13,6 @@ var session = require('express-session');
 
 var routes = require('./routes/index');
 var modulos = require('./routes/modulos');
-var users = require('./routes/users');
 var actividades = require('./routes/actividades');
 var sesiones = require('./routes/sesiones');
 
@@ -39,7 +38,6 @@ app.use(session({
 
 app.use('/', routes);
 app.use('/modulos', modulos);
-app.use('/users', users);
 app.use('/actividades', actividades);
 app.use('/sesiones', sesiones);
 
