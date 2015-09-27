@@ -2,3 +2,5 @@ node_modules/*
 sessions/*
 !sessions/readme.md
 desarrollo.js
+public/imagenes/actividades/*
+!public/imagenes/actividades/readme.md
