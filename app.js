@@ -1,6 +1,8 @@
 /*jslint
-    indent: 4, unparam: true
+        indent: 4, unparam: true
 */
+'use strict';
+
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -10,7 +12,7 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 
 var routes = require('./routes/index');
-var users = require('./routes/users');
+var modulos = require('./routes/modulos');
 var actividades = require('./routes/actividades');
 var sesiones = require('./routes/sesiones');
 
@@ -35,7 +37,15 @@ app.use(session({
 }));
 
 app.use('/', routes);
-app.use('/users', users);
+// Si no ha iniciado sesión, se va directo a login.
+app.get(/.*/, function(req, res, next) {
+    if (!req.session.usuario) {
+        res.redirect('/');
+    } else {
+        next();
+    }
+});
+app.use('/modulos', modulos);
 app.use('/actividades', actividades);
 app.use('/sesiones', sesiones);
 
@@ -69,6 +79,5 @@ app.use(function (err, req, res, next) {
         error: {}
     });
 });
-
 
 module.exports = app;

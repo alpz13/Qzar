@@ -22,9 +22,10 @@ body {
 }
 
 #page-wrapper {
-    width: 100%;
+    width: 89vw;
     padding: 0;
     background-color: #f1f1f1; 
+    margin-left: 10vw;
 }
 
 .huge {
@@ -35,12 +36,10 @@ body {
 @media(min-width:768px) {
     #wrapper {
         padding-left: 225px;
-
     }
 
     #page-wrapper {
         padding: 10px;
-        margin-left: 225px;
     }
 }
 
@@ -125,8 +124,7 @@ ul.alert-dropdown {
         /* Altura del menu lateral izq*/
         top: 55px;
         left: 225px;
-        width: 225px;
-        margin-right: 255px;
+        width: 10vw;
         margin-left: -225px;
         border: none;
         border-radius: 0;
@@ -247,15 +245,4 @@ label.leftsidebar:focus{
 }
 .panel-yellow > a:hover {
     color: #df8a13;
-}
-
-.botonagregaractividad{
-    height: 30;
-    width: 30;
-    margin-right: 250;
-    margin-top: -40;
-}
-
-textarea{
-    resize: none;
 }

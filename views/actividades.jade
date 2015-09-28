@@ -1,4 +1,3 @@
-extends layout
 extends menu
 block content
   //Contenido de Pagina
@@ -7,8 +6,9 @@ block content
       div.row
         div.col-lg-12
           h1 #{title}
-          a(class='nav navbar-right top-nav' href='#' data-toggle="modal" data-target="#FAA")
-            img(class='botonagregaractividad' src='/imagenes/add2.png')
+          a(class='nav navbar-right top-nav' href='#' data-toggle="modal" data-target="#FAA" id='boton-agregar')
+            img(class='boton-agregar-actividad' src='/images/add2.png')
+            p Agregar
           p La lista de actividades
       div.col-lg-12
         table.table.table.striped
@@ -28,18 +28,14 @@ block content
         div.modal-content
           div.modal-header
             button(type='button' class='close' data-dismiss="modal") &times;
-            h4.modal-tittle Agregar Actividad
+            h4.modal-title Agregar Actividad
           form(action="/actividades/agregaactividad" method="post" onsubmit="return checkform(this);" id="AgregaActividad" enctype="multipart/form-data")
-            div.modal-body  
-              label Nombre&nbsp&nbsp&nbsp
+            div.modal-body 
+              label Nombre
               input(type="text" name="nombreactividad" size="58")
-              br
-              label Descripcion &nbsp&nbsp
-              br
-              div(align='center')
-                textarea(rows='5' cols='60' name="descripcionactividad")
-                p 
-              label Foto&nbsp&nbsp&nbsp
+              label Descripción 
+              textarea(rows='5' cols='60' name="descripcionactividad")
+              label Foto
               input(type="file" name="ima" size="58" )
             div.modal-footer
               button(type="submit" class="btn btn-success") Agregar

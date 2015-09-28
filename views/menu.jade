@@ -1,90 +1,74 @@
-//Bootstrap Core CSS
-link(rel='stylesheet', href='/bootstrap/css/bootstrap.min.css')
-
-//Custom CSS de aqui viene el fondo negro
-link(rel='stylesheet', href='/bootstrap/css/sb-admin.css')
-
-//Morris Chart CSS (despreciable??)
-link(rel='stylesheet', href='/bootstrap/css/plugin/morris.css')
-
-//Custom Fonts
-link(rel='stylesheet', href='/bootstrap/font-awesome/css/font-awesome.min.css', type='text/css')
-
-//Jquery
-script(src='/bootstrap/js/jquery.js')
-
-//Bootstrap Core JS
-script(src='/bootstrap/js/bootstrap.min.js')
-
-div#wrapper
-//NAVIGATION barra de arriba SPACER
-nav(class='navbar navbar-inverse navbar-fixed-top' role='navigation' id='topbar')
-  div(class='navbar-header')
-    button(type='button' class='navbar-toggle' data-toggle='collapse' data-target='.navbar-ex1-collapse')
-      span.sr-only Tog Navigation
-      span.icon-bar
-      span.icon-bar
-      span.icon-bar
-    a(class='navbar-brand' href='#') 
-      img(src='/imagenes/LogoQzarsinFondo.png' alt='Logo' style='width:200px;height:40px;')
-    //LADO DERECHO
-  ul(class='nav navbar-right top-nav')
-    //PRIMER ICONO SOBRE
-    li.dropdown
-      a(href='#' class='dropdown-toggle' data-toggle='dropdown')
-        i(class='fa fa-envelope')
-        b.caret
-    //SEGUNDO ICONO ALERTA
-    li.dropdown
-      a(href='#' class='dropdown-toggle' data-toggle='dropdown')
-        i(class='fa fa-bell')
-        b.caret
-      //DENTRO DEL SEGUNDO ICONO
-      ul(class='dropdown-menu alert-dropdown')
+extends layout
+block body
+  div#wrapper
+  //NAVIGATION barra de arriba SPACER
+  nav(class='navbar navbar-inverse navbar-fixed-top' role='navigation' id='topbar')
+    div(class='navbar-header')
+      button(type='button' class='navbar-toggle' data-toggle='collapse' data-target='.navbar-ex1-collapse')
+        span.sr-only Tog Navigation
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+      a(class='navbar-brand' href='#') 
+        img(src='/images/LogoQzarsinFondo.png' alt='Logo' style='width:200px;height:40px;')
+      //LADO DERECHO
+    ul(class='nav navbar-right top-nav')
+      //PRIMER ICONO SOBRE
+      li.dropdown
+        a(href='#' class='dropdown-toggle' data-toggle='dropdown')
+          i(class='fa fa-envelope')
+          b.caret
+      //SEGUNDO ICONO ALERTA
+      li.dropdown
+        a(href='#' class='dropdown-toggle' data-toggle='dropdown')
+          i(class='fa fa-bell')
+          b.caret
+        //DENTRO DEL SEGUNDO ICONO
+        ul(class='dropdown-menu alert-dropdown')
+          li
+            a(href='#')
+              label ALERTA 1
+              span(class='label label-default') ALERTA BADGE 1
+          li
+            a(href='#')
+              label ALERTA 2
+              span(class='label label-primary') ALERTA BADGE 2
+          li
+            a(href='#')
+              label VER TODOS
+      //TERCER ICONO USUARIO
+      li.dropdown
+        a(href='#' class='dropdown-toggle' data-toggle='dropdown')
+          i(class='fa fa-user')
+          label  #{usuario.nombre}
+          b.caret
+        ul.dropdown-menu
+          li
+            a(href='#')
+              i(class='fa fa-fw fa-user')
+              label Profile
+          li.divider
+          li
+            a(href='/sesiones/cerrar')
+              i(class='fa fa-fw fa-power-off')
+              label LOG OUT
+    div(class='collapse navbar-collapse navbar-ex1-collapse')
+      //MENU PRINCIPAL IZQUIERDO
+      ul(class='nav navbar-nav side-nav')
+        li.activo
+          a(href='#')
+            i(class='fa fa-fw fa-dashboard')
+            p.inline.leftsidebar INICIO
+        li
+          a(href='/modulos')
+            i(class='fa fa-fw fa-bar-chart-o')
+            p.inline.leftsidebar MODULOS
         li
           a(href='#')
-            label ALERTA 1
-            span(class='label label-default') ALERTA BADGE 1
+            i(class='fa fa-fw fa-table')
+            p.inline.leftsidebar HUERTAS
         li
-          a(href='#')
-            label ALERTA 2
-            span(class='label label-primary') ALERTA BADGE 2
-        li
-          a(href='#')
-            label VER TODOS
-    //TERCER ICONO USUARIO
-    li.dropdown
-      a(href='#' class='dropdown-toggle' data-toggle='dropdown')
-        i(class='fa fa-user')
-        label  USUARIO
-        b.caret
-      ul.dropdown-menu
-        li
-          a(href='#')
-            i(class='fa fa-fw fa-user')
-            label Profile
-        li.divider
-        li
-          a(href='#')
-            i(class='fa fa-fw fa-power-off')
-            label LOG OUT
-  div(class='collapse navbar-collapse navbar-ex1-collapse')
-    //MENU PRINCIPAL IZQUIERDO
-    ul(class='nav navbar-nav side-nav')
-      li.activo
-        a(href='#')
-          i(class='fa fa-fw fa-dashboard')
-          label.leftsidebar INICIO
-      li
-        a(href='#')
-          i(class='fa fa-fw fa-bar-chart-o')
-          label.leftsidebar MODULOS
-      li
-        a(href='#')
-          i(class='fa fa-fw fa-table')
-          label.leftsidebar HUERTAS
-      li
-        a(href='#')
-          i(class='fa fa-fw fa-edit')
-          label.leftsidebar ACTIVIDADES
+          a(href='/actividades')
+            i(class='fa fa-fw fa-edit')
+            p.inline.leftsidebar ACTIVIDADES
 block content

@@ -1,0 +1,36 @@
+extends menu
+block content
+  title Módulos
+  //Contenido de Pagina
+  div#page-wrapper
+    div.container-fluid
+      div.row
+        div.col-lg-12
+          p #{mensaje}
+          h3 #{titulo}
+      div.col-lg-12
+
+        if modulos && modulos.length
+          table.table.table-striped
+            thead
+              th Nombre
+              th Número
+              th Administrador
+            tbody
+              each modulo in modulos
+                tr
+                  td #[a(href='/modulos/#{modulo.idModulo}') #{modulo.nombre}]
+                  td #{modulo.numeroModulo}
+                  td #{modulo.admin}
+        else
+          p No se han encontrado módulos en el sistema.
+
+        a(href='/modulos/nuevo') Nuevo módulo
+  //Cierro segundo col-lg-12 
+  //Cierro Container Fluid
+  //Containererro PageWrapper
+  //Cierro Wrapper
+  //Jquery
+  script(src='/bootstrap/js/jquery.js')
+  //Bootstrap Core JS
+  script(src='/bootstrap/js/bootstrap.min.js')

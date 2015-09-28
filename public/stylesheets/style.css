@@ -15,7 +15,7 @@ a {
 }
 
 .logo{
-	background: url('../imagenes/LogoQzarsinFondo.png') no-repeat;
+	background: url('../images/LogoQzarsinFondo.png') no-repeat;
 	-webkit-background-size: contain;
 	background-size: contain;
 	height: 12vh;
@@ -74,3 +74,22 @@ a {
 	margin: 10px;
 }
 
+.boton-agregar-actividad{
+    height: 30px;
+    width: 30px;
+}
+
+textarea{
+    resize: none;
+}
+
+#boton-agregar{
+	display: block;
+	padding: 3px;
+	text-align: center;
+}
+
+#FAA input, #FAA textarea{
+	display: block;
+	width: 100%;
+}
