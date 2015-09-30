@@ -16,15 +16,34 @@ block content
             |       
             form#formcrearHuerta(name="crearHuerta",method="post",action="/modulo/huerta/crear")
               .modal-body
-                  input.form-control#inputAlto(type="text", placeholder="alto", name="alto")
-                  input.form-control#inputAncho(type="text", placeholder="ancho", name="ancho")
+                  input.form-control#inputAlto(type="number", placeholder="alto", name="alto", onchange="posAlto()", required)
+                  input.form-control#inputAncho(type="number", placeholder="ancho", name="ancho", onchange="posAncho()", required)
               |       
               .modal-footer
                 button.btn.btn-primary#btnSubmit(type="submit") submit
                 button.btn.btn-default(type='button', data-dismiss='modal') Close
               |         
               //button.btn.btn-primary(type='submit') Save changes
+    script.
+      var posAlto = function(){
+        var alto=$("#inputAlto").val();
+          if(alto <= 0)
+            {
+              alto = 1;
+            }
+            alto = parseInt(alto)
+            $("#inputAlto").val(alto) ;
+      }
 
+      var posAncho = function(){
+        var ancho=$("#inputAncho").val();
+          if(ancho <= 0)
+            {
+              ancho = 1;
+            }
+            ancho = parseInt(ancho)
+            $("#inputAncho").val(ancho) ;
+      }
 
 
     //h1 Forma de agregar huerta
