@@ -4,11 +4,13 @@ block content
     div.cuadro-inicio-sesion
       div.logo
       form.form-horizontal(method="post", id="loginForm", action = "/sesiones/iniciar")
-        div.campo-usuario
-          i.fa-user.fa
-          input.span3(id="nombreUsuario", type="text", name="nombreUsuario", placeholder="Nombre de usuario", required, value='adminmatriz')
-        div.campo-contrasenia
-          i.fa-unlock-alt.fa
-          input.span3(id="contrasenia", type="password", name="contrasenia", placeholder="Contraseña", required, value='adminmatriz')
+        div.input-group
+          span.input-group-addon.icono
+            i.fa-user.fa
+          input.span3.form-control(type="text", name="nombreUsuario", placeholder="Nombre de usuario", required, value='adminmatriz')
+        div.input-group
+          span.input-group-addon.icono
+            i.fa-unlock-alt.fa
+          input.span3.form-control(type="password", name="contrasenia", placeholder="Contraseña", required, value='adminmatriz')
         div.enviar
           input.btn(type="submit", value="Iniciar sesión")

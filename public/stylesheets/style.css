@@ -28,18 +28,13 @@ a {
 	margin-top: 10px;
 }
 
-.cuadro-inicio-sesion form div{
-	width: 25vw;
-}
-
 .cuadro-inicio-sesion input.span3{
-	margin-left: 10px;
+	background-color: white
 }
 
 .cuadro-inicio-sesion{
-	background: white;
-	border-color: #85973E;
-	border-style: solid;
+	background: #CAE0C0;
+	box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
 	padding-top: 20px;
 	padding-bottom: 20px;
 	width: 25vw;
@@ -55,13 +50,13 @@ a {
 
 
 .cuadro-inicio-sesion .btn{
-	background: #85973E;
+	background: #769F63;
+	box-shadow: 0 3px 9px rgba(0,0,0,0.30), 0 4px 5px rgba(0,0,0,0.22);
 	color: white;
 	width: 22vw;
 	border-radius: 0;
-	margin: 0 auto;
+	margin-top: 18px
 }
-
 
 
 .cuadro-inicio-sesion input{
@@ -92,4 +87,12 @@ textarea{
 #FAA input, #FAA textarea{
 	display: block;
 	width: 100%;
+}
+
+.cuadro-inicio-sesion form .input-group {
+	margin: 0 25%;
+}
+
+.icono{
+	width: 40px;
 }
