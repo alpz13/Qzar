@@ -1,0 +1,31 @@
+.watermark{
+	
+ z-index: 9999;
+  cursor: default;
+  display: block;
+  position: fixed;
+  top: 50%;
+  right: 0;
+  bottom: 0;
+  left: 10%;
+  font-family: sans-serif;
+  font-weight: bold;
+  font-style: italic;
+  text-align: center;
+  line-height: 100%;
+
+  -webkit-pointer-events: none;
+  -moz-pointer-events: none;
+  -ms-pointer-events: none;
+  -o-pointer-events: none;
+  pointer-events: none;
+
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+
+  /*Intento de circulo*/
+
+}
