@@ -8,20 +8,33 @@ var listar = require('../components/listarActividades.js');
 var multiparty = require("multiparty");
 var fs = require('fs');
 
-var insertabd = function (req, res, nombre, descripcion, nombreimagen) {
-    var bd = mysql.createConnection(credenciales);
-    var sql = 'INSERT INTO actividades(nombre, descripcion, contenidoMultimedia) VALUES(?,?,?);';
-    var params = [nombre, descripcion, nombreimagen];
-    bd.connect();
-    sql = mysql.format(sql, params);
-    bd.query(sql, function (err) {
-        if (err) {
-            bd.end();
-            console.log(err);
-        }
-        bd.end();
-        listar.listaractividades(res);
+
+var insertaImagen = function(req, res, nombreId, files){
+    var img = files.ima[0];
+    fs.readFile(img.path, function (err, data) {
+        var path = "./public/images/actividades/" + nombreId + ".png";
+        fs.writeFile(path, data, function (err) {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log("upload success");
+                console.log(nombreId);
+                var bd = mysql.createConnection(credenciales);
+                sql = 'INSERT INTO imagenes(ruta) VALUES(?);';
+                params = [nombreId];
+                bd.connect();
+                sql = mysql.format(sql, params);
+                bd.query(sql, function (err) {
+                    if (err) {
+                        bd.end();
+                        console.log(err);
+                    }
+                    bd.end();
+                });
+            }
+        });
     });
+    listar.listaractividades(res);
 };
 
 var agrega = function (req, res) {
@@ -29,22 +42,49 @@ var agrega = function (req, res) {
     form.parse(req, function (err, fields, files) {
         var nombre = fields.nombreactividad;
         var descripcion = fields.descripcionactividad;
-        var img = files.ima[0];
-        fs.readFile(img.path, function (err, data) {
-            var path = "./public/images/actividades/" + img.originalFilename;
-            fs.writeFile(path, data, function (err) {
-                if (err) {
-                    console.log(err);
-                } else {
-                    console.log("upload success");
-                    insertabd(req, res, nombre, descripcion, img.originalFilename);
-                }
+        var bd = mysql.createConnection(credenciales);
+        var sql = 'INSERT INTO actividades(nombre, descripcion) VALUES(?,?);';
+        var params = [nombre, descripcion];
+        bd.connect();
+        sql = mysql.format(sql, params);
+        var nombreId = 0;
+        bd.query(sql, function (err, resultado) {
+            if (err) {
+                bd.end();
+                console.log(err);
+            }
+            bd.end();
+            nombreId = resultado.insertId;
+            var img = files.ima[0];
+            fs.readFile(img.path, function (err, data) {
+                var path = "./public/images/actividades/" + nombreId + ".png";
+                fs.writeFile(path, data, function (err) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log("upload success");
+                        var bd = mysql.createConnection(credenciales);
+                        sql = 'INSERT INTO imagenes(ruta) VALUES(?);';
+                        params = [nombreId];
+                        bd.connect();
+                        sql = mysql.format(sql, params);
+                        bd.query(sql, function (err) {
+                            if (err) {
+                                bd.end();
+                                console.log(err);
+                            }
+                            bd.end();
+                        });
+                    }
+                    listar.listaractividades(res);
+                });
             });
         });
     });
-
 };
-
 module.exports = {
     'agrega' : agrega
 };
+
+
+

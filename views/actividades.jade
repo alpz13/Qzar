@@ -47,21 +47,10 @@ block content
           form.nombreactividad.focus();
           return false;
           }
-        if(form.descripcionactividad.value == "") {
-          alert("Descripcion de la Actividad Vacia");
-          form.descripcionactividad.focus();
-          return false;
-        }
-        if(form.ima.value == "") {
-          alert("No hay foto que subir con la Actividad");
-          form.Url.focus();
-          return false;
-        }
         else {
           return true;
           }
         }
-
       function resetform(){
         document.getElementById("AgregaActividad").reset();
       }

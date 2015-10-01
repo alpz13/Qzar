@@ -3,7 +3,7 @@
 */
 var mysql = require('mysql');
 
-/* Se incluye el archivo que contiene las credenciales de la conexión a la DB: credencialesdb.js*/
+/* Se incluye el archivo que contiene las credenciales de la conexión a la DB: credencialesdb.json*/
 var credenciales = require('../database/credencialesbd.json');
 
 /*  Funcion listaractividades(res)
