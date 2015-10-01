@@ -37,7 +37,6 @@ router.get('/nuevo', function (req, res, next) {
         if (err) {
             console.log(err);
         }
-        console.log(usuarios);
         res.render('crearmodulos', { titulo: 'Nuevo módulo', usuarios: usuarios, usuario: req.session.usuario});
     });
 });

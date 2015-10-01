@@ -34,7 +34,8 @@ router.post('/iniciar', function (req, res, next) {
 
 router.get('/cerrar', function (req, res, next) {
     res.redirect('/');
-    res.render('index', {mensaje: 'Sesión cerrada'});
+	//Este ya no hace nada porque ya se mandó es repsonse en el redirect.
+    //res.render('index', {mensaje: 'Sesión cerrada'});
     controlador.cerrarSesion(req);
 });
 
