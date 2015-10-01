@@ -6,72 +6,16 @@ a {
   color: #00B7FF;
 }
 
-.inline{
+.inline {
 	display: inline;
 }
 
-.alert p{
+.alert p {
 	margin-left: 10px;
-}
-
-.logo{
-	background: url('../images/LogoQzarsinFondo.png') no-repeat;
-	-webkit-background-size: contain;
-	background-size: contain;
-	height: 12vh;
-	width: 18vw;
-	margin: auto;
-
-}
-
-.cuadro-inicio-sesion form{
-	margin-top: 10px;
-}
-
-.cuadro-inicio-sesion input.span3{
-	background-color: white
-}
-
-.cuadro-inicio-sesion{
-	background: #CAE0C0;
-	box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
-	padding-top: 20px;
-	padding-bottom: 20px;
-	width: 25vw;
-	min-height: 240px;
-	text-align: center;
-	margin: 0 auto;
-	margin-top: 25vh;
-	height: 30vh;
-}
-
-.enviar{
-}
-
-
-.cuadro-inicio-sesion .btn{
-	background: #769F63;
-	box-shadow: 0 3px 9px rgba(0,0,0,0.30), 0 4px 5px rgba(0,0,0,0.22);
-	color: white;
-	width: 22vw;
-	border-radius: 0;
-	margin-top: 1%
-}
-
-
-.cuadro-inicio-sesion input{
-	border: none;
-	margin-bottom: .5vw;
-	font-size: 1.2em;
 }
 
 .alert {
 	margin: 10px;
-}
-
-.boton-agregar-actividad{
-    height: 30px;
-    width: 30px;
 }
 
 textarea{
@@ -89,11 +33,7 @@ textarea{
 	width: 100%;
 }
 
-.cuadro-inicio-sesion form .input-group {
-	margin: 0 25%;
-	margin-bottom: 2%;
-}
-
-.icono{
-	width: 40px;
+.boton-agregar-actividad {
+    height: 30px;
+    width: 30px;
 }

@@ -1,0 +1,54 @@
+/* PANTALLA DE INICIO DE SESION */
+
+.cuadro-inicio-sesion {
+    background: #CAE0C0;
+    box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+    padding: 20px 0px;
+    /*min-height: 240px;*/
+    min-width: 320px;
+    margin-top: 20vh;
+}
+
+.cuadro-inicio-sesion div.logo {
+    background: url('../images/LogoQzarsinFondo.png') no-repeat;
+    -webkit-background-size: contain;
+    background-size: contain;
+    background-position: center;
+    min-height: 64px;
+    display: block;
+}
+
+.cuadro-inicio-sesion form {
+    margin-top: 16px;
+}
+
+.cuadro-inicio-sesion input.span3 {
+    background-color: white;
+    border: 1px solid #ccc;
+}
+
+
+.cuadro-inicio-sesion input.btn {
+    background: #769F63;
+    box-shadow: 0 3px 9px rgba(0,0,0,0.30), 0 4px 5px rgba(0,0,0,0.22);
+    color: white;
+    border-radius: 0;
+    margin-top: 16px;
+    /*margin: 0 25%;*/
+    /* width: 90%; */
+}
+
+.cuadro-inicio-sesion input {
+    border: none;
+    margin-bottom: .5vw;
+    font-size: 1.2em;
+}
+
+.cuadro-inicio-sesion form .input-group {
+    margin: 0 25% 10px 25%;
+    width: 50%;
+}
+
+.icono {
+    width: 40px;
+}
