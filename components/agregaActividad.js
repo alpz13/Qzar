@@ -9,7 +9,7 @@ var multiparty = require("multiparty");
 var fs = require('fs');
 
 
-var insertaImagen = function(req, res, nombreId, files){
+var insertaImagen = function (req, res, nombreId, files) {
     var img = files.ima[0];
     fs.readFile(img.path, function (err, data) {
         var path = "./public/images/actividades/" + nombreId + ".png";
@@ -20,8 +20,8 @@ var insertaImagen = function(req, res, nombreId, files){
                 console.log("upload success");
                 console.log(nombreId);
                 var bd = mysql.createConnection(credenciales);
-                sql = 'INSERT INTO imagenes(ruta) VALUES(?);';
-                params = [nombreId];
+                var sql = 'INSERT INTO imagenes(ruta) VALUES(?);';
+                var params = [nombreId];
                 bd.connect();
                 sql = mysql.format(sql, params);
                 bd.query(sql, function (err) {
@@ -63,7 +63,7 @@ var agrega = function (req, res) {
                         console.log(err);
                     } else {
                         console.log("upload success");
-                        var bd = mysql.createConnection(credenciales);
+                        bd = mysql.createConnection(credenciales);
                         sql = 'INSERT INTO imagenes(ruta) VALUES(?);';
                         params = [nombreId];
                         bd.connect();
