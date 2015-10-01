@@ -15,7 +15,13 @@ router.get('/', function (req, res, next) {
         if (err) {
             console.log(err);
         }
-        res.render('modulos', { titulo: 'Módulos', modulos: modulos, usuario: req.session.usuario });
+        usuarios.listarAdminModulos(function (err, usuarios) {
+        if (err) {
+            console.log(err);
+        }
+        res.render('modulos', { titulo: 'Módulos', modulos: modulos, usuario: req.session.usuario, usuarios: usuarios });
+        });
+        
     });
 });
 
@@ -31,6 +37,7 @@ router.get('/nuevo', function (req, res, next) {
         if (err) {
             console.log(err);
         }
+        console.log(usuarios);
         res.render('crearmodulos', { titulo: 'Nuevo módulo', usuarios: usuarios, usuario: req.session.usuario});
     });
 });
