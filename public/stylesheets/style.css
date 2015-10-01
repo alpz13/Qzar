@@ -33,7 +33,7 @@ textarea{
 	width: 100%;
 }
 
-.boton-agregar-actividad {
-    height: 30px;
-    width: 30px;
+#boton-agregar-actividad {
+    
+    font-size: 48px
 }
