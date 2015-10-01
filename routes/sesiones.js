@@ -9,37 +9,32 @@ var router = express.Router();
 var Registro = require('log');
 var observador = new Registro('info');
 
-/* GET pantalla de inicio de sesión. */
-router.get('/', function (req, res, next) {
-    if (req.session.usuario) {
-        observador.info('req.session.usuario: ' + req.session.usuario);
-    } else {
-        observador.info('No hay req.session.usuario');
-    }
-
-    res.render('iniciodesesion');
-});
-
 /* POST datos de inicio de sesión. */
 router.post('/iniciar', function (req, res, next) {
     controlador.abrirSesion(req, res, function (err, usuario) {
+        if (req.session.usuario && req.session.usuario.nombre === req.body.nombreUsuario) {
+            res.redirect('/');
+            return;
+        }
+        //TODO cuando hay sesión abierta y se intenta iniciar con otra sesión
         observador.info('Proceso de sesiones completado.');
         if (err) {
             observador.error(err);
-            if(err.code === 'ECONNREFUSED') {
-                res.render('index', {mensaje: err, titulo: "###", aviso: {tipo:'danger', icono:'fa fa-plug', mensaje:'Error al conectarse a la base de datos.'}});
+            if (err.code === 'ECONNREFUSED') {
+                res.render('index', {mensaje: err, titulo: "###", aviso: {tipo: 'danger', icono: 'fa fa-plug', mensaje: 'Error al conectarse a la base de datos.'}});
             } else {
-                res.render('index', {mensaje: err, titulo: "###", aviso: {tipo:'danger', icono:'fa fa-exclamation-triangle', mensaje:'Usuario y/o contraseña incorrectos.'}});
-            } 
+                res.render('index', {mensaje: err, titulo: "###", aviso: {tipo: 'danger', icono: 'fa fa-exclamation-triangle', mensaje: 'Usuario y/o contraseña incorrectos.'}});
+            }
         } else {
-            res.render('index', {mensaje: 'Iniciaste sesión, biatch', titulo: "Im sexy and I know it", usuario: req.session.usuario });
+            res.redirect('/');
+            res.render('index', {usuario: req.session.usuario });
         }
     });
 });
 
 router.get('/cerrar', function (req, res, next) {
+    res.redirect('/');
     res.render('index', {mensaje: 'Sesión cerrada'});
-    res.end();
     controlador.cerrarSesion(req);
 });
 

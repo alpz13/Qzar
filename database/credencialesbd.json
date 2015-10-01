@@ -1,6 +1,6 @@
-{
-    "host" : "localhost",
-    "user" : "qzar",
-    "password" : "qzar",
-    "database" : "qzardb"
-}
+odule.exports = {
+	"host" : "localhost",
+	"user" : "root",
+	"password" : "",
+	"database" : "qzardb"
+};
