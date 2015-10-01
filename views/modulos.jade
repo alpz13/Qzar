@@ -1,5 +1,6 @@
 extends menu
 block content
+  link(rel='stylesheet', href="/stylesheets/qzar-modulos.css", type='text/css')
   title Módulos
   //Contenido de Pagina
   div#page-wrapper
@@ -23,14 +24,40 @@ block content
                   td #{modulo.numeroModulo}
                   td #{modulo.admin}
         else
-          p No se han encontrado módulos en el sistema.
+          p.watermark No se han encontrado módulos en el sistema.
 
-        a(href='/modulos/nuevo') Nuevo módulo
-  //Cierro segundo col-lg-12 
-  //Cierro Container Fluid
-  //Containererro PageWrapper
-  //Cierro Wrapper
-  //Jquery
-  script(src='/bootstrap/js/jquery.js')
-  //Bootstrap Core JS
-  script(src='/bootstrap/js/bootstrap.min.js')
+        a(href='#' data-toggle="modal" data-target="#FAA")
+          i.material-icons.md-48#agregar-modulo control_point
+
+      div(id='FAA' class='modal fade' role='dialog')
+          div.modal-dialog
+            div.modal-content
+              div.modal-header
+                button(type='button' class='close' data-dismiss="modal") &times;
+                h4.modal-title Agregar Modulo
+                if usuarios && usuarios.length
+                  form#agregaModulo(name="agregaModulo", method="post", action="nuevo")
+                    div.modal-body
+                      label(for="nombre") Nombre del módulo:
+                      input.form-control#nombre(type="text", placeholder="Nombre", name="nombre", required)
+                      label(for="numero") Número del módulo: 
+                      input.form-control#numero(type="number", placeholder="Número", name="numero", min="0", max="999", required)
+                      label(for="admin") Administrador del módulo: 
+                      select#admin(name="admin", required)
+                        for usuario in usuarios
+                          option(value= usuario.idUsuario) #{usuario.nombre}
+                else
+                    p Necesitas crear al un usuario con privilegio de administrador de módulo para poder crear un módulo.
+                    div.modal-footer
+                      buttonbtn.btn.btn-primary#submit(type="submit", class="btn-btn-default") Crear
+                      button.btn.btn-default(type='button', data-dismiss='modal') Cerrar
+  
+
+
+script(src='/bootstrap/js/jquery.js')
+script(src='/bootstrap/js/bootstrap.min.js')
+
+//a(href='/modulos/nuevo')
+//a(href='#' data-toggle="modal" data-target="#FAA")
+  
+  
