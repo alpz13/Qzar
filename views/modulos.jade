@@ -34,9 +34,8 @@ block content
           div.modal-dialog
             div.modal-content
               div.modal-header
-                button(type='button' class='close' data-dismiss="modal") &times;
-                h4.modal-title Agregar Modulo
-                hr
+                  button(type='button' class='close' data-dismiss="modal") &times;
+                  h4.modal-title Agregar Modulo
                 if usuarios && usuarios.length
                   form#agregaModulo(name="agregaModulo", method="post", action="modulos/nuevo")
                     div.modal-body
