@@ -7,6 +7,7 @@ var listar = require('../components/listarActividades.js');
 
 var multiparty = require("multiparty");
 var fs = require('fs');
+var path = require('path');
 
 var agrega = function (req, res) {
     var form = new multiparty.Form();
@@ -14,6 +15,9 @@ var agrega = function (req, res) {
         var nombre = fields.nombreactividad;
         var descripcion = fields.descripcionactividad;
         var bd = mysql.createConnection(credenciales);
+        var nombreoriginal = files.ima[0].originalFilename;
+        var ext = path.extname(nombreoriginal);
+        console.log(ext);
         var sql = 'INSERT INTO actividades(nombre, descripcion) VALUES(?,?);';
         var params = [nombre, descripcion];
         bd.connect();
@@ -28,7 +32,7 @@ var agrega = function (req, res) {
             nombreId = resultado.insertId;
             var img = files.ima[0];
             fs.readFile(img.path, function (err, data) {
-                var path = "./public/images/actividades/" + nombreId + ".png";
+                var path = "./public/images/actividades/" + nombreId + ext;
                 fs.writeFile(path, data, function (err) {
                     if (err) {
                         console.log(err);
