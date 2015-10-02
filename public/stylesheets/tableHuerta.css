@@ -12,21 +12,32 @@ table{
     -ms-user-select: none;
     user-select: none
 }
-#listaCuadritos{
-	display: inline-block;
-	width: 75%;
-	margin-left: 5px;
-	margin-bottom: 20px;
-}
+
 #formcrearHuerta input{
 	display: block;
 	width: 70%;
 	margin-left: 5px;
 	margin: 5px auto;
 }
-
-#selectSector{
+#listaCuadritos{
 	display: inline-block;
 	width: 70%;
+	margin-left: 5px;
+	margin-bottom: 20px;
+}
+#selectSector{
+	display: inline-block;
+	width: 67%;
 	margin-left: 5px
+}
+.crear-labels{
+	width: 30vh
+}
+
+.boton-crear-huerta{
+	margin-top: 10px;
+}
+#huerta td{
+	border:solid 2px;
+	text-align: center
 }

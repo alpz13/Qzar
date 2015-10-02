@@ -76,19 +76,22 @@ block content
         div.row
           div.col-lg-12
             h1 Crear Huerta
-        div.form-group.col-md-2
-          label Sectores:
-          select#listaCuadritos.form-control
-            option(type='0', BGCOLOR='') Vacio
-            option(type='1', BGCOLOR='red') Fresa
-            option(type='2', BGCOLOR='yellow') Piña
-            option(type='3', BGCOLOR='blue') Zarzamora
-          label N° Sector:   
+        div.form-group.col-md-2.crear-labels
+          div
+            label Sectores:
+            select#listaCuadritos.form-control
+              option(type='0', BGCOLOR='') Vacio
+              option(type='1', BGCOLOR='red') Fresa
+              option(type='2', BGCOLOR='yellow') Piña
+              option(type='3', BGCOLOR='blue') Zarzamora
+          div
+            label N° Sector:   
             input#selectSector.form-control(type="number", min='0', value="0" onchange="verPositivos()")
-          button.btn.btn-primary#btnSubmitHuerta(onclick="guardarHuerta()") Guardar
+          div.boton-crear-huerta
+            button.btn.btn-primary#btnSubmitHuerta(onclick="guardarHuerta()") Guardar
 
 
-        div
+        div.form-group.col-md-8
           table#huerta.table.table-bordered
             tbody
               each number in alto
