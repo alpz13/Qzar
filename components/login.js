@@ -11,7 +11,7 @@ var observador = new Registro('info');
 /*
 */
 var __validarCredenciales = function (nombreUsuario, contrasenia, callback) {
-    var credenciales = require('../database/credencialesbd.js');
+    var credenciales = require('../database/credencialesbd.json');
     var conexion = mysql.createConnection(credenciales);
 
     conexion.connect();
@@ -35,7 +35,7 @@ var __validarCredenciales = function (nombreUsuario, contrasenia, callback) {
 /*
 */
 var __cargarUsuario = function (nombreUsuario, callback) {
-    var credenciales = require('../database/credencialesbd.js');
+    var credenciales = require('../database/credencialesbd.json');
     var conexion = mysql.createConnection(credenciales);
 
     conexion.connect();

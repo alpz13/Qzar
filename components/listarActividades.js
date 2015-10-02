@@ -31,6 +31,11 @@ var listaractividades = function (req, res) {
     });
 };
 
+var listar = function (res) {
+    res.redirect('/actividades/');
+};
+
 module.exports = {
-    'listaractividades' : listaractividades
+    'listaractividades' : listaractividades,
+    'listar' : listar
 };

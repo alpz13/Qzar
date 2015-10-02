@@ -8,35 +8,6 @@ var listar = require('../components/listarActividades.js');
 var multiparty = require("multiparty");
 var fs = require('fs');
 
-
-var insertaImagen = function (req, res, nombreId, files) {
-    var img = files.ima[0];
-    fs.readFile(img.path, function (err, data) {
-        var path = "./public/images/actividades/" + nombreId + ".png";
-        fs.writeFile(path, data, function (err) {
-            if (err) {
-                console.log(err);
-            } else {
-                console.log("upload success");
-                console.log(nombreId);
-                var bd = mysql.createConnection(credenciales);
-                var sql = 'INSERT INTO imagenes(ruta) VALUES(?);';
-                var params = [nombreId];
-                bd.connect();
-                sql = mysql.format(sql, params);
-                bd.query(sql, function (err) {
-                    if (err) {
-                        bd.end();
-                        console.log(err);
-                    }
-                    bd.end();
-                });
-            }
-        });
-    });
-    listar.listaractividades(res);
-};
-
 var agrega = function (req, res) {
     var form = new multiparty.Form();
     form.parse(req, function (err, fields, files) {
@@ -76,12 +47,13 @@ var agrega = function (req, res) {
                             bd.end();
                         });
                     }
-                    listar.listaractividades(res);
+                    listar.listar(res);
                 });
             });
         });
     });
 };
+
 module.exports = {
     'agrega' : agrega
 };
