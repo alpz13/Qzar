@@ -91,4 +91,12 @@ router.get('/:id(\\d+)', function (req, res, next) {
     });
 });
 
+//eliminar modulo
+router.get('/eliminar/:id(\\d+)', function (req, res, next) {
+    var idModulo = req.params.id;
+    modulos.eliminar(idModulo, function (err, modulos) {
+        res.redirect('/modulos');
+    });
+});
+
 module.exports = router;
