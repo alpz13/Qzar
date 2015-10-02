@@ -16,9 +16,9 @@ router.get('/', function (req, res, next) {
             console.log(err);
         }
         usuarios.listarAdminModulos(function (err, usuarios) {
-        if (err) {
-            console.log(err);
-        }
+            if (err) {
+                console.log(err);
+            }
         res.render('modulos', { titulo: 'Módulos', modulos: modulos, usuario: req.session.usuario, usuarios: usuarios });
         });
         
@@ -89,12 +89,39 @@ router.get('/:id(\\d+)', function (req, res, next) {
             next(err);
             return;
         }
-        if (req.session.usuario.idRoles !== 1 || modulos[0].usuarioAdministrador !== req.session.usuario.idUsuario) {
+
+		// Por ahora lo puse por nombre porque la galleta no tiene idUsuario.
+		// POR HACER: Que no cheque por nombre (¿qué pasa si hay tocallos').
+        if (req.session.usuario.idRoles !== 1 && modulos[0].admin !== req.session.usuario.nombre) {
             res.render('error', { message: 'No puedes.', error: {status: null, stack: null} });
             return;
         }
-        res.render('vermodulos', { titulo: 'Módulo ', modulo: modulos[0], usuario: req.session.usuario});
+        usuarios.listarAdminModulos(function (err, usuarios) {
+            if (err) {
+                console.log(err);
+            }
+            res.render('vermodulos', { titulo: 'Módulo ', modulo: modulos[0], usuario: req.session.usuario, usuarios: usuarios});
+		});
     });
+});
+
+router.post('/:id(\\d+)/editar', function (req, res, next) {
+    var moduloActualizado = {
+		"idModulo": req.params.id,
+		"nombre": req.body.nombre,
+		"numeroModulo": req.body.numero,
+		"usuarioAdministrador": req.body.admin
+	};
+
+    res.sendStatus(200);
+
+	/*
+    modulos.editar(idModulo, moduloActualizado, function (err) {
+        if (err) {
+            console.log(err);
+            res.sendStatus(500);
+        }
+    );*/
 });
 
 module.exports = router;

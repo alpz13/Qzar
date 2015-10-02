@@ -7,17 +7,50 @@ block content
       div.row
         div.col-lg-12
           p #{mensaje}
-          h3 #{titulo} #{modulo.nombre}
+          h3#nombreModulo #{titulo} #{modulo.nombre}
+
+      // TUDU: Cambiar dibujito por algo que si sea de editar.
+      //Icono del modal
+      if usuario.idRoles == 1
+        a(class='nav navbar-right top-nav' href='#' data-toggle="modal" data-target="#FAA")
+          i.material-icons.md-48#agregar-modulo control_point
+
       div.col-lg-12
         table.table.table-striped
           tbody
               tr
                 td Número
-                td #{modulo.numeroModulo}
+                td#numeroModulo #{modulo.numeroModulo}
               tr
                 td Administrador
-                td #{modulo.admin}
-        a(href='') Nueva Huerta
+                td#administradorModulo #{modulo.admin}
+        if usuario.idRoles == 1
+          a(href='') Crear huerta
+
+      if usuario.idRoles == 1
+        div(id='FAA' class='modal fade' role='dialog')
+            div.modal-dialog
+              div.modal-content
+                div.modal-header
+                    button(type='button' class='close' data-dismiss="modal") &times;
+                    h4.modal-title Editar módulo
+                  form(name="agregaModulo")
+                    div.modal-body
+                      label(for="nombre") Nombre del módulo:
+                      input.form-control#nombre(type="text", placeholder="Nombre", name="nombre", value=modulo.nombre, required)
+                      label(for="numero") Número del módulo: 
+                      input.form-control#numero(type="number", placeholder="Número", name="numero", min="0", max="999", value=modulo.numeroModulo, required)
+                      label(for="admin") Administrador del módulo: 
+                      select.form-control#admin(name="admin", required)
+                        for usuario in usuarios
+                          if usuario.idUsuario == modulo.usuarioAdministrador
+                            option(value= usuario.idUsuario, selected) #{usuario.nombre}
+                          else
+                            option(value= usuario.idUsuario) #{usuario.nombre}
+                    div.modal-footer
+                      button.btn.btn-primary#editarModulo(type="button") Guardar cambios
+                      button.btn.btn-default(type='button', data-dismiss='modal') Cerrar
+
   //Cierro segundo col-lg-12 
   //Cierro Container Fluid
   //Containererro PageWrapper
@@ -26,3 +59,5 @@ block content
   script(src='/bootstrap/js/jquery.js')
   //Bootstrap Core JS
   script(src='/bootstrap/js/bootstrap.min.js')
+  // Editar módulo
+  script(src='/js/editarmodulo.js')
