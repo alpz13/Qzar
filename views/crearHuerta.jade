@@ -47,25 +47,27 @@ block content
           var columna = 0;
           $(row).find('td').each(function(){
               var celda = $(this);
-              var cuadro = [];
+              var cuadro = {};
               cuadro['type'] = celda.attr("type");
-              cuadro["sector"] = celda.attr("type");
+              cuadro["sector"] = celda.html();
               cuadro["ejeX"] = columna;
               cuadro["ejeY"] = renglon;
+              console.log(cuadro);
               cuadritos.push(cuadro);
               columna++;
             });
             renglon++;
           });
+          console.log(cuadritos);
           //mandamos cuadriots al servidor
           $.post("/modulo/huerta/crearGuardar",
           {
-              cuadritos: cuadritos,
-              modulo: 1
+              'cuadritos': JSON.stringify(cuadritos),
+              'modulo': 1
           },
           function(data, status){
               alert("Data: " + data + "\nStatus: " + status);
-          });
+          },'json');
 
       }
       
