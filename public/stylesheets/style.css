@@ -10,6 +10,11 @@ a {
 	display: inline;
 }
 
+/* Bootstrap Overwrites*/
+a.navbar-brand{
+	padding: 10px 5px;
+}
+
 .alert p {
 	margin-left: 10px;
 }
@@ -50,4 +55,11 @@ textarea{
 	display: inline-block;
     margin: 0;
     font-size: 48px
+}
+
+#logo-img{
+	background: url('../images/LogoQzarsinFondo.png') center center no-repeat;
+	background-size: contain;
+	height: 40px;
+	width: 170px;
 }
