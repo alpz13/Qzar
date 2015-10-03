@@ -1,26 +1,18 @@
 extends layout
 block content
-  div.top
-    form.form-horizontal(method="post", id="loginForm")
-      label Username
-      input.span3(id="username", type="text", name="User", placeholder="Enter your username")
-      label Password
-      input.span3(id="password", type="password", name="Password")
-      input.btn(type="submit", value="Log In")
+  link(rel='stylesheet', href='/stylesheets/qzar-index.css')
   div.container
-    div.content
-      table.table.table-striped
-        thead
-          tr
-            th Table
-            th Heading
-        tbody
-          tr
-            td Blah
-            td Test
-          tr
-            td Hello
-            td World
- 
-  div.footer
-
+    div.cuadro-inicio-sesion.col-xs-10.col-xs-offset-1.col-sm-6.col-sm-offset-3
+      div.row
+        div.logo.col-sm-6.col-sm-offset-3
+      form.form-horizontal(method="post", id="loginForm", action = "/sesiones/iniciar")
+        div.input-group
+          span.input-group-addon.icono
+            i.fa-user.fa
+          input.span3.form-control(type="text", name="nombreUsuario", placeholder="Nombre de usuario", required, value='adminmatriz')
+        div.input-group
+          span.input-group-addon.icono
+            i.fa-unlock-alt.fa
+          input.span3.form-control(type="password", name="contrasenia", placeholder="Contraseña", required, value='adminmatriz')
+        div.row
+          input.col-xs-8.col-xs-offset-2.btn(type="submit", value="Iniciar sesión")

@@ -1,0 +1,76 @@
+extends menu
+block content
+  link(rel='stylesheet', href="/stylesheets/qzar-modulos.css", type='text/css')
+  //title Módulos
+  //Contenido de Pagina
+  div#page-wrapper
+    div.container-fluid
+     
+    div.row
+      div#barra-de-titulo
+        div.col-sm-12.col-md-8.col-md-offset-2
+          i.material-icons.agregar-modulo.inline dashboard
+          //p #{mensaje}
+          h1#h1Modulos #{titulo}
+      
+      //Contenido de la pagina
+      div.col-sm-12.col-md-8.col-md-offset-2
+        //Icono que te lleva al modal
+        a(class='nav navbar-right top-nav' href='#' data-toggle="modal" data-target="#FAA")
+          i.material-icons.md-48.agregar-modulo control_point
+          p Agregar
+
+        if modulos && modulos.length
+          table.table.table-striped.table-bordered
+            thead
+              th Nombre
+              th Número
+              th Administrador
+            tbody
+              each modulo in modulos
+                tr
+                  td #[a(href='/modulos/#{modulo.idModulo}') #{modulo.nombre}]
+                  td #{modulo.numeroModulo}
+                  td #{modulo.admin}
+        else
+          p.watermark No se han encontrado módulos en el sistema.
+      
+      //Modal
+      div(id='FAA' class='modal fade' role='dialog')
+          div.modal-dialog
+            div.modal-content
+              div.modal-header
+                button(type='button' class='close' data-dismiss="modal") &times;
+                h4.modal-title Agregar Modulo
+              if usuarios && usuarios.length
+                form#agregaModulo(name="agregaModulo", method="post", action="modulos/nuevo")
+                  div.modal-body
+                    label(for="nombre") Nombre del módulo:
+                    input.form-control#nombre(type="text", placeholder="Nombre", name="nombre", required)
+                    label(for="numero") Número del módulo: 
+                    input.form-control#numero(type="number", placeholder="Número", name="numero", min="0", max="999", required)
+                    label(for="admin") Administrador del módulo: 
+                    select.form-control#admin(name="admin", required)
+                      for usuario in usuarios
+                        option(value= usuario.idUsuario) #{usuario.nombre}
+                  div.modal-footer
+                    button.btn.btn-primary#submit(type="submit") Crear
+                    button.btn.btn-default(type='button', data-dismiss='modal') Cerrar
+              else
+                div.modal-body
+                  p Necesitas crear al un usuario con privilegio de administrador de módulo para poder crear un módulo.                    
+                div.modal-footer
+                  button.btn.btn-default(type='button', data-dismiss='modal') Cerrar
+
+            
+                    
+  
+
+
+script(src='/bootstrap/js/jquery.js')
+script(src='/bootstrap/js/bootstrap.min.js')
+
+//a(href='/modulos/nuevo')
+//a(href='#' data-toggle="modal" data-target="#FAA")
+  
+  

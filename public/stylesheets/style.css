@@ -1,8 +1,86 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background: #F1F1F1;
 }
 
 a {
   color: #00B7FF;
+}
+
+.inline {
+	display: inline;
+}
+
+/* Bootstrap Overwrites*/
+a.navbar-brand{
+	padding: 10px 5px;
+}
+/* End Bootstrap Overwrites*/
+
+
+
+.alert p {
+	margin-left: 10px;
+}
+
+.alert {
+	margin: 10px;
+}
+
+textarea{
+    resize: none;
+}
+
+#boton-agregar{
+	display: block;
+	padding: 3px;
+	text-align: center;
+}
+
+#FAA input, #FAA textarea{
+	display: block;
+	width: 100%;
+}
+
+#boton-agregar-actividad {
+    
+    font-size: 48px
+}
+
+#barra-de-titulo > div{
+    /*padding: 10px 0;*/
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    padding-top: 3vw
+}
+
+#h1Modulos{
+	display: inline-block;
+    margin: 0;
+    font-size: 48px
+}
+
+#logo-img{
+	background: url('../images/LogoQzarsinFondo.png') center center no-repeat;
+	background-size: contain;
+	height: 40px;
+	width: 170px;
+}
+
+#barra-ver-modulos > div{
+	display: flex;
+    flex-direction: row;
+    align-content: center;
+    padding-top: 3vw;
+    padding-bottom: 2vw
+}
+
+#h1VerModulos{
+	display: inline-block;
+    margin: 0;
+    font-size: 48px
+}
+
+#icono{
+	font-size: 48px
 }
