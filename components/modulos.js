@@ -9,11 +9,11 @@ var router = express.Router();
 
 var credenciales = require('../database/credencialesbd.json');
 
-function crearModulo(adminModulo, nombre, numeroModulo, callback) {
+function crearModulo(moduloNuevo, callback) {
 
     var bd = mysql.createConnection(credenciales),
-        sql = 'INSERT INTO Modulos(usuarioAdministrador, nombre, numeroModulo) VALUES(?,?,?);',
-        params = [adminModulo, nombre, numeroModulo];
+        sql = 'INSERT INTO Modulos(usuarioAdministrador, nombre, numeroModulo, activo) VALUES(?,?,?,1);',
+        params = [moduloNuevo.usuarioAdministrador, moduloNuevo.nombre, moduloNuevo.numeroModulo];
 
     bd.connect();
 
@@ -33,7 +33,7 @@ function listarModulos(callback) {
 
     // Que el usuario no esté jarcodeado.
     var bd = mysql.createConnection(credenciales),
-        sql = 'SELECT m.idModulo, m.nombre, m.numeroModulo, m.usuarioAdministrador, u.nombre AS admin FROM Modulos AS m INNER JOIN Usuarios AS u ON m.usuarioAdministrador = u.idUsuario;';
+        sql = 'SELECT m.idModulo, m.nombre, m.numeroModulo, m.usuarioAdministrador, u.nombre AS admin FROM Modulos AS m INNER JOIN Usuarios AS u ON m.usuarioAdministrador = u.idUsuario WHERE m.activo = 1;';
 
     bd.connect();
 
@@ -89,7 +89,7 @@ function actualizarModulo(modulo, callback) {
 
 function eliminarModulo(id, callback) {
     var bd = mysql.createConnection(credenciales),
-        sql = 'UPDATE modulos SET activo=0 WHERE idModulo=?;',
+        sql = 'UPDATE Modulos SET activo=0 WHERE idModulo=?;',
         params= [id];
     
     sql = mysql.format(sql, params);

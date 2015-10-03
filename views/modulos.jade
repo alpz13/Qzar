@@ -14,10 +14,11 @@ block content
       
       //Contenido de la pagina
       div.col-sm-12.col-md-8.col-md-offset-2
-        //Icono que te lleva al modal
-        a(class='nav navbar-right top-nav' href='#' data-toggle="modal" data-target="#FAA")
-          i.material-icons.md-48.agregar-modulo control_point
-          p Agregar
+        if usuario.idRoles == 1
+          //Icono que te lleva al modal
+          a(class='nav navbar-right top-nav' href='#' data-toggle="modal" data-target="#FAA")
+            i.material-icons.md-48.agregar-modulo control_point
+            p Agregar
 
         if modulos && modulos.length
           table.table.table-striped.table-bordered
@@ -34,39 +35,44 @@ block content
         else
           p.watermark No se han encontrado módulos en el sistema.
 
-      div(id='FAA' class='modal fade' role='dialog')
-          div.modal-dialog
-            div.modal-content
-              div.modal-header
-                button(type='button' class='close' data-dismiss="modal") &times;
-                h4.modal-title Agregar Modulo
-              if usuarios && usuarios.length
-                form#agregaModulo(name="agregaModulo", method="post", action="modulos/nuevo")
+      if usuario.idRoles == 1
+        div(id='FAA' class='modal fade' role='dialog')
+            div.modal-dialog
+              div.modal-content
+                div.modal-header
+                  button(type='button' class='close' data-dismiss="modal") &times;
+                  h4.modal-title Agregar Modulo
+                if listaAdmins && listaAdmins.length
+                  p#mensajeAgregaModulo
+                  form#agregaModulo(name="agregaModulo")
+                    div.modal-body
+                      label(for="nombre") Nombre del módulo:
+                      input.form-control#nombre(type="text", placeholder="Nombre", name="nombre", required)
+                      label(for="numero") Número del módulo: 
+                      input.form-control#numero(type="number", placeholder="Número", name="numero", min="0", max="999", required)
+                      label(for="admin") Administrador del módulo: 
+                      select.form-control#admin(name="admin", required)
+                        for usuario in listaAdmins
+                          option(value= usuario.idUsuario) #{usuario.nombre}
+                    div.modal-footer
+                      button.btn.btn-primary#crearModulo(type='button') Crear
+                      button.btn.btn-default#cerrarModal(type='button', data-dismiss='modal') Cerrar
+                else
                   div.modal-body
-                    label(for="nombre") Nombre del módulo:
-                    input.form-control#nombre(type="text", placeholder="Nombre", name="nombre", required)
-                    label(for="numero") Número del módulo: 
-                    input.form-control#numero(type="number", placeholder="Número", name="numero", min="0", max="999", required)
-                    label(for="admin") Administrador del módulo: 
-                    select.form-control#admin(name="admin", required)
-                      for usuario in usuarios
-                        option(value= usuario.idUsuario) #{usuario.nombre}
+                    p Necesitas crear al un usuario con privilegio de administrador de módulo para poder crear un módulo.                    
                   div.modal-footer
-                    button.btn.btn-primary#submit(type="submit") Crear
                     button.btn.btn-default(type='button', data-dismiss='modal') Cerrar
-              else
-                div.modal-body
-                  p Necesitas crear al un usuario con privilegio de administrador de módulo para poder crear un módulo.                    
-                div.modal-footer
-                  button.btn.btn-default(type='button', data-dismiss='modal') Cerrar
 
             
                     
   
 
+  script(src='/bootstrap/js/jquery.js')
+  script(src='/bootstrap/js/bootstrap.min.js')
 
-script(src='/bootstrap/js/jquery.js')
-script(src='/bootstrap/js/bootstrap.min.js')
+  // Crear módulo
+  script(src='/js/crearmodulo.js')
+
 
 //a(href='/modulos/nuevo')
 //a(href='#' data-toggle="modal" data-target="#FAA")

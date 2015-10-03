@@ -12,7 +12,7 @@ function listarAdminModulos(callback) {
     // POR HACER:
     // Filtro de roles (o por privilegios) bien (cuando estén mejor definidos).
     var bd = mysql.createConnection(credenciales),
-        sql = 'SELECT * FROM Usuarios where idRoles=1;';
+        sql = 'SELECT * FROM Usuarios WHERE idRoles = 1 OR idRoles = 2;';
 
     bd.connect();
 

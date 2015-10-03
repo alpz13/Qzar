@@ -43,7 +43,7 @@ block content
                       input.form-control#numero(type="number", placeholder="Número", name="numero", min="0", max="999", value=modulo.numeroModulo, required)
                       label(for="admin") Administrador del módulo: 
                       select.form-control#admin(name="admin", required)
-                        for usuario in usuarios
+                        for usuario in listaAdmins
                           if usuario.idUsuario == modulo.usuarioAdministrador
                             option(value= usuario.idUsuario, selected) #{usuario.nombre}
                           else
