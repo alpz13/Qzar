@@ -16,6 +16,10 @@ router.get('/', function (req, res) {
     listar.listaractividades(req, res);
 });
 
+/* Se crea la ruta para iniciar el caso de uso agregar las actividades
+    + se requiere el request para mandar la informacion de la forma
+    + A partir de la variable agrega manda a llamar la funcion: agregar(req, res)
+*/
 router.post('/agregaactividad', function (req, res, next) {
     agrega.agrega(req, res);
 });

@@ -3,7 +3,7 @@
 */
 var mysql = require('mysql');
 
-/* Se incluye el archivo que contiene las credenciales de la conexión a la DB: credencialesdb.json*/
+/* Se incluye el archivo que contiene las credenciales de la conexión a la BD: credencialesdb.json*/
 var credenciales = require('../database/credencialesbd.json');
 
 /*  Funcion listaractividades(res)
@@ -31,6 +31,9 @@ var listaractividades = function (req, res) {
     });
 };
 
+/*
+    funcion listar solamente hace el redirect hacia la ventana de actividades.
+*/
 var listar = function (res) {
     res.redirect('/actividades/');
 };
