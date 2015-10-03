@@ -14,6 +14,9 @@ a {
 a.navbar-brand{
 	padding: 10px 5px;
 }
+/* End Bootstrap Overwrites*/
+
+
 
 .alert p {
 	margin-left: 10px;
