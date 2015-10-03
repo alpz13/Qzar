@@ -55,7 +55,7 @@ router.post('/nuevo', function (req, res, next) {
     }
 
     // Verifica que el nombre y el número de módulo no sean vacíos.
-    if (nombre.match(/^\s*$/) || numero.match(/^\s$/)) {
+    if (nombre.match(/^\s*$/) || !numero.match(/^\d{3}$/)) {
         res.render('crearmodulos', { titulo: 'Nuevo módulo', error: 'Los campos no pueden estar vacíos.' });
         return;
     }
@@ -64,6 +64,7 @@ router.post('/nuevo', function (req, res, next) {
     modulos.crear(adminModulo, nombre, numero, function (err, idModulo) {
         // Si hubo error, regresa al formulario de nuevo módulo con el mensaje de error correspondiente.
         if (err) {
+			console.log(err);
             if (err.code === 'ER_DUP_ENTRY') {
                 mensaje = 'Un módulo con este nombre o con este número ya existe.';
             } else {
@@ -90,8 +91,8 @@ router.get('/:id(\\d+)', function (req, res, next) {
             return;
         }
 
-		// Por ahora lo puse por nombre porque la galleta no tiene idUsuario.
-		// POR HACER: Que no cheque por nombre (¿qué pasa si hay tocallos').
+        // Por ahora lo puse por nombre porque la galleta no tiene idUsuario.
+        // POR HACER: Que no cheque por nombre (¿qué pasa si hay tocallos').
         if (req.session.usuario.idRoles !== 1 && modulos[0].admin !== req.session.usuario.nombre) {
             res.render('error', { message: 'No puedes.', error: {status: null, stack: null} });
             return;
@@ -101,27 +102,53 @@ router.get('/:id(\\d+)', function (req, res, next) {
                 console.log(err);
             }
             res.render('vermodulos', { titulo: 'Módulo ', modulo: modulos[0], usuario: req.session.usuario, usuarios: usuarios});
-		});
+        });
     });
 });
 
-router.post('/:id(\\d+)/editar', function (req, res, next) {
+router.post('/:id(\\d+)/actualizar', function (req, res, next) {
+
     var moduloActualizado = {
-		"idModulo": req.params.id,
-		"nombre": req.body.nombre,
-		"numeroModulo": req.body.numero,
-		"usuarioAdministrador": req.body.admin
-	};
+        "idModulo": req.params.id,
+        "nombre": req.body.nombre,
+        "numeroModulo": req.body.numero,
+        "usuarioAdministrador": req.body.admin
+    };
 
-    res.sendStatus(200);
+    // Valida permisos para actualizar módulo.
+    if (req.session.usuario.idRoles !== 1) {
+        res.send("No tienes permiso para actualizar módulo.");
+        return;
+    }
 
-	/*
-    modulos.editar(idModulo, moduloActualizado, function (err) {
+    // Verifica que el nombre y el número de módulo no sean vacíos.
+    if (moduloActualizado.nombre.match(/^\s*$/) || !moduloActualizado.numeroModulo.match(/^\d{1,3}$/)) {
+        res.send('Hubo un error: Verifique que el nombre sea vacío y el número sea de 3 dígitos.');
+        return;
+    }
+
+    // Intenta actualizar módulo.
+    modulos.actualizar(moduloActualizado, function (err) {
         if (err) {
-            console.log(err);
-            res.sendStatus(500);
-        }
-    );*/
+			console.log(err);
+            if (err.code === 'ER_DUP_ENTRY') {
+                res.send('Un módulo con este nombre o con este número ya existe.');
+            } else {
+                res.send('Hubo un error al actualizar el módulo. Inténtelo más tarde.');
+            }
+
+        } else {
+            res.send('Correcto');
+		}
+	});
+});
+
+//eliminar modulo
+router.get('/eliminar/:id(\\d+)', function (req, res, next) {
+    var idModulo = req.params.id;
+    modulos.eliminar(idModulo, function (err, modulos) {
+        res.redirect('/modulos');
+    });
 });
 
 module.exports = router;
