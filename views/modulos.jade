@@ -5,7 +5,8 @@ block content
   //Contenido de Pagina
   div#page-wrapper
     div.container-fluid
-      
+     
+    div.row
       div#barra-de-titulo
         div.col-sm-12.col-md-8.col-md-offset-2
           i.material-icons.agregar-modulo.inline dashboard
@@ -33,7 +34,8 @@ block content
                   td #{modulo.admin}
         else
           p.watermark No se han encontrado módulos en el sistema.
-
+      
+      //Modal
       div(id='FAA' class='modal fade' role='dialog')
           div.modal-dialog
             div.modal-content
