@@ -66,3 +66,21 @@ textarea{
 	height: 40px;
 	width: 170px;
 }
+
+#barra-ver-modulos > div{
+	display: flex;
+    flex-direction: row;
+    align-content: center;
+    padding-top: 3vw;
+    padding-bottom: 2vw
+}
+
+#h1VerModulos{
+	display: inline-block;
+    margin: 0;
+    font-size: 48px
+}
+
+#icono{
+	font-size: 48px
+}

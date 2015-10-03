@@ -1,0 +1,43 @@
+table{
+	width: auto !important;
+	max-width: auto !important;
+}
+.cuadrito{
+	width: 50px;
+	height: 30px;
+	-webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none
+}
+
+#formcrearHuerta input{
+	display: block;
+	width: 70%;
+	margin-left: 5px;
+	margin: 5px auto;
+}
+#listaCuadritos{
+	display: inline-block;
+	width: 70%;
+	margin-left: 5px;
+	margin-bottom: 20px;
+}
+#selectSector{
+	display: inline-block;
+	width: 67%;
+	margin-left: 5px
+}
+.crear-labels{
+	width: 30vh
+}
+
+.boton-crear-huerta{
+	margin-top: 10px;
+}
+#huerta td{
+	border:solid 2px;
+	text-align: center
+}
