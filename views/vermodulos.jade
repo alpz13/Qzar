@@ -93,6 +93,41 @@ block content
             ancho = parseInt(ancho)
             $("#inputAncho").val(ancho) ;
       }
+    div#full-clndr.clearfix
+    script.todo.
+      <div class="clndr-controls">
+        <div class="clndr-previous-button">&lsaquo;</div>
+        <div class="clndr-next-button">&rsaquo;</div>
+        <div class="month"><%= month %> <%= year %></div>
+      </div>
+      <div class="clndr-grid">
+        <div class="days-of-the-week clearfix">
+          <% _.each(daysOfTheWeek, function(day) { %>
+            <div class="header-day">
+              <%= day %>
+            </div>
+          <% }); %>
+        </div>
+        <div class="days clearfix">
+          <% _.each(days, function(day) { %>
+          <div class="<%= day.classes %>" id="<%= day.id %>">
+            <span><%= day.day %></span>
+          </div>
+        <% }); %>
+        </div>
+      </div>
+      <div class="event-listing">
+        <div class="event-listing-title">Eventos del día</div>
+        <div id="eventos-del-dia">
+        <% _.each(eventsThisMonth, function(event) { %>
+            <div class="event-item">
+              <div class="event-item-date"><%= event.date %></div>
+              <div class="event-item-name"><%= event.name %></div>
+              <div class="event-item-location"><%= event.location %></div>
+            </div>
+          <% }); %>
+      </div>
+
   //Cierro segundo col-lg-12 
   //Cierro Container Fluid
   //Containererro PageWrapper
@@ -103,4 +138,15 @@ block content
   script(src='/bootstrap/js/bootstrap.min.js')
 
   // Editar módulos
+  //Underscore
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js')
+
+  //moment
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js')
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/locale/es.js')
+
+  //clndr
+  script(src='/plugins/clndr.min.js')
+
   script(src='/js/editarmodulo.js')
+  script(src='/js/scriptcalendario.js')
