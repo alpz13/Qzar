@@ -3,7 +3,7 @@
 */
 var mysql = require('mysql');
 
-/* Se incluye el archivo que contiene las credenciales de la conexión a la DB: credencialesdb.js*/
+/* Se incluye el archivo que contiene las credenciales de la conexión a la BD: credencialesdb.json*/
 var credenciales = require('../database/credencialesbd.json');
 
 /*  Funcion listaractividades(res)
@@ -17,7 +17,7 @@ var credenciales = require('../database/credencialesbd.json');
 var listaractividades = function (req, res) {
     var db = mysql.createConnection(credenciales);
     db.connect();
-    db.query('Select * from actividades', function (err, rows) {
+    db.query('Select * from actividades, imagenes where activo = 1 and idActividad = idImagenes', function (err, rows) {
         if (err) {
             console.log("Sucedio el error" + err);
             db.end();
@@ -31,6 +31,14 @@ var listaractividades = function (req, res) {
     });
 };
 
+/*
+    funcion listar solamente hace el redirect hacia la ventana de actividades.
+*/
+var listar = function (res) {
+    res.redirect('/actividades/');
+};
+
 module.exports = {
-    'listaractividades' : listaractividades
+    'listaractividades' : listaractividades,
+    'listar' : listar
 };
