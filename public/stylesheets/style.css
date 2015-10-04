@@ -99,4 +99,37 @@ textarea{
     font-size: 48px
 }
 
+#barra-de-actividades{
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    padding-top: 3vw;
+    padding-bottom: 1vw
+}
 
+#h1Actividades{
+    display: inline-block;
+    margin: 0;
+    font-size: 48px
+}
+
+#actividad{
+    font-size: 48px
+}
+
+#botones-modificar{
+    width: 200px
+}
+
+#barra-de-titulo{
+    display: inline;
+    flex-direction: row;
+    align-content: center;
+    padding-top: 3vw;
+    padding-bottom: 1vw;
+}
+
+#icono-modulo{
+    font-size: 48px;
+    vertical-align: top;
+}

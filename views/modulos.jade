@@ -5,36 +5,34 @@ block content
   //Contenido de Pagina
   div#page-wrapper
     div.container-fluid
-     
-    div.row
-      div#barra-de-titulo
+      div.row
+        div#barra-de-actividades
+          div.col-sm-12.col-md-8.col-md-offset-2
+            i#icono-modulo.material-icons dashboard
+            //p #{mensaje}
+            h1#h1Modulos #{titulo}
+            //Icono que te lleva al modal
+            a(class='nav navbar-right top-nav' href='#' data-toggle="modal" data-target="#FAA")
+              i.material-icons.md-48#boton-agregar-actividad control_point
+              p Agregar
+        
+        //Contenido de la pagina
         div.col-sm-12.col-md-8.col-md-offset-2
-          i.material-icons.agregar-modulo.inline dashboard
-          //p #{mensaje}
-          h1#h1Modulos #{titulo}
-      
-      //Contenido de la pagina
-      div.col-sm-12.col-md-8.col-md-offset-2
-        //Icono que te lleva al modal
-        a(class='nav navbar-right top-nav' href='#' data-toggle="modal" data-target="#FAA")
-          i.material-icons.md-48.agregar-modulo control_point
-          p Agregar
-
-        if modulos && modulos.length
-          table.table.table-striped.table-bordered
-            thead
-              th Nombre
-              th Número
-              th Administrador
-            tbody
-              each modulo in modulos
-                tr
-                  td #[a(href='/modulos/#{modulo.idModulo}') #{modulo.nombre}]
-                  td #{modulo.numeroModulo}
-                  td #{modulo.admin}
-        else
-          p.watermark No se han encontrado módulos en el sistema.
-      
+          if modulos && modulos.length
+            table.table.table-striped.table-bordered
+              thead
+                th Nombre
+                th Número
+                th Administrador
+              tbody
+                each modulo in modulos
+                  tr
+                    td #[a(href='/modulos/#{modulo.idModulo}') #{modulo.nombre}]
+                    td #{modulo.numeroModulo}
+                    td #{modulo.admin}
+          else
+            p.watermark No se han encontrado módulos en el sistema.
+        
       //Modal
       div(id='FAA' class='modal fade' role='dialog')
           div.modal-dialog
