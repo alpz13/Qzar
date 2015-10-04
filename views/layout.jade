@@ -12,18 +12,20 @@ html
     link(rel='stylesheet', href='/bootstrap/font-awesome/css/font-awesome.min.css', type='text/css')
 
     link(rel='stylesheet', href='/stylesheets/style.css')
+  
+    //Jquery
+    script(src='/bootstrap/js/jquery.js')
+  
+    //Bootstrap Core JS
+    script(src='/bootstrap/js/bootstrap.min.js')
   body
     block body
       if aviso
         div(class="alert alert-#{aviso.tipo}", role="alert")
           i(class="#{aviso.icono}")
           p.inline #{aviso.mensaje}
-    block content
+    block content-login
 
 
-  //Jquery
-  script(src='/bootstrap/js/jquery.js')
 
-  //Bootstrap Core JS
-  script(src='/bootstrap/js/bootstrap.min.js')
 

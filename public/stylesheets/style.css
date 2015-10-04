@@ -84,3 +84,19 @@ textarea{
 #icono{
 	font-size: 48px
 }
+
+#barra-crear-huerta > div{
+	display: flex;
+    flex-direction: row;
+    align-content: center;
+    padding-top: 3vw;
+    padding-bottom: 1vw
+}
+
+#h1CrearHuerta{
+	display: inline-block;
+    margin: 0;
+    font-size: 48px
+}
+
+
