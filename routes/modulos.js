@@ -97,7 +97,9 @@ router.get('/:id(\\d+)', function (req, res, next) {
         // Por ahora lo puse por nombre porque la galleta no tiene idUsuario.
         // POR HACER: Que no cheque por nombre (¿qué pasa si hay tocallos').
         if (req.session.usuario.idRoles !== 1 && modulos[0].admin !== req.session.usuario.nombre) {
-            res.render('error', { message: 'No puedes.', error: {status: null, stack: null} });
+            err = new Error('No puedes.');
+            err.status = 403;
+            next(err);
             return;
         }
         usuarios.listarAdminModulos(function (err, usuarios) {
