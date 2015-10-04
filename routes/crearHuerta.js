@@ -17,7 +17,7 @@ router.post('/', function (req, res, next) {
     anchoA.push(ancho);
     ancho--;
   }
-  res.render('crearHuerta', {title: 'Crear huerta', alto: altoA, ancho: anchoA});
+  res.render('crearHuerta', {title: 'Crear huerta', alto: altoA, ancho: anchoA, usuario: req.session.usuario});
 });
 
 
