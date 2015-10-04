@@ -1,4 +1,4 @@
-table{
+#huerta{
 	width: auto !important;
 	max-width: auto !important;
 }
@@ -27,7 +27,7 @@ table{
 }
 #selectSector{
 	display: inline-block;
-	width: 67%;
+	max-width: 67%;
 	margin-left: 5px
 }
 .crear-labels{
