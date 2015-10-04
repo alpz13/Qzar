@@ -5,26 +5,56 @@ block content
   div#page-wrapper
     div.container-fluid
       div.row
-        div.col-lg-12
-          h1 #{title}
-          a(class='nav navbar-right top-nav' href='#' data-toggle="modal" data-target="#FAA" id='boton-agregar')
-            i.material-icons.md-48#boton-agregar-actividad control_point
-            p Agregar
-          p La lista de actividades
-      div.col-lg-12
-        if actividades && actividades.length
-          table.table.table-striped
-            thead
-              th  Nombre
-              th  Descripcion
-            tbody
-              each actividad in actividades
-                tr
-                  td(style='display:none;') #{actividad.idActividad}
-                  td #{actividad.nombre}
-                  td #{actividad.descripcion}
-        else
-          p.watermark No se han encontrado actividades en el sistema.
+        div#barra-de-actividades
+          div.col-sm-12.col-md-8.col-md-offset-2
+            i#actividad.fa.fa-fw.fa-edit.fa-5x.inline
+            h1#h1Actividades #{title}
+            a(class='nav navbar-right top-nav' href='#' data-toggle="modal" data-target="#FAA" id='boton-agregar')
+              i.material-icons.md-48#boton-agregar-actividad control_point
+              p Agregar
+        //Contenido de la pagina
+        div.col-sm-12.col-md-8.col-md-offset-2
+          if actividades && actividades.length
+            table.table.table-striped.table-bordered
+              thead
+                th  Nombre
+                th  Descripcion
+                th
+              tbody
+                each actividad in actividades
+                  tr
+                    td(class='id' style='display:none;') #{actividad.idActividad}
+                    td(class='nombre') #{actividad.nombre}
+                    td(class='descripcion') #{actividad.descripcion}
+                    td(class='img' style='display:none;') #{actividad.ruta} 
+                    //poner TD con class img
+                    td#botones-modificar 
+                      button.btn.btn-primary(type="button" class="modificar" data-toggle="modal" data-target="#MAA" id='boton-modificar') Modificar
+                      &nbsp&nbsp&nbsp
+                      button.btn.btn-default(type="button" class="eliminar" data-dismiss="modal") Eliminar
+          else
+            p.watermark No se han encontrado actividades en el sistema.
+
+    //Modal2
+    div(id='MAA' class='modal fade' role='dialog')
+      div.modal-dialog
+        //Contenido modal
+        div.modal-content
+          div.modal-header
+            button(type='button' class='close' data-dismiss="modal") &times;
+            h4.modal-title Modificar Actividad
+          form(action="actividades/modificar" method="post" id="ModificaActividad" enctype="multipart/form-data")
+            div.modal-body
+              input.form-control(type="text" name="idActividad" id="MIDA" style='display:none')
+              label Nombre
+              input.form-control(type="text" name="nombreactividad" size="58" id="MNA")
+              label Descripción 
+              textarea.form-control(rows='5' cols='60' name="descripcionactividad" id="MDA")
+              label Foto
+              input(type="file" name="ima" size="58" id="MIA")
+            div.modal-footer
+              button.btn.btn-primary(type="submit") Modificar
+              button.btn.btn-default(type="button" data-dismiss="modal") Cerrar
 
     //Modal
     div(id='FAA' class='modal fade' role='dialog')
@@ -52,21 +82,10 @@ block content
           form.nombreactividad.focus();
           return false;
           }
-        if(form.descripcionactividad.value == "") {
-          alert("Descripcion de la Actividad Vacia");
-          form.descripcionactividad.focus();
-          return false;
-        }
-        if(form.Url.value == "") {
-          alert("No hay foto que subir con la Actividad");
-          form.Url.focus();
-          return false;
-        }
         else {
           return true;
           }
         }
-
       function resetform(){
         document.getElementById("AgregaActividad").reset();
       }
