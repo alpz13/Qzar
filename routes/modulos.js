@@ -11,6 +11,11 @@ var usuarios = require('../components/usuarios.js');
 
 // Página principal de módulos
 router.get('/', function (req, res, next) {
+    if (req.session.usuario.idRoles != 1) {
+        res.redirect('/modulos/' + req.session.usuario.idModulo);
+        return;
+    }
+
     modulos.listar(function (err, modulos) {
         if (err) {
             console.log(err);
@@ -67,7 +72,7 @@ router.post('/nuevo', function (req, res, next) {
     modulos.crear(moduloNuevo, function (err, idModulo) {
         // Si hubo error, regresa al formulario de nuevo módulo con el mensaje de error correspondiente.
         if (err) {
-			console.log(err);
+            console.log(err);
             if (err.code === 'ER_DUP_ENTRY') {
                 res.send('Un módulo con este nombre o con este número ya existe.');
             } else {
@@ -75,7 +80,7 @@ router.post('/nuevo', function (req, res, next) {
             }
 
         } else {
-			// Se manda como string para que no lo interprete como HTTP status.
+            // Se manda como string para que no lo interprete como HTTP status.
             res.send(''+idModulo);
         }
     });
@@ -135,7 +140,7 @@ router.post('/:id(\\d+)/actualizar', function (req, res, next) {
     // Intenta actualizar módulo.
     modulos.actualizar(moduloActualizado, function (err) {
         if (err) {
-			console.log(err);
+            console.log(err);
             if (err.code === 'ER_DUP_ENTRY') {
                 res.send('Un módulo con este nombre o con este número ya existe.');
             } else {
@@ -144,8 +149,8 @@ router.post('/:id(\\d+)/actualizar', function (req, res, next) {
 
         } else {
             res.send('Correcto');
-		}
-	});
+        }
+    });
 });
 
 //eliminar modulo

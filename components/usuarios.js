@@ -13,7 +13,7 @@ function listarAdminsDisponibles(callback) {
     // POR HACER:
     // Filtro de roles (o por privilegios) bien (cuando estén mejor definidos).
     var bd = mysql.createConnection(credenciales),
-        sql = 'SELECT * FROM Usuarios WHERE activo = 1 AND (idRoles = 1 OR idRoles = 2) AND idUsuario NOT IN (SELECT usuarioAdministrador FROM Modulos WHERE activo = 1);';
+        sql = 'SELECT * FROM Usuarios WHERE (idRoles = 1 AND activo = 1) OR (idRoles = 2 AND activo = 1 AND idUsuario NOT IN (SELECT usuarioAdministrador FROM Modulos WHERE activo = 1));';
 
     bd.connect();
 
