@@ -63,7 +63,7 @@ router.post('/nuevo', function (req, res, next) {
             } else {
                 mensaje = 'Hubo un error al crear el nuevo módulo. Inténtelo más tarde.';
             }
-            res.render('crearmodulos', { titulo: 'Nuevo módulo', error: mensaje });
+            res.render('crearmodulos', { titulo: 'Nuevo módulo', error: mensaje, usuario: req.session.usuario});
 
         } else {
             res.redirect('/modulos/' + idModulo);
