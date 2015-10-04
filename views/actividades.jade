@@ -1,5 +1,6 @@
 extends menu
 block content
+  link(rel='stylesheet', href="/stylesheets/qzar-actividades.css", type='text/css')
   //Contenido de Pagina
   div#page-wrapper
     div.container-fluid
@@ -11,21 +12,24 @@ block content
             p Agregar
           p La lista de actividades
       div.col-lg-12
-        table.table.table-striped
-          thead
-            th  Nombre
-            th  Descripcion
-          tbody
-            each actividad in actividades
-              tr
-                td(class='id' style='display:none;') #{actividad.idActividad}
-                td(class='nombre') #{actividad.nombre}
-                td(class='descripcion') #{actividad.descripcion}
-                td(class='img' style='display:none;') #{actividad.ruta} 
-                //poner TD con class img
-                td 
-                  button.btn.btn-default(type="button" class="modificar" data-toggle="modal" data-target="#MAA" id='boton-modificar') Modificar
-                  button.btn.btn-danger(type="button" class="eliminar" data-dismiss="modal") Eliminar
+        if actividades && actividades.length
+          table.table.table-striped
+            thead
+              th  Nombre
+              th  Descripcion
+            tbody
+              each actividad in actividades
+                tr
+                  td(class='id' style='display:none;') #{actividad.idActividad}
+                  td(class='nombre') #{actividad.nombre}
+                  td(class='descripcion') #{actividad.descripcion}
+                  td(class='img' style='display:none;') #{actividad.ruta} 
+                  //poner TD con class img
+                  td 
+                    button.btn.btn-default(type="button" class="modificar" data-toggle="modal" data-target="#MAA" id='boton-modificar') Modificar
+                    button.btn.btn-danger(type="button" class="eliminar" data-dismiss="modal") Eliminar
+        else
+          p.watermark No se han encontrado actividades en el sistema.
     //Modal2
     div(id='MAA' class='modal fade' role='dialog')
       div.modal-dialog
@@ -46,6 +50,7 @@ block content
             div.modal-footer
               button.btn.btn-primary(type="submit") Modificar
               button.btn.btn-default(type="button" data-dismiss="modal") Cerrar
+
     //Modal
     div(id='FAA' class='modal fade' role='dialog')
       div.modal-dialog

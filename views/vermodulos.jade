@@ -1,23 +1,67 @@
 extends menu
 block content
+  link(rel='stylesheet', href="/stylesheets/tableHuerta.css", type='text/css')
   title #{modulo.nombre}
   //Contenido de Pagina
   div#page-wrapper
     div.container-fluid
       div.row
-        div.col-lg-12
-          p #{mensaje}
-          h3 #{titulo} #{modulo.nombre}
-      div.col-lg-12
-        table.table.table-striped
-          tbody
-              tr
-                td Número
-                td #{modulo.numeroModulo}
-              tr
-                td Administrador
-                td #{modulo.admin}
-        a(href='') Nueva Huerta
+        div#barra-ver-modulos
+          div.col-sm-12.col-md-8.col-md-offset-2
+            //p #{mensaje}
+            i#icono.material-icons.agregar-modulo.inline.inline dashboard
+            h1#h1VerModulos #{titulo} #{modulo.nombre}
+        div.col-sm-12.col-md-8.col-md-offset-2
+          table.table.table-striped.table-bordered
+            tbody
+                tr
+                  td Número
+                  td #{modulo.numeroModulo}
+                tr
+                  td Administrador
+                  td #{modulo.admin}
+          
+          //Modal de Agregar Huerta
+          button.btn.btn-primary.btn-lg(type='button', data-toggle='modal', data-target='#myModal') Nueva Huerta
+          #myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel')
+              .modal-dialog(role='document')
+                .modal-content
+                  .modal-header
+                    button.close(type='button', data-dismiss='modal', aria-label='Close')
+                      span(aria-hidden='true') &times;
+                    |         
+                    h4#myModalLabel.modal-title Nueva Huerta
+                  |       
+                  form#formcrearHuerta(name="crearHuerta",method="post",action="/modulo/huerta/crear")
+                    .modal-body
+                        input.form-control#inputAlto(type="number", placeholder="alto", name="alto", onchange="posAlto()", required)
+                        input.form-control#inputAncho(type="number", placeholder="ancho", name="ancho", onchange="posAncho()", required)
+                    |       
+                    .modal-footer
+                      button.btn.btn-primary#btnSubmit(type="submit") submit
+                      button.btn.btn-default(type='button', data-dismiss='modal') Close
+                    |         
+              //button.btn.btn-primary(type='submit') Save changes
+    script.
+      var posAlto = function(){
+        var alto=$("#inputAlto").val();
+          if(alto <= 0)
+            {
+              alto = 1;
+            }
+            alto = parseInt(alto)
+            $("#inputAlto").val(alto) ;
+      }
+
+      var posAncho = function(){
+        var ancho=$("#inputAncho").val();
+          if(ancho <= 0)
+            {
+              ancho = 1;
+            }
+            ancho = parseInt(ancho)
+            $("#inputAncho").val(ancho) ;
+      }
   //Cierro segundo col-lg-12 
   //Cierro Container Fluid
   //Containererro PageWrapper
