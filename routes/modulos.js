@@ -11,10 +11,11 @@ var usuarios = require('../components/usuarios.js');
 
 // Página principal de módulos
 router.get('/', function (req, res, next) {
+	/*
     if (req.session.usuario.idRoles != 1) {
         res.redirect('/modulos/' + req.session.usuario.idModulo);
         return;
-    }
+    }*/
 
     modulos.listar(function (err, modulos) {
         if (err) {
