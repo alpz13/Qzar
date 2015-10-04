@@ -7,10 +7,10 @@ $("#crearModulo").click(function() {
     };
 
     $.post("/modulos/nuevo", moduloNuevo, function(respuesta){
-		if (respuesta.match(/^\d+$/)) {
-			window.location.replace("/modulos/" + respuesta);
-		} else {
+        if (respuesta.match(/^\d+$/)) {
+            window.location.assign("/modulos/" + respuesta);
+        } else {
             $("#mensajeAgregaModulo").html(respuesta);
-		}
+        }
     });
 });

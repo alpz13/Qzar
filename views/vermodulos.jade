@@ -12,19 +12,19 @@ block content
             i#icono.material-icons.agregar-modulo.inline.inline dashboard
             h1#h1VerModulos #{titulo}
               span#nombreModulo #{modulo.nombre}
-            //TODO: Cambiar icono.
+            // TODO: Cambiar icono.
             if usuario.idRoles == 1
               a(class='nav navbar-right top-nav' href='#' data-toggle="modal" data-target="#FAA") Editar
-              a(href='/modulos/eliminar/#{modulo.idModulo}') Eliminar Modulo
+              a(href='/modulos/eliminar/#{modulo.idModulo}') Eliminar módulo
         div.col-sm-12.col-md-8.col-md-offset-2
           table.table.table-striped.table-bordered
             tbody
                 tr
                   td Número
-                  td #{modulo.numeroModulo}
+                  td#numeroModulo #{modulo.numeroModulo}
                 tr
                   td Administrador
-                  td #{modulo.admin}
+                  td#administradorModulo #{modulo.admin}
           
           if usuario.idRoles == 1
             //Modal de Agregar Huerta
@@ -65,15 +65,13 @@ block content
                       input.form-control#numero(type="number", placeholder="Número", name="numero", min="0", max="999", value=modulo.numeroModulo, required)
                       label(for="admin") Administrador del módulo: 
                       select.form-control#admin(name="admin", required)
+                        option(value= modulo.usuarioAdministrador selected) #{modulo.admin}
                         for usuario in listaAdmins
-                          if usuario.idUsuario == modulo.usuarioAdministrador
-                            option(value= usuario.idUsuario, selected) #{usuario.nombre}
-                          else
+                          if usuario.idUsuario != modulo.usuarioAdministrador
                             option(value= usuario.idUsuario) #{usuario.nombre}
                     div.modal-footer
                       button.btn.btn-primary#editarModulo(type='button') Guardar cambios
                       button.btn.btn-default#cerrarModal(type='button', data-dismiss='modal') Cerrar
-
 
     script.
       var posAlto = function(){
@@ -85,6 +83,7 @@ block content
             alto = parseInt(alto)
             $("#inputAlto").val(alto) ;
       }
+
       var posAncho = function(){
         var ancho=$("#inputAncho").val();
           if(ancho <= 0)
@@ -102,3 +101,6 @@ block content
   script(src='/bootstrap/js/jquery.js')
   //Bootstrap Core JS
   script(src='/bootstrap/js/bootstrap.min.js')
+
+  // Editar módulos
+  script(src='/js/editarmodulo.js')
