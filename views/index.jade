@@ -1,14 +1,18 @@
 extends layout
-block content
+block content-login
+  link(rel='stylesheet', href='/stylesheets/qzar-index.css')
   div.container
-    div.cuadro-inicio-sesion
-      div.logo
+    div.cuadro-inicio-sesion.col-xs-10.col-xs-offset-1.col-sm-6.col-sm-offset-3
+      div.row
+        div.logo.col-sm-6.col-sm-offset-3
       form.form-horizontal(method="post", id="loginForm", action = "/sesiones/iniciar")
-        div.campo-usuario
-          i.fa-user.fa
-          input.span3(id="nombreUsuario", type="text", name="nombreUsuario", placeholder="Nombre de usuario", required, value='adminmatriz')
-        div.campo-contrasenia
-          i.fa-unlock-alt.fa
-          input.span3(id="contrasenia", type="password", name="contrasenia", placeholder="Contraseña", required, value='adminmatriz')
-        div.enviar
-          input.btn(type="submit", value="Iniciar sesión")
+        div.input-group
+          span.input-group-addon.icono
+            i.fa-user.fa
+          input.span3.form-control(type="text", name="nombreUsuario", placeholder="Nombre de usuario", required, value='adminmatriz')
+        div.input-group
+          span.input-group-addon.icono
+            i.fa-unlock-alt.fa
+          input.span3.form-control(type="password", name="contrasenia", placeholder="Contraseña", required, value='adminmatriz')
+        div.row
+          input.col-xs-8.col-xs-offset-2.btn(type="submit", value="Iniciar sesión")

@@ -1,5 +1,6 @@
 extends menu
 block content
+  link(rel='stylesheet', href="/stylesheets/qzar-actividades.css", type='text/css')
   //Contenido de Pagina
   div#page-wrapper
     div.container-fluid
@@ -7,20 +8,24 @@ block content
         div.col-lg-12
           h1 #{title}
           a(class='nav navbar-right top-nav' href='#' data-toggle="modal" data-target="#FAA" id='boton-agregar')
-            img(class='boton-agregar-actividad' src='/images/add2.png')
+            i.material-icons.md-48#boton-agregar-actividad control_point
             p Agregar
           p La lista de actividades
       div.col-lg-12
-        table.table.table.striped
-          thead
-            th  Nombre
-            th  Descripcion
-          tbody
-            each actividad in actividades
-              tr
-                td(style='display:none;') #{actividad.idActividad}
-                td #{actividad.nombre}
-                td #{actividad.descripcion}
+        if actividades && actividades.length
+          table.table.table-striped
+            thead
+              th  Nombre
+              th  Descripcion
+            tbody
+              each actividad in actividades
+                tr
+                  td(style='display:none;') #{actividad.idActividad}
+                  td #{actividad.nombre}
+                  td #{actividad.descripcion}
+        else
+          p.watermark No se han encontrado actividades en el sistema.
+
     //Modal
     div(id='FAA' class='modal fade' role='dialog')
       div.modal-dialog
@@ -32,14 +37,14 @@ block content
           form(action="/actividades/agregaactividad" method="post" onsubmit="return checkform(this);" id="AgregaActividad" enctype="multipart/form-data")
             div.modal-body 
               label Nombre
-              input(type="text" name="nombreactividad" size="58")
+              input.form-control(type="text" name="nombreactividad" size="58")
               label Descripción 
-              textarea(rows='5' cols='60' name="descripcionactividad")
+              textarea.form-control(rows='5' cols='60' name="descripcionactividad")
               label Foto
               input(type="file" name="ima" size="58" )
             div.modal-footer
-              button(type="submit" class="btn btn-success") Agregar
-              button(type="button" class="btn btn-danger" data-dismiss="modal") Cerrar
+              button.btn.btn-primary(type="submit" ) Agregar
+              button.btn.btn-default(type="button" data-dismiss="modal") Cerrar
     script(language="JavaScript" type="text/javascript").
       function checkform ( form ) {
         if(form.nombreactividad.value == "") {

@@ -6,77 +6,24 @@ a {
   color: #00B7FF;
 }
 
-.inline{
+.inline {
 	display: inline;
 }
 
-.alert p{
+/* Bootstrap Overwrites*/
+a.navbar-brand{
+	padding: 10px 5px;
+}
+/* End Bootstrap Overwrites*/
+
+
+
+.alert p {
 	margin-left: 10px;
-}
-
-.logo{
-	background: url('../images/LogoQzarsinFondo.png') no-repeat;
-	-webkit-background-size: contain;
-	background-size: contain;
-	height: 12vh;
-	width: 18vw;
-	margin: auto;
-
-}
-
-.cuadro-inicio-sesion form{
-	margin-top: 10px;
-}
-
-.cuadro-inicio-sesion form div{
-	width: 25vw;
-}
-
-.cuadro-inicio-sesion input.span3{
-	margin-left: 10px;
-}
-
-.cuadro-inicio-sesion{
-	background: white;
-	border-color: #85973E;
-	border-style: solid;
-	padding-top: 20px;
-	padding-bottom: 20px;
-	width: 25vw;
-	min-height: 240px;
-	text-align: center;
-	margin: 0 auto;
-	margin-top: 25vh;
-	height: 30vh;
-}
-
-.enviar{
-}
-
-
-.cuadro-inicio-sesion .btn{
-	background: #85973E;
-	color: white;
-	width: 22vw;
-	border-radius: 0;
-	margin: 0 auto;
-}
-
-
-
-.cuadro-inicio-sesion input{
-	border: none;
-	margin-bottom: .5vw;
-	font-size: 1.2em;
 }
 
 .alert {
 	margin: 10px;
-}
-
-.boton-agregar-actividad{
-    height: 30px;
-    width: 30px;
 }
 
 textarea{
@@ -93,3 +40,63 @@ textarea{
 	display: block;
 	width: 100%;
 }
+
+#boton-agregar-actividad {
+    
+    font-size: 48px
+}
+
+#barra-de-titulo > div{
+    /*padding: 10px 0;*/
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    padding-top: 3vw
+}
+
+#h1Modulos{
+	display: inline-block;
+    margin: 0;
+    font-size: 48px
+}
+
+#logo-img{
+	background: url('../images/LogoQzarsinFondo.png') center center no-repeat;
+	background-size: contain;
+	height: 40px;
+	width: 170px;
+}
+
+#barra-ver-modulos > div{
+	display: flex;
+    flex-direction: row;
+    align-content: center;
+    padding-top: 3vw;
+    padding-bottom: 2vw
+}
+
+#h1VerModulos{
+	display: inline-block;
+    margin: 0;
+    font-size: 48px
+}
+
+#icono{
+	font-size: 48px
+}
+
+#barra-crear-huerta > div{
+	display: flex;
+    flex-direction: row;
+    align-content: center;
+    padding-top: 3vw;
+    padding-bottom: 1vw
+}
+
+#h1CrearHuerta{
+	display: inline-block;
+    margin: 0;
+    font-size: 48px
+}
+
+
