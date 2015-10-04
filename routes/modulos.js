@@ -11,11 +11,10 @@ var usuarios = require('../components/usuarios.js');
 
 // Página principal de módulos
 router.get('/', function (req, res, next) {
-	/*
     if (req.session.usuario.idRoles != 1) {
         res.redirect('/modulos/' + req.session.usuario.idModulo);
         return;
-    }*/
+    }
 
     modulos.listar(function (err, modulos) {
         if (err) {
@@ -100,14 +99,13 @@ router.get('/:id(\\d+)', function (req, res, next) {
             return;
         }
 
-        // Por ahora lo puse por nombre porque la galleta no tiene idUsuario.
-        // POR HACER: Que no cheque por nombre (¿qué pasa si hay tocallos').
-        if (req.session.usuario.idRoles !== 1 && modulos[0].admin !== req.session.usuario.nombre) {
+        if (req.session.usuario.idRoles !== 1 && req.session.usuario.idModulo !== modulos[0].idModulo) {
             err = new Error('No puedes.');
             err.status = 403;
             next(err);
             return;
         }
+
         usuarios.listarAdminsDisponibles(function (err, usuarios) {
             if (err) {
                 console.log(err);

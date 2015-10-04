@@ -41,7 +41,7 @@ var __cargarUsuario = function (nombreUsuario, callback) {
     conexion.connect();
 
     // TODO: Agregar, además, los roles, permisos, etc.  
-    var consulta = 'SELECT `nombre`, `idRoles`, `activo` FROM `Usuarios` WHERE `nombre` = ?;';
+    var consulta = 'SELECT `nombre`, `idRoles`, `idModulo`, `activo` FROM `Usuarios` WHERE `nombre` = ?;';
     var valores = [nombreUsuario];
     conexion.query({sql: consulta, values: valores}, function (err, renglones) {
         conexion.end();
@@ -58,6 +58,7 @@ var __cargarUsuario = function (nombreUsuario, callback) {
         usuario.nombre = renglones[0].nombre;
         usuario.activo = renglones[0].activo;
         usuario.idRoles = renglones[0].idRoles;
+        usuario.idModulo = renglones[0].idModulo;
         callback(null, usuario);
     });
 };
