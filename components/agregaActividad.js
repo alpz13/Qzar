@@ -51,10 +51,12 @@ var agrega = function (req, res) {
                 console.log(err);
             }
             bd.end();
-            nombreId = resultado.insertId + ext;
+            nombreId = resultado.insertId - 1;
+            nombreId = nombreId + ext;
             var img = files.ima[0];
             fs.readFile(img.path, function (err, data) {
                 var path = "./public/images/actividades/" + nombreId;
+                console.log("path completo" + path);
                 fs.writeFile(path, data, function (err) {
                     if (err) {
                         console.log(err);
@@ -65,12 +67,25 @@ var agrega = function (req, res) {
                         params = [nombreId];
                         bd.connect();
                         sql = mysql.format(sql, params);
-                        bd.query(sql, function (err) {
+                        bd.query(sql, function (err, otroresult) {
                             if (err) {
                                 bd.end();
                                 console.log(err);
                             }
                             bd.end();
+                            console.log(otroresult.insertId);
+                            var ids = [otroresult -1, otroresult - 2];
+                            sql = 'INSERT INTO imagenesactividades(idActividad, idImagenes) VALUES(?,?);';
+                            bd.connect();
+                            sql = mysql.format(sql,ids);
+                            bd.query(sql, function (err) {
+                                if (err) {
+                                    bd.end();
+                                    console.log(err);
+                                }
+                                bd.end();
+                                console.log("imagenes insertadas de manera correcta");
+                            })
                         });
                     }
                     listar.listar(res);

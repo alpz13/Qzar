@@ -11,12 +11,18 @@ var path = require('path');
 var modifica = function (req, res) {
     var form = new multiparty.Form();
     form.parse(req, function (err, fields, files) {
-        var id = fields.idActividad;
-        var nombre = fields.nombreactividad;
-        var descripcion = fields.descripcionactividad;
-        var nombreoriginal = files.ima[0].originalFilename;
+        var id = fields.idModActividad;
+        var nombre = fields.nombreModActividad;
+        var descripcion = fields.descripcionModActividad;
+        var nombreoriginal = files.imaMod[0].originalFilename;
         var ext = path.extname(nombreoriginal);
-        var bd = mysql.createConnection(credenciales);   
+        var bd = mysql.createConnection(credenciales);  
+        console.log(id);
+        console.log(nombre);
+        console.log(descripcion);
+        console.log(nombreoriginal);
+        console.log(ext);
+
         var sql = 'UPDATE actividades SET nombre = "' + nombre + '", descripcion = "' + descripcion + '" WHERE idActividad = "' + id + '"';
         bd.connect();
         bd.query(sql, function (err, resultado) {
