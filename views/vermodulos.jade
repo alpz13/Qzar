@@ -12,24 +12,43 @@ block content
             i#icono.material-icons.agregar-modulo.inline.inline dashboard
             h1#h1VerModulos #{titulo}
               span#nombreModulo #{modulo.nombre}
-
-            // TUDU: Cambiar dibujito por algo que si sea de editar.
-            // Icono del modal
+            //TODO: Cambiar icono.
             if usuario.idRoles == 1
-              a(class='nav navbar-right top-nav' href='#' data-toggle="modal" data-target="#FAA")
-                i.material-icons.md-48#agregar-modulo control_point
-
-          div.col-sm-12.col-md-8.col-md-offset-2
-            table.table.table-striped.table-bordered
-              tbody
+              a(class='nav navbar-right top-nav' href='#' data-toggle="modal" data-target="#FAA") Editar
+              a(href='/modulos/eliminar/#{modulo.idModulo}') Eliminar Modulo
+        div.col-sm-12.col-md-8.col-md-offset-2
+          table.table.table-striped.table-bordered
+            tbody
                 tr
                   td Número
-                  td#numeroModulo #{modulo.numeroModulo}
+                  td #{modulo.numeroModulo}
                 tr
                   td Administrador
-                  td#administradorModulo #{modulo.admin}
+                  td #{modulo.admin}
+          
+          if usuario.idRoles == 1
+            //Modal de Agregar Huerta
+            button.btn.btn-primary.btn-lg(type='button', data-toggle='modal', data-target='#myModal') Nueva Huerta
+            #myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel')
+                .modal-dialog(role='document')
+                  .modal-content
+                    .modal-header
+                      button.close(type='button', data-dismiss='modal', aria-label='Close')
+                        span(aria-hidden='true') &times;
+                      |         
+                      h4#myModalLabel.modal-title Nueva Huerta
+                    |       
+                    form#formcrearHuerta(name="crearHuerta",method="post",action="/modulo/huerta/crear")
+                      .modal-body
+                          input.form-control#inputAlto(type="number", placeholder="alto", name="alto", onchange="posAlto()", required)
+                          input.form-control#inputAncho(type="number", placeholder="ancho", name="ancho", onchange="posAncho()", required)
+                      |       
+                      .modal-footer
+                        button.btn.btn-primary#btnSubmit(type="submit") submit
+                        button.btn.btn-default(type='button', data-dismiss='modal') Close
+                      |         
+                //button.btn.btn-primary(type='submit') Save changes
 
-	  // Modal de editar módulo
       if usuario.idRoles == 1
         div(id='FAA' class='modal fade' role='dialog')
             div.modal-dialog
@@ -55,32 +74,7 @@ block content
                       button.btn.btn-primary#editarModulo(type='button') Guardar cambios
                       button.btn.btn-default#cerrarModal(type='button', data-dismiss='modal') Cerrar
 
-        a(href='/modulos/eliminar/#{modulo.idModulo}') Eliminar Modulo
-        p
-        a(href='') Nueva Huerta
 
-          
-          //Modal de Agregar Huerta
-          button.btn.btn-primary.btn-lg(type='button', data-toggle='modal', data-target='#myModal') Nueva Huerta
-          #myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel')
-              .modal-dialog(role='document')
-                .modal-content
-                  .modal-header
-                    button.close(type='button', data-dismiss='modal', aria-label='Close')
-                      span(aria-hidden='true') &times;
-                    |         
-                    h4#myModalLabel.modal-title Nueva Huerta
-                  |       
-                  form#formcrearHuerta(name="crearHuerta",method="post",action="/modulo/huerta/crear")
-                    .modal-body
-                        input.form-control#inputAlto(type="number", placeholder="alto", name="alto", onchange="posAlto()", required)
-                        input.form-control#inputAncho(type="number", placeholder="ancho", name="ancho", onchange="posAncho()", required)
-                    |       
-                    .modal-footer
-                      button.btn.btn-primary#btnSubmit(type="submit") submit
-                      button.btn.btn-default(type='button', data-dismiss='modal') Close
-                    |         
-              //button.btn.btn-primary(type='submit') Save changes
     script.
       var posAlto = function(){
         var alto=$("#inputAlto").val();
@@ -91,7 +85,6 @@ block content
             alto = parseInt(alto)
             $("#inputAlto").val(alto) ;
       }
-
       var posAncho = function(){
         var ancho=$("#inputAncho").val();
           if(ancho <= 0)
@@ -101,7 +94,6 @@ block content
             ancho = parseInt(ancho)
             $("#inputAncho").val(ancho) ;
       }
-
   //Cierro segundo col-lg-12 
   //Cierro Container Fluid
   //Containererro PageWrapper
@@ -110,5 +102,3 @@ block content
   script(src='/bootstrap/js/jquery.js')
   //Bootstrap Core JS
   script(src='/bootstrap/js/bootstrap.min.js')
-  // Editar módulo
-  script(src='/js/editarmodulo.js')
