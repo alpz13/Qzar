@@ -7,12 +7,13 @@ var mysql = require('mysql');
 
 var credenciales = require('../database/credencialesbd.json');
 
-function listarAdminModulos(callback) {
+// Regresa la lista de administradores que aún no han sido asignados a un módulo.
+function listarAdminsDisponibles(callback) {
 
     // POR HACER:
     // Filtro de roles (o por privilegios) bien (cuando estén mejor definidos).
     var bd = mysql.createConnection(credenciales),
-        sql = 'SELECT * FROM Usuarios WHERE activo = 1 AND idRoles = 1 OR idRoles = 2 AND idUsuario NOT IN (SELECT usuarioAdministrador FROM Modulos WHERE activo = 1);';
+        sql = 'SELECT * FROM Usuarios WHERE activo = 1 AND (idRoles = 1 OR idRoles = 2) AND idUsuario NOT IN (SELECT usuarioAdministrador FROM Modulos WHERE activo = 1);';
 
     bd.connect();
 
@@ -28,5 +29,5 @@ function listarAdminModulos(callback) {
 }
 
 module.exports = {
-    'listarAdminModulos' : listarAdminModulos
+    'listarAdminsDisponibles' : listarAdminsDisponibles
 };

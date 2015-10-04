@@ -15,7 +15,7 @@ router.get('/', function (req, res, next) {
         if (err) {
             console.log(err);
         }
-        usuarios.listarAdminModulos(function (err, usuarios) {
+        usuarios.listarAdminsDisponibles(function (err, usuarios) {
             if (err) {
                 console.log(err);
             }
@@ -102,7 +102,7 @@ router.get('/:id(\\d+)', function (req, res, next) {
             next(err);
             return;
         }
-        usuarios.listarAdminModulos(function (err, usuarios) {
+        usuarios.listarAdminsDisponibles(function (err, usuarios) {
             if (err) {
                 console.log(err);
             }
