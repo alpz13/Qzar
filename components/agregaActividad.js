@@ -36,11 +36,12 @@ var agrega = function (req, res) {
     form.parse(req, function (err, fields, files) {
         var nombre = fields.nombreactividad;
         var descripcion = fields.descripcionactividad;
+        var activo = 1;
         var bd = mysql.createConnection(credenciales);
         var nombreoriginal = files.ima[0].originalFilename;
         var ext = path.extname(nombreoriginal);
-        var sql = 'INSERT INTO actividades(nombre, descripcion) VALUES(?,?);';
-        var params = [nombre, descripcion];
+        var sql = 'INSERT INTO actividades(nombre, descripcion, activo) VALUES(?,?, ?);';
+        var params = [nombre, descripcion, activo];
         bd.connect();
         sql = mysql.format(sql, params);
         var nombreId = 0;
@@ -50,10 +51,10 @@ var agrega = function (req, res) {
                 console.log(err);
             }
             bd.end();
-            nombreId = resultado.insertId;
+            nombreId = resultado.insertId + ext;
             var img = files.ima[0];
             fs.readFile(img.path, function (err, data) {
-                var path = "./public/images/actividades/" + nombreId + ext;
+                var path = "./public/images/actividades/" + nombreId;
                 fs.writeFile(path, data, function (err) {
                     if (err) {
                         console.log(err);

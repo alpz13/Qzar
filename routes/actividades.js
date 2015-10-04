@@ -6,6 +6,8 @@ var router = express.Router();
 /*  Se incluye el archivo listarActividades.js como parte de la variable listar*/
 var listar = require('../components/listarActividades.js');
 var agrega = require('../components/agregaActividad.js');
+var elimina = require('../components/eliminaActividad.js');
+var modifica = require('../components/modificarActividad.js');
 
 /* Se crea la ruta a la página de actividades
     - No se requiere request.
@@ -16,12 +18,16 @@ router.get('/', function (req, res) {
     listar.listaractividades(req, res);
 });
 
-/* Se crea la ruta para iniciar el caso de uso agregar las actividades
-    + se requiere el request para mandar la informacion de la forma
-    + A partir de la variable agrega manda a llamar la funcion: agregar(req, res)
-*/
 router.post('/agregaactividad', function (req, res, next) {
     agrega.agrega(req, res);
+});
+
+router.post('/modificar', function(req, res){
+	modifica.modifica(req, res);
+});
+
+router.post('/eliminaactividad', function(req, res){
+	elimina.elimina(req, res);
 });
 
 module.exports = router;
