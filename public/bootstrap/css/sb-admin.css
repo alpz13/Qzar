@@ -22,10 +22,9 @@ body {
 }
 
 #page-wrapper {
-    width: 89vw;
+    max-width: 85vw;
     padding: 0;
     background-color: #f1f1f1; 
-    margin-left: 10vw;
 }
 
 .huge {
@@ -122,9 +121,9 @@ ul.alert-dropdown {
     .side-nav {
         position: fixed;
         /* Altura del menu lateral izq*/
-        top: 55px;
+        top: 56px;
         left: 225px;
-        width: 10vw;
+        width: 225px;
         margin-left: -225px;
         border: none;
         border-radius: 0;
@@ -142,6 +141,7 @@ ul.alert-dropdown {
     .side-nav li a:hover,
     .side-nav li a:focus {
         outline: none;
+        box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
         background-color: #323232 !important;
         color: #fff !important;
     }

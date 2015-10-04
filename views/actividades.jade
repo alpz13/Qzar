@@ -1,31 +1,40 @@
 extends menu
 block content
+  link(rel='stylesheet', href="/stylesheets/qzar-actividades.css", type='text/css')
   //Contenido de Pagina
   div#page-wrapper
     div.container-fluid
       div.row
-        div.col-lg-12
-          h1 #{title}
-          a(class='nav navbar-right top-nav' href='#' data-toggle="modal" data-target="#FAA" id='boton-agregar')
-            i.material-icons.md-48#boton-agregar-actividad control_point
-            p Agregar
-          p La lista de actividades
-      div.col-lg-12
-        table.table.table-striped
-          thead
-            th  Nombre
-            th  Descripcion
-          tbody
-            each actividad in actividades
-              tr
-                td(class='id' style='display:none;') #{actividad.idActividad}
-                td(class='nombre') #{actividad.nombre}
-                td(class='descripcion') #{actividad.descripcion}
-                td(class='img' style='display:none;') #{actividad.ruta} 
-                //poner TD con class img
-                td 
-                  button.btn.btn-default(type="button" class="modificar" data-toggle="modal" data-target="#MAA" id='boton-modificar') Modificar
-                  button.btn.btn-danger(type="button" class="eliminar" data-dismiss="modal") Eliminar
+        div#barra-de-actividades
+          div.col-sm-12.col-md-8.col-md-offset-2
+            i#actividad.fa.fa-fw.fa-edit.fa-5x.inline
+            h1#h1Actividades #{title}
+            a(class='nav navbar-right top-nav' href='#' data-toggle="modal" data-target="#FAA" id='boton-agregar')
+              i.material-icons.md-48#boton-agregar-actividad control_point
+              p Agregar
+        //Contenido de la pagina
+        div.col-sm-12.col-md-8.col-md-offset-2
+          if actividades && actividades.length
+            table.table.table-striped.table-bordered
+              thead
+                th  Nombre
+                th  Descripcion
+                th
+              tbody
+                each actividad in actividades
+                  tr
+                    td(class='id' style='display:none;') #{actividad.idActividad}
+                    td(class='nombre') #{actividad.nombre}
+                    td(class='descripcion') #{actividad.descripcion}
+                    td(class='img' style='display:none;') #{actividad.ruta} 
+                    //poner TD con class img
+                    td#botones-modificar 
+                      button.btn.btn-primary(type="button" class="modificar" data-toggle="modal" data-target="#MAA" id='boton-modificar') Modificar
+                      &nbsp&nbsp&nbsp
+                      button.btn.btn-default(type="button" class="eliminar" data-dismiss="modal") Eliminar
+          else
+            p.watermark No se han encontrado actividades en el sistema.
+
     //Modal2
     div(id='MAA' class='modal fade' role='dialog')
       div.modal-dialog
@@ -46,6 +55,7 @@ block content
             div.modal-footer
               button.btn.btn-primary(type="submit") Modificar
               button.btn.btn-default(type="button" data-dismiss="modal") Cerrar
+
     //Modal
     div(id='FAA' class='modal fade' role='dialog')
       div.modal-dialog

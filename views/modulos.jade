@@ -1,63 +1,150 @@
 extends menu
 block content
-  link(rel='stylesheet', href="/stylesheets/qzar-modulos.css", type='text/css')
+  head
+    script.
+      function llenaPanelEventos(eventos){
+        
+        var htmlALlenar = "";
+        $(eventos).each(function(){
+            htmlALlenar+="<div class='event-item'>";
+            htmlALlenar+="<div class='event-item-date'>"+this.date+"</div>";
+            htmlALlenar+="<div class='event-item-name'>"+this.name+"</div>";
+            htmlALlenar+="<div class='event-item-location'>"+this.location+"</div>";
+            htmlALlenar+="</div>";
+          });
+        //$(htmlALlenar).appendTo('#eventos-del-dia');
+        $('#eventos-del-dia').html(htmlALlenar);
+      }
+      $(function(){
+        $('#full-clndr').clndr(
+          {
+            template: $('.todo').html(),
+            events: [
+              { date: '2015-10-10', name: 'evento 1', location: 'http://github.com/kylestetz/CLNDR' },
+              { date: '2015-10-10', name: 'evento 1', location: 'http://github.com/kylestetz/CLNDR' },
+              { date: '2015-10-10', name: 'evento 1', location: 'http://github.com/kylestetz/CLNDR' },
+              { date: '2015-10-10', name: 'evento 1', location: 'http://github.com/kylestetz/CLNDR' },
+              { date: '2015-10-11', name: 'evento 2', location: 'http://github.com/kylestetz/CLNDR' },
+              { date: '2015-10-11', name: 'evento 3', location: 'http://github.com/kylestetz/CLNDR' },
+              { date: '2015-12-10', name: 'CLNDR GitHub Page Finished', location: 'http://github.com/kylestetz/CLNDR' }
+            ],
+            daysOfTheWeek: ['L', 'M', 'M', 'J', 'V', 'S','D'],
+            clickEvents: {
+              click: function(target) {
+                console.log(target);
+                //Target :Object {element: div.day.event.calendar-day-2015-10-10.calendar-dow-5, events: Array[1], date: n}
+                llenaPanelEventos(target.events);
+
+              },
+              onMonthChange: function(month) {
+                console.log('you just went to ' + month.format('MMMM, YYYY'));
+              }
+            },
+            doneRendering: function() {
+              console.log('this would be a fine place to attach custom event handlers.');
+            }
+          }
+          );
+      }
+      );
   title Módulos
+  link(rel='stylesheet', href="/stylesheets/qzar-modulos.css", type='text/css')
   //Contenido de Pagina
   div#page-wrapper
     div.container-fluid
       div.row
-        div.col-lg-12
-          p #{mensaje}
-          h3 #{titulo}
-      div.col-lg-12
+        div#barra-de-actividades
+          div.col-sm-12.col-md-8.col-md-offset-2
+            i#icono-modulo.material-icons dashboard
+            //p #{mensaje}
+            h1#h1Modulos #{titulo}
+            //Icono que te lleva al modal
+            a(class='nav navbar-right top-nav' href='#' data-toggle="modal" data-target="#FAA")
+              i.material-icons.md-48#boton-agregar-actividad control_point
+              p Agregar
         
-        //Icono del modal
-        a(class='nav navbar-right top-nav' href='#' data-toggle="modal" data-target="#FAA")
-          i.material-icons.md-48#agregar-modulo control_point
-
-        if modulos && modulos.length
-          table.table.table-striped
-            thead
-              th Nombre
-              th Número
-              th Administrador
-            tbody
-              each modulo in modulos
-                tr
-                  td #[a(href='/modulos/#{modulo.idModulo}') #{modulo.nombre}]
-                  td #{modulo.numeroModulo}
-                  td #{modulo.admin}
-        else
-          p.watermark No se han encontrado módulos en el sistema.
-
+        //Contenido de la pagina
+        div.col-sm-12.col-md-8.col-md-offset-2
+          if modulos && modulos.length
+            table.table.table-striped.table-bordered
+              thead
+                th Nombre
+                th Número
+                th Administrador
+              tbody
+                each modulo in modulos
+                  tr
+                    td #[a(href='/modulos/#{modulo.idModulo}') #{modulo.nombre}]
+                    td #{modulo.numeroModulo}
+                    td #{modulo.admin}
+          else
+            p.watermark No se han encontrado módulos en el sistema.
+        
+      //Modal
       div(id='FAA' class='modal fade' role='dialog')
           div.modal-dialog
             div.modal-content
               div.modal-header
-                  button(type='button' class='close' data-dismiss="modal") &times;
-                  h4.modal-title Agregar Modulo
-                if usuarios && usuarios.length
-                  form#agregaModulo(name="agregaModulo", method="post", action="modulos/nuevo")
-                    div.modal-body
-                      label(for="nombre") Nombre del módulo:
-                      input.form-control#nombre(type="text", placeholder="Nombre", name="nombre", required)
-                      label(for="numero") Número del módulo: 
-                      input.form-control#numero(type="number", placeholder="Número", name="numero", min="0", max="999", required)
-                      label(for="admin") Administrador del módulo: 
-                      select.form-control#admin(name="admin", required)
-                        for usuario in usuarios
-                          option(value= usuario.idUsuario) #{usuario.nombre}
-                    div.modal-footer
-                      button.btn.btn-primary#submit(type="submit") Crear
-                      button.btn.btn-default(type='button', data-dismiss='modal') Cerrar
-                else
-                    p Necesitas crear al un usuario con privilegio de administrador de módulo para poder crear un módulo.                    
-                    
-  
-
-
-script(src='/bootstrap/js/jquery.js')
-script(src='/bootstrap/js/bootstrap.min.js')
+                button(type='button' class='close' data-dismiss="modal") &times;
+                h4.modal-title Agregar Modulo
+              if usuarios && usuarios.length
+                form#agregaModulo(name="agregaModulo", method="post", action="modulos/nuevo")
+                  div.modal-body
+                    label(for="nombre") Nombre del módulo:
+                    input.form-control#nombre(type="text", placeholder="Nombre", name="nombre", required)
+                    label(for="numero") Número del módulo: 
+                    input.form-control#numero(type="number", placeholder="Número", name="numero", min="0", max="999", required)
+                    label(for="admin") Administrador del módulo: 
+                    select.form-control#admin(name="admin", required)
+                      for usuario in usuarios
+                        option(value= usuario.idUsuario) #{usuario.nombre}
+                  div.modal-footer
+                    button.btn.btn-primary#submit(type="submit") Crear
+                    button.btn.btn-default(type='button', data-dismiss='modal') Cerrar
+              else
+                div.modal-body
+                  p Necesitas crear al un usuario con privilegio de administrador de módulo para poder crear un módulo.                    
+                div.modal-footer
+                  button.btn.btn-default(type='button', data-dismiss='modal') Cerrar
+        a(href='/modulos/nuevo') Nuevo módulo
+    div#full-clndr.clearfix
+    script.todo.
+      <div class="clndr-controls">
+        <div class="clndr-previous-button">&lsaquo;</div>
+        <div class="clndr-next-button">&rsaquo;</div>
+        <div class="month"><%= month %> <%= year %></div>
+      </div>
+      <div class="clndr-grid">
+        <div class="days-of-the-week clearfix">
+          <% _.each(daysOfTheWeek, function(day) { %>
+            <div class="header-day">
+              <%= day %>
+            </div>
+          <% }); %>
+        </div>
+        <div class="days clearfix">
+          <% _.each(days, function(day) { %>
+          <div class="<%= day.classes %>" id="<%= day.id %>">
+            <span><%= day.day %></span>
+          </div>
+        <% }); %>
+        </div>
+      </div>
+      <div class="event-listing">
+        <div class="event-listing-title">Eventos del día</div>
+        <div id="eventos-del-dia">
+        <% _.each(eventsThisMonth, function(event) { %>
+            <div class="event-item">
+              <div class="event-item-date"><%= event.date %></div>
+              <div class="event-item-name"><%= event.name %></div>
+              <div class="event-item-location"><%= event.location %></div>
+            </div>
+          <% }); %>
+      </div>
+  //Cierro segundo col-lg-12 
+  //Cierro Container Fluid
+  //Containererro PageWrapper
+  //Cierro Wrapper
 
 //a(href='/modulos/nuevo')
 //a(href='#' data-toggle="modal" data-target="#FAA")

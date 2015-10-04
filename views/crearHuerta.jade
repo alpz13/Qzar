@@ -1,0 +1,104 @@
+extend layout
+extend menu
+block content
+  head
+    link(rel='stylesheet', href="/stylesheets/tableHuerta.css", type='text/css')
+    script.
+      var flag = false;
+      $(document).ready(function() {
+        $("#huerta").mouseleave(function(){flag=false;});
+        $(".cuadrito").mouseup(function(){flag=false;});
+        $(".cuadrito").mousedown(function(){flag=true;marked($(this));});
+        $(".cuadrito").mouseenter(function(){marked($(this));});
+        });
+
+
+      var marked = function(cuadrito)
+      {
+        verPositivos();
+        if(flag)
+          {
+            var color=$('#listaCuadritos').find(":selected").attr('BGCOLOR');
+            var type=$('#listaCuadritos').find(":selected").attr('type');
+            var Sector=$("#selectSector").val();
+            cuadrito.attr("type", type);
+            cuadrito.attr("BGCOLOR",color);
+            cuadrito.html(Sector);
+          }
+      }
+
+      var verPositivos = function()
+      {
+        var Sector=$("#selectSector").val();
+        if(Sector < 0)
+          {
+            Sector = 0;
+          }
+          Sector = parseInt(Sector);
+          $("#selectSector").val(Sector) ;
+      }
+
+      var guardarHuerta = function()
+      {
+        var cuadritos = [];
+        var renglon = 0;
+        $(".renglon").each(function(){
+          var row = $(this);
+          var columna = 0;
+          $(row).find('td').each(function(){
+              var celda = $(this);
+              var cuadro = {};
+              cuadro['type'] = celda.attr("type");
+              cuadro["sector"] = celda.html();
+              cuadro["ejeX"] = columna;
+              cuadro["ejeY"] = renglon;
+              console.log(cuadro);
+              cuadritos.push(cuadro);
+              columna++;
+            });
+            renglon++;
+          });
+          console.log(cuadritos);
+          //mandamos cuadriots al servidor
+          $.post("/modulo/huerta/crearGuardar",
+          {
+              'cuadritos': JSON.stringify(cuadritos),
+              'modulo': 1
+          },
+          function(data, status){
+              alert("Data: " + data + "\nStatus: " + status);
+          },'json');
+
+      }
+      
+  div#page-wrapper
+    div.content-fluid
+      div.row
+        div#barra-crear-huerta
+          div.col-sm-12.col-md-8.col-md-offset-2
+            i#icono.material-icons.inline.inline dashboard
+            h1#h1CrearHuerta Crear Huerta
+        div.form-group.col-sm-12.col-md-8.col-md-offset-2.crear-labels
+          div
+            label Sectores:
+            select#listaCuadritos.form-control
+              option(type='0', BGCOLOR='') Vacio
+              option(type='1', BGCOLOR='red') Fresa
+              option(type='2', BGCOLOR='yellow') Piña
+              option(type='3', BGCOLOR='blue') Zarzamora
+          div
+            label N° Sector:   
+            input#selectSector.form-control(type="number", min='0', value="0" onchange="verPositivos()")
+            div.boton-crear-huerta
+              button.btn.btn-primary#btnSubmitHuerta(onclick="guardarHuerta()") Guardar
+
+
+        div.form-group.col-sm-12.col-md-8.col-md-offset-2
+          table#huerta.table.table-bordered
+            tbody
+              each number in alto
+                tr.renglon
+                  each row in ancho 
+                    td.cuadrito &nbsp
+
+    
