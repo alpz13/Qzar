@@ -59,6 +59,7 @@
 }
 #full-clndr .clndr-grid .days .day,
 #full-clndr .clndr-grid .days .empty {
+  cursor: pointer;
   float: left;
   width: 14.2857%;
   height: 66px;
@@ -428,6 +429,13 @@
 }
 .event{
   text-decoration: underline;
-  cursor: pointer;
   font-weight: bolder;
+}
+#eventos-del-dia{
+  overflow-y: scroll;
+  height: 330px; 
+}
+#full-clndr .clndr-grid .days .adjacent-month { 
+color: #CACACA;
+pointer-events: none;
 }
