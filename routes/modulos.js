@@ -73,10 +73,6 @@ router.post('/nuevo', function (req, res, next) {
             } else {
                 res.send('Hubo un error al crear el nuevo módulo. Inténtelo más tarde.');
             }
-<<<<<<< HEAD
-=======
-            res.render('crearmodulos', { titulo: 'Nuevo módulo', error: mensaje, usuario: req.session.usuario});
->>>>>>> develop
 
         } else {
 			// Se manda como string para que no lo interprete como HTTP status.
