@@ -5,7 +5,8 @@ block content
   //Contenido de Pagina
   div#page-wrapper
     div.container-fluid
-      
+     
+    div.row
       div#barra-de-titulo
         div.col-sm-12.col-md-8.col-md-offset-2
           i.material-icons.agregar-modulo.inline dashboard
@@ -36,12 +37,13 @@ block content
           p.watermark No se han encontrado módulos en el sistema.
 
       if usuario.idRoles == 1
+        //Modal
         div(id='FAA' class='modal fade' role='dialog')
             div.modal-dialog
               div.modal-content
                 div.modal-header
                   button(type='button' class='close' data-dismiss="modal") &times;
-                  h4.modal-title Agregar Modulo
+                  h4.modal-title Agregar módulo
                 if listaAdmins && listaAdmins.length
                   p#mensajeAgregaModulo
                   form#agregaModulo(name="agregaModulo")
@@ -58,13 +60,7 @@ block content
                       button.btn.btn-primary#crearModulo(type='button') Crear
                       button.btn.btn-default#cerrarModal(type='button', data-dismiss='modal') Cerrar
                 else
-                  div.modal-body
-                    p Necesitas crear al un usuario con privilegio de administrador de módulo para poder crear un módulo.                    
-                  div.modal-footer
-                    button.btn.btn-default(type='button', data-dismiss='modal') Cerrar
-
-            
-                    
+                  p No hay usuarios disponibles con el rol de administrador de módulo.
   
 
   script(src='/bootstrap/js/jquery.js')
@@ -74,7 +70,6 @@ block content
   script(src='/js/crearmodulo.js')
 
 
-//a(href='/modulos/nuevo')
 //a(href='#' data-toggle="modal" data-target="#FAA")
   
   

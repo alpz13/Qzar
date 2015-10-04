@@ -5,27 +5,28 @@ block content
   div#page-wrapper
     div.container-fluid
       div.row
-        div.col-lg-12
-          p #{mensaje}
-          h3#nombreModulo #{titulo} #{modulo.nombre}
+        div#barra-ver-modulos
+          div.col-sm-12.col-md-8.col-md-offset-2
+            //p #{mensaje}
+            i#icono.material-icons.agregar-modulo.inline.inline dashboard
+            h1#h1VerModulos #{titulo}
+              span#nombreModulo #{modulo.nombre}
 
-      // TUDU: Cambiar dibujito por algo que si sea de editar.
-      // Icono del modal
-      if usuario.idRoles == 1
-        a(class='nav navbar-right top-nav' href='#' data-toggle="modal" data-target="#FAA")
-          i.material-icons.md-48#agregar-modulo control_point
+            // TUDU: Cambiar dibujito por algo que si sea de editar.
+            // Icono del modal
+            if usuario.idRoles == 1
+              a(class='nav navbar-right top-nav' href='#' data-toggle="modal" data-target="#FAA")
+                i.material-icons.md-48#agregar-modulo control_point
 
-      div.col-lg-12
-        table.table.table-striped
-          tbody
-              tr
-                td Número
-                td#numeroModulo #{modulo.numeroModulo}
-              tr
-                td Administrador
-                td#administradorModulo #{modulo.admin}
-        if usuario.idRoles == 1
-          a(href='') Crear huerta
+          div.col-sm-12.col-md-8.col-md-offset-2
+            table.table.table-striped.table-bordered
+              tbody
+                tr
+                  td Número
+                  td#numeroModulo #{modulo.numeroModulo}
+                tr
+                  td Administrador
+                  td#administradorModulo #{modulo.admin}
 
       if usuario.idRoles == 1
         div(id='FAA' class='modal fade' role='dialog')
@@ -55,6 +56,7 @@ block content
         a(href='/modulos/eliminar/#{modulo.idModulo}') Eliminar Modulo
         p
         a(href='') Nueva Huerta
+
   //Cierro segundo col-lg-12 
   //Cierro Container Fluid
   //Containererro PageWrapper

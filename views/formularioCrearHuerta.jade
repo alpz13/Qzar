@@ -1,0 +1,53 @@
+extend layout
+extend menu
+block content
+  link(rel='stylesheet', href="/stylesheets/tableHuerta.css", type='text/css')
+  div#page-wrapper
+    // Modal huerta
+    button.btn.btn-primary.btn-lg(type='button', data-toggle='modal', data-target='#myModal') Agregar Huerta
+    #myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel')
+        .modal-dialog(role='document')
+          .modal-content
+            .modal-header
+              button.close(type='button', data-dismiss='modal', aria-label='Close')
+                span(aria-hidden='true') &times;
+              |         
+              h4#myModalLabel.modal-title Forma Agregar Huerta
+            |       
+            form#formcrearHuerta(name="crearHuerta",method="post",action="/modulo/huerta/crear")
+              .modal-body
+                  input.form-control#inputAlto(type="number", placeholder="alto", name="alto", onchange="posAlto()", required)
+                  input.form-control#inputAncho(type="number", placeholder="ancho", name="ancho", onchange="posAncho()", required)
+              |       
+              .modal-footer
+                button.btn.btn-primary#btnSubmit(type="submit") submit
+                button.btn.btn-default(type='button', data-dismiss='modal') Close
+              |         
+              //button.btn.btn-primary(type='submit') Save changes
+    script.
+      var posAlto = function(){
+        var alto=$("#inputAlto").val();
+          if(alto <= 0)
+            {
+              alto = 1;
+            }
+            alto = parseInt(alto)
+            $("#inputAlto").val(alto) ;
+      }
+
+      var posAncho = function(){
+        var ancho=$("#inputAncho").val();
+          if(ancho <= 0)
+            {
+              ancho = 1;
+            }
+            ancho = parseInt(ancho)
+            $("#inputAncho").val(ancho) ;
+      }
+
+
+    //h1 Forma de agregar huerta
+    //form#formcrearHuerta(name="crearHuerta",method="post",action="/modulo/huerta/crear")
+      //input#inputAlto(type="text", placeholder="alto", name="alto")
+      //input#inputAncho(type="text", placeholder="ancho", name="ancho")
+      //button#btnSubmit(type="submit") submit
