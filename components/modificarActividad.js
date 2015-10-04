@@ -17,7 +17,7 @@ var modifica = function (req, res) {
         var nombreoriginal = files.ima[0].originalFilename;
         var ext = path.extname(nombreoriginal);
         var bd = mysql.createConnection(credenciales);   
-        var sql = 'UPDATE actividades SET nombre = "' + nombre + '", descripcion = "' + descripcion + '" WHERE idActividad = "' + id + '"';
+        var sql = 'UPDATE Actividades SET nombre = "' + nombre + '", descripcion = "' + descripcion + '" WHERE idActividad = "' + id + '"';
         bd.connect();
         bd.query(sql, function (err, resultado) {
             if (err) {
@@ -32,7 +32,7 @@ var modifica = function (req, res) {
                     if (err) {
                         console.log(err);
                     } else {
-                        sql = 'UPDATE imagenes SET ruta = "' + idAc + '" WHERE ruta LIKE "' + id + '.%"';
+                        sql = 'UPDATE Imagenes SET ruta = "' + idAc + '" WHERE ruta LIKE "' + id + '.%"';
                         bd.query(sql, function (err) {
                         console.log(sql);
                             if (err) {
