@@ -40,7 +40,7 @@ var agrega = function (req, res) {
         var bd = mysql.createConnection(credenciales);
         var nombreoriginal = files.ima[0].originalFilename;
         var ext = path.extname(nombreoriginal);
-        var sql = 'INSERT INTO actividades(nombre, descripcion, activo) VALUES(?,?, ?);';
+        var sql = 'INSERT INTO Actividades(nombre, descripcion, activo) VALUES(?,?, ?);';
         var params = [nombre, descripcion, activo];
         bd.connect();
         sql = mysql.format(sql, params);
@@ -61,7 +61,7 @@ var agrega = function (req, res) {
                     } else {
                         console.log("upload success");
                         bd = mysql.createConnection(credenciales);
-                        sql = 'INSERT INTO imagenes(ruta) VALUES(?);';
+                        sql = 'INSERT INTO Imagenes(ruta) VALUES(?);';
                         params = [nombreId];
                         bd.connect();
                         sql = mysql.format(sql, params);
