@@ -32,26 +32,45 @@ block body
               a(href='/sesiones/cerrar')
                 i(class='fa fa-fw fa-power-off')
                 label LOG OUT
+
       div(class='collapse navbar-collapse navbar-ex1-collapse')
-        
-
-
         //MENU PRINCIPAL IZQUIERDO
         ul(class='nav navbar-nav side-nav')
-          li.activo
-            a(href='#')
-              i(class='fa fa-fw fa-dashboard')
-              p.inline.leftsidebar INICIO
-          li
-            a(href='/modulos')
-              i(class='fa fa-fw fa-bar-chart-o')
-              p.inline.leftsidebar MODULOS
-          li
-            a(href='#')
-              i(class='fa fa-fw fa-table')
-              p.inline.leftsidebar HUERTAS
-          li
-            a(href='/actividades')
-              i(class='fa fa-fw fa-edit')
-              p.inline.leftsidebar ACTIVIDADES
+          if !barraLateral
+            li.activo
+              a(href='#')
+                i(class='fa fa-fw fa-dashboard')
+                p.inline.leftsidebar INICIO
+          else
+            li
+              a(href='#')
+                i(class='fa fa-fw fa-dashboard')
+                p.inline.leftsidebar INICIO
+  
+          // Modulos
+          if barraLateral && barraLateral === 'modulos'
+            li.activo
+              a(href='/modulos')
+                i(class='fa fa-fw fa-home')
+                p.inline.leftsidebar MODULOS
+          else
+            li
+              a(href='/modulos')
+                i(class='fa fa-fw fa-home')
+                p.inline.leftsidebar MODULOS
+
+          // Huertas (???)
+          // i(class='fa fa-fw fa-table')
+
+          // Actividades
+          if barraLateral && barraLateral === 'actividades'
+            li.activo
+              a(href='/actividades')
+                i(class='fa fa-fw fa-edit')
+                p.inline.leftsidebar ACTIVIDADES
+          else
+            li
+              a(href='/actividades')
+                i(class='fa fa-fw fa-edit')
+                p.inline.leftsidebar ACTIVIDADES
     block content

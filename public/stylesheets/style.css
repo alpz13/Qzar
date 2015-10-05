@@ -133,3 +133,36 @@ textarea{
     font-size: 48px;
     vertical-align: top;
 }
+
+/* sbadmin+bootstrap overwrites */
+
+#topbar {
+    background-color: #394866;
+}
+
+.side-nav {
+    background-color: #233252;
+}
+
+.activo {
+    background-color: #598444;
+    /*background-color: #9BA2B2;*/
+    box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+    pointer-events: none;
+}
+
+.navbar-inverse .navbar-nav>li.activo>a {
+    color: white;
+    margin-left: 15px;
+    font-size: 20px;
+}
+
+.side-nav li a:hover {
+    background-color: #769F63 !important;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+}
+
+.side-nac li a {
+    -webkit-transition: box-shadow 2s; /* Safari */
+    transition: box-shadow 2s;
+}

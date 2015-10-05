@@ -24,7 +24,7 @@ router.get('/', function (req, res, next) {
             if (err) {
                 console.log(err);
             }
-        res.render('modulos', { titulo: 'Módulos', modulos: modulos, usuario: req.session.usuario, listaAdmins: usuarios });
+        res.render('modulos', { titulo: 'Módulos', modulos: modulos, usuario: req.session.usuario, listaAdmins: usuarios, barraLateral: 'modulos' });
         });
         
     });
@@ -110,7 +110,7 @@ router.get('/:id(\\d+)', function (req, res, next) {
             if (err) {
                 console.log(err);
             }
-            res.render('vermodulos', { titulo: 'Módulo ', modulo: modulos[0], usuario: req.session.usuario, listaAdmins: usuarios});
+            res.render('vermodulos', { titulo: 'Módulo ', modulo: modulos[0], usuario: req.session.usuario, listaAdmins: usuarios, barraLateral: 'modulos'});
         });
     });
 });
