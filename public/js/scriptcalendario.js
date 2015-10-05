@@ -1,24 +1,63 @@
 
+function obtenerEventos(){
+  $.post("/modulos/itinerario",
+  {
+      'modulo': 2
+  },
+  function(data, status){
+      //alert("Data: " + data + "\nStatus: " + status);
+      llenarCalendario(data);
+  });
+}
+
 $(document).ready(
   function(){
+  //AJAX
+  obtenerEventos();
+  
+});
+
+function llenaPanelEventos(eventos, date){
+  var htmlALlenar = "";
+  $(eventos).each(function(){
+      htmlALlenar+="<div class='event-item'>";
+      htmlALlenar+="<div class='event-item-name'>Actividad: "+this.nombre+"</div>";
+      htmlALlenar+="<div class='event-item-location'>Sector: "+this.numeroSector+"</div>";
+      htmlALlenar+="</div>";
+    });
+  //$(htmlALlenar).appendTo('#eventos-del-dia');
+  $('#eventos-del-dia').html(htmlALlenar);
+  //var today = new Date(); var dd = today.getDate(); var mm = today.getMonth()+1; //January is 0! var yyyy = today.getFullYear(); if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm} var today = dd+'/'+mm+'/'+yyyy; document.getElementById("DATE").value = today;
+  date = new Date(date);
+  var dd = date.getDate();
+  var mm = date.getMonth()+1;
+  var yyyy = date.getFullYear();
+  if(dd<10){
+    dd='0'+dd
+  } 
+  if(mm<10){
+    mm='0'+mm
+  } 
+  var today = dd+'/'+mm+'/'+yyyy;
+  $('#titulo-eventos-del-dia').html('Eventos del día - '+ today );
+}
+
+function llenarCalendario(data){
+  console.log(data);
   $('#full-clndr').clndr(
     {
       template: $('.todo').html(),
-      events: [
-        { date: '2015-10-10', name: 'evento 1', location: 'http://github.com/kylestetz/CLNDR' },
-        { date: '2015-10-10', name: 'evento 1', location: 'http://github.com/kylestetz/CLNDR' },
-        { date: '2015-10-10', name: 'evento 1', location: 'http://github.com/kylestetz/CLNDR' },
-        { date: '2015-10-10', name: 'evento 1', location: 'http://github.com/kylestetz/CLNDR' },
-        { date: '2015-10-11', name: 'evento 2', location: 'http://github.com/kylestetz/CLNDR' },
-        { date: '2015-10-11', name: 'evento 3', location: 'http://github.com/kylestetz/CLNDR' },
-        { date: '2015-12-10', name: 'CLNDR GitHub Page Finished', location: 'http://github.com/kylestetz/CLNDR' }
-      ],
+      events: data,
+      multiDayEvents: {
+        startDate: 'startDate',
+        endDate: 'endDate',
+        singleDay: 'date'
+        },
       daysOfTheWeek: ['L', 'M', 'M', 'J', 'V', 'S','D'],
       clickEvents: {
         click: function(target) {
           console.log(target);
-          //Target :Object {element: div.day.event.calendar-day-2015-10-10.calendar-dow-5, events: Array[1], date: n}
-          llenaPanelEventos(target.events);
+          llenaPanelEventos(target.events, target.date);
 
         },
         onMonthChange: function(month) {
@@ -30,16 +69,4 @@ $(document).ready(
       }
     }
     );
-});
-function llenaPanelEventos(eventos){
-  var htmlALlenar = "";
-  $(eventos).each(function(){
-      htmlALlenar+="<div class='event-item'>";
-      htmlALlenar+="<div class='event-item-date'>"+this.date+"</div>";
-      htmlALlenar+="<div class='event-item-name'>"+this.name+"</div>";
-      htmlALlenar+="<div class='event-item-location'>"+this.location+"</div>";
-      htmlALlenar+="</div>";
-    });
-  //$(htmlALlenar).appendTo('#eventos-del-dia');
-  $('#eventos-del-dia').html(htmlALlenar);
 }

@@ -8,13 +8,13 @@ var insertaCuadrito = function(idModulo, idSector, cuadrito){
   var mysql = require('mysql');
   connection = creaConexion();
   //Guardar el cuadrito
-  connection.query("INSERT INTO Cuadritos (idModulos, idSectores, idContenidoCuadritos, x, y) VALUES ('" + idModulo + "', '" + idSector + "', '" + cuadrito["type"] + "', '" + cuadrito["ejeX"] + "', '" + cuadrito["ejeY"] + "')", function(err, rows, fields) {
+  connection.query("INSERT INTO Cuadritos (idSectores, idContenidoCuadritos, x, y) VALUES ('" + idSector + "', '" + cuadrito["type"] + "', '" + cuadrito["ejeX"] + "', '" + cuadrito["ejeY"] + "')", function(err, rows, fields) {
     //Funcion callback del query
     if (!err){
       //Si no ocurrio un error al realizar la query
     } else{
       //Error al ejecutar el query
-      console.log("INSERT INTO Cuadritos (idModulos, idSectores, idContenidoCuadritos, x, y) VALUES ('" + idModulo + "', '" + idSector + "', '" + cuadrito["type"] + "', '" + cuadrito["ejeX"] + "', '" + cuadrito["ejeY"] + "')");
+      console.log( "INSERT INTO Cuadritos (idSectores, idContenidoCuadritos, x, y) VALUES ('" + idSector + "', '" + cuadrito["type"] + "', '" + cuadrito["ejeX"] + "', '" + cuadrito["ejeY"] + "')");
       console.log(err);
       console.log('Error while performing Query. (insertar cuadrito)');
     }
