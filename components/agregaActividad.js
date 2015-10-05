@@ -71,9 +71,9 @@ var agrega = function (req, res) {
                                 console.log(err);
                             }
                             bd.end();
+                            listar.listar(res);
                         });
                     }
-                    listar.listar(res);
                 });
             });
         });
