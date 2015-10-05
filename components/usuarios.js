@@ -7,13 +7,32 @@ var mysql = require('mysql');
 
 var credenciales = require('../database/credencialesbd.json');
 
-// Regresa la lista de administradores que aún no han sido asignados a un módulo.
-function listarAdminsDisponibles(callback) {
+// Regresa la lista de usuarios de un módulo.
+function listarUsuariosModulo(idModulo, callback) {
 
-    // POR HACER:
-    // Filtro de roles (o por privilegios) bien (cuando estén mejor definidos).
     var bd = mysql.createConnection(credenciales),
-        sql = 'SELECT * FROM Usuarios WHERE (idRoles = 1 AND activo = 1) OR (idRoles = 2 AND activo = 1 AND idUsuario NOT IN (SELECT usuarioAdministrador FROM Modulos WHERE activo = 1));';
+        sql = 'SELECT * FROM Usuarios WHERE idModulo = ? AND activo = 1;',
+        params = [idModulo];
+
+    bd.connect();
+
+    // Ejecuta consulta.
+    sql = mysql.format(sql, params);
+    bd.query(sql, function (err, resultados) {
+        if (err) {
+            bd.end();
+            return callback(err);
+        }
+        bd.end();
+        return callback(null, resultados);
+    });
+}
+
+// Regresa la lista de administradores generales.
+function listarAdminsGenerales(callback) {
+
+    var bd = mysql.createConnection(credenciales),
+        sql = 'SELECT * FROM Usuarios WHERE idRoles = 1 AND activo = 1;';
 
     bd.connect();
 
@@ -29,5 +48,6 @@ function listarAdminsDisponibles(callback) {
 }
 
 module.exports = {
-    'listarAdminsDisponibles' : listarAdminsDisponibles
+    'listarUsuariosModulo' : listarUsuariosModulo,
+    'listarAdminsGenerales' : listarAdminsGenerales
 };

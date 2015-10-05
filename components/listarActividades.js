@@ -26,7 +26,8 @@ var listaractividades = function (req, res) {
         res.render('actividades', {
             title: 'Actividades',
             actividades: rows,
-            usuario: req.session.usuario
+            usuario: req.session.usuario,
+            barraLateral: 'actividades'
         });
     });
 };

@@ -22,33 +22,15 @@ router.get('/', function (req, res, next) {
         if (err) {
             console.log(err);
         }
-        usuarios.listarAdminsDisponibles(function (err, usuarios) {
+        usuarios.listarAdminsGenerales(function (err, usuarios) {
             if (err) {
                 console.log(err);
             }
-        res.render('modulos', { titulo: 'Módulos', modulos: modulos, usuario: req.session.usuario, listaAdmins: usuarios });
+        res.render('modulos', { titulo: 'Módulos', modulos: modulos, usuario: req.session.usuario, listaAdmins: usuarios, barraLateral: 'modulos' });
         });
         
     });
 });
-
-// Formulario para crear un nuevo módulo.
-/* Ahora está metido en el modal.
-router.get('/nuevo', function (req, res, next) {
-    // Valida permisos para crear módulo.
-    if (req.session.usuario.idRoles !== 1) {
-        res.render('error', { message: 'No puedes.', error: {status: null, stack: null} });
-        return;
-    }
-
-    usuarios.listarAdminModulos(function (err, usuarios) {
-        if (err) {
-            console.log(err);
-        }
-        res.render('crearmodulos', { titulo: 'Nuevo módulo', usuarios: usuarios, usuario: req.session.usuario});
-    });
-});
-*/
 
 // Petición de crear nuevo módulo.
 router.post('/nuevo', function (req, res, next) {
@@ -108,11 +90,11 @@ router.get('/:id(\\d+)', function (req, res, next) {
             return;
         }
 
-        usuarios.listarAdminsDisponibles(function (err, usuarios) {
+        usuarios.listarUsuariosModulo(idModulo, function (err, usuarios) {
             if (err) {
                 console.log(err);
             }
-            res.render('vermodulos', { titulo: 'Módulo ', modulo: modulos[0], usuario: req.session.usuario, listaAdmins: usuarios});
+            res.render('vermodulos', { titulo: 'Módulo ', modulo: modulos[0], usuario: req.session.usuario, listaAdmins: usuarios, barraLateral: 'modulos'});
         });
     });
 });
