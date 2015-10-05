@@ -6,13 +6,20 @@ block content
   //Contenido de Pagina
   div#page-wrapper
     div.container-fluid
+
+      //- if aviso
+      //-   div.row
+      //-     div(class="alert alert-#{aviso.tipo} col-md-6 col-md-offset-3", role="alert")
+      //-       i(class="#{aviso.icono}")
+      //-       p.inline #{aviso.mensaje}
+
       div.row
         div#barra-de-actividades
           div.col-sm-12.col-md-8.col-md-offset-2
             i#icono-modulo.material-icons dashboard
             //p #{mensaje}
             h1#h1Modulos #{titulo}
-            if usuario.idRoles == 1
+            if usuario.idRoles === 1
               //Icono que te lleva al modal
               a(class='nav navbar-right top-nav' href='#' data-toggle="modal" data-target="#FAA")
                 i.material-icons.md-48#boton-agregar-actividad control_point
@@ -35,7 +42,7 @@ block content
           else
             p.watermark No se han encontrado módulos en el sistema.
         
-      if usuario.idRoles == 1
+      if usuario.idRoles === 1
         //Modal
         div(id='FAA' class='modal fade' role='dialog')
             div.modal-dialog
