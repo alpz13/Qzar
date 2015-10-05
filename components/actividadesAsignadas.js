@@ -10,7 +10,7 @@ var listarActividadesAsignadas = function(idModulo, res){
       console.log("Database is connected ... \n"); 
       //Guardar el cuadrito
       console.log("antes de la query");
-      connection.query("select ac.fechaInicio, ac.FechaFin, a.nombre, ac.idSectores, s.numeroSector FROM Actividades as a, ActividadesAsignadas as ac, Sectores as s WHERE ac.idModulos = " + idModulo + " AND a.idActividad = ac.idActividades AND s.idSector = ac.idSectores", function(err, rows, fields) {
+      connection.query("select DATE_FORMAT(ac.fechaInicio,'%d %b %y') as startDate, DATE_FORMAT(ac.FechaFin,'%d %b %y') as endDate, a.nombre, ac.idSectores, s.numeroSector FROM Actividades as a, ActividadesAsignadas as ac, Sectores as s WHERE ac.idModulos = " + idModulo + " AND a.idActividad = ac.idActividades AND s.idSector = ac.idSectores", function(err, rows, fields) {
         //Funcion callback del query
         console.log("despues de la query");
         if (!err){
