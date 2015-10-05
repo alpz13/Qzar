@@ -13,7 +13,7 @@ var actividadesAsignadas = require('../components/actividadesAsignadas.js');
 
 // Página principal de módulos
 router.get('/', function (req, res, next) {
-    if (req.session.usuario.idRoles != 1) {
+    if (req.session.usuario.idRoles !== 1) {
         res.redirect('/modulos/' + req.session.usuario.idModulo);
         return;
     }
@@ -26,9 +26,8 @@ router.get('/', function (req, res, next) {
             if (err) {
                 console.log(err);
             }
-        res.render('modulos', { titulo: 'Módulos', modulos: modulos, usuario: req.session.usuario, listaAdmins: usuarios, barraLateral: 'modulos' });
+            res.render('modulos', { titulo: 'Módulos', modulos: modulos, usuario: req.session.usuario, listaAdmins: usuarios, barraLateral: 'modulos' });
         });
-        
     });
 });
 
@@ -65,7 +64,7 @@ router.post('/nuevo', function (req, res, next) {
 
         } else {
             // Se manda como string para que no lo interprete como HTTP status.
-            res.send(''+idModulo);
+            res.send("" + idModulo);
         }
     });
 });
