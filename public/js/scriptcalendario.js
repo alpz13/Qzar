@@ -1,18 +1,40 @@
 
+function obtenerEventos(){
+  $.post("/modulos/itinerario",
+  {
+      'modulo': 2
+  },
+  function(data, status){
+      //alert("Data: " + data + "\nStatus: " + status);
+      llenarCalendario(data);
+  });
+}
+
 $(document).ready(
   function(){
+  //AJAX
+  obtenerEventos();
+  
+});
+
+function llenaPanelEventos(eventos){
+  var htmlALlenar = "";
+  $(eventos).each(function(){
+      htmlALlenar+="<div class='event-item'>";
+      htmlALlenar+="<div class='event-item-date'>"+this.fechaInicio+"</div>";
+      htmlALlenar+="<div class='event-item-name'>"+this.nombre+"</div>";
+      htmlALlenar+="<div class='event-item-location'>"+this.numeroSector+"</div>";
+      htmlALlenar+="</div>";
+    });
+  //$(htmlALlenar).appendTo('#eventos-del-dia');
+  $('#eventos-del-dia').html(htmlALlenar);
+}
+
+function llenarCalendario(data){
   $('#full-clndr').clndr(
     {
       template: $('.todo').html(),
-      events: [
-        { date: '2015-10-10', name: 'evento 1', location: 'http://github.com/kylestetz/CLNDR' },
-        { date: '2015-10-10', name: 'evento 1', location: 'http://github.com/kylestetz/CLNDR' },
-        { date: '2015-10-10', name: 'evento 1', location: 'http://github.com/kylestetz/CLNDR' },
-        { date: '2015-10-10', name: 'evento 1', location: 'http://github.com/kylestetz/CLNDR' },
-        { date: '2015-10-11', name: 'evento 2', location: 'http://github.com/kylestetz/CLNDR' },
-        { date: '2015-10-11', name: 'evento 3', location: 'http://github.com/kylestetz/CLNDR' },
-        { date: '2015-12-10', name: 'CLNDR GitHub Page Finished', location: 'http://github.com/kylestetz/CLNDR' }
-      ],
+      events: data,
       daysOfTheWeek: ['L', 'M', 'M', 'J', 'V', 'S','D'],
       clickEvents: {
         click: function(target) {
@@ -30,16 +52,4 @@ $(document).ready(
       }
     }
     );
-});
-function llenaPanelEventos(eventos){
-  var htmlALlenar = "";
-  $(eventos).each(function(){
-      htmlALlenar+="<div class='event-item'>";
-      htmlALlenar+="<div class='event-item-date'>"+this.date+"</div>";
-      htmlALlenar+="<div class='event-item-name'>"+this.name+"</div>";
-      htmlALlenar+="<div class='event-item-location'>"+this.location+"</div>";
-      htmlALlenar+="</div>";
-    });
-  //$(htmlALlenar).appendTo('#eventos-del-dia');
-  $('#eventos-del-dia').html(htmlALlenar);
 }

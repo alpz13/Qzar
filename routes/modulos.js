@@ -8,6 +8,8 @@ var router = express.Router();
 
 var modulos = require('../components/modulos.js');
 var usuarios = require('../components/usuarios.js');
+var actividadesAsignadas = require('../components/actividadesAsignadas.js');
+
 
 // Página principal de módulos
 router.get('/', function (req, res, next) {
@@ -165,6 +167,15 @@ router.get('/eliminar/:id(\\d+)', function (req, res, next) {
     modulos.eliminar(idModulo, function (err, modulos) {
         res.redirect('/modulos');
     });
+});
+
+router.post('/itinerario', function (req, res, next) {
+    /*
+    if (req.session.usuario.idRoles != 1) {
+        res.redirect('/modulos/' + req.session.usuario.idModulo);
+        return;
+    }*/
+    actividadesAsignadas.listarActividadesAsignadas(2, res);
 });
 
 module.exports = router;
