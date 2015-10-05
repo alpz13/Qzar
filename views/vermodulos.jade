@@ -130,15 +130,9 @@ block content
         </div>
       </div>
       <div class="event-listing">
-        <div class="event-listing-title" id="titulo-eventos-del-dia">Eventos del día</div>
+        <div class="event-listing-title" id="titulo-eventos-del-dia">Eventos diarios</div>
         <div id="eventos-del-dia">
-        <% _.each(eventsThisMonth, function(event) { %>
-            <div class="event-item">
-              <div class="event-item-date"><%= event.date %></div>
-              <div class="event-item-name"><%= event.name %></div>
-              <div class="event-item-location"><%= event.location %></div>
-            </div>
-          <% }); %>
+          <p>Selecciona un día para ver los eventos del mismo</p>
       </div>
 
   //Cierro segundo col-lg-12 
