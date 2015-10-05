@@ -19,6 +19,8 @@ var crearHuertaGuardar = require('./routes/crearHuertaGuardar');
 var modulos = require('./routes/modulos');
 var actividades = require('./routes/actividades');
 var sesiones = require('./routes/sesiones');
+var usuarios = require('./routes/usuarios');
+var lotes = require('./routes/lotes');
 
 var app = express();
 
@@ -56,6 +58,8 @@ app.use('/modulo/huerta/crearGuardar', crearHuertaGuardar);
 app.use('/modulos', modulos);
 app.use('/actividades', actividades);
 app.use('/sesiones', sesiones);
+app.use('/usuarios', usuarios);
+app.use('/lotes', lotes);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
