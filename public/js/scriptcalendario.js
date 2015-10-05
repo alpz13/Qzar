@@ -1,8 +1,11 @@
 
 function obtenerEventos(){
+  var url = window.location.href;
+  url = url.split('/');
+
   $.post("/modulos/itinerario",
   {
-      'modulo': 2
+      'modulo': url[url.length-1]
   },
   function(data, status){
       //alert("Data: " + data + "\nStatus: " + status);
