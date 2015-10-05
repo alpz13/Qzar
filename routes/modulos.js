@@ -157,7 +157,7 @@ router.post('/itinerario', function (req, res, next) {
         res.redirect('/modulos/' + req.session.usuario.idModulo);
         return;
     }*/
-    actividadesAsignadas.listarActividadesAsignadas(2, res);
+    actividadesAsignadas.listarActividadesAsignadas(req.body.modulo, res);
 });
 
 module.exports = router;
