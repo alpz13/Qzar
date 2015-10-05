@@ -12,9 +12,14 @@ var modifica = require('../components/modificarActividad.js');
 // Checa tus prvilegios
 router.get(/.*/, function(req, res, next) {
     if (req.session.usuario.idRoles !== 1) {
+        /*
         err = new Error('No puedes.');
         err.status = 403;
         next(err);
+        return;
+        */
+        // res.redirect('/');
+        res.render('menu', {usuario: req.session.usuario, titulo: "###", aviso: {tipo: 'danger', icono: 'fa fa-thumbs-down', mensaje: 'No tienes suficiente permisos para hacer esta acción.'}});
         return;
     }
 	next();
@@ -22,9 +27,10 @@ router.get(/.*/, function(req, res, next) {
 
 router.post(/.*/, function(req, res, next) {
     if (req.session.usuario.idRoles !== 1) {
-        err = new Error('No puedes.');
-        err.status = 403;
-        next(err);
+        // err = new Error('No puedes.');
+        // err.status = 403;
+        // next(err);
+        res.render('menu', {usuario: req.session.usuario, titulo: "###", aviso: {tipo: 'danger', icono: 'fa fa-thumbs-down', mensaje: 'No tienes suficiente permisos para hacer esta acción.'}});
         return;
     }
 	next();

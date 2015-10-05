@@ -57,9 +57,9 @@ var creaConexion = function(){
   //Prueba si se conecto correctamente a la base de datos
   connection.connect(function(err){
     if(!err) {
-      console.log("Database is connected ... \n"); 
+      console.log("Database is connected ... \n");
     } else {
-      console.log("Error connecting database ... \n");  
+      console.log("Error connecting database ... \n");
     }
   });
   return connection;
@@ -111,11 +111,6 @@ router.post("/", function(request,response,next){
   response.redirect('/modulos/' + idModulo);
 });
 
-
-
-
-
-//////////////////
 
 
 module.exports = router;

@@ -5,6 +5,13 @@ block content
   //Contenido de Pagina
   div#page-wrapper
     div.container-fluid
+
+      //- if aviso
+      //-   div.row
+      //-     div(class="alert alert-#{aviso.tipo} col-md-6 col-md-offset-3", role="alert")
+      //-       i(class="#{aviso.icono}")
+      //-       p.inline #{aviso.mensaje}
+
       div.row
         div#barra-ver-modulos
           div.col-sm-12.col-md-8.col-md-offset-2
@@ -123,7 +130,7 @@ block content
         </div>
       </div>
       <div class="event-listing">
-        <div class="event-listing-title">Eventos del día</div>
+        <div class="event-listing-title" id="titulo-eventos-del-dia">Eventos del día</div>
         <div id="eventos-del-dia">
         <% _.each(eventsThisMonth, function(event) { %>
             <div class="event-item">

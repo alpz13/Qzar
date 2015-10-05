@@ -23,7 +23,13 @@ a.navbar-brand{
 }
 
 .alert {
-	margin: 10px;
+    margin-top: 64px;
+    /*
+    Lo siguiente existe, casi exclusivamente, por la login screen.
+    Para ver a lo que me refiero, quita esta propiedad, y abre la login screen.
+    Si afecta alguna otra parte del proyecto, no teman en modificarlo.
+    */
+    margin-bottom: -32px; 
 }
 
 textarea{
@@ -165,4 +171,8 @@ textarea{
 .side-nac li a {
     -webkit-transition: box-shadow 2s; /* Safari */
     transition: box-shadow 2s;
+}
+
+#full-clndr {
+    margin-top: 32px;
 }

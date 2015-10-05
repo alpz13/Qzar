@@ -73,6 +73,11 @@ block content
       
   div#page-wrapper
     div.content-fluid
+      //- if aviso
+      //-   div.row
+      //-     div(class="alert alert-#{aviso.tipo} col-md-6 col-md-offset-3", role="alert")
+      //-       i(class="#{aviso.icono}")
+      //-       p.inline #{aviso.mensaje}
       div.row
         div#barra-crear-huerta
           div.col-sm-12.col-md-8.col-md-offset-2
