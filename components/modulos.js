@@ -9,13 +9,11 @@ var router = express.Router();
 
 var credenciales = require('../database/credencialesbd.json');
 
-function crearModulo(adminModulo, nombre, numeroModulo, callback) {
+function crearModulo(moduloNuevo, callback) {
 
-    //  POR HACER:
-    //  Que el usuario no esté jarcodeado.
     var bd = mysql.createConnection(credenciales),
-        sql = 'INSERT INTO Modulos(usuarioAdministrador, nombre, numeroModulo) VALUES(?,?,?);',
-        params = [adminModulo, nombre, numeroModulo];
+        sql = 'INSERT INTO Modulos(usuarioAdministrador, nombre, numeroModulo, activo) VALUES(?,?,?,1);',
+        params = [moduloNuevo.usuarioAdministrador, moduloNuevo.nombre, moduloNuevo.numeroModulo];
 
     bd.connect();
 
@@ -35,7 +33,7 @@ function listarModulos(callback) {
 
     // Que el usuario no esté jarcodeado.
     var bd = mysql.createConnection(credenciales),
-        sql = 'SELECT m.idModulo, m.nombre, m.numeroModulo, m.usuarioAdministrador, u.nombre AS admin FROM Modulos AS m INNER JOIN Usuarios AS u ON m.usuarioAdministrador = u.idUsuario;';
+        sql = 'SELECT m.idModulo, m.nombre, m.numeroModulo, m.usuarioAdministrador, u.nombre AS admin FROM Modulos AS m INNER JOIN Usuarios AS u ON m.usuarioAdministrador = u.idUsuario WHERE m.activo = 1;';
 
     bd.connect();
 
@@ -52,7 +50,46 @@ function listarModulos(callback) {
 
 function mostrarModulos(id, callback) {
     var bd = mysql.createConnection(credenciales),
-        sql = 'SELECT m.idModulo, m.nombre, m.numeroModulo, m.usuarioadministrador, u.nombre AS admin FROM Modulos AS m INNER JOIN Usuarios AS u ON m.usuarioAdministrador = u.idUsuario WHERE idModulo=?;',
+        sql = 'SELECT m.idModulo, m.nombre, m.numeroModulo, m.usuarioAdministrador, u.nombre AS admin FROM Modulos AS m INNER JOIN Usuarios AS u ON m.usuarioAdministrador = u.idUsuario WHERE m.idModulo=?;',
+        params= [id];
+    
+    sql = mysql.format(sql, params);
+
+    bd.connect();
+
+    bd.query(sql, function (err, resultados) {
+        if (err) {
+            bd.end();
+            return callback(err, []);
+        }
+        bd.end();
+        return callback(null, resultados);
+    });
+}
+
+function actualizarModulo(modulo, callback) {
+
+    var bd = mysql.createConnection(credenciales),
+        sql = 'UPDATE Modulos SET usuarioAdministrador = ?, nombre = ?, numeroModulo = ? WHERE idModulo = ?;',
+        params = [modulo.usuarioAdministrador, modulo.nombre, modulo.numeroModulo, modulo.idModulo];
+
+    bd.connect();
+
+    // Prepara consulta y la ejecuta.
+    sql = mysql.format(sql, params);
+    bd.query(sql, function (err) {
+        if (err) {
+            bd.end();
+            return callback(err);
+        }
+        bd.end();
+        return callback(null);
+    });
+}
+
+function eliminarModulo(id, callback) {
+    var bd = mysql.createConnection(credenciales),
+        sql = 'UPDATE Modulos SET activo=0 WHERE idModulo=?;',
         params= [id];
     
     sql = mysql.format(sql, params);
@@ -72,5 +109,7 @@ function mostrarModulos(id, callback) {
 module.exports = {
     'crear' : crearModulo,
     'listar' : listarModulos,
-    'mostrar' : mostrarModulos
+    'mostrar' : mostrarModulos,
+    'actualizar' : actualizarModulo,
+    'eliminar' : eliminarModulo
 };
