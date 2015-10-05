@@ -19,7 +19,7 @@ router.get(/.*/, function(req, res, next) {
         return;
         */
         // res.redirect('/');
-        res.render('menu', {usuario: req.session.usuario, titulo: "###", aviso: {tipo: 'danger', icono: 'fa fa-thumbs-down', mensaje: 'No tienes suficiente permisos para hacer esta acción.'}});
+        res.render('menu', {usuario: req.session.usuario, barraLateral: 'actividades', titulo: "###", aviso: {tipo: 'danger', icono: 'fa fa-ban', mensaje: 'No tienes suficiente permisos para hacer esta acción.'}});
         return;
     }
 	next();
@@ -30,7 +30,7 @@ router.post(/.*/, function(req, res, next) {
         // err = new Error('No puedes.');
         // err.status = 403;
         // next(err);
-        res.render('menu', {usuario: req.session.usuario, titulo: "###", aviso: {tipo: 'danger', icono: 'fa fa-thumbs-down', mensaje: 'No tienes suficiente permisos para hacer esta acción.'}});
+        res.render('menu', {usuario: req.session.usuario, barraLateral: 'actividades', titulo: "###", aviso: {tipo: 'danger', icono: 'fa fa-ban', mensaje: 'No tienes suficiente permisos para hacer esta acción.'}});
         return;
     }
 	next();
