@@ -8,7 +8,6 @@ $(document).on("click", ".modificar", function () {
 	document.getElementById('MNA').value = nombre;
 	document.getElementById('MDA').value = descripcion;
 	document.getElementById('MIA').value = img;
-	alert(id + ", " + nombre);
 });
 
 $(document).on("click", ".eliminar", function () {
