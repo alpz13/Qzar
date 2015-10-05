@@ -14,17 +14,22 @@ block content
               span#nombreModulo #{modulo.nombre}
             // TODO: Cambiar icono.
             if usuario.idRoles == 1
-              a(class='nav navbar-right top-nav' href='#' data-toggle="modal" data-target="#FAA") Editar
-              a(href='/modulos/eliminar/#{modulo.idModulo}') Eliminar módulo
+              //a(class='nav navbar-right top-nav' href='#' data-toggle="modal" data-target="#FAA") Editar
+              //a(href='/modulos/eliminar/#{modulo.idModulo}') Eliminar módulo
         div.col-sm-12.col-md-8.col-md-offset-2
           table.table.table-striped.table-bordered
             tbody
                 tr
                   td Número
                   td#numeroModulo #{modulo.numeroModulo}
+                  td
                 tr
                   td Administrador
                   td#administradorModulo #{modulo.admin}
+                  td#botones-modificar
+                    button.btn.btn-primary(type="button" class="modificar" data-toggle="modal" data-target="#FAA" id='boton-modificar') Modificar
+                    &nbsp&nbsp&nbsp
+                    button.btn.btn-default(href='/modulos/eliminar/#{modulo.idModulo}' type="button" class="eliminar" data-dismiss="modal") Eliminar
           
           if usuario.idRoles == 1
             //Modal de Agregar Huerta

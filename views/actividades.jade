@@ -26,7 +26,7 @@ block content
                     td(class='id' style='display:none;') #{actividad.idActividad}
                     td(class='nombre') #{actividad.nombre}
                     td(class='descripcion') #{actividad.descripcion}
-                    td(class='img' style='display:none;') #{actividad.ruta} 
+                    //td(class='img' style='display:none;') #{actividad.ruta} 
                     //poner TD con class img
                     td#botones-modificar 
                       button.btn.btn-primary(type="button" class="modificar" data-toggle="modal" data-target="#MAA" id='boton-modificar') Modificar
@@ -43,15 +43,15 @@ block content
           div.modal-header
             button(type='button' class='close' data-dismiss="modal") &times;
             h4.modal-title Modificar Actividad
-          form(action="actividades/modificar" method="post" id="ModificaActividad" enctype="multipart/form-data")
+          form(action="/actividades/modificar" method="post" id="ModificaActividad" enctype="multipart/form-data")
             div.modal-body
-              input.form-control(type="text" name="idActividad" id="MIDA" style='display:none')
+              input.form-control(type="text" name="idModActividad" id="MIDA" style='display:none')
               label Nombre
-              input.form-control(type="text" name="nombreactividad" size="58" id="MNA")
+              input.form-control(type="text" name="nombreModActividad" size="58" id="MNA")
               label Descripción 
-              textarea.form-control(rows='5' cols='60' name="descripcionactividad" id="MDA")
+              textarea.form-control(rows='5' cols='60' name="descripcionModActividad" id="MDA")
               label Foto
-              input(type="file" name="ima" size="58" id="MIA")
+              input(type="file" name="imaMod" size="58" id="MIA")
             div.modal-footer
               button.btn.btn-primary(type="submit") Modificar
               button.btn.btn-default(type="button" data-dismiss="modal") Cerrar
@@ -89,6 +89,8 @@ block content
       function resetform(){
         document.getElementById("AgregaActividad").reset();
       }
+
+  script(src='/js/tablamodalmodificar.js')
   //Cierro segundo col-lg -12 
   //Cierro Container Fluid
   //Containererro PageWrapper
