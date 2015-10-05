@@ -26,10 +26,11 @@ block content
                 tr
                   td Administrador
                   td#administradorModulo #{modulo.admin}
-                  td#botones-modificar
-                    button.btn.btn-primary(type="button" class="modificar" data-toggle="modal" data-target="#FAA" id='boton-modificar') Modificar
-                    &nbsp&nbsp&nbsp
-                    button.btn.btn-default(href='/modulos/eliminar/#{modulo.idModulo}' type="button" class="eliminar" data-dismiss="modal") Eliminar
+                  if usuario.idRoles == 1
+                    td#botones-modificar
+                      button.btn.btn-primary(type="button" class="modificar" data-toggle="modal" data-target="#FAA" id='boton-modificar') Modificar
+                      &nbsp&nbsp&nbsp
+                      button.btn.btn-default(href='/modulos/eliminar/#{modulo.idModulo}' type="button" class="eliminar" data-dismiss="modal") Eliminar
           
           if usuario.idRoles == 1
             //Modal de Agregar Huerta
