@@ -14,8 +14,7 @@ var credenciales = require('../database/credencialesbd.json');
 function listarUsuariosModulo(id, callback) {
     var bd = mysql.createConnection(credenciales),
         sql = 'SELECT nombre, idRoles, activo FROM Usuarios WHERE idModulo = ? AND activo = 1;',
-        params= [id];
-    
+        params = [id];
     sql = mysql.format(sql, params);
 
     bd.connect();
@@ -33,9 +32,7 @@ function listarUsuariosModulo(id, callback) {
 function listarUsuarios(callback) {
     var bd = mysql.createConnection(credenciales),
         sql = '(Select u.nombre as nombreUsuario, r.nombre as nombreRol, m.nombre as nombreModulo from usuarios as u, roles as r, modulos as m where u.idRoles = r.idRol and u.idModulo = m.idModulo) UNION (Select u.nombre as nombreUsuario, r.nombre as nombreRol, u.idModulo as nombreModulo from usuarios as u, roles as r where u.idRoles = r.idRol and  idModulo IS NULL);';
-    
-   bd.connect();
-
+    bd.connect();
     // Ejecuta consulta.
     bd.query(sql, function (err, resultados) {
         if (err) {
@@ -67,9 +64,38 @@ function listarAdminsGenerales(callback) {
     });
 }
 
+function listarRoles(callback) {
+    var bd = mysql.createConnection(credenciales),
+        sql = 'SELECT * FROM roles;';
+    bd.connect();
+    bd.query(sql, function (err, resultados) {
+        if (err) {
+            bd.end();
+            return callback(err);
+        }
+        bd.end();
+        return callback(null, resultados);
+    });
+}
+
+function listarModulos(callback) {
+    var bd = mysql.createConnection(credenciales),
+        sql = 'SELECT idModulo, nombre FROM modulos;';
+    bd.connect();
+    bd.query(sql, function (err, resultados) {
+        if (err) {
+            bd.end();
+            return callback(err);
+        }
+        bd.end();
+        return callback(null, resultados);
+    });
+}
+
 module.exports = {
     'listarUsuariosModulo' : listarUsuariosModulo,
     'listarAdminsGenerales' : listarAdminsGenerales,
-    'listarUsuarios' : listarUsuarios
-
+    'listarUsuarios' : listarUsuarios,
+    'listarRoles': listarRoles,
+    'listarModulos' : listarModulos
 };

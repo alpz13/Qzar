@@ -6,18 +6,11 @@
 var mysql = require('mysql');
 /* incluye el archivo que contiene las credenciales de la conexión a la BD: credencialesdb.json */
 var credenciales = require('../database/credencialesbd.json');
-/* crea la referencia al caso de uso listar actividades*/
+
 var agregar = function (NuevoUsuario, callback) {
-    //idUsuario
-    //idRoles
-    //Nombre
-    //Contraseña
-    //ReContraseña
-    //Activo
-    //idModulo
     var bd = mysql.createConnection(credenciales),
-        sql = 'INSERT INTO usuarios(idUsuario, idRoles, nombre, contrasena, activo, idModulo) VALUES(?,?,?,?,1,?);',
-        params = [NuevoUsuario.idUsuario, NuevoUsuario.idRoles, NuevoUsuario.nombre, NuevoUsuario.contrasenia, NuevoUsuario.idModulo];
+        sql = 'INSERT INTO usuarios(idRoles, nombre, contrasena, idModulo, activo) VALUES(?, ?, ?, ?, 1);',
+        params = [NuevoUsuario.idRoles, NuevoUsuario.nombre, NuevoUsuario.contrasenia, NuevoUsuario.idModulo];
     bd.connect();
     sql = mysql.format(sql, params);
     bd.query(sql, function (err, resultado) {

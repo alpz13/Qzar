@@ -4,12 +4,10 @@
 var express = require('express');
 var router = express.Router();
 var agregausuario = require('../components/agregaUsuario.js');
-
 var usuarios = require('../components/usuarios.js');
-var modulos 
 
 router.get('/', function (req, res, next) {
-	if (req.session.usuario.idRoles !== 1) {
+    if (req.session.usuario.idRoles !== 1) {
         res.redirect('/usuarios/' + req.session.usuario.idModulo);
         return;
     }
@@ -22,21 +20,29 @@ router.get('/', function (req, res, next) {
             if (err) {
                 console.log(err);
             }
-            res.render('usuarios', { titulo: 'Usuarios', usuarios: usuarios1, usuario: req.session.usuario, listaAdmins: usuarios2, barraLateral: 'usuarios' });
+            usuarios.listarRoles(function (err, qroles) {
+                if (err) {
+                    console.log(err);
+                }
+                usuarios.listarModulos(function (err, qmodulos) {
+                    if (err) {
+                        console.log(err);
+                    }
+                    res.render('usuarios', { titulo: 'Usuarios', usuarios: usuarios1, usuario: req.session.usuario, listaAdmins: usuarios2, barraLateral: 'usuarios', roles: qroles, modulos: qmodulos });
+                });
+            });
         });
     });
-    
 });
 
 router.post('/agregausuario', function (req, res, next) {
     var NuevoUsuario = {
-        "nombre" : req.body.nombreusuario,
-        "contrasenia" : req.body.contrasenausuario,
-        "recontrasenia" : req.body.recontrasenausuario,
+        "nombre" : req.body.nombreUsuario,
+        "contrasenia" : req.body.contrasenaUsuario,
+        "recontrasenia" : req.body.recontrasenaUsuario,
         "activo" : 1,
-        "idUsuario" : 99999,
-        "idRoles" : 99999,
-        "idModulo" : 99999
+        "idRoles" : req.body.roles,
+        "idModulo" : req.body.modulo
     };
 
     // Valida permisos para crear módulo.
@@ -63,6 +69,7 @@ router.post('/agregausuario', function (req, res, next) {
             }
         } else {
             console.log("usuario creado con exito");
+            res.redirect("/usuarios");
         }
     });
 });

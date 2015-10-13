@@ -21,7 +21,7 @@ block content
             h1#h1Modulos #{titulo}
             if usuario.idRoles === 1
               //Icono que te lleva al modal
-              a(class='nav navbar-right top-nav' href='#' data-toggle="modal" data-target="#FAA")
+              a(class='nav navbar-right top-nav' href='#' data-toggle="modal" data-target="#FAU")
                 i.material-icons.md-48#boton-agregar-actividad control_point
                 p Agregar
         
@@ -41,36 +41,63 @@ block content
                     td #{user.nombreModulo}
           else
             p.watermark No se han encontrado usuarios en el sistema.
-            
-        
-      if usuario.idRoles === 1
-        //Modal
-        div(id='FAA' class='modal fade' role='dialog')
-            div.modal-dialog
-              div.modal-content
-                div.modal-header
-                  button(type='button' class='close' data-dismiss="modal") &times;
-                  h4.modal-title Agregar módulo
-                if listaAdmins && listaAdmins.length
-                  p#mensajeAgregaModulo
-                  form#agregaModulo(name="agregaModulo")
-                    div.modal-body
-                      label(for="nombre") Nombre del módulo:
-                      input.form-control#nombre(type="text", placeholder="Nombre", name="nombre", required)
-                      label(for="numero") Número del módulo: 
-                      input.form-control#numero(type="number", placeholder="Número", name="numero", min="0", max="999", required)
-                      label(for="admin") Administrador del módulo: 
-                      select.form-control#admin(name="admin", required)
-                        for usuario in listaAdmins
-                          option(value= usuario.idUsuario) #{usuario.nombre}
-                    div.modal-footer
-                      button.btn.btn-primary#crearModulo(type="button") Crear
-                      button.btn.btn-default#cerrarModal(type='button', data-dismiss='modal') Cerrar
-                else
-                  div.modal-body
-                    p No hay usuarios disponibles con el rol de administrador de módulo.
-                  div.modal-footer
-                    button.btn.btn-default(type='button', data-dismiss='modal') Cerrar
+    //Modal Agregar
+    div(id='FAU' class='modal fade' role='dialog')
+      div.modal-dialog
+        //Contenido modal
+        div.modal-content
+          div.modal-header
+            button(type='button' class='close' data-dismiss="modal") &times;
+            h4.modal-title Agrega Usuario
+          form(action="/usuarios/agregausuario" method="post" onsubmit="return checkform(this);" id="AgregaUsuario")
+            div.modal-body 
+              label Nombre
+              input.form-control(type="text" name="nombreUsuario" size="58")
+              label Constraseña 
+              input.form-control(type="password" name="contrasenaUsuario" size="58")
+              label Re-constraseña
+              input.form-control(type="password" name="recontrasenaUsuario" size="58")
+              label Rol
+              select.form-control(name="roles")
+                each rol in roles
+                  option(value="#{rol.idRol}") #{rol.nombre}
+              label Modulo
+              select.form-control(name="modulo")
+                each modulo in modulos
+                  option(value="#{modulo.idModulo}") #{modulo.nombre}
+            div.modal-footer
+              button.btn.btn-primary(type="submit" ) Agregar
+              button.btn.btn-default(type="button" data-dismiss="modal") Cerrar
+    script(language="JavaScript" type="text/javascript").
+      function checkform ( form ) {
+        if(form.nombreUsuario.value == "") {
+          alert("Nombre del Usuario vacio");
+          form.nombreUsuario.focus();
+          return false;
+          }
+        if(form.contrasenaUsuario.value == "") {
+          alert("Contraseña vacia");
+          form.contrasenaUsuario.focus();
+          return false;
+        }
+        if(form.recontrasenaUsuario.value == "") {
+          alert("Vuelve a ingresar tu contraseña");
+          form.recontrasenaUsuario.focus();
+          return false;
+        }
+        if(form.contrasenaUsuario.value != form.recontrasenaUsuario.value) {
+          alert("Las contraseñas no coinciden.");
+          form.contrasenaUsuario.focus();
+          return false;
+        } 
+        else {
+          return true;
+        }
+      }
+      function resetform(){
+        document.getElementById("AgregaActividad").reset();
+      }
+
 
   //Cierro segundo col-lg-12 
   //Cierro Container Fluid
@@ -79,7 +106,3 @@ block content
 
   // Crear módulo
   script(src='/js/crearmodulo.js')
-
-//a(href='/modulos/nuevo')
-//a(href='#' data-toggle="modal" data-target="#FAA")
-  
