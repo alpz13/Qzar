@@ -40,11 +40,14 @@ block content
 
       var guardarHuerta = function()
       {
+        //Desactiva el boton
+        document.getElementById("btnSubmitHuerta").disabled = 'true';
         var cuadritos = [];
         var renglon = 0;
+        var columna = 0;
         $(".renglon").each(function(){
           var row = $(this);
-          var columna = 0;
+          columna = 0;
           $(row).find('td').each(function(){
               var celda = $(this);
               var cuadro = {};
@@ -63,10 +66,15 @@ block content
           $.post("/modulo/huerta/crearGuardar",
           {
               'cuadritos': JSON.stringify(cuadritos),
-              'modulo': 2
+              'modulo': 2,
+              'alto': renglon,
+              'ancho': columna
           },
           function(data, status){
               alert("Data: " + data + "\nStatus: " + status);
+
+              window.location.replace('/modulos/' + data);
+
           },'json');
 
       }
