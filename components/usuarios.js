@@ -3,21 +3,40 @@
 */
 'use strict';
 
+var express = require('express');
 var mysql = require('mysql');
+var router = express.Router();
 
 var credenciales = require('../database/credencialesbd.json');
 
 // Regresa la lista de usuarios de un módulo.
-function listarUsuariosModulo(idModulo, callback) {
-
+// SELECT nombre, idRoles, activo FROM Usuarios WHERE idModulo = ? AND activo = 1;
+function listarUsuariosModulo(id, callback) {
     var bd = mysql.createConnection(credenciales),
-        sql = 'SELECT * FROM Usuarios WHERE idModulo = ? AND activo = 1;',
-        params = [idModulo];
+        sql = 'SELECT nombre, idRoles, activo FROM Usuarios WHERE idModulo = ? AND activo = 1;',
+        params= [id];
+    
+    sql = mysql.format(sql, params);
 
     bd.connect();
 
+    bd.query(sql, function (err, resultados) {
+        if (err) {
+            bd.end();
+            return callback(err, []);
+        }
+        bd.end();
+        return callback(null, resultados);
+    });
+}
+//listar usuarios
+function listarUsuarios(callback) {
+    var bd = mysql.createConnection(credenciales),
+        sql = '(Select u.nombre as nombreUsuario, r.nombre as nombreRol, m.nombre as nombreModulo from usuarios as u, roles as r, modulos as m where u.idRoles = r.idRol and u.idModulo = m.idModulo) UNION (Select u.nombre as nombreUsuario, r.nombre as nombreRol, u.idModulo as nombreModulo from usuarios as u, roles as r where u.idRoles = r.idRol and  idModulo IS NULL);';
+    
+   bd.connect();
+
     // Ejecuta consulta.
-    sql = mysql.format(sql, params);
     bd.query(sql, function (err, resultados) {
         if (err) {
             bd.end();
@@ -27,6 +46,7 @@ function listarUsuariosModulo(idModulo, callback) {
         return callback(null, resultados);
     });
 }
+
 
 // Regresa la lista de administradores generales.
 function listarAdminsGenerales(callback) {
@@ -49,5 +69,7 @@ function listarAdminsGenerales(callback) {
 
 module.exports = {
     'listarUsuariosModulo' : listarUsuariosModulo,
-    'listarAdminsGenerales' : listarAdminsGenerales
+    'listarAdminsGenerales' : listarAdminsGenerales,
+    'listarUsuarios' : listarUsuarios
+
 };
