@@ -16,8 +16,8 @@ block content
             |       
             form#formcrearHuerta(name="crearHuerta",method="post",action="/modulo/huerta/crear")
               .modal-body
-                  input.form-control#inputAlto(type="number", placeholder="alto", name="alto", onchange="posAlto()", required)
                   input.form-control#inputAncho(type="number", placeholder="ancho", name="ancho", onchange="posAncho()", required)
+                  input.form-control#inputAlto(type="number", placeholder="alto", name="alto", onchange="posAlto()", required)
               |       
               .modal-footer
                 button.btn.btn-primary#btnSubmit(type="submit") submit

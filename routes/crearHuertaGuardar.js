@@ -1,8 +1,7 @@
+
 var express = require('express');
 var router = express.Router();
 
-
-//////////////////
 var insertaCuadrito = function(idModulo, idSector, cuadrito){
   //Carga el modulo de mySQL
   var mysql = require('mysql');
@@ -142,10 +141,7 @@ router.post("/", function(request,response,next){
 });
 
 
-
-
-
-//////////////////
-
-
 module.exports = router;
+
+
+

@@ -36,8 +36,8 @@ block content
                   if usuario.idRoles == 1
                     td#botones-modificar
                       button.btn.btn-primary(type="button" class="modificar" data-toggle="modal" data-target="#FAA" id='boton-modificar') Modificar
-                      &nbsp&nbsp&nbsp
-                      button.btn.btn-default( type="button" class="eliminar" data-dismiss="modal" onclick="window.location.href='/modulos/eliminar/#{modulo.idModulo}'" ) Eliminar
+                       &nbsp&nbsp&nbsp
+                       button.btn.btn-default(href='/modulos/eliminar/#{modulo.idModulo}' type="button" class="eliminar" data-dismiss="modal") Eliminar
           if usuario.idRoles == 1
             //Modal de Agregar Huerta
             button.btn.btn-primary.btn-lg(type='button', data-toggle='modal', data-target='#myModal') Nueva Huerta
@@ -52,8 +52,8 @@ block content
                     |       
                     form#formcrearHuerta(name="crearHuerta",method="post",action="/modulo/huerta/crear")
                       .modal-body
-                          input.form-control#inputAlto(type="number", placeholder="alto", name="alto", onchange="posAlto()", required)
                           input.form-control#inputAncho(type="number", placeholder="ancho", name="ancho", onchange="posAncho()", required)
+                          input.form-control#inputAlto(type="number", placeholder="alto", name="alto", onchange="posAlto()", required)
                       |       
                       .modal-footer
                         button.btn.btn-primary#btnSubmit(type="submit") submit
