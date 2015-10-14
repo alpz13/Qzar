@@ -1,0 +1,47 @@
+extends menu
+block content
+  link(rel='stylesheet', href="/stylesheets/qzar-actividades.css", type='text/css')
+  //Contenido de Pagina
+  div#page-wrapper
+    div.container-fluid
+
+      //- if aviso
+      //-   div.row
+      //-     div(class="alert alert-#{aviso.tipo} col-md-6 col-md-offset-3", role="alert")
+      //-       i(class="#{aviso.icono}")
+      //-       p.inline #{aviso.mensaje}
+
+      div.row
+        div#barra-de-retros
+          div.col-sm-12.col-md-8.col-md-offset-2
+            i#retro.fa.fa-fw.fa-edit.fa-5x.inline
+            h1#h1Retros #{title}
+            a(class='nav navbar-right top-nav' href='#' data-toggle="modal" data-target="#FAA" id='boton-agregar')
+              i.material-icons.md-48#boton-agregar-retro control_point
+              p Agregar
+        //Contenido de la pagina
+        div.col-sm-12.col-md-8.col-md-offset-2
+
+    //Modal Agregar
+    div(id='FAA' class='modal fade' role='dialog')
+      div.modal-dialog
+        //Contenido modal
+        div.modal-content
+          div.modal-header
+            button(type='button' class='close' data-dismiss="modal") &times;
+            h4.modal-title Agregar retroalimentación del día
+          form(action="/retroalimentacion/nuevo" method="post" id="AgregaRetro" enctype="multipart/form-data")
+            div.modal-body 
+              label Descripción 
+              textarea.form-control(rows='5' cols='60' name="descripcion" required)
+              label Foto
+              input(type="file" name="archivo" size="58")
+            div.modal-footer
+              button.btn.btn-primary(type="submit") Enviar
+              button.btn.btn-default(type="button" data-dismiss="modal") Cerrar
+
+  //script(src='/js/tablamodalmodificar.js')
+  //Cierro segundo col-lg -12 
+  //Cierro Container Fluid
+  //Containererro PageWrapper
+  //Cierro Wrapper

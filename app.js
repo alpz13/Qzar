@@ -52,6 +52,7 @@ app.get(/.*/, function(req, res, next) {
         next();
     }
 });
+
 //app.use('/users', users);
 app.use('/modulo/huerta/crear', crearHuerta);//Si llaman esta url, ejecutar
 app.use('/modulo/huerta/formulario', formularioCrearHuerta);
