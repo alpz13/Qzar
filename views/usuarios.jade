@@ -36,7 +36,8 @@ block content
               tbody
                 each user in usuarios
                   tr
-                    td #{user.nombreUsuario}
+                    //td #{user.nombreUsuario}
+                    td #[a(href='/usuarios/#{user.idUsuario}') #{user.nombreUsuario}]
                     td #{user.nombreRol}
                     td #{user.nombreModulo}
           else

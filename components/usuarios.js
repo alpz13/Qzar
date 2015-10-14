@@ -32,7 +32,7 @@ function listarUsuariosModulo(id, callback) {
 //listar usuarios
 function listarUsuarios(callback) {
     var bd = mysql.createConnection(credenciales),
-        sql = '(Select u.nombre as nombreUsuario, r.nombre as nombreRol, m.nombre as nombreModulo from usuarios as u, roles as r, modulos as m where u.idRoles = r.idRol and u.idModulo = m.idModulo) UNION (Select u.nombre as nombreUsuario, r.nombre as nombreRol, u.idModulo as nombreModulo from usuarios as u, roles as r where u.idRoles = r.idRol and  idModulo IS NULL);';
+        sql = '(Select u.idUsuario, u.nombre as nombreUsuario, r.nombre as nombreRol, m.nombre as nombreModulo from usuarios as u, roles as r, modulos as m where u.idRoles = r.idRol and u.idModulo = m.idModulo order by m.nombre) UNION (Select u.idUsuario, u.nombre as nombreUsuario, r.nombre as nombreRol, u.idModulo as nombreModulo from usuarios as u, roles as r where u.idRoles = r.idRol and  idModulo IS NULL);';
     
    bd.connect();
 
@@ -67,9 +67,31 @@ function listarAdminsGenerales(callback) {
     });
 }
 
+
+function mostrarUsuarios(id, callback) {
+    var bd = mysql.createConnection(credenciales),
+        //sql = 'SELECT idRoles, nombre, idUsuario FROM usuarios where idUsuario = ?',
+        sql ='Select u.nombre as nombreUsuario, r.nombre as nombreRol, m.nombre as nombreModulo, u.idModulo, u.idRoles, idUsuario from usuarios as u, roles as r, modulos as m where u.idRoles = r.idRol and u.idModulo = m.idModulo and idUsuario= ?',
+        params= [id];
+    
+    sql = mysql.format(sql, params);
+
+    bd.connect();
+
+    bd.query(sql, function (err, resultados) {
+        if (err) {
+            bd.end();
+            return callback(err, []);
+        }
+        bd.end();
+        return callback(null, resultados);
+    });
+}
+
 module.exports = {
     'listarUsuariosModulo' : listarUsuariosModulo,
     'listarAdminsGenerales' : listarAdminsGenerales,
-    'listarUsuarios' : listarUsuarios
+    'listarUsuarios' : listarUsuarios,
+    'mostrarUsuarios' : mostrarUsuarios
 
 };
