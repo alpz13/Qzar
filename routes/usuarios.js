@@ -105,4 +105,21 @@ router.get('/:id(\\d+)', function (req, res, next) {
     });
 });
 
+
+//eliminar modulo
+router.get('/eliminar/:id(\\d+)', function (req, res, next) {
+    var idUsuario = req.params.id;
+
+    // Valida permisos para eliminar módulo.
+    if (req.session.usuario.idRoles !== 1) {
+        res.sendStatus(403);
+        return;
+    }
+
+    usuarios.eliminarUsuario(idUsuario, function (err, modulos) {
+        res.redirect('/usuarios');
+    });
+});
+
+
 module.exports = router;

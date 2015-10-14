@@ -114,11 +114,31 @@ function listarModulos(callback) {
     });
 }
 
+function eliminarUsuario(id, callback) {
+    var bd = mysql.createConnection(credenciales),
+        sql = 'UPDATE Usuarios SET activo=0 WHERE idUsuario=?;',
+        params= [id];
+    
+    sql = mysql.format(sql, params);
+
+    bd.connect();
+
+    bd.query(sql, function (err, resultados) {
+        if (err) {
+            bd.end();
+            return callback(err, []);
+        }
+        bd.end();
+        return callback(null, resultados);
+    });
+}
+
 module.exports = {
     'listarUsuariosModulo' : listarUsuariosModulo,
     'listarAdminsGenerales' : listarAdminsGenerales,
     'listarUsuarios' : listarUsuarios,
     'mostrarUsuarios' : mostrarUsuarios,
     'listarRoles': listarRoles,
-    'listarModulos' : listarModulos
+    'listarModulos' : listarModulos,
+    'eliminarUsuario' : eliminarUsuario
 };
