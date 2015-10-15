@@ -1,7 +1,7 @@
 extends menu
 block content
   link(rel='stylesheet', href="/stylesheets/tableHuerta.css", type='text/css')
-  title Retroalimentaciones del módulo #{modulo.nombre}
+  title Retroalimentaciones de módulo #{modulo.nombre}
   //Contenido de Pagina
   div#page-wrapper
     div.container-fluid
@@ -11,7 +11,7 @@ block content
             //p #{mensaje}
             i#icono.material-icons.agregar-modulo.inline.inline dashboard
             h1#h1VerModulos #{titulo}
-              span#nombreModulo #{modulo.nombre}
+              span#nombreModulo  #{modulo.nombre}
             // TODO: Cambiar icono.
             if usuario.idRoles == 1
               //a(class='nav navbar-right top-nav' href='#' data-toggle="modal" data-target="#FAA") Editar
@@ -22,82 +22,9 @@ block content
                 tr
                   td Número
                   td#numeroModulo #{modulo.numeroModulo}
-                  td
                 tr
                   td Administrador
                   td#administradorModulo #{modulo.admin}
-                  if usuario.idRoles == 1
-                    td#botones-modificar
-                      button.btn.btn-primary(type="button" class="modificar" data-toggle="modal" data-target="#FAA" id='boton-modificar') Modificar
-                       &nbsp&nbsp&nbsp
-                       button.btn.btn-default(href='/modulos/eliminar/#{modulo.idModulo}' type="button" class="eliminar" data-dismiss="modal") Eliminar
-          if usuario.idRoles == 1
-            //Modal de Agregar Huerta
-            button.btn.btn-primary.btn-lg(type='button', data-toggle='modal', data-target='#myModal') Nueva Huerta
-            #myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel')
-                .modal-dialog(role='document')
-                  .modal-content
-                    .modal-header
-                      button.close(type='button', data-dismiss='modal', aria-label='Close')
-                        span(aria-hidden='true') &times;
-                      |         
-                      h4#myModalLabel.modal-title Nueva Huerta
-                    |       
-                    form#formcrearHuerta(name="crearHuerta",method="post",action="/modulo/huerta/crear")
-                      .modal-body
-                          input.form-control#inputAncho(type="number", placeholder="ancho", name="ancho", onchange="posAncho()", required)
-                          input.form-control#inputAlto(type="number", placeholder="alto", name="alto", onchange="posAlto()", required)
-                      |       
-                      .modal-footer
-                        button.btn.btn-primary#btnSubmit(type="submit") submit
-                        button.btn.btn-default(type='button', data-dismiss='modal') Close
-                      |         
-                //button.btn.btn-primary(type='submit') Save changes
-
-      if usuario.idRoles == 1
-        div(id='FAA' class='modal fade' role='dialog')
-            div.modal-dialog
-              div.modal-content
-                div.modal-header
-                    button(type='button' class='close' data-dismiss="modal") &times;
-                    h4.modal-title Editar módulo
-                  p#mensajeActualizacion
-                  form#actualizaModulo(name="actualizaModulo")
-                    div.modal-body
-                      label(for="nombre") Nombre del módulo:
-                      input.form-control#nombre(type="text", placeholder="Nombre", name="nombre", value=modulo.nombre, required)
-                      label(for="numero") Número del módulo: 
-                      input.form-control#numero(type="number", placeholder="Número", name="numero", min="0", max="999", value=modulo.numeroModulo, required)
-                      label(for="admin") Administrador del módulo: 
-                      select.form-control#admin(name="admin", required)
-                        option(value= modulo.usuarioAdministrador selected) #{modulo.admin}
-                        for usuario in listaAdmins
-                          if usuario.idUsuario != modulo.usuarioAdministrador
-                            option(value= usuario.idUsuario) #{usuario.nombre}
-                    div.modal-footer
-                      button.btn.btn-primary#editarModulo(type='button') Guardar cambios
-                      button.btn.btn-default#cerrarModal(type='button', data-dismiss='modal') Cerrar
-
-    script.
-      var posAlto = function(){
-        var alto=$("#inputAlto").val();
-          if(alto <= 0)
-            {
-              alto = 1;
-            }
-            alto = parseInt(alto)
-            $("#inputAlto").val(alto) ;
-      }
-
-      var posAncho = function(){
-        var ancho=$("#inputAncho").val();
-          if(ancho <= 0)
-            {
-              ancho = 1;
-            }
-            ancho = parseInt(ancho)
-            $("#inputAncho").val(ancho) ;
-      }
     div#full-clndr.clearfix
     script.todo.
       <div class="clndr-controls">
@@ -122,9 +49,9 @@ block content
         </div>
       </div>
       <div class="event-listing">
-        <div class="event-listing-title" id="titulo-eventos-del-dia">Eventos diarios</div>
+        <div class="event-listing-title" id="titulo-eventos-del-dia">Retroalimentación del día</div>
         <div id="eventos-del-dia">
-          <p>Selecciona un día para ver los eventos del mismo</p>
+          <p>Selecciona un día para ver la retroalimentación del día</p>
       </div>
 
   //Cierro segundo col-lg-12 
@@ -136,7 +63,6 @@ block content
   //Bootstrap Core JS
   script(src='/bootstrap/js/bootstrap.min.js')
 
-  // Editar módulos
   //Underscore
   script(src='https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js')
 
@@ -147,5 +73,5 @@ block content
   //clndr
   script(src='/plugins/clndr.min.js')
 
-  script(src='/js/editarmodulo.js')
-  script(src='/js/scriptcalendario.js')
+  script(src='/js/scriptcalendarios.js')
+  script(src='/js/scriptcalendarioretroalimentacion.js')

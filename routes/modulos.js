@@ -17,7 +17,6 @@ router.get('/', function (req, res, next) {
         res.redirect('/modulos/' + req.session.usuario.idModulo);
         return;
     }
-
     modulos.listar(function (err, modulos) {
         if (err) {
             console.log(err);
