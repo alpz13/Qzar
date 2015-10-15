@@ -5,6 +5,7 @@ var express = require('express');
 var router = express.Router();
 var agregausuario = require('../components/agregaUsuario.js');
 var usuarios = require('../components/usuarios.js');
+var us = require('../components/usuarios.js');
 
 router.get('/', function (req, res, next) {
     if (req.session.usuario.idRoles !== 1) {
@@ -94,14 +95,21 @@ router.get('/:id(\\d+)', function (req, res, next) {
             err.status = 403;
             next(err);
             return;
-        }else 
-        {
-        	res.render('verusuarios', { titulo: 'Usuario: ', usuarios: usuarios[0], usuario: req.session.usuario, barraLateral: 'usuarios'});
-        }
-        
-     
-        //res.render('verusuarios', { titulo: 'Usuario: ', us: usuarios[0], usuario: req.session.usuario, listaAdmins: usuarios, barraLateral: 'usuarios'});
-        
+        } else {
+            us.listarRoles(function (err, qroles) {
+                if (err) {
+                    console.log(err);
+                }
+                us.listarModulos(function (err, qmodulos) {
+                    if (err) {
+                        console.log(err);
+                    }
+                    console.log(usuarios[0]);
+                    res.render('verusuarios', { titulo: 'Usuario: ', usuarios: usuarios[0], usuario: req.session.usuario, barraLateral: 'usuarios', roles : qroles, modulos : qmodulos});
+                });
+            });
+            //res.render('verusuarios', { titulo: 'Usuario: ', us: usuarios[0], usuario: req.session.usuario, listaAdmins: usuarios, barraLateral: 'usuarios'});
+        }   
     });
 });
 
