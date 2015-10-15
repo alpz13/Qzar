@@ -33,6 +33,7 @@ block content
                 th Nombre
                 th Rol
                 th Módulo
+                th Opciones
               tbody
                 each user in usuarios
                   tr
@@ -40,8 +41,33 @@ block content
                     td #[a(href='/usuarios/#{user.idUsuario}') #{user.nombreUsuario}]
                     td #{user.nombreRol}
                     td #{user.nombreModulo}
+                    td
+                      button.btn.btn-primary(type="button" class="modificar" data-toggle="modal" data-target="#FAA" id='boton-modificar') Modificar
+                      &nbsp&nbsp&nbsp 
+                      button.btn.btn-default( type="button" class="eliminar" data-dismiss="modal" onclick="window.location.href='/usuarios/eliminar/#{user.idUsuario}'" ) Eliminar
           else
             p.watermark No se han encontrado usuarios en el sistema.
+    
+    if usuario.idRoles == 1
+        div(id='FAA' class='modal fade' role='dialog')
+            div.modal-dialog
+              div.modal-content
+                div.modal-header
+                    button(type='button' class='close' data-dismiss="modal") &times;
+                    h4.modal-title Editar módulo
+                  p#mensajeActualizacion
+                  form#actualizaModulo(name="actualizaModulo")
+                    div.modal-body
+                      label(for="nombre") Nombre del usuario:
+                      input.form-control#nombre(type="text", placeholder="Nombre", name="nombre"  , required)
+                      label(for="numero") Rol:
+                      input.form-control#numero(type="number", placeholder="Número", name="numero", min="0", max="999", required)
+                      label(for="admin") Módulo: 
+                      select.form-control#admin(name="admin", required)
+                    div.modal-footer
+                      button.btn.btn-primary#editarModulo(type='button') Guardar cambios
+                      button.btn.btn-default#cerrarModal(type='button', data-dismiss='modal') Cerrar
+
     //Modal Agregar
     div(id='FAU' class='modal fade' role='dialog')
       div.modal-dialog
