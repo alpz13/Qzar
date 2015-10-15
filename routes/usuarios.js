@@ -6,6 +6,7 @@ var router = express.Router();
 var agregausuario = require('../components/agregaUsuario.js');
 var usuarios = require('../components/usuarios.js');
 var us = require('../components/usuarios.js');
+var modificarusuario = require('../components/modificaUsuario.js');
 
 router.get('/', function (req, res, next) {
     if (req.session.usuario.idRoles !== 1) {
@@ -70,6 +71,40 @@ router.post('/agregausuario', function (req, res, next) {
             }
         } else {
             console.log("usuario creado con exito");
+            res.redirect("/usuarios");
+        }
+    });
+});
+
+router.post('/modificarusuario', function (req, res, next) {
+    var NuevoUsuario = {
+        "nombre" : req.body.nombreUsuario,
+        "contrasenia" : req.body.contrasenaUsuario,
+        "recontrasenia" : req.body.recontrasenaUsuario,
+        "activo" : 1,
+        "idRoles" : req.body.roles,
+        "idModulo" : req.body.modulo,
+        "idUsuario" : req.body.nombreidUsuario
+    };
+
+    // Verifica que el nombre, la constraseña y re-contraseña no sean vacíos.
+    // Segunda verificacion, la primera esta del lado del cliente.
+    if (NuevoUsuario.nombre.match(/^\s*$/) || NuevoUsuario.contrasenia.match(/^\s*$/) || NuevoUsuario.recontrasenia.match(/^\s*$/)) {
+        res.send('Hubo un error: Verifique que el nombre y contraseña no sea vacío o las contraseñas coincidan.');
+        return;
+    }
+
+    //Intenta crear usuario
+    modificarusuario.modificar(NuevoUsuario, function (err) {
+        if (err) {
+            console.log(err);
+            if (err.code === 'ER_DUP_ENTRY') {
+                res.send('Un usuario con este nombre ya existe');
+            } else {
+                res.send('Hubo un error al modificar un usuario. Inténtelo más tarde');
+            }
+        } else {
+            console.log("usuario ha sido modificado con exito");
             res.redirect("/usuarios");
         }
     });

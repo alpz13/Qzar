@@ -37,17 +37,16 @@ block content
               tbody
                 each user in usuarios
                   tr
-                    td #{user.nombreUsuario}
-                    //td #[a(href='/usuarios/#{user.idUsuario}') #{user.nombreUsuario}]
-                    td #{user.nombreRol}
-                    td #{user.nombreModulo}
+                    td(class='id' style='display:none;') #{user.idUsuario}
+                    td(class='nombreUsuario') #{user.nombreUsuario}
+                    td(class='nombreRol') #{user.nombreRol}
+                    td(class='nombreModulo') #{user.nombreModulo}
                     td
                       button.btn.btn-primary(type="button" class="modificar" data-toggle="modal" data-target="#FAB" id='boton-modificar') Modificar
                       &nbsp&nbsp&nbsp 
                       button.btn.btn-default( type="button" class="eliminar" data-dismiss="modal" onclick="window.location.href='/usuarios/eliminar/#{user.idUsuario}'" ) Eliminar
           else
             p.watermark No se han encontrado usuarios en el sistema.
-    
     //Modificar Usuario
     div(id='FAB' class='modal fade' role='dialog')
       div.modal-dialog
@@ -56,26 +55,26 @@ block content
           div.modal-header
             button(type='button' class='close' data-dismiss="modal") &times;
             h4.modal-title Modificar Usuario
-          form(action="/usuarios/agregausuario" method="post" onsubmit="return checkform(this);" id="AgregaUsuario")
+          form(action="/usuarios/modificarusuario" method="post" onsubmit="return checkform(this);" id="AgregaUsuario")
             div.modal-body 
+              input.form-control(type="text" name="nombreidUsuario" size="58" id="MIDU" style='display:none;')
               label Nombre
-              input.form-control(type="text" name="nombreUsuario" size="58")
+              input.form-control(type="text" name="nombreUsuario" size="58" id="MNU")
               label Constraseña 
               input.form-control(type="password" name="contrasenaUsuario" size="58")
               label Re-constraseña
               input.form-control(type="password" name="recontrasenaUsuario" size="58")
               label Rol
-              select.form-control(name="roles")
+              select.form-control(name="roles" id="MRU")
                 each rol in roles
                   option(value="#{rol.idRol}") #{rol.nombre}
               label Modulo
-              select.form-control(name="modulo")
+              select.form-control(name="modulo" id="MMU")
                 each modulo in modulos
                   option(value="#{modulo.idModulo}") #{modulo.nombre}
             div.modal-footer
-              button.btn.btn-primary(type="submit" ) Agregar
+              button.btn.btn-primary(type="submit" ) Modificar
               button.btn.btn-default(type="button" data-dismiss="modal") Cerrar
-
     script(language="JavaScript" type="text/javascript").
       function checkform ( form ) {
         if(form.nombreUsuario.value == "") {
@@ -105,9 +104,6 @@ block content
       function resetform(){
         document.getElementById("AgregaActividad").reset();
       }
-
-    
-
     //Modal Agregar
     div(id='FAU' class='modal fade' role='dialog')
       div.modal-dialog
@@ -135,36 +131,6 @@ block content
             div.modal-footer
               button.btn.btn-primary(type="submit" ) Agregar
               button.btn.btn-default(type="button" data-dismiss="modal") Cerrar
-    script(language="JavaScript" type="text/javascript").
-      function checkform ( form ) {
-        if(form.nombreUsuario.value == "") {
-          alert("Nombre del Usuario vacio");
-          form.nombreUsuario.focus();
-          return false;
-          }
-        if(form.contrasenaUsuario.value == "") {
-          alert("Contraseña vacia");
-          form.contrasenaUsuario.focus();
-          return false;
-        }
-        if(form.recontrasenaUsuario.value == "") {
-          alert("Vuelve a ingresar tu contraseña");
-          form.recontrasenaUsuario.focus();
-          return false;
-        }
-        if(form.contrasenaUsuario.value != form.recontrasenaUsuario.value) {
-          alert("Las contraseñas no coinciden.");
-          form.contrasenaUsuario.focus();
-          return false;
-        } 
-        else {
-          return true;
-        }
-      }
-      function resetform(){
-        document.getElementById("AgregaActividad").reset();
-      }
-
   script(src='/js/modificarusuario.js')
   //Cierro segundo col-lg-12 
   //Cierro Container Fluid
