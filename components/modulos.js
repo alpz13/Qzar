@@ -106,10 +106,32 @@ function eliminarModulo(id, callback) {
     });
 }
 
+
+
+function desplegarCuadritos(idModulo, callback) {
+    var bd = mysql.createConnection(credenciales),
+        sql = "Select ContenidoCuadritos.color, ContenidoCuadritos.nombre, Cuadritos.x, Cuadritos.y, Sectores.numeroSector from Sectores, Cuadritos, ContenidoCuadritos where Sectores.idModulos = ? AND Sectores.idSector = Cuadritos.idSectores AND Cuadritos.idContenidoCuadritos = ContenidoCuadritos.idContenidoCuadritos",
+        params= [idModulo];
+    
+    sql = mysql.format(sql, params);
+
+    bd.connect();
+
+    bd.query(sql, function (err, resultados) {
+        if (err) {
+            bd.end();
+            return callback(err, []);
+        }
+        bd.end();
+        return callback(null, resultados);
+    });
+}
+
 module.exports = {
     'crear' : crearModulo,
     'listar' : listarModulos,
     'mostrar' : mostrarModulos,
     'actualizar' : actualizarModulo,
-    'eliminar' : eliminarModulo
+    'eliminar' : eliminarModulo,
+    'desplegar': desplegarCuadritos
 };

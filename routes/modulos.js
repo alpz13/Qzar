@@ -7,6 +7,7 @@ var express = require('express');
 var router = express.Router();
 
 var modulos = require('../components/modulos.js');
+var cuadritos = require('../components/modulos.js');
 var usuarios = require('../components/usuarios.js');
 var actividadesAsignadas = require('../components/actividadesAsignadas.js');
 
@@ -30,6 +31,22 @@ router.get('/', function (req, res, next) {
         });
     });
 });
+//Cadbfjabsdf
+
+var desplegarCuadritos = function (req, res, next) {
+
+    modulos.desplegar(function (err, cuadritos) {
+        if (err) {
+            console.log(err);
+        }
+        else{
+            res.render('modulos', { titulo: 'Módulos', modulos: modulos, usuario: req.session.usuario, listaAdmins: usuarios, barraLateral: 'modulos' });
+        }
+        
+    });
+}
+
+
 
 // Petición de crear nuevo módulo.
 router.post('/nuevo', function (req, res, next) {
@@ -72,6 +89,7 @@ router.post('/nuevo', function (req, res, next) {
 // Página ver modulo
 router.get('/:id(\\d+)', function (req, res, next) {
     var idModulo = req.params.id;
+     
     modulos.mostrar(idModulo, function (err, modulos) {
         if (err) {
             console.log(err);
@@ -92,6 +110,7 @@ router.get('/:id(\\d+)', function (req, res, next) {
         usuarios.listarUsuariosModulo(idModulo, function (err, usuarios) {
             if (err) {
                 console.log(err);
+                return;
             }
             console.log(modulos[0]);
             var alto = [];
@@ -106,8 +125,19 @@ router.get('/:id(\\d+)', function (req, res, next) {
             }
             //modulos[0].ancho = ancho;
             //modulos[0].alto = alto;
-            console.log("Ahora si joven: " + ancho);
-            res.render('vermodulos', { titulo: 'Módulo ', modulo: modulos[0], usuario: req.session.usuario, listaAdmins: usuarios, barraLateral: 'modulos', alto: alto, ancho: ancho});
+            cuadritos.desplegar(idModulo, function (err, cuadritos) {
+            if (err) {
+                console.log(err);
+            }
+            else{
+                console.log("aquiiiiii "+cuadritos);
+                res.render('vermodulos', { titulo: 'Módulo ', modulo: modulos[0], usuario: req.session.usuario, listaAdmins: usuarios, barraLateral: 'modulos', alto: alto, ancho: ancho, cuadritos: cuadritos});
+            }
+            
+        });
+        //res.render('vermodulos', { titulo: 'Módulo ', modulo: modulos[0], usuario: req.session.usuario, listaAdmins: usuarios, barraLateral: 'modulos', alto: alto, ancho: ancho});
+        console.log("Ahora si joven: " + ancho);
+            
         });
     });
 });
