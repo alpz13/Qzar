@@ -63,10 +63,11 @@ block content
           });
           console.log(cuadritos);
           //mandamos cuadriots al servidor
+          var url = window.location.href.split("/");
           $.post("/modulo/huerta/crearGuardar",
           {
               'cuadritos': JSON.stringify(cuadritos),
-              'modulo': 2,
+              'modulo': url[url.length-1],
               'alto': renglon,
               'ancho': columna
           },

@@ -50,7 +50,7 @@ block content
                       |         
                       h4#myModalLabel.modal-title Nueva Huerta
                     |       
-                    form#formcrearHuerta(name="crearHuerta",method="post",action="/modulo/huerta/crear")
+                    form#formcrearHuerta(name="crearHuerta",method="post",action="/modulo/huerta/crear/#{modulo.idModulo}")
                       .modal-body
                           input.form-control#inputAncho(type="number", placeholder="ancho", name="ancho", onchange="posAncho()", required)
                           input.form-control#inputAlto(type="number", placeholder="alto", name="alto", onchange="posAlto()", required)
@@ -107,7 +107,6 @@ block content
       }
     script(type='text/javascript').
       var cuadritos =!{JSON.stringify(cuadritos)};
-    script(src='javascripts/myScript.js'). 
 
     div#full-clndr.clearfix
     //Codiguirri de la huerta
@@ -170,3 +169,4 @@ block content
 
   script(src='/js/editarmodulo.js')
   script(src='/js/scriptcalendario.js')
+  script(src='/js/scripthuerta.js')

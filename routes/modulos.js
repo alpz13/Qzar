@@ -112,7 +112,6 @@ router.get('/:id(\\d+)', function (req, res, next) {
                 console.log(err);
                 return;
             }
-            console.log(modulos[0]);
             var alto = [];
             var ancho = [];
             while (modulos[0].alto > 0) {
@@ -130,14 +129,11 @@ router.get('/:id(\\d+)', function (req, res, next) {
                 console.log(err);
             }
             else{
-                console.log("aquiiiiii "+cuadritos);
                 res.render('vermodulos', { titulo: 'Módulo ', modulo: modulos[0], usuario: req.session.usuario, listaAdmins: usuarios, barraLateral: 'modulos', alto: alto, ancho: ancho, cuadritos: cuadritos});
             }
             
         });
-        //res.render('vermodulos', { titulo: 'Módulo ', modulo: modulos[0], usuario: req.session.usuario, listaAdmins: usuarios, barraLateral: 'modulos', alto: alto, ancho: ancho});
-        console.log("Ahora si joven: " + ancho);
-            
+        //res.render('vermodulos', { titulo: 'Módulo ', modulo: modulos[0], usuario: req.session.usuario, listaAdmins: usuarios, barraLateral: 'modulos', alto: alto, ancho: ancho});            
         });
     });
 });
