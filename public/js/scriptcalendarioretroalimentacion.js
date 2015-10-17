@@ -22,7 +22,7 @@ function llenaPanel(eventos, date) {
   var htmlALlenar = "";
   $(eventos).each(function () {
     htmlALlenar += "<div class='event-item'>";
-    htmlALlenar += "<div class='event-item-location'>Retroalimentación: " + this.descripcion + "</div>";
+    htmlALlenar += "<div class='event-item-location'>" + this.descripcion + "</div>";
     htmlALlenar += "</div>";
   });
   //$(htmlALlenar).appendTo('#eventos-del-dia');

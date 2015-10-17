@@ -14,7 +14,7 @@ function agregarRetroalimentación(retro, callback) {
     // El archivo tiene como nombre el idModulo y la fecha.
     var hoy = moment().tz('America/Mexico_City').format('YYYY-MM-DD'),
         bd = mysql.createConnection(credenciales),
-        nombreArchivo = retro.idModulo + '_' + hoy + path.extname(retro.archivo.originalFilename),
+        nombreArchivo,
         sql = "INSERT INTO Retroalimentaciones(fecha, idModulos, descripcion, contenidoMultimedia) VALUES(?,?,?,?);",
         params = [hoy, retro.idModulo, retro.descripción, nombreArchivo];
 
@@ -29,20 +29,26 @@ function agregarRetroalimentación(retro, callback) {
         }
         bd.end();
         
-        fs.readFile(retro.archivo.path, function (err, contenidoArchivo) {
-            if (err) {
-                return callback(err);
-            }
-
-            fs.writeFile("./public/images/retros/" + nombreArchivo, contenidoArchivo, function (err) {
+        // Si subió foto intenta guardarla.
+        if (!retro.archivo) {
+            return callback(null, resultado.insertId);
+        } else {
+            nombreArchivo = retro.idModulo + '_' + hoy + path.extname(retro.archivo.originalFilename);
+            fs.readFile(retro.archivo.path, function (err, contenidoArchivo) {
                 if (err) {
-                    console.log(err);
                     return callback(err);
                 }
 
-                return callback(null, resultado.insertId);
+                fs.writeFile("./public/images/retros/" + nombreArchivo, contenidoArchivo, function (err) {
+                    if (err) {
+                        console.log(err);
+                        return callback(err);
+                    }
+
+                    return callback(null, resultado.insertId);
+                });
             });
-        });
+		}
     });
 }
 
