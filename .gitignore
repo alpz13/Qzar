@@ -11,6 +11,7 @@ public/images/actividades/*
 
 # Imágenes de las retros
 public/images/retros/*
+!public/images/retros/readme.md
 
 # El archivo con los datos de conexión a la BD.
 database/*
