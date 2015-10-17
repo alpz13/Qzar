@@ -6,17 +6,17 @@
 var mysql = require('mysql');
 var path = require('path');
 var fs = require('fs');
-var time = require('time');
+var moment = require('moment-timezone');
 
 var credenciales = require('../database/credencialesbd.json');
 
 function agregarRetroalimentación(retro, callback) {
     // El archivo tiene como nombre el idModulo y la fecha.
-    var hoy = new time.Date(Date.now(), 'America/Mexico_City'),
+    var hoy = moment().tz('America/Mexico_City').format('YYYY-MM-DD'),
         bd = mysql.createConnection(credenciales),
-        nombreArchivo = retro.idModulo + '_' + hoy.getTime() + path.extname(retro.archivo.originalFilename),
-        sql = "INSERT INTO Retroalimentaciones(fecha, idModulos, descripcion, contenidoMultimedia) VALUES(NOW(), ?,?,?);",
-        params = [retro.idModulo, retro.descripción, nombreArchivo];
+        nombreArchivo = retro.idModulo + '_' + hoy + path.extname(retro.archivo.originalFilename),
+        sql = "INSERT INTO Retroalimentaciones(fecha, idModulos, descripcion, contenidoMultimedia) VALUES(?,?,?,?);",
+        params = [hoy, retro.idModulo, retro.descripción, nombreArchivo];
 
     bd.connect();
 
