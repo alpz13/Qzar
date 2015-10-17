@@ -127,11 +127,34 @@ function desplegarCuadritos(idModulo, callback) {
     });
 }
 
+
+//Borra el tamaño de la huerta
+function borraHuerta(idModulo, alto, ancho, callback){
+    var bd = mysql.createConnection(credenciales),
+        sql = "UPDATE Modulos SET Modulos.alto = ?, Modulos.ancho = ? WHERE Modulos.idModulo = ? ",
+        params= [alto, ancho, idModulo];
+    
+    sql = mysql.format(sql, params);
+
+    bd.connect();
+
+    bd.query(sql, function (err, resultados) {
+        if (err) {
+            bd.end();
+            return callback(err, []);
+        }
+        bd.end();
+        return callback(null, resultados);
+    });
+}
+
+
 module.exports = {
     'crear' : crearModulo,
     'listar' : listarModulos,
     'mostrar' : mostrarModulos,
     'actualizar' : actualizarModulo,
     'eliminar' : eliminarModulo,
-    'desplegar': desplegarCuadritos
+    'desplegar': desplegarCuadritos,
+    'borraHuerta': borraHuerta
 };

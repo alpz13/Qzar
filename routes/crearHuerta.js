@@ -43,6 +43,26 @@ var borrarCuadritos = function(idModulo){
 }
 */
 
+
+var eliminaHuerta = function(idModulo){
+  //Carga el modulo de mySQL
+  var mysql = require('mysql');
+  connection = creaConexion();
+  //Guardar el cuadrito
+  connection.query("DELETE FROM Cuadritos USING Cuadritos, Sectores, Modulos WHERE Sectores.idModulos = '"+idModulo+"' AND Cuadritos.idSectores = Sectores.idSector", function(err, rows, fields) {
+    //Funcion callback del query
+    if (!err){
+      //Si no ocurrio un error al realizar la query
+      
+    } else{
+      //Error al ejecutar el query
+      console.log(err);
+    }
+  });
+  //Termina la conexion
+  connection.end();
+}
+
 var seleccionaCuadrito = function(idModulo, idSector, cuadrito){
   //Carga el modulo de mySQL
   var mysql = require('mysql');
@@ -259,6 +279,29 @@ router.get('/editar/:id(\\d+)', function (req, res, next) {
       });
     }
  });
+});
+
+//Elimina la Huerta
+router.get('/eliminar/:id(\\d+)',function (req, res, next){
+
+  var idModulo = req.params.id;
+  var al = cuadritos.alto;
+  var an = cuadritos.ancho;
+  eliminaHuerta(idModulo);
+  modulos.borraHuerta(idModulo, al, an, function (err, cuadritos) {
+        if (err) {
+          console.log(err);
+        }
+        else{
+          //res.render('vermodulos', { titulo: 'Módulo ', modulo: modulos[0], usuario: req.session.usuario, listaAdmins: usuarios, barraLateral: 'modulos', alto: alto, ancho: ancho, cuadritos: cuadritos});
+          //res.render('crearHuerta', {title: 'Editar Huerta', alto: altoA, ancho: anchoA, usuario: req.session.usuario, cuadritos: cuadritos});
+          res.redirect('/modulos/'+idModulo+'');
+        }    
+      });
+  
+  
+
+
 });
 
 module.exports = router;
