@@ -14,8 +14,8 @@ var session = require('express-session');
 var routes = require('./routes/index');
 //var users = require('./routes/users');
 var crearHuerta = require('./routes/crearHuerta');
-var formularioCrearHuerta = require('./routes/formularioCrearHuerta'); //donde leer
-var crearHuertaGuardar = require('./routes/crearHuertaGuardar');
+//var formularioCrearHuerta = require('./routes/formularioCrearHuerta'); //donde leer
+//var crearHuertaGuardar = require('./routes/crearHuertaGuardar');
 var modulos = require('./routes/modulos');
 var actividades = require('./routes/actividades');
 var sesiones = require('./routes/sesiones');
@@ -52,9 +52,10 @@ app.get(/.*/, function(req, res, next) {
     }
 });
 //app.use('/users', users);
-app.use('/modulo/huerta/crear', crearHuerta);//Si llaman esta url, ejecutar
-app.use('/modulo/huerta/formulario', formularioCrearHuerta);
-app.use('/modulo/huerta/crearGuardar', crearHuertaGuardar);
+app.use('/modulo/huerta', crearHuerta);//Si llaman esta url, ejecutar
+//app.use('/modulo/huerta/crear', crearHuerta);//Si llaman esta url, ejecutar
+//app.use('/modulo/huerta/formulario', formularioCrearHuerta);
+//app.use('/modulo/huerta/crearGuardar', crearHuertaGuardar);
 app.use('/modulos', modulos);
 app.use('/actividades', actividades);
 app.use('/sesiones', sesiones);

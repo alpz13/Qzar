@@ -12,6 +12,3 @@ $(document).ready(
     rellenaCuadritos(cuadritos);
   }
 );
-
-//Jquery
-script(src='/bootstrap/js/jquery.js')
