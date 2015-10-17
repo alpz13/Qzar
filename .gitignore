@@ -9,6 +9,9 @@ sessions/*
 public/images/actividades/*
 !public/images/actividades/readme.md
 
+# Imágenes de las retros
+public/images/retros/*
+
 # El archivo con los datos de conexión a la BD.
 database/*
 !database/readme.md
