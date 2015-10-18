@@ -305,4 +305,3 @@ router.get('/eliminar/:id(\\d+)',function (req, res, next){
 });
 
 module.exports = router;
-
