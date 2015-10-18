@@ -26,7 +26,7 @@ function llenaPanel(eventos, date) {
     htmlALlenar += "<div class='retro-item-location'>Retroalimentación: " + this.descripcion + "</div>";
     htmlALlenar += "<div id='retro-item-image'></div>";
     imagen = this.ruta;
-    if(imagen != 'none'){
+    if(imagen != null){
       htmlALlenar += "<a href=/images/retros/"+imagen+" target='_blank'>Ver en grande</a>";
     }
     htmlALlenar += "</div>";
