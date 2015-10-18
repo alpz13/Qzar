@@ -1,0 +1,39 @@
+extends menu
+block content
+  head
+  title Módulos
+  link(rel='stylesheet', href="/stylesheets/qzar-modulos.css", type='text/css')
+  //Contenido de Pagina
+  div#page-wrapper
+    div.container-fluid
+      div.row
+        div#barra-de-actividades
+          div.col-sm-12.col-md-8.col-md-offset-2
+            i#icono-modulo.material-icons dashboard
+            h1#h1Modulos #{titulo}
+        
+        //Contenido de la pagina
+        div.col-sm-12.col-md-8.col-md-offset-2
+          if modulos && modulos.length
+            table.table.table-striped.table-bordered
+              thead
+                th Nombre
+                th Número
+                th Administrador
+              tbody
+                each modulo in modulos
+                  tr
+                    td #[a(href='/retroalimentacion/#{modulo.idModulo}') #{modulo.nombre}]
+                    td #{modulo.numeroModulo}
+                    td #{modulo.admin}
+          else
+            p.watermark No se han encontrado módulos en el sistema.
+        
+  //Cierro segundo col-lg-12 
+  //Cierro Container Fluid
+  //Containererro PageWrapper
+  //Cierro Wrapper
+  // Crear módulo
+  script(src='/js/crearmodulo.js')
+//a(href='/modulos/nuevo')
+//a(href='#' data-toggle="modal" data-target="#FAA")

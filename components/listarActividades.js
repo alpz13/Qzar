@@ -17,7 +17,7 @@ var credenciales = require('../database/credencialesbd.json');
 var listaractividades = function (req, res) {
     var db = mysql.createConnection(credenciales);
     db.connect();
-    db.query('Select * from actividades, imagenes where activo = 1 and idActividad = idImagenes', function (err, rows) {
+    db.query('Select * from Actividades where activo = 1', function (err, rows) {
         if (err) {
             console.log("Sucedio el error" + err);
             db.end();
@@ -26,7 +26,8 @@ var listaractividades = function (req, res) {
         res.render('actividades', {
             title: 'Actividades',
             actividades: rows,
-            usuario: req.session.usuario
+            usuario: req.session.usuario,
+            barraLateral: 'actividades'
         });
     });
 };

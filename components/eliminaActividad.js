@@ -13,7 +13,7 @@ var elimina = function (req, res) {
     var idAct = req.body.id;
 
     var bd = mysql.createConnection(credenciales);
-    var sql = 'UPDATE actividades SET activo = 0 WHERE idActividad = "' + idAct + '"';
+    var sql = 'UPDATE Actividades SET activo = 0 WHERE idActividad = "' + idAct + '"';
     bd.connect();
     sql = mysql.format(sql);
     bd.query(sql, function (err, resultado) {

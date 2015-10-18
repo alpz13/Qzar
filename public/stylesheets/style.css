@@ -3,7 +3,7 @@ body {
 }
 
 a {
-  color: #00B7FF;
+  color: #96B566;
 }
 
 .inline {
@@ -23,7 +23,13 @@ a.navbar-brand{
 }
 
 .alert {
-	margin: 10px;
+    margin-top: 64px;
+    /*
+    Lo siguiente existe, casi exclusivamente, por la login screen.
+    Para ver a lo que me refiero, quita esta propiedad, y abre la login screen.
+    Si afecta alguna otra parte del proyecto, no teman en modificarlo.
+    */
+    margin-bottom: -32px; 
 }
 
 textarea{
@@ -133,3 +139,60 @@ textarea{
     font-size: 48px;
     vertical-align: top;
 }
+
+/* sbadmin+bootstrap overwrites */
+
+#topbar {
+    background-color: #C3C3C3;
+    border-color: #808080;
+}
+
+.side-nav {
+    background-color: #7C7C7C;
+    border-right: 1px solid #AAAAAA;
+} 
+
+.activo {
+    background-color: #668E39;
+    /*background-color: #9BA2B2;*/
+    box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+}
+
+.navbar-inverse .navbar-nav>li>a {
+    color: #EEEEEE;
+
+}
+
+.navbar-inverse .navbar-nav>li.activo>a {
+    color: white;
+    margin-left: 15px;
+    font-size: 20px;
+}
+
+.side-nav li a:hover {
+    background-color: #96B566 !important;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+}
+
+.side-nac li a {
+    -webkit-transition: box-shadow 2s; /* Safari */
+    transition: box-shadow 2s;
+}
+
+#full-clndr {
+    margin-top: 32px;
+}
+
+div#retro-item-image{
+    background-size: contain;
+    height: 250px;
+    background-repeat: no-repeat;
+    margin: 0 auto;
+}
+
+.btn-primary {
+    background-color: #668E39;
+    border-color: #466E19;
+}
+
+/* http://www.colorcombos.com/color-schemes/170/ColorCombo170.html */

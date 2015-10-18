@@ -16,6 +16,7 @@
     "jade": "~1.11.0",
     "log": "^1.4.0",
     "moment": "^2.10.6",
+    "moment-timezone": "^0.4.1",
     "morgan": "~1.6.1",
     "multiparty": "^4.1.2",
     "mysql": "^2.9.0",

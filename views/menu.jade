@@ -1,7 +1,7 @@
 extends layout
 block body
   link(href="https://fonts.googleapis.com/icon?family=Material+Icons", rel="stylesheet")
-  
+
   //NAVIGATION barra de arriba SPACER
   div#wrapper
     nav(class='navbar navbar-inverse navbar-fixed-top' role='navigation' id='topbar')
@@ -32,26 +32,84 @@ block body
               a(href='/sesiones/cerrar')
                 i(class='fa fa-fw fa-power-off')
                 label LOG OUT
+
       div(class='collapse navbar-collapse navbar-ex1-collapse')
-        
-
-
         //MENU PRINCIPAL IZQUIERDO
         ul(class='nav navbar-nav side-nav')
-          li.activo
-            a(href='#')
-              i(class='fa fa-fw fa-dashboard')
-              p.inline.leftsidebar INICIO
-          li
-            a(href='/modulos')
-              i(class='fa fa-fw fa-bar-chart-o')
-              p.inline.leftsidebar MODULOS
-          li
-            a(href='#')
-              i(class='fa fa-fw fa-table')
-              p.inline.leftsidebar HUERTAS
-          li
-            a(href='/actividades')
-              i(class='fa fa-fw fa-edit')
-              p.inline.leftsidebar ACTIVIDADES
+          if !barraLateral
+            li.activo
+              a(href='#')
+                i(class='fa fa-fw fa-dashboard')
+                p.inline.leftsidebar INICIO
+          else
+            li
+              a(href='#')
+                i(class='fa fa-fw fa-dashboard')
+                p.inline.leftsidebar INICIO
+  
+          // Modulos
+          if barraLateral && barraLateral === 'modulos'
+            li.activo
+              a(href='/modulos')
+                i(class='fa fa-fw fa-home')
+                p.inline.leftsidebar MODULOS
+          else
+            li
+              a(href='/modulos')
+                i(class='fa fa-fw fa-home')
+                p.inline.leftsidebar MODULOS
+
+          // Actividades
+          if barraLateral && barraLateral === 'actividades'
+            li.activo
+              a(href='/actividades')
+                i(class='fa fa-fw fa-edit')
+                p.inline.leftsidebar ACTIVIDADES
+          else
+            li
+              a(href='/actividades')
+                i(class='fa fa-fw fa-edit')
+                p.inline.leftsidebar ACTIVIDADES
+
+          // Usuarios
+          if barraLateral && barraLateral === 'usuarios'
+            li.activo
+              a(href='/usuarios')
+                i(class='fa fa-fw fa-users')
+                p.inline.leftsidebar USUARIOS
+          else
+            li
+              a(href='/usuarios')
+                i(class='fa fa-fw fa-users')
+                p.inline.leftsidebar USUARIOS
+
+          // Lotes
+          if barraLateral && barraLateral === 'lotes'
+            li.activo
+              a(href='/lotes')
+                i(class='fa fa-fw fa-archive')
+                p.inline.leftsidebar LOTES
+          else
+            li
+              a(href='/lotes')
+                i(class='fa fa-fw fa-archive')
+                p.inline.leftsidebar LOTES
+
+          // Retroalimentación
+          if barraLateral && barraLateral === 'retroalimentacion'
+            li.activo
+              a(href='/retroalimentacion')
+                i(class='fa fa-fw fa-book')
+                p.inline.leftsidebar RETROALIMENTACIÓN
+          else
+            li
+              a(href='/retroalimentacion')
+                i(class='fa fa-fw fa-book')
+                p.inline.leftsidebar RETROALIMENTACIÓN
+
     block content
+      if aviso
+        div.container
+          div(class="alert alert-#{aviso.tipo} col-md-6 col-md-offset-3", role="alert")
+            i(class="#{aviso.icono}")
+            p.inline #{aviso.mensaje}

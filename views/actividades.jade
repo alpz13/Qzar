@@ -26,7 +26,7 @@ block content
                     td(class='id' style='display:none;') #{actividad.idActividad}
                     td(class='nombre') #{actividad.nombre}
                     td(class='descripcion') #{actividad.descripcion}
-                    td(class='img' style='display:none;') #{actividad.ruta} 
+                    //td(class='img' style='display:none;') #{actividad.ruta} 
                     //poner TD con class img
                     td#botones-modificar 
                       button.btn.btn-primary(type="button" class="modificar" data-toggle="modal" data-target="#MAA" id='boton-modificar') Modificar
@@ -35,7 +35,7 @@ block content
           else
             p.watermark No se han encontrado actividades en el sistema.
 
-    //Modal2
+    //Modal Modificar
     div(id='MAA' class='modal fade' role='dialog')
       div.modal-dialog
         //Contenido modal
@@ -56,7 +56,7 @@ block content
               button.btn.btn-primary(type="submit") Modificar
               button.btn.btn-default(type="button" data-dismiss="modal") Cerrar
 
-    //Modal
+    //Modal Agregar
     div(id='FAA' class='modal fade' role='dialog')
       div.modal-dialog
         //Contenido modal
@@ -89,6 +89,8 @@ block content
       function resetform(){
         document.getElementById("AgregaActividad").reset();
       }
+
+  script(src='/js/tablamodalmodificar.js')
   //Cierro segundo col-lg -12 
   //Cierro Container Fluid
   //Containererro PageWrapper
