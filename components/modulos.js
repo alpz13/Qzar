@@ -3,9 +3,7 @@
  */
 'use strict';
 
-var express = require('express');
 var mysql = require('mysql');
-var router = express.Router();
 
 var credenciales = require('../database/credencialesbd.json');
 
@@ -50,7 +48,7 @@ function listarModulos(callback) {
 
 function mostrarModulos(id, callback) {
     var bd = mysql.createConnection(credenciales),
-        sql = 'SELECT m.idModulo, m.nombre, m.numeroModulo, m.usuarioAdministrador, u.nombre AS admin FROM Modulos AS m INNER JOIN Usuarios AS u ON m.usuarioAdministrador = u.idUsuario WHERE m.idModulo = ?;',
+        sql = 'SELECT m.idModulo, m.nombre, m.numeroModulo, m.usuarioAdministrador, u.nombre AS admin, m.ancho, m.alto FROM Modulos AS m INNER JOIN Usuarios AS u ON m.usuarioAdministrador = u.idUsuario WHERE m.idModulo = ?;',
         params= [id];
     
     sql = mysql.format(sql, params);

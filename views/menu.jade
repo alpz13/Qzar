@@ -95,6 +95,17 @@ block body
                 i(class='fa fa-fw fa-archive')
                 p.inline.leftsidebar LOTES
 
+          // Retroalimentación
+          if barraLateral && barraLateral === 'retroalimentacion'
+            li.activo
+              a(href='/retroalimentacion')
+                i(class='fa fa-fw fa-book')
+                p.inline.leftsidebar RETROALIMENTACIÓN
+          else
+            li
+              a(href='/retroalimentacion')
+                i(class='fa fa-fw fa-book')
+                p.inline.leftsidebar RETROALIMENTACIÓN
 
     block content
       if aviso

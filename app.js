@@ -1,5 +1,5 @@
 /*jslint
-        indent: 4, unparam: true
+    indent: 4, unparam: true
 */
 'use strict';
 
@@ -12,7 +12,6 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 
 var routes = require('./routes/index');
-//var users = require('./routes/users');
 var crearHuerta = require('./routes/crearHuerta');
 var formularioCrearHuerta = require('./routes/formularioCrearHuerta'); //donde leer
 var crearHuertaGuardar = require('./routes/crearHuertaGuardar');
@@ -21,6 +20,7 @@ var actividades = require('./routes/actividades');
 var sesiones = require('./routes/sesiones');
 var usuarios = require('./routes/usuarios');
 var lotes = require('./routes/lotes');
+var retroalimentacion = require('./routes/retroalimentacion');
 
 var app = express();
 
@@ -51,7 +51,7 @@ app.get(/.*/, function(req, res, next) {
         next();
     }
 });
-//app.use('/users', users);
+
 app.use('/modulo/huerta/crear', crearHuerta);//Si llaman esta url, ejecutar
 app.use('/modulo/huerta/formulario', formularioCrearHuerta);
 app.use('/modulo/huerta/crearGuardar', crearHuertaGuardar);
@@ -60,6 +60,7 @@ app.use('/actividades', actividades);
 app.use('/sesiones', sesiones);
 app.use('/usuarios', usuarios);
 app.use('/lotes', lotes);
+app.use('/retroalimentacion', retroalimentacion);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

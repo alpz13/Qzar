@@ -17,7 +17,6 @@ router.get('/', function (req, res, next) {
         res.redirect('/modulos/' + req.session.usuario.idModulo);
         return;
     }
-
     modulos.listar(function (err, modulos) {
         if (err) {
             console.log(err);
@@ -93,7 +92,21 @@ router.get('/:id(\\d+)', function (req, res, next) {
             if (err) {
                 console.log(err);
             }
-            res.render('vermodulos', { titulo: 'Módulo ', modulo: modulos[0], usuario: req.session.usuario, listaAdmins: usuarios, barraLateral: 'modulos'});
+            console.log(modulos[0]);
+            var alto = [];
+            var ancho = [];
+            while (modulos[0].alto > 0) {
+                alto.push(modulos[0].alto);
+                modulos[0].alto--;
+            }
+            while (modulos[0].ancho > 0) {
+                ancho.push(modulos[0].ancho);
+                modulos[0].ancho--;
+            }
+            //modulos[0].ancho = ancho;
+            //modulos[0].alto = alto;
+            console.log("Ahora si joven: " + ancho);
+            res.render('vermodulos', { titulo: 'Módulo ', modulo: modulos[0], usuario: req.session.usuario, listaAdmins: usuarios, barraLateral: 'modulos', alto: alto, ancho: ancho});
         });
     });
 });

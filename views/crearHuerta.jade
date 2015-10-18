@@ -40,11 +40,14 @@ block content
 
       var guardarHuerta = function()
       {
+        //Desactiva el boton
+        document.getElementById("btnSubmitHuerta").disabled = 'true';
         var cuadritos = [];
         var renglon = 0;
+        var columna = 0;
         $(".renglon").each(function(){
           var row = $(this);
-          var columna = 0;
+          columna = 0;
           $(row).find('td').each(function(){
               var celda = $(this);
               var cuadro = {};
@@ -63,10 +66,15 @@ block content
           $.post("/modulo/huerta/crearGuardar",
           {
               'cuadritos': JSON.stringify(cuadritos),
-              'modulo': 2
+              'modulo': 2,
+              'alto': renglon,
+              'ancho': columna
           },
           function(data, status){
               alert("Data: " + data + "\nStatus: " + status);
+
+              window.location.replace('/modulos/' + data);
+
           },'json');
 
       }
@@ -87,10 +95,10 @@ block content
           div
             label Sectores:
             select#listaCuadritos.form-control
-              option(type='0', BGCOLOR='') Vacio
-              option(type='1', BGCOLOR='red') Fresa
-              option(type='2', BGCOLOR='yellow') Piña
-              option(type='3', BGCOLOR='blue') Zarzamora
+              option(type='1', BGCOLOR='') Vacio
+              option(type='2', BGCOLOR='red') Fresa
+              option(type='3', BGCOLOR='yellow') Piña
+              option(type='4', BGCOLOR='blue') Zarzamora
           div
             label N° Sector:   
             input#selectSector.form-control(type="number", min='0', value="0" onchange="verPositivos()")
