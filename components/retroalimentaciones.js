@@ -14,9 +14,14 @@ function agregarRetroalimentación(retro, callback) {
     // El archivo tiene como nombre el idModulo y la fecha.
     var hoy = moment().tz('America/Mexico_City').format('YYYY-MM-DD'),
         bd = mysql.createConnection(credenciales),
-        nombreArchivo,
         sql = "INSERT INTO Retroalimentaciones(fecha, idModulos, descripcion, contenidoMultimedia) VALUES(?,?,?,?);",
-        params = [hoy, retro.idModulo, retro.descripción, nombreArchivo];
+        nombreArchivo,
+        params;
+
+    if (retro.archivo) {
+        nombreArchivo = retro.idModulo + '_' + hoy + path.extname(retro.archivo.originalFilename);
+    }
+    params = [hoy, retro.idModulo, retro.descripción, nombreArchivo];
 
     bd.connect();
 
@@ -33,7 +38,6 @@ function agregarRetroalimentación(retro, callback) {
         if (!retro.archivo) {
             return callback(null, resultado.insertId);
         } else {
-            nombreArchivo = retro.idModulo + '_' + hoy + path.extname(retro.archivo.originalFilename);
             fs.readFile(retro.archivo.path, function (err, contenidoArchivo) {
                 if (err) {
                     return callback(err);

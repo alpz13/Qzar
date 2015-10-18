@@ -95,7 +95,7 @@ router.get('/:id(\\d+)', function (req, res, next) {
             return;
         }
 
-        res.render('verretroalimentacion', { titulo: 'Retroalimentación', usuario:req.session.usuario, barraLateral: "retroalimentacion", modulo: modulos[0]});
+        res.render('verretroalimentacion', { titulo: 'Retroalimentaciones', usuario:req.session.usuario, barraLateral: "retroalimentacion", modulo: modulos[0]});
     });
 });
 
