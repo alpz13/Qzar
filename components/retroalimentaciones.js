@@ -53,7 +53,7 @@ var listarRetroalimentaciones = function (idModulo, res) {
   connection.connect(function (err) {
     if (!err) {
       console.log("Database is connected ... \n");
-      connection.query("select ret.fecha as date, ret.descripcion as descripcion FROM Retroalimentaciones as ret WHERE ret.idModulos = " + idModulo, function (err, rows) {
+      connection.query("select ret.fecha as date, ret.descripcion as descripcion, ret.contenidoMultimedia as ruta FROM Retroalimentaciones as ret WHERE ret.idModulos = " + idModulo, function (err, rows) {
         if (!err) {
           console.log(rows);
           res.setHeader('Content-Type', 'application/json');

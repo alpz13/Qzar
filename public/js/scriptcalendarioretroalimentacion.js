@@ -20,14 +20,20 @@ $(document).ready(
 
 function llenaPanel(eventos, date) {
   var htmlALlenar = "";
+  var imagen = 'none';
   $(eventos).each(function () {
-    htmlALlenar += "<div class='event-item'>";
-    htmlALlenar += "<div class='event-item-location'>Retroalimentación: " + this.descripcion + "</div>";
+    htmlALlenar += "<div class='retro-item'>";
+    htmlALlenar += "<div class='retro-item-location'>Retroalimentación: " + this.descripcion + "</div>";
+    htmlALlenar += "<div id='retro-item-image'></div>";
+    imagen = this.ruta;
+    if(imagen != 'none'){
+      htmlALlenar += "<a href=/images/retros/"+imagen+" target='_blank'>Ver en grande</a>";
+    }
     htmlALlenar += "</div>";
   });
-  //$(htmlALlenar).appendTo('#eventos-del-dia');
+  console.log(imagen);
   $('#eventos-del-dia').html(htmlALlenar);
-  //var today = new Date(); var dd = today.getDate(); var mm = today.getMonth()+1; //January is 0! var yyyy = today.getFullYear(); if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm} var today = dd+'/'+mm+'/'+yyyy; document.getElementById("DATE").value = today;
+  $('#retro-item-image').css("background-image", "url(/images/retros/"+imagen+")");
   var today = estandarizarFecha(date);
   $('#titulo-eventos-del-dia').html('Retroalimentación del día - ' + today);
 }

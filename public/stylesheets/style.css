@@ -176,3 +176,10 @@ textarea{
 #full-clndr {
     margin-top: 32px;
 }
+
+div#retro-item-image{
+    background-size: contain;
+    height: 250px;
+    background-repeat: no-repeat;
+    margin: 0 auto;
+}
