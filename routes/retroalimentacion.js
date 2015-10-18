@@ -75,6 +75,50 @@ router.post('/nuevo', function (req, res, next) {
     });
 });
 
+// Petición de actualizar retroalimentación del día.
+router.post('/actualizar', function (req, res, next) {
+    var formulario = new multiparty.Form(),
+        retroalimentación = {
+            'idModulo' : req.session.usuario.idModulo
+        };
+
+    // Valida permisos para actualizar retroalimentación.
+    // Que no cheque tan chacamente.
+    if (req.session.usuario.idRoles !== 2) {
+        res.send("No tienes permiso para actualizar la retroalimentación.");
+        return;
+    }
+
+    // Para leer el archivo.
+    formulario.parse(req, function(err, campos, archivos) {
+        if (err) {
+            console.log(err);
+            res.send('Hubo un error al actualizar la retroalimentación. Inténtelo más tarde.');
+        } else {
+            retroalimentación.descripción = campos.descripcion;
+            if (archivos.foto[0].size > 0) {
+                if (archivos.foto[0].headers['content-type'].match(/^image/)) {
+                    retroalimentación.archivo = archivos.foto[0];
+                } else {
+                    console.log(archivos.foto[0].headers);
+                    res.send('La foto de retroalimentación debe ser una imagen.');
+					return;
+				}
+            }
+
+            // Intenta agregar retro.
+            retroalimentaciones.actualizar(retroalimentación, function(err) {
+                if (err) {
+                    console.log(err);
+                    res.send('Hubo un error al actualizar la retroalimentación. Inténtelo más tarde.');
+                } else {
+                    res.redirect('/retroalimentacion/' + req.session.usuario.idModulo);
+                }
+            });
+        }
+    });
+});
+
 // Ver retroalimentaciones del módulo.
 router.get('/:id(\\d+)', function (req, res, next) {
     var idModulo = req.params.id;
@@ -95,7 +139,12 @@ router.get('/:id(\\d+)', function (req, res, next) {
             return;
         }
 
-        res.render('verretroalimentacion', { titulo: 'Retroalimentaciones', usuario:req.session.usuario, barraLateral: "retroalimentacion", modulo: modulos[0]});
+        retroalimentaciones.hoy(idModulo, function(err, retroalimentacionHoy) {
+            if (err) {
+				console.log(err);
+			}
+            res.render('verretroalimentacion', { titulo: 'Retroalimentaciones', usuario:req.session.usuario, barraLateral: "retroalimentacion", modulo: modulos[0], retroalimentacionHoy: retroalimentacionHoy});
+		});
     });
 });
 

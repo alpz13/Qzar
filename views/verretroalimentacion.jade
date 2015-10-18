@@ -17,7 +17,10 @@ block content
       if usuario.idRoles == 2
         a(class='nav navbar-right top-nav' href='#' data-toggle="modal" data-target="#FAA" id='boton-agregar')
           i.material-icons.md-48#boton-agregar-retro control_point
-          p Enviar retroalimentación de hoy
+          if retroalimentacionHoy
+            p Cambiar retroalimentación de hoy
+          else
+            p Enviar retroalimentación de hoy
 
     div#full-clndr.clearfix
     script.todo.
@@ -48,23 +51,44 @@ block content
           <p>Selecciona un día para ver la retroalimentación del día</p>
       </div>
 
-    //Modal Agregar
-    div(id='FAA' class='modal fade' role='dialog')
-      div.modal-dialog
-        //Contenido modal
-        div.modal-content
-          div.modal-header
-            button(type='button' class='close' data-dismiss="modal") &times;
-            h4.modal-title Agregar retroalimentación del día
-          form#AgregarRetro(action="/retroalimentacion/nuevo" method="post" enctype="multipart/form-data")
-            div.modal-body 
-              label Descripción 
-              textarea.form-control(rows='5' cols='60' name="descripcion" required)
-              label Foto
-              input(type="file" name="foto" size="58")
-            div.modal-footer
-              button#agregaRetro.btn.btn-primary(type="submit") Enviar
-              button.btn.btn-default(type="button" data-dismiss="modal") Cerrar
+    if usuario.idRoles == 2
+      if !retroalimentacionHoy
+        //Modal Agregar
+        div(id='FAA' class='modal fade' role='dialog')
+          div.modal-dialog
+            //Contenido modal
+            div.modal-content
+              div.modal-header
+                button(type='button' class='close' data-dismiss="modal") &times;
+                h4.modal-title Agregar retroalimentación del día
+              form#AgregarRetro(action="/retroalimentacion/nuevo" method="post" enctype="multipart/form-data")
+                div.modal-body 
+                  label Descripción 
+                  textarea.form-control(rows='5' cols='60' name="descripcion" required)
+                  label Foto
+                  input(type="file" name="foto" size="58")
+                div.modal-footer
+                  button#agregaRetro.btn.btn-primary(type="submit") Enviar
+                  button.btn.btn-default(type="button" data-dismiss="modal") Cerrar
+      else
+        //Modal Actualizar
+        div(id='FAA' class='modal fade' role='dialog')
+          div.modal-dialog
+            //Contenido modal
+            div.modal-content
+              div.modal-header
+                button(type='button' class='close' data-dismiss="modal") &times;
+                h4.modal-title Cambiar retroalimentación del día
+              form#AgregarRetro(action="/retroalimentacion/actualizar" method="post" enctype="multipart/form-data")
+                div.modal-body 
+                  label Descripción 
+                  textarea.form-control(rows='5' cols='60' name="descripcion" required) #{retroalimentacionHoy.descripcion}
+                  label Foto
+                  //img(src='/images/retros/#{retroalimentacionHoy.contenidoMultimedia}')
+                  input(type="file" name="foto" size="58")
+                div.modal-footer
+                  button#agregaRetro.btn.btn-primary(type="submit") Enviar
+                  button.btn.btn-default(type="button" data-dismiss="modal") Cerrar
 
   script(src='/js/agregaretroalimentacion.js')
   //Cierro segundo col-lg-12 
