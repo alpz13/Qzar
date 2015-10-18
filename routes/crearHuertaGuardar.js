@@ -1,8 +1,7 @@
+
 var express = require('express');
 var router = express.Router();
 
-
-//////////////////
 var insertaCuadrito = function(idModulo, idSector, cuadrito){
   //Carga el modulo de mySQL
   var mysql = require('mysql');
@@ -101,6 +100,22 @@ var creaConexion = function(){
 }
 
 
+var tamHuerta = function(idModulo, alto, ancho){
+  connection = creaConexion();
+  connection.query("UPDATE Modulos set alto = '"+ alto +"', ancho = '"+ ancho +"' WHERE idModulo = '"+ idModulo + "'", function(err, rows, fields) {
+      if (!err) {
+        console.log("UPDATE Modulos set alto = '"+ alto +"', ancho = '"+ ancho +"' WHERE idModulo = '"+ idModulo + "'");
+      } else {
+        console.log('Error while performing Query. (Searching if sector exist)');
+        console.log("este es el error joven: " + err);
+      }
+    
+    });
+    connection.end();  
+
+}
+
+
 router.post("/", function(request,response,next){
   //Carga el modulo de mySQL
   var mysql = require('mysql');
@@ -109,19 +124,24 @@ router.post("/", function(request,response,next){
   var idModulo = request.body.modulo;
   //Ver si existe el sector, si no crearlo
   var renglones = cuadritos.length;
-  console.log("renglones: " + renglones);
+  //Alto y ancho
+  var ancho = request.body.ancho;
+  var alto = request.body.alto;
+  tamHuerta(idModulo, alto, ancho);
+  console.log("ALto:"+ alto);
+  console.log("ancho: "+ ancho);
   //Existe el sector ¿?
   selectSector(idModulo, cuadritos, 0);
   //Termina la conexion
   //Redirecciona a una URL
-  response.redirect('/contador');
+  //response.redirect('/contador');
+  response.setHeader('Content-Type', 'application/json');
+  response.send(JSON.stringify(idModulo));
+
 });
 
 
-
-
-
-//////////////////
-
-
 module.exports = router;
+
+
+
