@@ -48,8 +48,14 @@ router.post('/nuevo', function (req, res, next) {
             res.send('Hubo un error al agregar la retroalimentación. Inténtelo más tarde.');
         } else {
             retroalimentación.descripción = campos.descripcion;
-            if (archivos) {
-                retroalimentación.archivo = archivos.archivo[0];
+            if (archivos.foto[0].size > 0) {
+                if (archivos.foto[0].headers['content-type'].match(/^image/)) {
+                    retroalimentación.archivo = archivos.foto[0];
+                } else {
+                    console.log(archivos.foto[0].headers);
+                    res.send('La foto de retroalimentación debe ser una imagen.');
+					return;
+				}
             }
 
             // Intenta agregar retro.
