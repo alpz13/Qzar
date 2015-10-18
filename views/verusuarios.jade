@@ -1,0 +1,80 @@
+extends menu
+block content
+  link(rel='stylesheet', href="/stylesheets/tableHuerta.css", type='text/css')
+  title #{usuarios.nombreUsuario}
+  //Contenido de Pagina
+  div#page-wrapper
+    div.container-fluid
+      div.row
+        div#barra-ver-usuarios
+          div.col-sm-12.col-md-8.col-md-offset-2
+            i#icono.material-icons.agregar-modulo.inline.inline dashboard
+            h1#h1VerUsuarios #{titulo}
+              span#nombreModulo #{usuarios.nombreUsuario}
+        div.col-sm-12.col-md-8.col-md-offset-2
+          table.table.table-striped.table-bordered
+            tbody
+                tr
+                  td Rol 
+                  td Modulo
+                  td
+                tr
+                  td(class='id' style='display:none;') #{usuarios.idUsuario}
+                  td#Rol #{usuarios.nombreRol}
+                  td#administradorModulo #{usuarios.nombreModulo}
+                  td(class='id' style='display:none;') #{usuarios.nombreUsuario}
+                  if usuario.idRoles == 1
+                    td#botones-modificar
+                      button.btn.btn-primary(type="button" class="modificar" data-toggle="modal" data-target="#MMU" id='boton-modificar') Modificar
+                      &nbsp&nbsp&nbsp
+                      button.btn.btn-default( type="button" class="eliminar" data-dismiss="modal" onclick="window.location.href='/usuarios/eliminar/#{usuarios.idUsuario}'" ) Eliminar
+    //Modal Modificar
+    div(id='MMU' class='modal fade' role='dialog')
+      div.modal-dialog
+        //Contenido modal
+        div.modal-content
+          div.modal-header
+            button(type='button' class='close' data-dismiss="modal") &times;
+            h4.modal-title Modificar Usuario
+          form(action="/actividades/modificar" method="post" id="ModificaUsuarios")
+            div.modal-body
+              label Nombre
+              input.form-control(type="text" name="nombreUsuario" size="58" id="MNU")
+              label Constraseña 
+              input.form-control(type="password" name="contrasenaUsuario" size="58")
+              label Re-constraseña
+              input.form-control(type="password" name="recontrasenaUsuario" size="58")
+              label Rol
+              select.form-control(name="roles" id="MRU")
+                each rol in roles
+                  option(value="#{rol.idRol}") #{rol.nombre}
+              label Modulo
+              select.form-control(name="modulo" id="MMU")
+                each modulo in modulos
+                  option(value="#{modulo.idModulo}") #{modulo.nombre}
+            div.modal-footer
+              button.btn.btn-primary(type="submit") Modificar
+              button.btn.btn-default(type="button" data-dismiss="modal") Cerrar
+  //Cierro segundo col-lg-12 
+  //Cierro Container Fluid
+  //Containererro PageWrapper
+  //Cierro Wrapper
+  //Jquery
+  script(src='/bootstrap/js/jquery.js')
+  //Bootstrap Core JS
+  script(src='/bootstrap/js/bootstrap.min.js')
+
+  // Editar módulos
+  //Underscore
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js')
+
+  //moment
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js')
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/locale/es.js')
+
+  //clndr
+  script(src='/plugins/clndr.min.js')
+
+  script(src='/js/editarmodulo.js')
+    
+  script(src='/js/modificarusuario.js')
