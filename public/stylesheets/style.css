@@ -3,7 +3,7 @@ body {
 }
 
 a {
-  color: #00B7FF;
+  color: #96B566;
 }
 
 .inline {
@@ -143,18 +143,24 @@ textarea{
 /* sbadmin+bootstrap overwrites */
 
 #topbar {
-    background-color: #394866;
+    background-color: #C3C3C3;
+    border-color: #808080;
 }
 
 .side-nav {
-    background-color: #233252;
-}
+    background-color: #7C7C7C;
+    border-right: 1px solid #AAAAAA;
+} 
 
 .activo {
-    background-color: #598444;
+    background-color: #668E39;
     /*background-color: #9BA2B2;*/
     box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
-    pointer-events: none;
+}
+
+.navbar-inverse .navbar-nav>li>a {
+    color: #EEEEEE;
+
 }
 
 .navbar-inverse .navbar-nav>li.activo>a {
@@ -164,7 +170,7 @@ textarea{
 }
 
 .side-nav li a:hover {
-    background-color: #769F63 !important;
+    background-color: #96B566 !important;
     box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
 }
 
@@ -176,3 +182,10 @@ textarea{
 #full-clndr {
     margin-top: 32px;
 }
+
+.btn-primary {
+    background-color: #668E39;
+    border-color: #466E19;
+}
+
+/* http://www.colorcombos.com/color-schemes/170/ColorCombo170.html */
