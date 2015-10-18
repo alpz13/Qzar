@@ -1,0 +1,114 @@
+extends menu
+block content
+  link(rel='stylesheet', href="/stylesheets/tableHuerta.css", type='text/css')
+  title Retroalimentaciones de #{modulo.nombre}
+  //Contenido de Pagina
+  div#page-wrapper
+    div.container-fluid
+      div.row
+        div#barra-ver-modulos
+          div.col-sm-12.col-md-8.col-md-offset-2
+            //p #{mensaje}
+            i#icono.material-icons.agregar-modulo.inline.inline dashboard
+            h1#h1VerModulos #{titulo}
+              span#nombreModulo  #{modulo.nombre}
+
+      // TODO: Que no esté jarcodeado
+      if usuario.idRoles == 2
+        a(class='nav navbar-right top-nav' href='#' data-toggle="modal" data-target="#FAA" id='boton-agregar')
+          i.material-icons.md-48#boton-agregar-retro control_point
+          if retroalimentacionHoy
+            p Cambiar retroalimentación de hoy
+          else
+            p Enviar retroalimentación de hoy
+
+    div#full-clndr.clearfix
+    script.todo.
+      <div class="clndr-controls">
+        <div class="clndr-previous-button">&lsaquo;</div>
+        <div class="clndr-next-button">&rsaquo;</div>
+        <div class="month"><%= month %> <%= year %></div>
+      </div>
+      <div class="clndr-grid">
+        <div class="days-of-the-week clearfix">
+          <% _.each(daysOfTheWeek, function(day) { %>
+            <div class="header-day">
+              <%= day %>
+            </div>
+          <% }); %>
+        </div>
+        <div class="days clearfix">
+          <% _.each(days, function(day) { %>
+          <div class="<%= day.classes %>" id="<%= day.id %>">
+            <span><%= day.day %></span>
+          </div>
+        <% }); %>
+        </div>
+      </div>
+      <div class="event-listing">
+        <div class="event-listing-title" id="titulo-eventos-del-dia">Retroalimentación del día</div>
+        <div id="eventos-del-dia">
+          <p>Selecciona un día para ver la retroalimentación del día</p>
+      </div>
+
+    if usuario.idRoles == 2
+      if !retroalimentacionHoy
+        //Modal Agregar
+        div(id='FAA' class='modal fade' role='dialog')
+          div.modal-dialog
+            //Contenido modal
+            div.modal-content
+              div.modal-header
+                button(type='button' class='close' data-dismiss="modal") &times;
+                h4.modal-title Agregar retroalimentación del día
+              form#AgregarRetro(action="/retroalimentacion/nuevo" method="post" enctype="multipart/form-data")
+                div.modal-body 
+                  label Descripción 
+                  textarea.form-control(rows='5' cols='60' name="descripcion" required)
+                  label Foto
+                  input(type="file" name="foto" size="58")
+                div.modal-footer
+                  button#agregaRetro.btn.btn-primary(type="submit") Enviar
+                  button.btn.btn-default(type="button" data-dismiss="modal") Cerrar
+      else
+        //Modal Actualizar
+        div(id='FAA' class='modal fade' role='dialog')
+          div.modal-dialog
+            //Contenido modal
+            div.modal-content
+              div.modal-header
+                button(type='button' class='close' data-dismiss="modal") &times;
+                h4.modal-title Cambiar retroalimentación del día
+              form#AgregarRetro(action="/retroalimentacion/actualizar" method="post" enctype="multipart/form-data")
+                div.modal-body 
+                  label Descripción 
+                  textarea.form-control(rows='5' cols='60' name="descripcion" required) #{retroalimentacionHoy.descripcion}
+                  label Foto
+                  //img(src='/images/retros/#{retroalimentacionHoy.contenidoMultimedia}')
+                  input(type="file" name="foto" size="58")
+                div.modal-footer
+                  button#agregaRetro.btn.btn-primary(type="submit") Enviar
+                  button.btn.btn-default(type="button" data-dismiss="modal") Cerrar
+
+  script(src='/js/agregaretroalimentacion.js')
+  //Cierro segundo col-lg-12 
+  //Cierro Container Fluid
+  //Containererro PageWrapper
+  //Cierro Wrapper
+  //Jquery
+  script(src='/bootstrap/js/jquery.js')
+  //Bootstrap Core JS
+  script(src='/bootstrap/js/bootstrap.min.js')
+
+  //Underscore
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js')
+
+  //moment
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js')
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/locale/es.js')
+
+  //clndr
+  script(src='/plugins/clndr.min.js')
+
+  script(src='/js/scriptcalendarios.js')
+  script(src='/js/scriptcalendarioretroalimentacion.js')
