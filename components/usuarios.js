@@ -31,7 +31,7 @@ function listarUsuariosModulo(id, callback) {
 //listar usuarios
 function listarUsuarios(callback) {
     var bd = mysql.createConnection(credenciales),
-        sql = '(Select u.idUsuario, u.nombre as nombreUsuario, r.nombre as nombreRol, m.nombre as nombreModulo from usuarios as u, roles as r, modulos as m where u.idRoles = r.idRol and u.idModulo = m.idModulo and u.activo = 1 order by m.nombre) UNION (Select u.idUsuario, u.nombre as nombreUsuario, r.nombre as nombreRol, u.idModulo as nombreModulo from usuarios as u, roles as r where u.idRoles = r.idRol and u.activo = 1 and idModulo IS NULL);';
+        sql = '(Select u.idUsuario, u.nombre as nombreUsuario, r.nombre as nombreRol, m.nombre as nombreModulo from Usuarios as u, Roles as r, Modulos as m where u.idRoles = r.idRol and u.idModulo = m.idModulo and u.activo = 1 order by m.nombre) UNION (Select u.idUsuario, u.nombre as nombreUsuario, r.nombre as nombreRol, u.idModulo as nombreModulo from Usuarios as u, Roles as r where u.idRoles = r.idRol and u.activo = 1 and idModulo IS NULL);';
         //sql = '(Select u.nombre as nombreUsuario, r.nombre as nombreRol, m.nombre as nombreModulo from usuarios as u, roles as r, modulos as m where u.idRoles = r.idRol and u.idModulo = m.idModulo) UNION (Select u.nombre as nombreUsuario, r.nombre as nombreRol, u.idModulo as nombreModulo from usuarios as u, roles as r where u.idRoles = r.idRol and  idModulo IS NULL);';
     bd.connect();
     // Ejecuta consulta.
@@ -69,7 +69,7 @@ function listarAdminsGenerales(callback) {
 function mostrarUsuarios(id, callback) {
     var bd = mysql.createConnection(credenciales),
         //sql = 'SELECT idRoles, nombre, idUsuario FROM usuarios where idUsuario = ?',
-        sql ='Select u.nombre as nombreUsuario, r.nombre as nombreRol, m.nombre as nombreModulo, u.idModulo, u.idRoles, idUsuario from usuarios as u, roles as r, modulos as m where u.idRoles = r.idRol and u.idModulo = m.idModulo and idUsuario= ?',
+        sql ='Select u.nombre as nombreUsuario, r.nombre as nombreRol, m.nombre as nombreModulo, u.idModulo, u.idRoles, idUsuario from Usuarios as u, Roles as r, Modulos as m where u.idRoles = r.idRol and u.idModulo = m.idModulo and idUsuario= ?',
         params= [id];
     
     sql = mysql.format(sql, params);
@@ -88,7 +88,7 @@ function mostrarUsuarios(id, callback) {
 
 function listarRoles(callback) {
     var bd = mysql.createConnection(credenciales),
-        sql = 'SELECT * FROM roles;';
+        sql = 'SELECT * FROM Roles;';
     bd.connect();
     bd.query(sql, function (err, resultados) {
         if (err) {
@@ -102,7 +102,7 @@ function listarRoles(callback) {
 
 function listarModulos(callback) {
     var bd = mysql.createConnection(credenciales),
-        sql = 'SELECT idModulo, nombre FROM modulos;';
+        sql = 'SELECT idModulo, nombre FROM Modulos;';
     bd.connect();
     bd.query(sql, function (err, resultados) {
         if (err) {
