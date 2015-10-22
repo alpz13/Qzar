@@ -1,8 +1,10 @@
-extend layout
 extend menu
 block content
   head
     link(rel='stylesheet', href="/stylesheets/tableHuerta.css", type='text/css')
+    script(src='/js/scripthuerta.js')  
+    script(type='text/javascript').
+      var cuadritos =!{JSON.stringify(cuadritos)};
     script.
       var flag = false;
       $(document).ready(function() {
@@ -11,7 +13,6 @@ block content
         $(".cuadrito").mousedown(function(){flag=true;marked($(this));});
         $(".cuadrito").mouseenter(function(){marked($(this));});
         });
-
 
       var marked = function(cuadrito)
       {
@@ -63,10 +64,11 @@ block content
           });
           console.log(cuadritos);
           //mandamos cuadriots al servidor
+          var url = window.location.href.split("/");
           $.post("/modulo/huerta/crearGuardar",
           {
               'cuadritos': JSON.stringify(cuadritos),
-              'modulo': 2,
+              'modulo': url[url.length-1],
               'alto': renglon,
               'ancho': columna
           },
@@ -90,7 +92,7 @@ block content
         div#barra-crear-huerta
           div.col-sm-12.col-md-8.col-md-offset-2
             i#icono.material-icons.inline.inline dashboard
-            h1#h1CrearHuerta Crear Huerta
+            h1#h1CrearHuerta #{title}
         div.form-group.col-sm-12.col-md-8.col-md-offset-2.crear-labels
           div
             label Sectores:
@@ -113,5 +115,3 @@ block content
                 tr.renglon
                   each row in ancho 
                     td.cuadrito &nbsp
-
-    
