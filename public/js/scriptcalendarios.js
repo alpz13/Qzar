@@ -20,11 +20,6 @@ function llenarCalendario(data) {
     {
       template: $('.todo').html(),
       events: data,
-      multiDayEvents: {
-        startDate: 'startDate',
-        endDate: 'endDate',
-        singleDay: 'date'
-      },
       daysOfTheWeek: ['L', 'M', 'M', 'J', 'V', 'S', 'D'],
       clickEvents: {
         click: function (target) {
