@@ -1,3 +1,4 @@
+/* globals require: true, console: true, module: true */
 'use strict';
 
 var express = require('express');
@@ -6,8 +7,7 @@ var router = express.Router();
 var modulos = require('../components/modulos.js');
 var cuadritos = require('../components/modulos.js');
 var usuarios = require('../components/usuarios.js');
-var actividadesAsignadas = require('../components/actividadesAsignadas.js');
-
+var asignaciones = require('../components/asignaciones.js');
 
 // Página principal de módulos
 router.get('/', function (req, res, next) {
@@ -27,18 +27,14 @@ router.get('/', function (req, res, next) {
         });
     });
 });
-//Cadbfjabsdf
 
 var desplegarCuadritos = function (req, res, next) {
-
     modulos.desplegar(function (err, cuadritos) {
         if (err) {
             console.log(err);
+            return;
         }
-        else{
-            res.render('modulos', { titulo: 'Módulos', modulos: modulos, usuario: req.session.usuario, listaAdmins: usuarios, barraLateral: 'modulos' });
-        }
-        
+        res.render('modulos', { titulo: 'Módulos', modulos: modulos, usuario: req.session.usuario, listaAdmins: usuarios, barraLateral: 'modulos' });    
     });
 }
 
@@ -192,7 +188,10 @@ router.post('/itinerario', function (req, res, next) {
         res.redirect('/modulos/' + req.session.usuario.idModulo);
         return;
     }*/
-    actividadesAsignadas.listarActividadesAsignadas(req.body.modulo, res);
+    asignaciones.listarAsignaciones(req.body.modulo, res, function(rows) {
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify(rows));
+    });
 });
 
 module.exports = router;
