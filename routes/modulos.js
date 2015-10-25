@@ -1,6 +1,3 @@
-/*jslint
-    indent: 4, unparam: true
-*/
 'use strict';
 
 var express = require('express');

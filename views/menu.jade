@@ -38,12 +38,12 @@ block body
         ul(class='nav navbar-nav side-nav')
           if !barraLateral
             li.activo
-              a(href='#')
+              a(href='/')
                 i(class='fa fa-fw fa-dashboard')
                 p.inline.leftsidebar INICIO
           else
             li
-              a(href='#')
+              a(href='/')
                 i(class='fa fa-fw fa-dashboard')
                 p.inline.leftsidebar INICIO
   
@@ -108,8 +108,3 @@ block body
                 p.inline.leftsidebar RETROALIMENTACIÓN
 
     block content
-      if aviso
-        div.container
-          div(class="alert alert-#{aviso.tipo} col-md-6 col-md-offset-3", role="alert")
-            i(class="#{aviso.icono}")
-            p.inline #{aviso.mensaje}

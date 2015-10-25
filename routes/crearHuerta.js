@@ -1,3 +1,5 @@
+'use strict';
+
 var express = require('express');
 var router = express.Router();
 
@@ -24,16 +26,16 @@ router.post('/crear/:id(\\d+)', function (req, res, next) {
 });
 
 /*
-var borrarCuadritos = function(idModulo){
+var borrarCuadritos = function (idModulo) {
   //Carga el modulo de mySQL
   var mysql = require('mysql');
   connection = creaConexion();
   //Guardar el cuadrito
-  connection.query("DELETE FROM Cuadritos USING Cuadritos, Sectores, Modulos WHERE Sectores.idModulos = idModulo AND Cuadritos.idSectores = Sectores.idSector", function(err, rows, fields) {
+  connection.query("DELETE FROM Cuadritos USING Cuadritos, Sectores, Modulos WHERE Sectores.idModulos = idModulo AND Cuadritos.idSectores = Sectores.idSector", function (err, rows, fields) {
     //Funcion callback del query
-    if (!err){
+    if (!err) {
       //Si no ocurrio un error al realizar la query
-    } else{
+    } else {
       //Error al ejecutar el query
       console.log(err);
     }
@@ -44,17 +46,17 @@ var borrarCuadritos = function(idModulo){
 */
 
 
-var eliminaHuerta = function(idModulo){
+var eliminaHuerta = function (idModulo) {
   //Carga el modulo de mySQL
   var mysql = require('mysql');
   connection = creaConexion();
   //Guardar el cuadrito
-  connection.query("DELETE FROM Cuadritos USING Cuadritos, Sectores, Modulos WHERE Sectores.idModulos = '"+idModulo+"' AND Cuadritos.idSectores = Sectores.idSector", function(err, rows, fields) {
+  connection.query("DELETE FROM Cuadritos USING Cuadritos, Sectores, Modulos WHERE Sectores.idModulos = '"+idModulo+"' AND Cuadritos.idSectores = Sectores.idSector", function (err, rows, fields) {
     //Funcion callback del query
-    if (!err){
+    if (!err) {
       //Si no ocurrio un error al realizar la query
       
-    } else{
+    } else {
       //Error al ejecutar el query
       console.log(err);
     }
@@ -63,16 +65,16 @@ var eliminaHuerta = function(idModulo){
   connection.end();
 }
 
-var seleccionaCuadrito = function(idModulo, idSector, cuadrito){
+var seleccionaCuadrito = function (idModulo, idSector, cuadrito) {
   //Carga el modulo de mySQL
   var mysql = require('mysql');
   connection = creaConexion();
   //Guardar el cuadrito
-  connection.query("SELECT DISTINCT idCuadrito from Cuadritos, Sectores, Modulos WHERE Sectores.idModulos = '"+idModulo+"' AND Sectores.idSector = Cuadritos.idSectores AND Cuadritos.x = '" + cuadrito["ejeX"] + "'   AND Cuadritos.y = '" + cuadrito["ejeY"] + "' ", function(err, rows, fields) {
+  connection.query("SELECT DISTINCT idCuadrito from Cuadritos, Sectores, Modulos WHERE Sectores.idModulos = '"+idModulo+"' AND Sectores.idSector = Cuadritos.idSectores AND Cuadritos.x = '" + cuadrito["ejeX"] + "'   AND Cuadritos.y = '" + cuadrito["ejeY"] + "' ", function (err, rows, fields) {
     //Funcion callback del query
-    if (!err){
+    if (!err) {
       //Si no ocurrio un error al realizar la query
-      if(rows.length > 0){
+      if(rows.length > 0) {
         //Existe el cuadrito
         var idCuadrito = rows[0].idCuadrito;
         actualizaCuadrito(idModulo, idSector, cuadrito, idCuadrito);
@@ -80,7 +82,7 @@ var seleccionaCuadrito = function(idModulo, idSector, cuadrito){
         //No existe el cuadrito
         insertaCuadrito(idModulo, idSector, cuadrito);
       }
-    } else{
+    } else {
       //Error al ejecutar el query
       console.log(err);
     }
@@ -89,16 +91,16 @@ var seleccionaCuadrito = function(idModulo, idSector, cuadrito){
   connection.end();
 }
 
-var actualizaCuadrito = function(idModulo, idSector, cuadrito, idCuadrito){
+var actualizaCuadrito = function (idModulo, idSector, cuadrito, idCuadrito) {
   //Carga el modulo de mySQL
   var mysql = require('mysql');
   connection = creaConexion();
   //Guardar el cuadrito
-  connection.query('UPDATE Cuadritos SET Cuadritos.idSectores = '+idSector+', Cuadritos.idContenidoCuadritos = '+cuadrito["type"]+' WHERE Cuadritos.idCuadrito = '+idCuadrito+'', function(err, rows, fields) {
+  connection.query('UPDATE Cuadritos SET Cuadritos.idSectores = '+idSector+', Cuadritos.idContenidoCuadritos = '+cuadrito["type"]+' WHERE Cuadritos.idCuadrito = '+idCuadrito+'', function (err, rows, fields) {
     //Funcion callback del query
-    if (!err){
+    if (!err) {
       //Si no ocurrio un error al realizar la query
-    } else{
+    } else {
       //Error al ejecutar el query
       console.log(err);
     }
@@ -107,16 +109,16 @@ var actualizaCuadrito = function(idModulo, idSector, cuadrito, idCuadrito){
   connection.end();
 }
 
-var insertaCuadrito = function(idModulo, idSector, cuadrito){
+var insertaCuadrito = function (idModulo, idSector, cuadrito) {
   //Carga el modulo de mySQL
   var mysql = require('mysql');
   connection = creaConexion();
   //Guardar el cuadrito
-  connection.query("INSERT INTO Cuadritos (idSectores, idContenidoCuadritos, x, y) VALUES ('" + idSector + "', '" + cuadrito["type"] + "', '" + cuadrito["ejeX"] + "', '" + cuadrito["ejeY"] + "')", function(err, rows, fields) {
+  connection.query("INSERT INTO Cuadritos (idSectores, idContenidoCuadritos, x, y) VALUES ('" + idSector + "', '" + cuadrito["type"] + "', '" + cuadrito["ejeX"] + "', '" + cuadrito["ejeY"] + "')", function (err, rows, fields) {
     //Funcion callback del query
-    if (!err){
+    if (!err) {
       //Si no ocurrio un error al realizar la query
-    } else{
+    } else {
       //Error al ejecutar el query
       console.log(err);
     }
@@ -125,20 +127,20 @@ var insertaCuadrito = function(idModulo, idSector, cuadrito){
   connection.end();
 }
 
-var insertaSector = function(idModulo, numeroSector, cuadrito, _renglon, cuadritos){
+var insertaSector = function (idModulo, numeroSector, cuadrito, _renglon, cuadritos) {
   //Carga el modulo de mySQL
   console.log("-----------" + numeroSector);
   var mysql = require('mysql');
   connection = creaConexion();
   //Guardar el cuadrito
-  connection.query("INSERT INTO Sectores (idModulos, numeroSector) VALUES ('" + idModulo + "', '" + numeroSector + "')", function(err, rows, fields) {
+  connection.query("INSERT INTO Sectores (idModulos, numeroSector) VALUES ('" + idModulo + "', '" + numeroSector + "')", function (err, rows, fields) {
     //Funcion callback del query
-    if (!err){
+    if (!err) {
       //Si no ocurrio un error al realizar la query
       console.log(rows.insertId);
       seleccionaCuadrito(idModulo, rows.insertId, cuadrito);
       //return rows.insertId;
-    } else{
+    } else {
       //Error al ejecutar el query
       console.log("INSERT INTO Sectores (idModulos, numeroSector) VALUES ('" + idModulo + "', '" + numeroSector + "')");
       console.log('Error while performing Query. (insertar sector)');
@@ -152,13 +154,13 @@ var insertaSector = function(idModulo, numeroSector, cuadrito, _renglon, cuadrit
   connection.end();
 }
 
-var selectSector = function(idModulo, cuadritos, _renglon){
+var selectSector = function (idModulo, cuadritos, _renglon) {
   var cuadrito = cuadritos[_renglon];
   connection = creaConexion();
-  connection.query("SELECT idSector from Sectores WHERE idModulos = '" + idModulo + "' AND numeroSector = '" + cuadrito['sector'] + "'", function(err, rows, fields) {
+  connection.query("SELECT idSector from Sectores WHERE idModulos = '" + idModulo + "' AND numeroSector = '" + cuadrito['sector'] + "'", function (err, rows, fields) {
       if (!err) {
         var idSector;
-        if(rows.length > 0){
+        if(rows.length > 0) {
           //Existe
           console.log("Select exitoso");
           console.log(rows[0].idSector);
@@ -185,14 +187,14 @@ var selectSector = function(idModulo, cuadritos, _renglon){
 
 
 
-var creaConexion = function(){
+var creaConexion = function () {
   var credenciales = require('../database/credencialesbd.json');
   //Carga el modulo de mySQL
   var mysql = require('mysql');
   //Crea la coneccion
   var connection = mysql.createConnection(credenciales);
   //Prueba si se conecto correctamente a la base de datos
-  connection.connect(function(err){
+  connection.connect(function (err) {
     if(!err) {
       console.log("Database is connected ... \n"); 
     } else {
@@ -203,9 +205,9 @@ var creaConexion = function(){
 }
 
 
-var tamHuerta = function(idModulo, alto, ancho){
+var tamHuerta = function (idModulo, alto, ancho) {
   connection = creaConexion();
-  connection.query("UPDATE Modulos set alto = '"+ alto +"', ancho = '"+ ancho +"' WHERE idModulo = '"+ idModulo + "'", function(err, rows, fields) {
+  connection.query("UPDATE Modulos set alto = '"+ alto +"', ancho = '"+ ancho +"' WHERE idModulo = '"+ idModulo + "'", function (err, rows, fields) {
       if (!err) {
         console.log("UPDATE Modulos set alto = '"+ alto +"', ancho = '"+ ancho +"' WHERE idModulo = '"+ idModulo + "'");
       } else {
@@ -219,7 +221,7 @@ var tamHuerta = function(idModulo, alto, ancho){
 }
 
 
-router.post("/crearGuardar", function(request,response,next){
+router.post("/crearGuardar", function (request, response, next) {
   //Carga el modulo de mySQL
   var mysql = require('mysql');
   
@@ -253,7 +255,7 @@ router.get('/editar/:id(\\d+)', function (req, res, next) {
  /* res.send('respond with a resource');*/
   var idModulo = req.params.id;
   modulos.mostrar(idModulo, function (err, modulos) {
-    if(err){
+    if(err) {
       console.log(err);
     } else {
       var altoA = [];
@@ -272,7 +274,7 @@ router.get('/editar/:id(\\d+)', function (req, res, next) {
         if (err) {
           console.log(err);
         }
-        else{
+        else {
           //res.render('vermodulos', { titulo: 'Módulo ', modulo: modulos[0], usuario: req.session.usuario, listaAdmins: usuarios, barraLateral: 'modulos', alto: alto, ancho: ancho, cuadritos: cuadritos});
           res.render('crearHuerta', {title: 'Editar Huerta', alto: altoA, ancho: anchoA, usuario: req.session.usuario, cuadritos: cuadritos});
         }    
@@ -282,7 +284,7 @@ router.get('/editar/:id(\\d+)', function (req, res, next) {
 });
 
 //Elimina la Huerta
-router.get('/eliminar/:id(\\d+)',function (req, res, next){
+router.get('/eliminar/:id(\\d+)',function (req, res, next) {
 
   var idModulo = req.params.id;
   var al = cuadritos.alto;
@@ -292,7 +294,7 @@ router.get('/eliminar/:id(\\d+)',function (req, res, next){
         if (err) {
           console.log(err);
         }
-        else{
+        else {
           //res.render('vermodulos', { titulo: 'Módulo ', modulo: modulos[0], usuario: req.session.usuario, listaAdmins: usuarios, barraLateral: 'modulos', alto: alto, ancho: ancho, cuadritos: cuadritos});
           //res.render('crearHuerta', {title: 'Editar Huerta', alto: altoA, ancho: anchoA, usuario: req.session.usuario, cuadritos: cuadritos});
           res.redirect('/modulos/'+idModulo+'');

@@ -14,21 +14,17 @@ var credenciales = require('../database/credencialesbd.json');
 
 */
 
-var listaractividades = function (req, res) {
+var listaractividades = function (req, res, callback) {
     var db = mysql.createConnection(credenciales);
     db.connect();
     db.query('Select * from Actividades where activo = 1', function (err, rows) {
+        db.end();
         if (err) {
             console.log("Sucedio el error" + err);
-            db.end();
+            callback(err);
+            return;
         }
-        db.end();
-        res.render('actividades', {
-            title: 'Actividades',
-            actividades: rows,
-            usuario: req.session.usuario,
-            barraLateral: 'actividades'
-        });
+        callback(null, rows);
     });
 };
 

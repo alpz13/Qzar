@@ -1,9 +1,9 @@
-/*jslint
-    indent: 4, unparam: true
-*/
+'use strict';
+
 var express = require('express');
 var multiparty = require('multiparty');
 var router = express.Router();
+
 var modulos = require('../components/modulos.js');
 var usuarios = require('../components/usuarios.js');
 var retroalimentaciones = require('../components/retroalimentaciones.js');
