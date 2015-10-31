@@ -37,10 +37,19 @@ block content
                     td#botones-modificar
                       button.btn.btn-primary(type="button" class="modificar" data-toggle="modal" data-target="#FAA" id='boton-modificar') Modificar
                       &nbsp&nbsp&nbsp
-                      button.btn.btn-default(href='/modulos/eliminar/#{modulo.idModulo}' type="button" class="eliminar" data-dismiss="modal") Eliminar
+                      a.btn.btn-default(href='/modulos/eliminar/#{modulo.idModulo}' type="button" class="eliminar" data-dismiss="modal") Eliminar
           if usuario.idRoles == 1
+            
+            //Botones de Editar y Agregar Nueva Huerta
+            //Si existe una huerta, despleiga boton de editar
+            if alto.length > 0
+              a.btn.btn-primary.btn-lg(href='/modulo/huerta/editar/#{modulo.idModulo}') Editar Huerta
+              &nbsp&nbsp&nbsp
+              a.btn.btn-default.btn-lg(href='/modulo/huerta/eliminar/#{modulo.idModulo}') Eliminar Huerta
+            else
+              button.btn.btn-primary.btn-lg(type='button', data-toggle='modal', data-target='#myModal') Nueva Huerta
+
             //Modal de Agregar Huerta
-            button.btn.btn-primary.btn-lg(type='button', data-toggle='modal', data-target='#myModal') Nueva Huerta
             #myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel')
                 .modal-dialog(role='document')
                   .modal-content
@@ -50,10 +59,11 @@ block content
                       |         
                       h4#myModalLabel.modal-title Nueva Huerta
                     |       
-                    form#formcrearHuerta(name="crearHuerta",method="post",action="/modulo/huerta/crear")
+                    form#formcrearHuerta(name="crearHuerta",method="post",action="/modulo/huerta/crear/#{modulo.idModulo}")
                       .modal-body
                           input.form-control#inputAncho(type="number", placeholder="ancho", name="ancho", onchange="posAncho()", required)
                           input.form-control#inputAlto(type="number", placeholder="alto", name="alto", onchange="posAlto()", required)
+                          input.form-control#inputAlto(type="hidden", placeholder="", name="cuadritos", value=[])
                       |       
                       .modal-footer
                         button.btn.btn-primary#btnSubmit(type="submit") submit
@@ -105,9 +115,12 @@ block content
             ancho = parseInt(ancho)
             $("#inputAncho").val(ancho) ;
       }
+    script(type='text/javascript').
+      var cuadritos =!{JSON.stringify(cuadritos)};
+
     div#full-clndr.clearfix
     //Codiguirri de la huerta
-    
+    &nbsp&nbsp&nbsp&nbsp&nbsp
     if alto.length > 0
       div.form-group.col-sm-12.col-md-8.col-md-offset-2
         table#huerta.table.table-bordered
@@ -165,5 +178,9 @@ block content
   script(src='/plugins/clndr.min.js')
 
   script(src='/js/editarmodulo.js')
+
   script(src='/js/scriptcalendarios.js')
   script(src='/js/scriptcalendarioitinerario.js')
+
+  script(src='/js/scripthuerta.js')
+

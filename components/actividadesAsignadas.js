@@ -10,7 +10,8 @@ var listarActividadesAsignadas = function (idModulo, res) {
       console.log("Database is connected ... \n");
       //Guardar el cuadrito
       console.log("antes de la query");
-      connection.query("select ac.fechaInicio as startDate, ac.FechaFin as endDate, a.nombre as title, ac.idSectores, s.numeroSector FROM Actividades as a, ActividadesAsignadas as ac, Sectores as s WHERE ac.idModulos = " + idModulo + " AND a.idActividad = ac.idActividades AND s.idSector = ac.idSectores", function (err, rows) {
+      //connection.query("select ac.fecha as startDate, ac.fecha as endDate, a.nombre as title, ac.idSectores, s.numeroSector FROM Actividades as a, ActividadesAsignadas as ac, Sectores as s WHERE ac.idModulos = " + idModulo + " AND a.idActividad = ac.idActividades AND s.idSector = ac.idSectores", function (err, rows) {
+      connection.query("select ac.fecha as date, a.nombre as title, ac.idSectores, s.numeroSector FROM Actividades as a, ActividadesAsignadas as ac, Sectores as s WHERE ac.idModulos = " + idModulo + " AND a.idActividad = ac.idActividades AND s.idSector = ac.idSectores", function (err, rows) {
         //Funcion callback del query
         console.log("despues de la query");
         if (!err) {

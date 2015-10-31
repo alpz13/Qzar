@@ -125,6 +125,10 @@ router.get('/:id(\\d+)', function (req, res, next) {
     modulos.mostrar(idModulo, function (err, modulos) {
         if (err) {
             console.log(err);
+            err = new Error('Hubo un error interno.');
+            err.status = 500;
+            next(err);
+            return;
         } else if (!modulos[0]) {
             err = new Error('Not Found');
             err.status = 404;
