@@ -8,9 +8,10 @@ var path = require('path');
 var fs = require('fs');
 var moment = require('moment-timezone');
 
+var actividadesAsignadas = require('./actividadesAsignadas.js');
 var credenciales = require('../database/credencialesbd.json');
 
-function agregarRetroalimentación(retro, callback) {
+function agregarRetroalimentacion(retro, callback) {
     // El archivo tiene como nombre el idModulo y la fecha.
     var hoy = moment().tz('America/Mexico_City').format('YYYY-MM-DD'),
         bd = mysql.createConnection(credenciales),
@@ -18,10 +19,20 @@ function agregarRetroalimentación(retro, callback) {
         nombreArchivo,
         params;
 
+	// Confirma las actividades que se completaron.
+	for (var actividad in retro) {
+		// Un parámetro se identifica como actividad porque su nombre es un numéro (el id de la actividad asignada).
+		if (actividad.match(/^\d+$/)) {
+			actividadesAsignadas.confirmar(actividad, function(err) {
+				console.log(err);
+			});
+		}
+	}
+
     if (retro.archivo) {
         nombreArchivo = retro.idModulo + '_' + hoy + path.extname(retro.archivo.originalFilename);
     }
-    params = [hoy, retro.idModulo, retro.descripción, nombreArchivo];
+    params = [hoy, retro.idModulo, retro.descripcion, nombreArchivo];
 
     bd.connect();
 
@@ -56,7 +67,7 @@ function agregarRetroalimentación(retro, callback) {
     });
 }
 
-function actualizarRetroalimentación(retro, callback) {
+function actualizarRetroalimentacion(retro, callback) {
     // El archivo tiene como nombre el idModulo y la fecha.
     var hoy = moment().tz('America/Mexico_City').format('YYYY-MM-DD'),
         bd = mysql.createConnection(credenciales),
@@ -68,9 +79,9 @@ function actualizarRetroalimentación(retro, callback) {
     if (retro.archivo) {
         sql = "UPDATE Retroalimentaciones SET descripcion = ?, contenidoMultimedia = ? WHERE fecha = ? AND idModulos = ?;";
         nombreArchivo = retro.idModulo + '_' + hoy + path.extname(retro.archivo.originalFilename);
-        params = [retro.descripción, nombreArchivo, hoy, retro.idModulo];
+        params = [retro.descripcion, nombreArchivo, hoy, retro.idModulo];
     } else {
-        params = [retro.descripción, hoy, retro.idModulo];
+        params = [retro.descripcion, hoy, retro.idModulo];
 	}
 
     bd.connect();
@@ -130,7 +141,7 @@ var listarRetroalimentaciones = function (idModulo, res) {
   });
 };
 
-function verRetroalimentaciónHoy(idModulo, callback) {
+function verRetroalimentacionHoy(idModulo, callback) {
 
     var hoy = moment().tz('America/Mexico_City').format('YYYY-MM-DD'),
         bd = mysql.createConnection(credenciales),
@@ -152,8 +163,8 @@ function verRetroalimentaciónHoy(idModulo, callback) {
 }
 
 module.exports = {
-  'agregar' : agregarRetroalimentación,
-  'actualizar' : actualizarRetroalimentación,
-  'hoy' : verRetroalimentaciónHoy,
+  'agregar' : agregarRetroalimentacion,
+  'actualizar' : actualizarRetroalimentacion,
+  'hoy' : verRetroalimentacionHoy,
   'listarRetroalimentaciones': listarRetroalimentaciones
 };

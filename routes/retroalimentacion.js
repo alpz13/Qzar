@@ -7,6 +7,7 @@ var router = express.Router();
 var modulos = require('../components/modulos.js');
 var usuarios = require('../components/usuarios.js');
 var retroalimentaciones = require('../components/retroalimentaciones.js');
+var actividadesAsignadas = require('../components/actividadesAsignadas.js');
 
 // Para administrador general: lista de retroalimentaciones.
 // Para administrador de módulo: sus retroalimentaciones.
@@ -30,7 +31,7 @@ router.get('/', function (req, res, next) {
 // Petición de crear nueva retroalimentación.
 router.post('/nuevo', function (req, res, next) {
     var formulario = new multiparty.Form(),
-        retroalimentación = {
+        retroalimentacion = {
             'idModulo' : req.session.usuario.idModulo
         };
 
@@ -47,10 +48,12 @@ router.post('/nuevo', function (req, res, next) {
             console.log(err);
             res.send('Hubo un error al agregar la retroalimentación. Inténtelo más tarde.');
         } else {
-            retroalimentación.descripción = campos.descripcion;
+            for (var campo in campos) {
+				retroalimentacion[campo] = campos[campo];
+			}
             if (archivos.foto[0].size > 0) {
                 if (archivos.foto[0].headers['content-type'].match(/^image/)) {
-                    retroalimentación.archivo = archivos.foto[0];
+                    retroalimentacion.archivo = archivos.foto[0];
                 } else {
                     console.log(archivos.foto[0].headers);
                     res.send('La foto de retroalimentación debe ser una imagen.');
@@ -59,7 +62,7 @@ router.post('/nuevo', function (req, res, next) {
             }
 
             // Intenta agregar retro.
-            retroalimentaciones.agregar(retroalimentación, function(err) {
+            retroalimentaciones.agregar(retroalimentacion, function(err) {
                 if (err) {
                     console.log(err);
                     if (err.code === 'ER_DUP_ENTRY') {
@@ -78,7 +81,7 @@ router.post('/nuevo', function (req, res, next) {
 // Petición de actualizar retroalimentación del día.
 router.post('/actualizar', function (req, res, next) {
     var formulario = new multiparty.Form(),
-        retroalimentación = {
+        retroalimentacion = {
             'idModulo' : req.session.usuario.idModulo
         };
 
@@ -95,10 +98,10 @@ router.post('/actualizar', function (req, res, next) {
             console.log(err);
             res.send('Hubo un error al actualizar la retroalimentación. Inténtelo más tarde.');
         } else {
-            retroalimentación.descripción = campos.descripcion;
+            retroalimentacion.descripcion = campos.descripcion;
             if (archivos.foto[0].size > 0) {
                 if (archivos.foto[0].headers['content-type'].match(/^image/)) {
-                    retroalimentación.archivo = archivos.foto[0];
+                    retroalimentacion.archivo = archivos.foto[0];
                 } else {
                     console.log(archivos.foto[0].headers);
                     res.send('La foto de retroalimentación debe ser una imagen.');
@@ -107,7 +110,7 @@ router.post('/actualizar', function (req, res, next) {
             }
 
             // Intenta agregar retro.
-            retroalimentaciones.actualizar(retroalimentación, function(err) {
+            retroalimentaciones.actualizar(retroalimentacion, function(err) {
                 if (err) {
                     console.log(err);
                     res.send('Hubo un error al actualizar la retroalimentación. Inténtelo más tarde.');
@@ -143,11 +146,17 @@ router.get('/:id(\\d+)', function (req, res, next) {
             return;
         }
 
-        retroalimentaciones.hoy(idModulo, function(err, retroalimentacionHoy) {
-            if (err) {
+		actividadesAsignadas.hoy(idModulo, function(err, actividades) {
+			if (err) {
 				console.log(err);
 			}
-            res.render('verretroalimentacion', { titulo: 'Retroalimentaciones', usuario:req.session.usuario, barraLateral: "retroalimentacion", modulo: modulos[0], retroalimentacionHoy: retroalimentacionHoy});
+
+			retroalimentaciones.hoy(idModulo, function(err, retroalimentacionHoy) {
+				if (err) {
+					console.log(err);
+				}
+				res.render('verretroalimentacion', { titulo: 'Retroalimentaciones', usuario:req.session.usuario, barraLateral: "retroalimentacion", modulo: modulos[0], actividades: actividades, retroalimentacionHoy: retroalimentacionHoy});
+			});
 		});
     });
 });

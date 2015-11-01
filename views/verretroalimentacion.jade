@@ -63,8 +63,17 @@ block content
                 h4.modal-title Agregar retroalimentación del día
               form#AgregarRetro(action="/retroalimentacion/nuevo" method="post" enctype="multipart/form-data")
                 div.modal-body 
-                  label Descripción 
-                  textarea.form-control(rows='5' cols='60' name="descripcion" required)
+                  label Actividades de hoy
+                  div.row
+                  for actividad in actividades
+                      div.row
+                        div.col-sm-1.col-sm-offset-1.col-md-1.col-md-offset-1
+                          input(type="checkbox" name= actividad.idActividadesAsignadas)
+                        div.col-sm-8.col-md-8.col-md-offset-0
+                          span #{actividad.nombre} en sector #{actividad.numeroSector}.
+                  div.row
+                  label Comentarios 
+                  textarea.form-control(rows='5' cols='60' name="descripcion")
                   label Foto
                   input(type="file" name="foto" size="58")
                 div.modal-footer
@@ -81,7 +90,16 @@ block content
                 h4.modal-title Cambiar retroalimentación del día
               form#AgregarRetro(action="/retroalimentacion/actualizar" method="post" enctype="multipart/form-data")
                 div.modal-body 
-                  label Descripción 
+                  label Actividades de hoy
+                  div.row
+                  for actividad in actividades
+                      div.row
+                        div.col-sm-1.col-sm-offset-1.col-md-1.col-md-offset-1
+                          input(type="checkbox" name= actividad.idActividadesAsignadas)
+                        div.col-sm-8.col-md-8.col-md-offset-0
+                          span #{actividad.nombre} en sector #{actividad.numeroSector}.
+                  div.row
+                  label Comentarios 
                   textarea.form-control(rows='5' cols='60' name="descripcion" required) #{retroalimentacionHoy.descripcion}
                   label Foto
                   //img(src='/images/retros/#{retroalimentacionHoy.contenidoMultimedia}')
