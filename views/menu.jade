@@ -107,6 +107,20 @@ block body
                 i(class='fa fa-fw fa-book')
                 p.inline.leftsidebar RETROALIMENTACIÓN
 
+
+
+          // Sectores
+          if barraLateral && barraLateral === 'sector'
+            li.activo
+              a(href='/sector')
+                i(class='fa fa-fw fa-book')
+                p.inline.leftsidebar SECTORES
+          else
+            li
+              a(href='/retroalimentacion')
+                i(class='fa fa-fw fa-book')
+                p.inline.leftsidebar SECTORES
+
     block content
       if aviso
         div.container

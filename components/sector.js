@@ -2,10 +2,10 @@ var mysql = require('mysql');
 
 var credenciales = require('../database/credenciales.json');
 
-function crearTipoPoste(nuevoPoste, callback)
+function crearSector(nuevoPoste, callback)
 {
 	var bd = mysql.createConnection(credenciales),
--        sql = 'ISERT INTO contenidocuadritos(nombre, color) VALUES (?,?);',
+-        sql = 'INSERT INTO contenidocuadritos(nombre, color) VALUES (?,?);',
         params = [nuevoPoste.nombre, nuevoPoste.color];
 
         bd.connect();
@@ -24,7 +24,7 @@ function crearTipoPoste(nuevoPoste, callback)
 
 
 module.exports = {
-	'crearPoste' :crearTipoPoste
+	'crearSector' :crearSector
 };
 
 
