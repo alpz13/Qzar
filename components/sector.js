@@ -44,7 +44,7 @@ function listarSector(callback)
 	});
 }
 
-
+//Eliminar sectores
 function eliminarSector(id, callback){
 	var bd = mysql.createConnection(credenciales),
 		sql = 'DELETE FROM contenidocuadritos WHERE idContenidoCuadritos = ?',
@@ -63,8 +63,8 @@ function eliminarSector(id, callback){
         bd.end();
         return callback(null, resultados);
     });
-
 }
+
 
 
 

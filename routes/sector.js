@@ -33,29 +33,27 @@ router.post('/agregar', function (req, res, next) {
         if (err) {
             console.log(err);
             if (err.code === 'ER_DUP_ENTRY') {
-                res.send('Un usuario con este nombre ya existe');
+                res.send('Ya esxiste');
             } else {
-                res.send('Hubo un error al crear un nuevo usuario. Inténtelo más tarde');
+                res.send('Hubo un error al crear un nuevo sector. Inténtelo más tarde');
             }
         } else {
-            console.log("usuario creado con exito");
+            console.log("sector creado con exito");
             res.redirect("/sector");
         }
     });
 });
 
-
+//Eliminar sector
 router.get('/eliminar/:id(\\d+)', function (req, res, next) {
     var idContenidoCuadritos = req.params.id;
-
-
-    console.log("pappspspspspsps: " + idContenidoCuadritos);
-    // Valida permisos para eliminar módulo.
 
     sector.eliminar(idContenidoCuadritos, function (err, modulos) {
         res.redirect('/sector');
     });
 });
+
+
 
 
 
