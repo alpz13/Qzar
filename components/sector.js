@@ -66,6 +66,30 @@ function eliminarSector(id, callback){
 }
 
 
+//Modificar nuevo Sector
+function modificarSector(nuevoPoste, callback)
+{
+	var bd = mysql.createConnection(credenciales),
+        sql = 'UPDATE contenidocuadritos SET nombre= ?, color= ? WHERE idContenidoCuadritos= ?;',
+        params = [nuevoPoste.nombre, nuevoPoste.escogerColor, nuevoPoste.idContenidoCuadritos];
+
+        console.log("YOLEROOO!!:" + nuevoPoste.escogerColor);
+        console.log("YOLEROOO!!:" + nuevoPoste.idContenidoCuadritos);
+        bd.connect();
+
+        // Prepara consulta y la ejecuta.
+    	sql = mysql.format(sql, params);
+    	bd.query(sql, function (err, resultados) {
+    		if (err) {
+            bd.end();
+            return callback(err);
+        }
+        bd.end();
+        return callback(null, resultados.insertId);
+    });
+}
+
+
 
 
 
@@ -75,7 +99,8 @@ function eliminarSector(id, callback){
 module.exports = {
 	'crear' : crearSector,
 	'listar' : listarSector,
-	'eliminar': eliminarSector
+	'eliminar': eliminarSector,
+	'modificar': modificarSector
 };
 
 

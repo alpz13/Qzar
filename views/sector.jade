@@ -28,12 +28,14 @@ block content
                 th Nombre
                 th Color
                 th
-                
+
               tbody
                 each resultado in resultados
                   tr
-                    td #{resultado.nombre}
-                    td(width="50px") 
+
+                    td(class='nombre' ) #{resultado.nombre}
+                    td(class='id' style='display:none;') #{resultado.idContenidoCuadritos}
+                    td(class ='color' width="50px") 
                       div.input-group.colorpicker-component.demo.demo-auto
                         input.form-control#escogerColor(type='hidden',value= resultado.color, disabled)
                         span.input-group-addon
@@ -44,17 +46,6 @@ block content
                       button.btn.btn-default( type="button" class="eliminar" data-dismiss="modal" onclick="window.location.href='/sector/eliminar/#{resultado.idContenidoCuadritos}'" ) Eliminar
           else
             p.watermark No se han encontrado sectores en el sistema.
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -80,11 +71,26 @@ block content
                     button.btn.btn-primary#crearModulo(type="submit") Crear
                     button.btn.btn-default#cerrarModal(type='button', data-dismiss='modal') Cerrar
 
-
-
-
-
-        
-
-
+        //Modal para modificar un tipo de poste
+        div(id='MAA' class='modal fade' role='dialog')
+            div.modal-dialog
+              div.modal-content
+                div.modal-header
+                  button(type='button' class='close' data-dismiss="modal") &times;
+                  h4.modal-title Modificar Sector
+                form(action="/sector/modificar" method="post" id="modificaSector" onsubmit="return checkform(this);")
+                  div.modal-body
+                    label(for="color") Color
+                    div.input-group.colorpicker-component.demo.demo-auto
+                      input.form-control(name="cuadrosColor", type='text', value='', required)
+                      span.input-group-addon
+                        i
+                    label(for="nombre") nombre
+                    input.form-control#nombre(name="nombre", type='text', value='', required)
+                    input.form-control(type="numeric" name="idContenidoCuadritos" id="MIDU" style='display:none;')
+                  div.modal-footer
+                    button.btn.btn-primary#modificarModulo(type="submit") Modificar
+                    button.btn.btn-default#cerrarModal(type='button', data-dismiss='modal') Cerrar
+  
+  script(src='/js/modificarsector.js')
 

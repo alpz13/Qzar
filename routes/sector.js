@@ -53,6 +53,30 @@ router.get('/eliminar/:id(\\d+)', function (req, res, next) {
     });
 });
 
+//Modificar sector
+router.post('/modificar', function (req, res, next) {
+    
+
+    var nuevoSector = {
+        "nombre" : req.body.nombre,
+        "escogerColor" : req.body.cuadrosColor,
+        "idContenidoCuadritos" : req.body.idContenidoCuadritos
+    };
+
+    sector.modificar(nuevoSector, function (err) {
+        if (err) {
+            console.log(err);
+            if (err.code === 'ER_DUP_ENTRY') {
+                res.send('Ya esxiste');
+            } else {
+                res.send('Hubo un error al crear un nuevo sector. Inténtelo más tarde');
+            }
+        } else {
+            console.log("sector modificado con exito");
+            res.redirect("/sector");
+        }
+    });
+});
 
 
 
