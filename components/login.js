@@ -4,7 +4,7 @@
 */
 
 var mysql = require('mysql');
-var sha1 = require('hash-anything').sha1;
+var bcrypt = require('bcrypt');
 var Registro = require('log');
 var observador = new Registro('info');
 
@@ -16,19 +16,24 @@ var __validarCredenciales = function (nombreUsuario, contrasenia, callback) {
 
     conexion.connect();
 
-    var consulta = 'SELECT `nombre`,`contrasena` FROM `Usuarios` WHERE `nombre` = ? AND `contrasena` = ?;';
-    var valores = [nombreUsuario, contrasenia];
+    var consulta = 'SELECT `contrasena` FROM `Usuarios` WHERE `nombre` = ?;';
+    var valores = [nombreUsuario];
+
     conexion.query({sql: consulta, values: valores}, function (err, renglones) {
         conexion.end();
         if (err) {
             callback(err);
             return;
         }
-        if (renglones.length === 0) {
-            callback(new Error('Usuario y/o contraseña incorrectos.'));
-        } else {
-            callback(null, true);
-        }
+
+		for (var i in renglones) {
+			if (bcrypt.compareSync(contrasenia, renglones[i].contrasena || ' ')) {
+				callback(null, true);
+				return;
+			}
+		}
+		callback(new Error('Usuario y/o contraseña incorrectos.'));
+		return;
     });
 };
 
