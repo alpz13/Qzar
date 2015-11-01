@@ -2,11 +2,14 @@ var mysql = require('mysql');
 
 var credenciales = require('../database/credencialesbd.json');
 
+
+
+//Crear nuevo Sector
 function crearSector(nuevoPoste, callback)
 {
 	var bd = mysql.createConnection(credenciales),
         sql = 'INSERT INTO contenidocuadritos(nombre, color) VALUES (?,?);',
-        params = [nuevoPoste.nombre, nuevoPoste.color];
+        params = [nuevoPoste.nombre, nuevoPoste.escogerColor];
 
         bd.connect();
 
@@ -18,12 +21,12 @@ function crearSector(nuevoPoste, callback)
             return callback(err);
         }
         bd.end();
-        return callback(null, resultado.insertId);
+        return callback(null, resultados.insertId);
     });
 }
 
 
-
+//Listar sectores
 function listarSector(callback)
 {
 	var bd = mysql.createConnection(credenciales),
@@ -42,6 +45,27 @@ function listarSector(callback)
 }
 
 
+function eliminarSector(id, callback){
+	var bd = mysql.createConnection(credenciales),
+		sql = 'DELETE FROM contenidocuadritos WHERE idContenidoCuadritos = ?',
+		params = [id];
+
+		sql = mysql.format(sql,params);
+		console.log("aqui estoy"+sql);
+
+		bd.connect();
+
+		bd.query(sql, function (err, resultados) {
+        if (err) {
+            bd.end();
+            return callback(err, []);
+        }
+        bd.end();
+        return callback(null, resultados);
+    });
+
+}
+
 
 
 
@@ -49,8 +73,9 @@ function listarSector(callback)
 
 
 module.exports = {
-	'crear' :crearSector,
-	'listar' : listarSector
+	'crear' : crearSector,
+	'listar' : listarSector,
+	'eliminar': eliminarSector
 };
 
 
