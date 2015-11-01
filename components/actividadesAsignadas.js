@@ -64,6 +64,26 @@ function listarAsignacionesHoy(idModulo, callback) {
     });
 }
 
+function cancelarConfirmacionesHoy(idModulo, callback) {
+    var credenciales = require('../database/credencialesbd.json');
+    var mysql = require('mysql');
+    var connection = mysql.createConnection(credenciales);
+    var sql = "UPDATE ActividadesAsignadas SET cumplido = 0 WHERE idModulos = ? AND fecha = ?";
+    var params = [idModulo, moment().tz('America/Mexico_City').format('YYYY-MM-DD')];
+
+    connection.connect(function (err) {
+        if (!err) {
+            sql = mysql.format(sql, params);
+            connection.query(sql, function (err) {
+                connection.end();
+                if (err) {
+                    callback(err);
+                }
+			});
+		}
+	});
+}
+
 function confirmarActividadAsignada(idActividadesAsignadas, callback) {
     var credenciales = require('../database/credencialesbd.json');
     var mysql = require('mysql');
@@ -87,5 +107,6 @@ function confirmarActividadAsignada(idActividadesAsignadas, callback) {
 module.exports = {
     'listarActividadesAsignadas': listarActividadesAsignadas,
     'hoy': listarAsignacionesHoy,
+	'cancelarConfirmacionesHoy': cancelarConfirmacionesHoy,
 	'confirmar': confirmarActividadAsignada
 };

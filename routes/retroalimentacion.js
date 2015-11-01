@@ -98,7 +98,9 @@ router.post('/actualizar', function (req, res, next) {
             console.log(err);
             res.send('Hubo un error al actualizar la retroalimentación. Inténtelo más tarde.');
         } else {
-            retroalimentacion.descripcion = campos.descripcion;
+            for (var campo in campos) {
+				retroalimentacion[campo] = campos[campo];
+			}
             if (archivos.foto[0].size > 0) {
                 if (archivos.foto[0].headers['content-type'].match(/^image/)) {
                     retroalimentacion.archivo = archivos.foto[0];

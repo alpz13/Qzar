@@ -75,6 +75,21 @@ function actualizarRetroalimentacion(retro, callback) {
         nombreArchivo,
         params;
 
+	// Confirma las actividades que se completaron.
+    actividadesAsignadas.cancelarConfirmacionesHoy(retro.idModulo, function(err) {
+		if (err) {
+			console.log(err);
+		}
+	});
+	for (var actividad in retro) {
+		// Un parámetro se identifica como actividad porque su nombre es un numéro (el id de la actividad asignada).
+		if (actividad.match(/^\d+$/)) {
+			actividadesAsignadas.confirmar(actividad, function(err) {
+				console.log(err);
+			});
+		}
+	}
+
     // Para saber si también debe reemplazar la foto o no.
     if (retro.archivo) {
         sql = "UPDATE Retroalimentaciones SET descripcion = ?, contenidoMultimedia = ? WHERE fecha = ? AND idModulos = ?;";
