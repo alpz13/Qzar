@@ -132,33 +132,38 @@ function actualizarRetroalimentacion(retro, callback) {
     });
 }
 
-var listarRetroalimentaciones = function (idModulo, callback) {
+var listarRetroalimentaciones = function (idModulo, res) {
   var connection = mysql.createConnection(credenciales);
-  var filasCompletas = 0;
 
   connection.connect(function (err) {
     if (!err) {
       console.log("Database is connected ... \n");
       connection.query("select ret.fecha as date, ret.descripcion as descripcion, ret.contenidoMultimedia as ruta FROM Retroalimentaciones as ret WHERE ret.idModulos = " + idModulo, function (err, rows) {
         if (!err) {
-          for (var i in rows) {
-            actividadesAsignadas.listarPorDia(idModulo, rows[i].date, function(err, actividades) {
+          for (var retro in rows) {
+            actividadesAsignadas.listarPorDia(idModulo, retro.date, function(err, actividades) {
               if (err) {
                 console.log(err);
-			    rows[i].actividades = [];
+			    retro.actividades = [];
 			  } else {
-			    rows[i].actividades = actividades;
+			    rows.actividades = actividades;
 			  }
-		      callback(null, ++filasCompletas, rows);
 		    });
 		  }
+          console.log(rows);
+          res.setHeader('Content-Type', 'application/json');
+          res.send(JSON.stringify(rows));
+          return;
         } else {
-		  callback(err);
+          console.log(err);
+          res.setHeader('Content-Type', 'application/json');
+          res.send(JSON.stringify([]));
+          return;
 		}
       });
       connection.end();
     } else {
-	  callback(err);
+      console.log("Error connecting database ... \n");
     }
   });
 };

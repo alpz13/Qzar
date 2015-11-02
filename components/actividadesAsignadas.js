@@ -37,12 +37,12 @@ var listarActividadesAsignadas = function (idModulo, res) {
     });
 };
 
-function listarAsignacionesHoy(idModulo, callback) {
+function listarAsignacionesPorDia(idModulo, fecha, callback) {
     var credenciales = require('../database/credencialesbd.json');
     var mysql = require('mysql');
     var connection = mysql.createConnection(credenciales);
     var sql = "SELECT * FROM ActividadesAsignadas AS AA INNER JOIN Actividades AS A INNER JOIN Sectores AS S ON AA.idActividades = A.idActividad AND AA.idSectores = S.idSector WHERE fecha = ? AND AA.idModulos = ?";
-    var params = [moment().tz('America/Mexico_City').format('YYYY-MM-DD'), idModulo];
+    var params = [fecha, idModulo];
 
     connection.connect(function (err) {
         if (!err) {
@@ -50,7 +50,7 @@ function listarAsignacionesHoy(idModulo, callback) {
             connection.query(sql, function (err, actividades) {
                 connection.end();
                 if (!err) {
-                    callback(err, actividades);
+                    callback(null, actividades);
                     return;
                 }
                 console.log(err);
@@ -106,7 +106,7 @@ function confirmarActividadAsignada(idActividadesAsignadas, callback) {
 
 module.exports = {
     'listarActividadesAsignadas': listarActividadesAsignadas,
-    'hoy': listarAsignacionesHoy,
+    'listarPorDia': listarAsignacionesPorDia,
 	'cancelarConfirmacionesHoy': cancelarConfirmacionesHoy,
 	'confirmar': confirmarActividadAsignada
 };

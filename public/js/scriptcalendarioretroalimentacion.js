@@ -23,7 +23,17 @@ function llenaPanel(eventos, date) {
   var imagen = 'none';
   $(eventos).each(function () {
     htmlALlenar += "<div class='retro-item'>";
-    htmlALlenar += "<div class='retro-item-location'>Retroalimentación: " + this.descripcion + "</div>";
+	var htmlActCompletadas = "<p>Actividades completadas:</p><ul>";
+	var htmlActNoCompletadas = "<p>Actividades NO completadas:</p><ul>";
+	for (var i in this.actividades) {
+		if (this.actividades[i].cumplido) {
+			htmlActCompletadas += "<li>" + this.actividades[i].nombre + " en sector " + this.actividades[i].numeroSector + "</li>";
+		} else {
+			htmlActNoCompletadas += "<li>" + this.actividades[i].nombre + " en sector " + this.actividades[i].numeroSector + "</li>";
+		}
+	}
+	htmlALlenar += htmlActCompletadas + "</ul>" + htmlActNoCompletadas + "</ul>";
+    htmlALlenar += "<div class='retro-item-location'>Comentario: " + this.descripcion + "</div>";
     htmlALlenar += "<div id='retro-item-image'></div>";
     imagen = this.ruta;
     if(imagen != null){

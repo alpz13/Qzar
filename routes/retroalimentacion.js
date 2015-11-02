@@ -4,6 +4,7 @@
 var express = require('express');
 var multiparty = require('multiparty');
 var router = express.Router();
+var moment = require('moment-timezone');
 var modulos = require('../components/modulos.js');
 var usuarios = require('../components/usuarios.js');
 var retroalimentaciones = require('../components/retroalimentaciones.js');
@@ -126,7 +127,9 @@ router.post('/actualizar', function (req, res, next) {
 
 // Ver retroalimentaciones del módulo.
 router.get('/:id(\\d+)', function (req, res, next) {
-    var idModulo = req.params.id;
+    var idModulo = req.params.id,
+	    hoy = moment().tz('America/Mexico_City').format('YYYY-MM-DD');
+
     modulos.mostrar(idModulo, function (err, modulos) {
         if (err) {
             console.log(err);
@@ -148,7 +151,7 @@ router.get('/:id(\\d+)', function (req, res, next) {
             return;
         }
 
-		actividadesAsignadas.hoy(idModulo, function(err, actividades) {
+		actividadesAsignadas.listarPorDia(idModulo, hoy, function(err, actividades) {
 			if (err) {
 				console.log(err);
 			}
@@ -164,7 +167,19 @@ router.get('/:id(\\d+)', function (req, res, next) {
 });
 
 router.post('/verRetroalimentacion', function (req, res, next) {
-    retroalimentaciones.listarRetroalimentaciones(req.body.modulo, res);
+    retroalimentaciones.listarRetroalimentaciones(req.body.modulo, function(err, filasCompletas, retroalimentaciones) {
+		// Lo que se tiene que hacer por vivir en un mundo asíncrono.
+		if (filasCompletas === retroalimentaciones.length) {
+			console.log(retroalimentaciones);
+		    res.setHeader('Content-Type', 'application/json');
+		    if (err) {
+			    console.log(err);
+			    res.send(JSON.stringify([]));
+		    } else {
+			    res.send(JSON.stringify(retroalimentaciones));
+		    }
+		}
+	});
 });
 
 module.exports = router;
