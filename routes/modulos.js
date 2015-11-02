@@ -128,9 +128,22 @@ router.get('/:id(\\d+)', function (req, res, next) {
                 console.log(err);
             }
             else{
-                res.render('vermodulos', { titulo: 'Módulo ', modulo: modulos[0], usuario: req.session.usuario, listaAdmins: usuarios, barraLateral: 'modulos', alto: alto, ancho: ancho, cuadritos: cuadritos});
-            }
-            
+                actividadesAsignadas.actividadesPosibles(function (errActividad, actividades) {
+                    console.log("Actividades en controlador");
+                    console.log(actividades);
+                    if (errActividad) {
+                        console.log("Err Actividades");
+                    } else {
+                        actividadesAsignadas.sectoresPosibles(idModulo, function (errSectores, sectores) {
+                            if (errSectores) {
+                                console.log("Err Sectores");
+                            } else {
+                                res.render('vermodulos', { titulo: 'Módulo ', modulo: modulos[0], usuario: req.session.usuario, listaAdmins: usuarios, barraLateral: 'modulos', alto: alto, ancho: ancho, cuadritos: cuadritos, actividades: actividades, sectores: sectores});
+                            }
+                        });
+                    }
+                });
+            } 
         });
         //res.render('vermodulos', { titulo: 'Módulo ', modulo: modulos[0], usuario: req.session.usuario, listaAdmins: usuarios, barraLateral: 'modulos', alto: alto, ancho: ancho});            
         });

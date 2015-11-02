@@ -20,6 +20,7 @@ var actividades = require('./routes/actividades');
 var sesiones = require('./routes/sesiones');
 var usuarios = require('./routes/usuarios');
 var lotes = require('./routes/lotes');
+var asignacion = require('./routes/asignacion');
 var retroalimentacion = require('./routes/retroalimentacion');
 var sector = require('./routes/sector');
 
@@ -64,6 +65,7 @@ app.use('/actividades', actividades);
 app.use('/sesiones', sesiones);
 app.use('/usuarios', usuarios);
 app.use('/lotes', lotes);
+app.use('/asignacion', asignacion);
 app.use('/retroalimentacion', retroalimentacion);
 app.use('/sector', sector);
 
