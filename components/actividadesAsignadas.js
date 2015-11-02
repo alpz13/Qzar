@@ -75,7 +75,6 @@ var listarSectoresPosibles = function (idModulo, callback) {
         //Funcion callback del query
         if (!err) {
           //Si no ocurrio un error al realizar la query
-          console.log(rows);
           return callback(null, rows);
         }
         //Error al ejecutar el query
@@ -100,7 +99,6 @@ var asignarActividad = function (idModulo, idSector, idActividad, fecha, res) {
   connection.connect(function (err, rows) {
     if (!err) {
       console.log("Database is connected ... \n");
-      console.log("INSERT INTO ActividadesAsignadas (idModulos,idActividades,idSectores,fecha) VALUES (" + idModulo + ", " + idActividad + ", " + idSector + ", " + fecha + ");");
       connection.query("INSERT INTO ActividadesAsignadas (idModulos,idActividades,idSectores,fecha) VALUES (" + idModulo + ", " + idActividad + ", " + idSector + ", '" + fecha + "');", function (err, rows) {
         //Funcion callback del query
         if (!err) {

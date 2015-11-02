@@ -19,16 +19,16 @@ function asignarActividad() {
   fechaIni = $('#initDate').val();
   fechaFin = $('#endDate').val();
   $.post("/asignacion/asignaractividad",
-    {
-      'idModulo': url[url.length - 1],
-      'idSector': idSector,
-      'idActividad': idActividad,
-      'fechaIni': fechaIni,
-      'fechaFin': fechaFin
-    },
-    function (data) {
-      console.log(data);
-    });
+  {
+    'idModulo': url[url.length - 1],
+    'idSector': idSector,
+    'idActividad': idActividad,
+    'fechaIni': fechaIni,
+    'fechaFin': fechaFin
+  },
+  function (data) {
+    //location.reload();
+  });
 }
 
 $(document).ready(
