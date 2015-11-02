@@ -138,7 +138,7 @@ router.get('/:id(\\d+)', function (req, res, next) {
             next(err);
             return;
         } else if (!modulos[0]) {
-            err = new Error('Not Found');
+            err = new Error('El módulo buscado no existe.');
             err.status = 404;
             next(err);
             return;
@@ -167,17 +167,42 @@ router.get('/:id(\\d+)', function (req, res, next) {
 });
 
 router.post('/verRetroalimentacion', function (req, res, next) {
-    retroalimentaciones.listarRetroalimentaciones(req.body.modulo, function(err, filasCompletas, retroalimentaciones) {
-		// Lo que se tiene que hacer por vivir en un mundo asíncrono.
-		if (filasCompletas === retroalimentaciones.length) {
-			console.log(retroalimentaciones);
-		    res.setHeader('Content-Type', 'application/json');
-		    if (err) {
-			    console.log(err);
-			    res.send(JSON.stringify([]));
-		    } else {
-			    res.send(JSON.stringify(retroalimentaciones));
-		    }
+	var retros = {},
+		listaRetros = [],
+		mes = moment().tz('America/Mexico_City').format('YYYY-MM-DD');
+
+	if (req.body.mes) {
+		mes = req.body.mes;
+	}
+
+    retroalimentaciones.listarRetroalimentaciones(req.body.modulo, mes, function(err, filas) {
+		res.setHeader('Content-Type', 'application/json');
+		if (err) {
+			console.log(err);
+		    res.send(JSON.stringify([]));
+	    } else {
+			// Construye retroalimentaciones por día con su lista de actividades.
+			for (var i in filas) {
+				if (!retros[filas[i].fecha]) {
+					retros[filas[i].fecha] = {
+						"date": filas[i].fecha,
+						"descripcion": filas[i].descripcion,
+						"ruta": filas[i].ruta,
+						"actividades": []
+					};
+				}
+				retros[filas[i].fecha].actividades.push({
+					"nombre": filas[i].nombre,
+					"numeroSector": filas[i].numeroSector,
+					"cumplido": filas[i].cumplido
+				});
+			}
+			for (var llave in retros) {
+				listaRetros.push(retros[llave]);
+			}
+			//console.log(listaRetros);
+
+		    res.send(JSON.stringify(listaRetros));
 		}
 	});
 });

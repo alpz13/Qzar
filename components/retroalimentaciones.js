@@ -68,15 +68,15 @@ function agregarRetroalimentacion(retro, callback) {
 }
 
 function actualizarRetroalimentacion(retro, callback) {
-    // El archivo tiene como nombre el idModulo y la fecha.
-    var hoy = moment().tz('America/Mexico_City').format('YYYY-MM-DD'),
-        bd = mysql.createConnection(credenciales),
-        sql = "UPDATE Retroalimentaciones SET descripcion = ? WHERE fecha = ? AND idModulos = ?;",
-        nombreArchivo,
-        params;
+	// El archivo tiene como nombre el idModulo y la fecha.
+	var hoy = moment().tz('America/Mexico_City').format('YYYY-MM-DD'),
+		bd = mysql.createConnection(credenciales),
+		sql = "UPDATE Retroalimentaciones SET descripcion = ? WHERE fecha = ? AND idModulos = ?;",
+		nombreArchivo,
+		params;
 
 	// Confirma las actividades que se completaron.
-    actividadesAsignadas.cancelarConfirmacionesHoy(retro.idModulo, function(err) {
+	actividadesAsignadas.cancelarConfirmacionesHoy(retro.idModulo, function(err) {
 		if (err) {
 			console.log(err);
 		}
@@ -90,21 +90,21 @@ function actualizarRetroalimentacion(retro, callback) {
 		}
 	}
 
-    // Para saber si también debe reemplazar la foto o no.
-    if (retro.archivo) {
-        sql = "UPDATE Retroalimentaciones SET descripcion = ?, contenidoMultimedia = ? WHERE fecha = ? AND idModulos = ?;";
-        nombreArchivo = retro.idModulo + '_' + hoy + path.extname(retro.archivo.originalFilename);
-        params = [retro.descripcion, nombreArchivo, hoy, retro.idModulo];
-    } else {
-        params = [retro.descripcion, hoy, retro.idModulo];
+	// Para saber si también debe reemplazar la foto o no.
+	if (retro.archivo) {
+		sql = "UPDATE Retroalimentaciones SET descripcion = ?, contenidoMultimedia = ? WHERE fecha = ? AND idModulos = ?;";
+		nombreArchivo = retro.idModulo + '_' + hoy + path.extname(retro.archivo.originalFilename);
+		params = [retro.descripcion, nombreArchivo, hoy, retro.idModulo];
+	} else {
+		params = [retro.descripcion, hoy, retro.idModulo];
 	}
 
-    bd.connect();
+	bd.connect();
 
-    // Prepara consulta y la ejecuta.
-    sql = mysql.format(sql, params);
-    bd.query(sql, function (err, resultado) {
-        if (err) {
+	// Prepara consulta y la ejecuta.
+	sql = mysql.format(sql, params);
+	bd.query(sql, function (err, resultado) {
+		if (err) {
             bd.end();
             return callback(err);
         }
@@ -132,35 +132,31 @@ function actualizarRetroalimentacion(retro, callback) {
     });
 }
 
-var listarRetroalimentaciones = function (idModulo, callback) {
-  var connection = mysql.createConnection(credenciales);
-  var filasCompletas = 0;
+function listarRetroalimentaciones(idModulo, mes, callback) {
+	// A quien tenga que mantener esto: Perdón.
+	var connection = mysql.createConnection(credenciales),
+		sql = "SELECT A.nombre, S.numeroSector, DATE_FORMAT(AA.fecha, '%Y-%m-%d') as fecha, AA.cumplido, R.descripcion, R.contenidoMultimedia as ruta "
+			+ "FROM ActividadesAsignadas as AA LEFT JOIN Retroalimentaciones as R ON AA.idModulos = R.idModulos AND AA.fecha = R.fecha "
+			+ "INNER JOIN Actividades as A ON A.idActividad = AA.idActividades "
+			+ "INNER JOIN Sectores as S ON S.idSector = AA.idSectores "
+			+ "WHERE AA.idModulos = ? AND MONTH(AA.fecha) = MONTH(?);",
+		params = [idModulo, mes];
 
-  connection.connect(function (err) {
-    if (!err) {
-      console.log("Database is connected ... \n");
-      connection.query("select ret.fecha as date, ret.descripcion as descripcion, ret.contenidoMultimedia as ruta FROM Retroalimentaciones as ret WHERE ret.idModulos = " + idModulo, function (err, rows) {
-        if (!err) {
-          for (var i in rows) {
-            actividadesAsignadas.listarPorDia(idModulo, rows[i].date, function(err, actividades) {
-              if (err) {
-                console.log(err);
-			    rows[i].actividades = [];
-			  } else {
-			    rows[i].actividades = actividades;
-			  }
-		      callback(null, ++filasCompletas, rows);
-		    });
-		  }
-        } else {
-		  callback(err);
+	connection.connect(function (err) {
+		if (!err) {
+			sql = mysql.format(sql, params);
+			connection.query(sql, function (err, filas) {
+				if (!err) {
+					callback(null, filas);
+				} else {
+					callback(err);
+				}
+			});
+			connection.end();
+		} else {
+			callback(err);
 		}
-      });
-      connection.end();
-    } else {
-	  callback(err);
-    }
-  });
+	});
 };
 
 function verRetroalimentacionHoy(idModulo, callback) {

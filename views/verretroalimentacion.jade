@@ -105,13 +105,11 @@ block content
                   label Comentarios 
                   textarea.form-control(rows='5' cols='60' name="descripcion" required) #{retroalimentacionHoy.descripcion}
                   label Foto
-                  //img(src='/images/retros/#{retroalimentacionHoy.contenidoMultimedia}')
                   input(type="file" name="foto" size="58")
                 div.modal-footer
                   button#agregaRetro.btn.btn-primary(type="submit") Enviar
                   button.btn.btn-default(type="button" data-dismiss="modal") Cerrar
 
-  script(src='/js/agregaretroalimentacion.js')
   //Cierro segundo col-lg-12 
   //Cierro Container Fluid
   //Containererro PageWrapper

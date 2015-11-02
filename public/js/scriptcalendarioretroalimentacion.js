@@ -1,20 +1,22 @@
-function obtenerRetro() {
+function cargaMes(mes) {
   var url = window.location.href;
   url = url.split('/');
 
   $.post("/retroalimentacion/verRetroalimentacion",
     {
-      'modulo': url[url.length - 1]
+      'modulo': url[url.length - 1],
+      'mes': mes
     },
     function (data) {
-      llenarCalendario(data);
+      calendario.addEvents(data);
     });
 }
 
 $(document).ready(
   function () {
-  //AJAX
-    obtenerRetro();
+    //AJAX
+    llenarCalendario([]);
+	cargaMes(null);
   }
 );
 
@@ -33,10 +35,12 @@ function llenaPanel(eventos, date) {
 		}
 	}
 	htmlALlenar += htmlActCompletadas + "</ul>" + htmlActNoCompletadas + "</ul>";
-    htmlALlenar += "<div class='retro-item-location'>Comentario: " + this.descripcion + "</div>";
+	if (this.descripcion) {
+      htmlALlenar += "<div class='retro-item-location'>Comentario: " + this.descripcion + "</div>";
+	}
     htmlALlenar += "<div id='retro-item-image'></div>";
     imagen = this.ruta;
-    if(imagen != null){
+    if(imagen){
       htmlALlenar += "<a href=/images/retros/"+imagen+" target='_blank'>Ver en grande</a>";
     }
     htmlALlenar += "</div>";
