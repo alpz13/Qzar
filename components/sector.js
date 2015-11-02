@@ -8,7 +8,7 @@ var credenciales = require('../database/credencialesbd.json');
 function crearSector(nuevoPoste, callback)
 {
 	var bd = mysql.createConnection(credenciales),
-        sql = 'INSERT INTO contenidocuadritos(nombre, color) VALUES (?,?);',
+        sql = 'INSERT INTO ContenidoCuadritos(nombre, color) VALUES (?,?);',
         params = [nuevoPoste.nombre, nuevoPoste.escogerColor];
 
         bd.connect();
@@ -30,7 +30,7 @@ function crearSector(nuevoPoste, callback)
 function listarSector(callback)
 {
 	var bd = mysql.createConnection(credenciales),
-		sql = 'SELECT * FROM contenidocuadritos';
+		sql = 'SELECT * FROM ContenidoCuadritos';
 
 	bd.connect();
 
@@ -47,7 +47,7 @@ function listarSector(callback)
 //Eliminar sectores
 function eliminarSector(id, callback){
 	var bd = mysql.createConnection(credenciales),
-		sql = 'DELETE FROM contenidocuadritos WHERE idContenidoCuadritos = ?',
+		sql = 'DELETE FROM ContenidoCuadritos WHERE idContenidoCuadritos = ?',
 		params = [id];
 
 		sql = mysql.format(sql,params);
@@ -70,7 +70,7 @@ function eliminarSector(id, callback){
 function modificarSector(nuevoPoste, callback)
 {
 	var bd = mysql.createConnection(credenciales),
-        sql = 'UPDATE contenidocuadritos SET nombre= ?, color= ? WHERE idContenidoCuadritos= ?;',
+        sql = 'UPDATE ContenidoCuadritos SET nombre= ?, color= ? WHERE idContenidoCuadritos= ?;',
         params = [nuevoPoste.nombre, nuevoPoste.escogerColor, nuevoPoste.idContenidoCuadritos];
 
         console.log("YOLEROOO!!:" + nuevoPoste.escogerColor);
