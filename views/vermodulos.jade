@@ -7,11 +7,11 @@ block content
   div#page-wrapper
     div.container-fluid
 
-      //- if aviso
-      //-   div.row
-      //-     div(class="alert alert-#{aviso.tipo} col-md-6 col-md-offset-3", role="alert")
-      //-       i(class="#{aviso.icono}")
-      //-       p.inline #{aviso.mensaje}
+       if aviso
+         div.row
+           div(class="alert alert-#{aviso.tipo} col-md-6 col-md-offset-3", role="alert")
+             i(class="#{aviso.icono}")
+             p.inline #{aviso.mensaje}
 
       div.row
         div#barra-ver-modulos
