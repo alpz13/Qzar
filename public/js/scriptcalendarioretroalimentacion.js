@@ -1,20 +1,22 @@
-function obtenerRetro() {
+function cargaMes(mes) {
   var url = window.location.href;
   url = url.split('/');
 
   $.post("/retroalimentacion/verRetroalimentacion",
     {
-      'modulo': url[url.length - 1]
+      'modulo': url[url.length - 1],
+      'mes': mes
     },
     function (data) {
-      llenarCalendario(data);
+      calendario.addEvents(data);
     });
 }
 
 $(document).ready(
   function () {
-  //AJAX
-    obtenerRetro();
+    //AJAX
+    llenarCalendario([]);
+	cargaMes(null);
   }
 );
 
@@ -23,10 +25,22 @@ function llenaPanel(eventos, date) {
   var imagen = 'none';
   $(eventos).each(function () {
     htmlALlenar += "<div class='retro-item'>";
-    htmlALlenar += "<div class='retro-item-location'>Retroalimentación: " + this.descripcion + "</div>";
+	var htmlActCompletadas = "<p>Actividades completadas:</p><ul>";
+	var htmlActNoCompletadas = "<p>Actividades NO completadas:</p><ul>";
+	for (var i in this.actividades) {
+		if (this.actividades[i].cumplido) {
+			htmlActCompletadas += "<li>" + this.actividades[i].nombre + " en sector " + this.actividades[i].numeroSector + "</li>";
+		} else {
+			htmlActNoCompletadas += "<li>" + this.actividades[i].nombre + " en sector " + this.actividades[i].numeroSector + "</li>";
+		}
+	}
+	htmlALlenar += htmlActCompletadas + "</ul>" + htmlActNoCompletadas + "</ul>";
+	if (this.descripcion) {
+      htmlALlenar += "<div class='retro-item-location'>Comentario: " + this.descripcion + "</div>";
+	}
     htmlALlenar += "<div id='retro-item-image'></div>";
     imagen = this.ruta;
-    if(imagen != null){
+    if(imagen){
       htmlALlenar += "<a href=/images/retros/"+imagen+" target='_blank'>Ver en grande</a>";
     }
     htmlALlenar += "</div>";
