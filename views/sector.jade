@@ -1,0 +1,96 @@
+extends menu
+block content
+  head
+    link(rel='stylesheet', href="/stylesheets/bootstrap-colorpicker.min.css", type="text/css")
+    link(rel='stylesheet', href="/stylesheets/qzar-modulos.css", type='text/css')
+    link(rel='stylesheet', href="/stylesheets/docs.css", type="text/css")
+    link(rel='stylesheet', href="/stylesheets/qzar-modulos.css", type='text/css')
+    script(src='/js/scripthuerta.js')
+   div#page-wrapper
+    div.conten-fluid
+      div.row
+        div#barra-de-actividades
+          div.col-sm-12.col-md-8.col-md-offset-2
+            i#icono-modulo.material-icons dashboard
+            //p #{mensaje}
+            h1#h1Modulos Sectores
+            if usuario.idRoles === 1
+              //Icono que te lleva al modal
+              a(class='nav navbar-right top-nav' href='#' data-toggle="modal" data-target="#FAA")
+                i.material-icons.md-48#boton-agregar-actividad control_point
+                p Agregar
+        
+        //Contenido de la pagina
+        div.col-sm-12.col-md-8.col-md-offset-2
+          if resultados && resultados.length
+            table.table.table-striped.table-bordered
+              thead
+                th Nombre
+                th Color
+                th
+
+              tbody
+                each resultado in resultados
+                  tr
+
+                    td(class='nombre' ) #{resultado.nombre}
+                    td(class='id' style='display:none;') #{resultado.idContenidoCuadritos}
+                    td(class ='color' width="50px") 
+                      div.input-group.colorpicker-component.demo.demo-auto
+                        input.form-control#escogerColor(type='hidden',value= resultado.color, disabled)
+                        span.input-group-addon
+                          i
+                    td#botones-modificar 
+                      button.btn.btn-primary(type="button" class="modificar" data-toggle="modal" data-target="#MAA" id='boton-modificar') Modificar
+                      &nbsp&nbsp&nbsp
+                      button.btn.btn-default( type="button" class="eliminar" data-dismiss="modal" onclick="window.location.href='/sector/eliminar/#{resultado.idContenidoCuadritos}'" ) Eliminar
+          else
+            p.watermark No se han encontrado sectores en el sistema.
+
+
+
+
+
+        //Modal para agregar un tipo de poste
+        div(id='FAA' class='modal fade' role='dialog')
+            div.modal-dialog
+              div.modal-content
+                div.modal-header
+                  button(type='button' class='close' data-dismiss="modal") &times;
+                  h4.modal-title Agregar Sector
+                form(action="/sector/agregar" method="post" id="agregaSector")
+                  div.modal-body
+                    label(for="color") Color
+                    div.input-group.colorpicker-component.demo.demo-auto
+                      input.form-control(name="cuadrosColor", type='text', value='', required)
+                      span.input-group-addon
+                        i
+                    label(for="nombre") Nombre
+                    input.form-control#nombreDeTipoDePoste(name="nombre", type='text', value='', required)
+                  div.modal-footer
+                    button.btn.btn-primary#crearModulo(type="submit") Crear
+                    button.btn.btn-default#cerrarModal(type='button', data-dismiss='modal') Cerrar
+
+        //Modal para modificar un tipo de poste
+        div(id='MAA' class='modal fade' role='dialog')
+            div.modal-dialog
+              div.modal-content
+                div.modal-header
+                  button(type='button' class='close' data-dismiss="modal") &times;
+                  h4.modal-title Modificar Sector
+                form(action="/sector/modificar" method="post" id="modificaSector" onsubmit="return checkform(this);")
+                  div.modal-body
+                    label(for="color") Color
+                    div.input-group.colorpicker-component.demo.demo-auto
+                      input.form-control(name="cuadrosColor", type='text', value='', required)
+                      span.input-group-addon
+                        i
+                    label(for="nombre") nombre
+                    input.form-control#nombre(name="nombre", type='text', value='', required)
+                    input.form-control(type="numeric" name="idContenidoCuadritos" id="MIDU" style='display:none;')
+                  div.modal-footer
+                    button.btn.btn-primary#modificarModulo(type="submit") Modificar
+                    button.btn.btn-default#cerrarModal(type='button', data-dismiss='modal') Cerrar
+  
+  script(src='/js/modificarsector.js')
+
