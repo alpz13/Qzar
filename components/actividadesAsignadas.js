@@ -1,3 +1,8 @@
+'use strict';
+/*jslint
+    indent: 4, unparam: true
+*/
+
 var moment = require('moment-timezone');
 
 var listarActividadesAsignadas = function (idModulo, res) {
@@ -269,9 +274,9 @@ function cancelarConfirmacionesHoy(idModulo, callback) {
                 if (err) {
                     callback(err);
                 }
-			});
-		}
-	});
+            });
+        }
+    });
 }
 
 function confirmarActividadAsignada(idActividadesAsignadas, callback) {
@@ -289,18 +294,18 @@ function confirmarActividadAsignada(idActividadesAsignadas, callback) {
                 if (err) {
                     callback(err);
                 }
-			});
-		}
-	});
+            });
+        }
+    });
 }
 
 module.exports = {
-  'listarActividadesAsignadas': listarActividadesAsignadas,
-  'listarPorDia': listarAsignacionesPorDia,
-  'actividadesPosibles': listarActividadesPosibles,
-  'sectoresPosibles': listarSectoresPosibles,
-  'asignar': asignarActividad,
-  'detalles': verDetallesActividadAsignada,
-  'cancelarConfirmacionesHoy': cancelarConfirmacionesHoy,
-  'confirmar': confirmarActividadAsignada
+    'listarActividadesAsignadas': listarActividadesAsignadas,
+    'listarPorDia': listarAsignacionesPorDia,
+    'actividadesPosibles': listarActividadesPosibles,
+    'sectoresPosibles': listarSectoresPosibles,
+    'asignar': asignarActividad,
+    'detalles': verDetallesActividadAsignada,
+    'cancelarConfirmacionesHoy': cancelarConfirmacionesHoy,
+    'confirmar': confirmarActividadAsignada
 };
