@@ -17,10 +17,7 @@ block content
       if usuario.idRoles == 2
         a(class='nav navbar-right top-nav' href='#' data-toggle="modal" data-target="#FAA" id='boton-agregar')
           i.material-icons.md-48#boton-agregar-retro control_point
-          if retroalimentacionHoy
-            p Cambiar retroalimentación de hoy
-          else
-            p Enviar retroalimentación de hoy
+          p Retroalimentación de hoy
 
     div#full-clndr.clearfix
     script.todo.
@@ -52,63 +49,35 @@ block content
       </div>
 
     if usuario.idRoles == 2
-      if !retroalimentacionHoy
-        //Modal Agregar
-        div(id='FAA' class='modal fade' role='dialog')
-          div.modal-dialog
-            //Contenido modal
-            div.modal-content
-              div.modal-header
-                button(type='button' class='close' data-dismiss="modal") &times;
-                h4.modal-title Agregar retroalimentación del día
-              form#AgregarRetro(action="/retroalimentacion/nuevo" method="post" enctype="multipart/form-data")
-                div.modal-body 
-                  label Actividades de hoy
-                  div.row
-                  for actividad in actividades
-                      div.row
-                        div.col-sm-1.col-sm-offset-1.col-md-1.col-md-offset-1
+      //Modal retroalimentación
+      div(id='FAA' class='modal fade' role='dialog')
+        div.modal-dialog
+          //Contenido modal
+          div.modal-content
+            div.modal-header
+              button(type='button' class='close' data-dismiss="modal") &times;
+              h4.modal-title Retroalimentación del día
+            form#AgregarRetro(action="/retroalimentacion/actualizar" method="post" enctype="multipart/form-data")
+              div.modal-body 
+                label Actividades de hoy
+                div.row
+                for actividad in actividades
+                    div.row
+                      div.col-sm-1.col-sm-offset-1.col-md-1.col-md-offset-1
+                        if actividad.cumplido
+                          input(type="checkbox" name= actividad.idActividadesAsignadas checked)
+                        else
                           input(type="checkbox" name= actividad.idActividadesAsignadas)
-                        div.col-sm-8.col-md-8.col-md-offset-0
-                          span #{actividad.nombre} en sector #{actividad.numeroSector}.
-                  div.row
-                  label Comentarios 
-                  textarea.form-control(rows='5' cols='60' name="descripcion")
-                  label Foto
-                  input(type="file" name="foto" size="58")
-                div.modal-footer
-                  button#agregaRetro.btn.btn-primary(type="submit") Enviar
-                  button.btn.btn-default(type="button" data-dismiss="modal") Cerrar
-      else
-        //Modal Actualizar
-        div(id='FAA' class='modal fade' role='dialog')
-          div.modal-dialog
-            //Contenido modal
-            div.modal-content
-              div.modal-header
-                button(type='button' class='close' data-dismiss="modal") &times;
-                h4.modal-title Cambiar retroalimentación del día
-              form#AgregarRetro(action="/retroalimentacion/actualizar" method="post" enctype="multipart/form-data")
-                div.modal-body 
-                  label Actividades de hoy
-                  div.row
-                  for actividad in actividades
-                      div.row
-                        div.col-sm-1.col-sm-offset-1.col-md-1.col-md-offset-1
-                          if actividad.cumplido
-                            input(type="checkbox" name= actividad.idActividadesAsignadas checked)
-                          else
-                            input(type="checkbox" name= actividad.idActividadesAsignadas)
-                        div.col-sm-8.col-md-8.col-md-offset-0
-                          span #{actividad.nombre} en sector #{actividad.numeroSector}.
-                  div.row
-                  label Comentarios 
-                  textarea.form-control(rows='5' cols='60' name="descripcion") #{retroalimentacionHoy.descripcion}
-                  label Foto
-                  input(type="file" name="foto" size="58")
-                div.modal-footer
-                  button#agregaRetro.btn.btn-primary(type="submit") Enviar
-                  button.btn.btn-default(type="button" data-dismiss="modal") Cerrar
+                      div.col-sm-8.col-md-8.col-md-offset-0
+                        span #{actividad.nombre} en sector #{actividad.numeroSector}.
+                div.row
+                label Comentarios 
+                textarea.form-control(rows='5' cols='60' name="descripcion") #{retroalimentacionHoy.descripcion}
+                label Foto
+                input(type="file" name="foto" size="58")
+              div.modal-footer
+                button#agregaRetro.btn.btn-primary(type="submit") Enviar
+                button.btn.btn-default(type="button" data-dismiss="modal") Cerrar
 
   //Cierro segundo col-lg-12 
   //Cierro Container Fluid
