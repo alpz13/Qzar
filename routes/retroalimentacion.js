@@ -3,10 +3,11 @@
 var express = require('express');
 var multiparty = require('multiparty');
 var router = express.Router();
-
+var moment = require('moment-timezone');
 var modulos = require('../components/modulos.js');
 var usuarios = require('../components/usuarios.js');
 var retroalimentaciones = require('../components/retroalimentaciones.js');
+var actividadesAsignadas = require('../components/actividadesAsignadas.js');
 
 // Para administrador general: lista de retroalimentaciones.
 // Para administrador de módulo: sus retroalimentaciones.
@@ -30,7 +31,7 @@ router.get('/', function (req, res, next) {
 // Petición de crear nueva retroalimentación.
 router.post('/nuevo', function (req, res, next) {
     var formulario = new multiparty.Form(),
-        retroalimentación = {
+        retroalimentacion = {
             'idModulo' : req.session.usuario.idModulo
         };
 
@@ -47,10 +48,12 @@ router.post('/nuevo', function (req, res, next) {
             console.log(err);
             res.send('Hubo un error al agregar la retroalimentación. Inténtelo más tarde.');
         } else {
-            retroalimentación.descripción = campos.descripcion;
+            for (var campo in campos) {
+				retroalimentacion[campo] = campos[campo];
+			}
             if (archivos.foto[0].size > 0) {
                 if (archivos.foto[0].headers['content-type'].match(/^image/)) {
-                    retroalimentación.archivo = archivos.foto[0];
+                    retroalimentacion.archivo = archivos.foto[0];
                 } else {
                     console.log(archivos.foto[0].headers);
                     res.send('La foto de retroalimentación debe ser una imagen.');
@@ -59,7 +62,7 @@ router.post('/nuevo', function (req, res, next) {
             }
 
             // Intenta agregar retro.
-            retroalimentaciones.agregar(retroalimentación, function(err) {
+            retroalimentaciones.agregar(retroalimentacion, function(err) {
                 if (err) {
                     console.log(err);
                     if (err.code === 'ER_DUP_ENTRY') {
@@ -78,7 +81,7 @@ router.post('/nuevo', function (req, res, next) {
 // Petición de actualizar retroalimentación del día.
 router.post('/actualizar', function (req, res, next) {
     var formulario = new multiparty.Form(),
-        retroalimentación = {
+        retroalimentacion = {
             'idModulo' : req.session.usuario.idModulo
         };
 
@@ -95,10 +98,12 @@ router.post('/actualizar', function (req, res, next) {
             console.log(err);
             res.send('Hubo un error al actualizar la retroalimentación. Inténtelo más tarde.');
         } else {
-            retroalimentación.descripción = campos.descripcion;
+            for (var campo in campos) {
+				retroalimentacion[campo] = campos[campo];
+			}
             if (archivos.foto[0].size > 0) {
                 if (archivos.foto[0].headers['content-type'].match(/^image/)) {
-                    retroalimentación.archivo = archivos.foto[0];
+                    retroalimentacion.archivo = archivos.foto[0];
                 } else {
                     console.log(archivos.foto[0].headers);
                     res.send('La foto de retroalimentación debe ser una imagen.');
@@ -107,7 +112,7 @@ router.post('/actualizar', function (req, res, next) {
             }
 
             // Intenta agregar retro.
-            retroalimentaciones.actualizar(retroalimentación, function(err) {
+            retroalimentaciones.actualizar(retroalimentacion, function(err) {
                 if (err) {
                     console.log(err);
                     res.send('Hubo un error al actualizar la retroalimentación. Inténtelo más tarde.');
@@ -121,7 +126,9 @@ router.post('/actualizar', function (req, res, next) {
 
 // Ver retroalimentaciones del módulo.
 router.get('/:id(\\d+)', function (req, res, next) {
-    var idModulo = req.params.id;
+    var idModulo = req.params.id,
+	    hoy = moment().tz('America/Mexico_City').format('YYYY-MM-DD');
+
     modulos.mostrar(idModulo, function (err, modulos) {
         if (err) {
             console.log(err);
@@ -130,7 +137,7 @@ router.get('/:id(\\d+)', function (req, res, next) {
             next(err);
             return;
         } else if (!modulos[0]) {
-            err = new Error('Not Found');
+            err = new Error('El módulo buscado no existe.');
             err.status = 404;
             next(err);
             return;
@@ -143,17 +150,60 @@ router.get('/:id(\\d+)', function (req, res, next) {
             return;
         }
 
-        retroalimentaciones.hoy(idModulo, function(err, retroalimentacionHoy) {
-            if (err) {
+		actividadesAsignadas.listarPorDia(idModulo, hoy, function(err, actividades) {
+			if (err) {
 				console.log(err);
 			}
-            res.render('verretroalimentacion', { titulo: 'Retroalimentaciones', usuario:req.session.usuario, barraLateral: "retroalimentacion", modulo: modulos[0], retroalimentacionHoy: retroalimentacionHoy});
+
+			retroalimentaciones.hoy(idModulo, function(err, retroalimentacionHoy) {
+				if (err) {
+					console.log(err);
+				}
+				res.render('verretroalimentacion', { titulo: 'Retroalimentaciones', usuario:req.session.usuario, barraLateral: "retroalimentacion", modulo: modulos[0], actividades: actividades, retroalimentacionHoy: retroalimentacionHoy});
+			});
 		});
     });
 });
 
 router.post('/verRetroalimentacion', function (req, res, next) {
-    retroalimentaciones.listarRetroalimentaciones(req.body.modulo, res);
+	var retros = {},
+		listaRetros = [],
+		mes = moment().tz('America/Mexico_City').format('YYYY-MM-DD');
+
+	if (req.body.mes) {
+		mes = req.body.mes;
+	}
+
+    retroalimentaciones.listarRetroalimentaciones(req.body.modulo, mes, function(err, filas) {
+		res.setHeader('Content-Type', 'application/json');
+		if (err) {
+			console.log(err);
+		    res.send(JSON.stringify([]));
+	    } else {
+			// Construye retroalimentaciones por día con su lista de actividades.
+			for (var i in filas) {
+				if (!retros[filas[i].fecha]) {
+					retros[filas[i].fecha] = {
+						"date": filas[i].fecha,
+						"descripcion": filas[i].descripcion,
+						"ruta": filas[i].ruta,
+						"actividades": []
+					};
+				}
+				retros[filas[i].fecha].actividades.push({
+					"nombre": filas[i].nombre,
+					"numeroSector": filas[i].numeroSector,
+					"cumplido": filas[i].cumplido
+				});
+			}
+			for (var llave in retros) {
+				listaRetros.push(retros[llave]);
+			}
+			//console.log(listaRetros);
+
+		    res.send(JSON.stringify(listaRetros));
+		}
+	});
 });
 
 module.exports = router;
