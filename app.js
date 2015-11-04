@@ -45,8 +45,17 @@ app.use(session({
 }));
 
 app.use('/', routes);
-// Si no ha iniciado sesión, se va directo a login.
+app.use('/sesiones', sesiones);
 app.get(/.*/, function(req, res, next) {
+    // Si no ha iniciado sesión, se va directo a login.
+    if (!req.session.usuario) {
+        res.redirect('/');
+    } else {
+        next();
+    }
+});
+app.post(/.*/, function(req, res, next) {
+    // Si no ha iniciado sesión, se va directo a login.
     if (!req.session.usuario) {
         res.redirect('/');
     } else {
@@ -62,7 +71,6 @@ app.use('/modulo/huerta', crearHuerta);//Si llaman esta url, ejecutar
 
 app.use('/modulos', modulos);
 app.use('/actividades', actividades);
-app.use('/sesiones', sesiones);
 app.use('/usuarios', usuarios);
 app.use('/lotes', lotes);
 app.use('/asignacion', asignacion);
