@@ -3,10 +3,8 @@
 var express = require('express');
 var router = express.Router();
 
-var agregausuario = require('../components/agregaUsuario.js');
 var usuarios = require('../components/usuarios.js');
 var us = require('../components/usuarios.js');
-var modificarusuario = require('../components/modificaUsuario.js');
 
 router.get('/', function (req, res, next) {
     if (req.session.usuario.idRoles !== 1) {

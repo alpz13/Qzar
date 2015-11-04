@@ -5,7 +5,6 @@ var express = require('express');
 var router = express.Router();
 
 var modulos = require('../components/modulos.js');
-var cuadritos = require('../components/modulos.js');
 var usuarios = require('../components/usuarios.js');
 var asignaciones = require('../components/asignaciones.js');
 
@@ -19,6 +18,7 @@ router.get('/', function (req, res, next) {
         if (err) {
             console.log(err);
         }
+		// Revisar si es necesaria esta consulta.
         usuarios.listarAdminsGenerales(function (err, usuarios) {
             if (err) {
                 console.log(err);
@@ -38,8 +38,6 @@ var desplegarCuadritos = function (req, res, next) {
     });
 }
 
-
-
 // Petición de crear nuevo módulo.
 router.post('/nuevo', function (req, res, next) {
     var moduloNuevo = {
@@ -50,13 +48,13 @@ router.post('/nuevo', function (req, res, next) {
 
     // Valida permisos para crear módulo.
     if (req.session.usuario.idRoles !== 1) {
-        res.send("No tienes permiso para crear módulo.");
+        res.send(JSON.stringify({error: "No tienes permiso para crear un módulo."}));
         return;
     }
 
     // Verifica que el nombre y el número de módulo no sean vacíos.
     if (moduloNuevo.nombre.match(/^\s*$/) || !moduloNuevo.numeroModulo.match(/^\d{1,3}$/)) {
-        res.send('Hubo un error: Verifique que el nombre no sea vacío y el número sea de 3 dígitos.');
+        res.send(JSON.stringify({error: "Hubo un error: Verifique que el nombre no sea vacío y el número sea de 3 dígitos."}));
         return;
     }
 
@@ -65,35 +63,35 @@ router.post('/nuevo', function (req, res, next) {
         // Si hubo error, regresa al formulario de nuevo módulo con el mensaje de error correspondiente.
         if (err) {
             console.log(err);
-            if (err.code === 'ER_DUP_ENTRY') {
-                res.send('Un módulo con este nombre o con este número ya existe.');
-            } else {
-                res.send('Hubo un error al crear el nuevo módulo. Inténtelo más tarde.');
-            }
-
-        } else {
-            // Se manda como string para que no lo interprete como HTTP status.
-            res.send("" + idModulo);
+            res.send(JSON.stringify({error: "Hubo un error al crear el nuevo módulo. Inténtelo más tarde."}));
+			return;
         }
+        
+        // Módulo creado exitosamente.
+        res.send(JSON.stringify({idModulo: idModulo}));
     });
 });
 
-// Página ver modulo
+// Página ver módulo
 router.get('/:id(\\d+)', function (req, res, next) {
     var idModulo = req.params.id;
      
     modulos.mostrar(idModulo, function (err, modulos) {
         if (err) {
             console.log(err);
+            err = new Error("Hubo un error interno.");
+            err.status = 500;
+            next(err);
+            return;
         } else if (!modulos[0]) {
-            err = new Error('Not Found');
+            err = new Error("Módulo no encontrado. Es posible que el módulo no exista o que haya sido dado de baja del sistema.");
             err.status = 404;
             next(err);
             return;
         }
 
         if (req.session.usuario.idRoles !== 1 && req.session.usuario.idModulo !== modulos[0].idModulo) {
-            err = new Error('No puedes.');
+            err = new Error("No tienes permisos para acceder a este módulo.");
             err.status = 403;
             next(err);
             return;
@@ -141,13 +139,13 @@ router.post('/:id(\\d+)/actualizar', function (req, res, next) {
 
     // Valida permisos para actualizar módulo.
     if (req.session.usuario.idRoles !== 1) {
-        res.send("No tienes permiso para actualizar módulo.");
+        res.send(JSON.stringify({error: "No tienes permiso para actualizar módulo."}));
         return;
     }
 
     // Verifica que el nombre y el número de módulo no sean vacíos.
     if (moduloActualizado.nombre.match(/^\s*$/) || !moduloActualizado.numeroModulo.match(/^\d{1,3}$/)) {
-        res.send('Hubo un error: Verifique que el nombre no sea vacío y el número sea de 3 dígitos.');
+        res.send(JSON.stringify({error: "Hubo un error: Verifique que el nombre no sea vacío y el número sea de 3 dígitos."}));
         return;
     }
 
@@ -155,14 +153,9 @@ router.post('/:id(\\d+)/actualizar', function (req, res, next) {
     modulos.actualizar(moduloActualizado, function (err) {
         if (err) {
             console.log(err);
-            if (err.code === 'ER_DUP_ENTRY') {
-                res.send('Un módulo con este nombre o con este número ya existe.');
-            } else {
-                res.send('Hubo un error al actualizar el módulo. Inténtelo más tarde.');
-            }
-
+            res.send(JSON.stringify({error: "Hubo un error al actualizar el módulo. Inténtelo más tarde."}));
         } else {
-            res.send('Correcto');
+            res.send(JSON.stringify({mensaje: "Correcto"}));
         }
     });
 });

@@ -3,24 +3,23 @@
 */
 'use strict';
 
+// npm
 var express = require('express');
 var path = require('path');
-var favicon = require('serve-favicon');
 var logger = require('morgan');
+var favicon = require('serve-favicon');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 
-var routes = require('./routes/index');
-var crearHuerta = require('./routes/crearHuerta');
-//var formularioCrearHuerta = require('./routes/formularioCrearHuerta'); //donde leer
-//var crearHuertaGuardar = require('./routes/crearHuertaGuardar');
-var modulos = require('./routes/modulos');
-var actividades = require('./routes/actividades');
+var inicio = require('./routes/index');
 var sesiones = require('./routes/sesiones');
+var crearHuerta = require('./routes/crearHuerta'); // Cambiar esto
+var modulos = require('./routes/modulos');
 var usuarios = require('./routes/usuarios');
+var actividades = require('./routes/actividades');
+var retroalimentaciones = require('./routes/retroalimentaciones');
 var lotes = require('./routes/lotes');
-var retroalimentacion = require('./routes/retroalimentacion');
 
 var app = express();
 
@@ -42,7 +41,8 @@ app.use(session({
     cookie: { secure: false }
 }));
 
-app.use('/', routes);
+// URLs del sitio.
+app.use('/', inicio);
 // Si no ha iniciado sesión, se va directo a login.
 app.get(/.*/, function(req, res, next) {
     if (!req.session.usuario) {
@@ -51,19 +51,13 @@ app.get(/.*/, function(req, res, next) {
         next();
     }
 });
-
-//app.use('/users', users);
-app.use('/modulo/huerta', crearHuerta);//Si llaman esta url, ejecutar
-//app.use('/modulo/huerta/crear', crearHuerta);//Si llaman esta url, ejecutar
-//app.use('/modulo/huerta/formulario', formularioCrearHuerta);
-//app.use('/modulo/huerta/crearGuardar', crearHuertaGuardar);
-
+app.use('/modulo/huerta', crearHuerta); // Cambiar esto.
+app.use('/sesiones', sesiones);
 app.use('/modulos', modulos);
 app.use('/actividades', actividades);
-app.use('/sesiones', sesiones);
 app.use('/usuarios', usuarios);
 app.use('/lotes', lotes);
-app.use('/retroalimentacion', retroalimentacion);
+app.use('/retroalimentacion', retroalimentaciones);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
