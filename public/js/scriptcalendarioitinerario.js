@@ -27,6 +27,8 @@ function asignarActividad() {
     'fechaFin': fechaFin
   },
   function (data) {
+
+    //$("#full-clnd").load("modulos/2 " + "#full-clnd");
     //location.reload();
   });
 }
@@ -45,6 +47,20 @@ $(document).ready(
     obtenerEventos();
   }
 );
+
+function habilitarCamposModalAgregar(){
+  $('#actividadPosible').prop('disabled', false);
+  $('#sectorPosible').prop('disabled', false);
+  $('#initDate').prop('disabled', false);
+  $('#endDate').prop('disabled', false);
+  $("#boton-modal-asignar").prop('value', 'Agregar');
+  $("#boton-modal-asignar").html('Agregar');
+  $("#actividadPosible").val("");
+  $("#sectorPosible").val("");
+  $("#initDate").val("");
+  $("#endDate").val("");
+  $("#boton-modal-asignar").attr("onclick", "");
+}
 
 function habilitarCamposModal(){
   $('#actividadPosible').prop('disabled', false);
