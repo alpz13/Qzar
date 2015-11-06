@@ -27,7 +27,6 @@ function asignarActividad() {
     'fechaFin': fechaFin
   },
   function (data) {
-
     //$("#full-clnd").load("modulos/2 " + "#full-clnd");
     //location.reload();
   });
@@ -54,12 +53,15 @@ function habilitarCamposModalAgregar(){
   $('#initDate').prop('disabled', false);
   $('#endDate').prop('disabled', false);
   $("#boton-modal-asignar").prop('value', 'Agregar');
-  $("#boton-modal-asignar").html('Agregar');
+  $("#boton-modal-asignar").html('Asignar');
   $("#actividadPosible").val("");
   $("#sectorPosible").val("");
   $("#initDate").val("");
   $("#endDate").val("");
-  $("#boton-modal-asignar").attr("onclick", "");
+  $("#boton-modal-asignar").css('display', 'inline-block');
+  $("#boton-habilitar-campos").css("display", "none");
+  $("#boton-edicion-asignaciones").css("display", "none");
+  $("#titulo-modal-actividades").html("Asignar actividades");
 }
 
 function habilitarCamposModal(){
@@ -68,10 +70,15 @@ function habilitarCamposModal(){
   $('#initDate').prop('disabled', false);
   $('#endDate').prop('disabled', false);
   $("#boton-modal-asignar").prop('value', 'Editar');
-  $("#boton-modal-asignar").html('Editar');
+  $("#boton-modal-asignar").css('display', 'none');
+  $("#boton-habilitar-campos").css("display", "none");
+  $("#boton-edicion-asignaciones").css("display", "inline-block");
 }
-
-function cargarModal(idAsignada){
+function cargarModalAsignar(){
+  $('#AAM').modal();
+  habilitarCamposModalAgregar();
+}
+function cargarModalEditar(idAsignada){
     $('#AAM').modal();
     console.log (this.idSectores);
     $.post("/asignacion/verdetalles",
@@ -90,9 +97,10 @@ function cargarModal(idAsignada){
       $("#sectorPosible").prop('disabled', true);
       $("#initDate").prop('disabled', true);
       $("#endDate").prop('disabled', true);
-      $("#boton-modal-asignar").prop('value', 'Editar');
-      $("#boton-modal-asignar").html('Habilitar para edición');
-      $("#boton-modal-asignar").attr("onclick", "habilitarCamposModal()");
+      $("#boton-modal-asignar").css("display", "none");
+      $("#titulo-modal-actividades").html("Detalles de actividad");
+      $("#boton-habilitar-campos").css("display", "inline-block");
+      $("#boton-edicion-asignaciones").css("display", "none");
       console.log(data.idActividad);
     });
 }
@@ -105,7 +113,7 @@ function llenaPanel(eventos, date) {
     htmlALlenar += "<div class='event-item'>";
     htmlALlenar += "<div class='event-item-name'>Actividad: " + this.title + "</div>";
     htmlALlenar += "<div class='event-item-location'>Sector: " + this.numeroSector + "</div>";
-    htmlALlenar += "<a class='event-item-details' onclick=cargarModal("+ this.idAsignada +") href=#>Ver detalles</a>";
+    htmlALlenar += "<a class='event-item-details' onclick=cargarModalEditar("+ this.idAsignada +") href=#>Ver detalles</a>";
     htmlALlenar += "</div>";
   });
   //$(htmlALlenar).appendTo('#eventos-del-dia');

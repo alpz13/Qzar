@@ -56,4 +56,15 @@ router.post('/verdetalles', function (req, res, next){
     return;
 });
 
+router.post('/borrarasignacion/:id(\\d+)', function(){
+    console.log("Eliminando actividades asignadas");
+    idAsignada = req.body.idAsignada;
+    actividadesAsignadas.eliminar( idAsignada, res );
+    return;
+});
+
+router.post('/editarasignacion/:id(\\d+)', function(){
+
+});
+
 module.exports = router;

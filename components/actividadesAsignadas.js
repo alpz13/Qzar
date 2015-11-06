@@ -216,7 +216,73 @@ var verDetallesActividadAsignada = function (idActividadesAsignadas, res) {
     } else {
       console.log("Error connecting database ... \n");
     }
-      /*connection.query("SELECT * FROM qzardb.ActividadesAsignadas AA WHERE AA.fecha > "+fecha+" AND AA.idModulos = "+idModulo+" AND AA.idActividades = "+idActividades+" AND AA.idSectores = "+idSector+" ORDER BY AA.fecha ", function (err, rows) {
+        //Funcion callback del query
+        if (!err) {
+          //Si no ocurrio un error al realizar la query
+          res.setHeader('Content-Type', 'application/json');
+          res.send(JSON.stringify(rows));
+          return;
+        }
+        //Error al ejecutar el query
+        console.log(err);
+        return;
+      });
+      *///Termina la conexion
+  });
+};
+
+var eliminarAsignaciones = function (idActividadesAsignadas, res) {
+    var credenciales = require('../database/credencialesbd.json');
+  //Carga el modulo de mySQL
+  var mysql = require('mysql');
+  //Crea la coneccion
+  var connection = mysql.createConnection(credenciales);
+  //Prueba si se conecto correctamente a la base de datos
+  connection.connect(function (err, rows) {
+    if (!err) {
+      console.log("Database is connected ... \n");
+      connection.query ("SELECT idActividadesAsignadas, idModulos, idActividades, idSectores, DATE_FORMAT(fecha, '%m-%d-%Y') as fecha FROM qzardb.ActividadesAsignadas where idActividadesAsignadas= "+idActividadesAsignadas, function (err, rowsActividadesAsignadas){
+        if(!err){
+          rowsActividadesAsignadas.forEach(function(row, index){
+            var idActividadAsignada = row.idActividadesAsignadas;
+            var idModulo = row.idModulos;
+            var idActividad = row.idActividades;
+            var idSector = row.idSectores;
+            var fecha = row.fecha;
+            var fechaInicio;
+            var fechaFin;
+            obtenerFecha("<=", idModulo, idActividad, idSector, fecha, function(err, fec){
+              if(typeof fec === 'undefined'){
+                fechaInicio = undefined;
+              }
+              else{
+                fechaInicio = fec;
+              }
+              obtenerFecha(">=", idModulo, idActividad, idSector, fecha, function(err, fec){
+                if(typeof fec === 'undefined'){
+                  fechaFin = fechaInicio;
+                }
+                else{
+                  fechaFin = fec;
+                }
+                if (typeof fechaInicio==='undefined'){
+                  fechaInicio = fechaFin;
+                }
+                console.log(idActividad, idSector, idModulo, fechaInicio, fechaFin);
+                
+                res.send(JSON.stringify(respuesta));
+                return;
+              });
+            });
+          });
+        }
+        console.log(err);
+        return;
+      });
+      connection.end();
+    } else {
+      console.log("Error connecting database ... \n");
+    }
         //Funcion callback del query
         if (!err) {
           //Si no ocurrio un error al realizar la query
