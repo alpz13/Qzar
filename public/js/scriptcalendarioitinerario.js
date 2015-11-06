@@ -14,15 +14,19 @@ function obtenerEventos() {
 function asignarActividad() {
   var url = window.location.href;
   url = url.split('/');
-  idSector = $('#sectorPosible').val();
-  idActividad = $('#actividadPosible').val();
-  fechaIni = $('#initDate').val();
-  fechaFin = $('#endDate').val();
+  var idSector = $('#sectorPosible').val();
+  var idActividadesRaw = $('.actividades');
+  var idActividades = [];
+  $(idActividadesRaw).each(function(){
+    idActividades.push($(this).val());
+  });
+  var fechaIni = $('#initDate').val();
+  var fechaFin = $('#endDate').val();
   $.post("/asignacion/asignaractividad",
   {
     'idModulo': url[url.length - 1],
     'idSector': idSector,
-    'idActividad': idActividad,
+    'idActividades': JSON.stringify(idActividades),
     'fechaIni': fechaIni,
     'fechaFin': fechaFin
   },
@@ -46,6 +50,16 @@ $(document).ready(
     obtenerEventos();
   }
 );
+
+function quitarActividad(){
+  if($(".actividadesDiv").length > 1)
+    $(".actividadesDiv").first().remove();
+}
+
+function agregarActividad(){
+  var div = $(".actividadesDiv");
+  $('<div class="actividadesDiv">' + div.html() + "</div>").insertAfter("#agregarActividad");
+}
 
 function habilitarCamposModalAgregar(){
   $('#actividadPosible').prop('disabled', false);

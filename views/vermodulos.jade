@@ -128,9 +128,12 @@ block content
             button(type='button' class='close' data-dismiss="modal") &times;
             h4.modal-title#titulo-modal-actividades Asignar Actividad
             div.modal-body
-              div
+              div#agregarActividad
+                button.btn.btn-default(type="button" onclick="agregarActividad()") +
+                button.btn.btn-default(type="button" onclick="quitarActividad()") -
+              div.actividadesDiv#actividadesDiv
                 label(for="actividad") Actividad: 
-                  select.form-control#actividadPosible(name="actividadPosible", required)
+                  select.form-control.actividades#actividadPosible(name="actividadPosible", required)
                     for actividad in actividades
                       option(value= actividad.idActividad) #{actividad.nombre}
               div
