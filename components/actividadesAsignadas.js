@@ -136,7 +136,7 @@ var obtenerFecha = function (caracter, idModulo, idActividad, idSector, fecha, c
   var connection = mysql.createConnection(credenciales);
   //Prueba si se conecto correctamente a la base de datos
   connection.connect(function (err, rows) {
-    query = "SELECT distinct DATE_FORMAT(AA.fecha, '%m-%d-%Y') as fecha FROM qzardb.ActividadesAsignadas AA WHERE AA.fecha "+ caracter +" STR_TO_DATE('"+fecha+"', '%m-%d-%Y') AND AA.idModulos = '"+idModulo+"' AND AA.idActividades = '"+idActividad+"' AND AA.idSectores = '"+idSector+"' AND (exists (select 1 from qzardb.ActividadesAsignadas AA2 where AA2.fecha = AA.fecha + interval 1 day) or exists (select 1 from qzardb.ActividadesAsignadas AA2 where AA2.fecha = AA.fecha - interval 1 day) ) ORDER BY AA.fecha ";
+    var query = "SELECT distinct DATE_FORMAT(AA.fecha, '%m-%d-%Y') as fecha FROM qzardb.ActividadesAsignadas AA WHERE AA.fecha "+ caracter +" STR_TO_DATE('"+fecha+"', '%m-%d-%Y') AND AA.idModulos = '"+idModulo+"' AND AA.idActividades = '"+idActividad+"' AND AA.idSectores = '"+idSector+"' AND (exists (select 1 from qzardb.ActividadesAsignadas AA2 where AA2.fecha = AA.fecha + interval 1 day) or exists (select 1 from qzardb.ActividadesAsignadas AA2 where AA2.fecha = AA.fecha - interval 1 day) ) ORDER BY AA.fecha ";
     if(caracter==">=") query+= "desc";
     else query += "asc";
     console.log(query);
@@ -171,11 +171,11 @@ var verDetallesActividadAsignada = function (idActividadesAsignadas, res) {
       connection.query ("SELECT idActividadesAsignadas, idModulos, idActividades, idSectores, DATE_FORMAT(fecha, '%m-%d-%Y') as fecha FROM qzardb.ActividadesAsignadas where idActividadesAsignadas= "+idActividadesAsignadas, function (err, rowsActividadesAsignadas){
         if(!err){
           rowsActividadesAsignadas.forEach(function(row, index){
-            idActividadAsignada = row.idActividadesAsignadas;
-            idModulo = row.idModulos;
-            idActividad = row.idActividades;
-            idSector = row.idSectores;
-            fecha = row.fecha;
+            var idActividadAsignada = row.idActividadesAsignadas;
+            var idModulo = row.idModulos;
+            var idActividad = row.idActividades;
+            var idSector = row.idSectores;
+            var fecha = row.fecha;
             var fechaInicio;
             var fechaFin;
             obtenerFecha("<=", idModulo, idActividad, idSector, fecha, function(err, fec){
@@ -196,7 +196,7 @@ var verDetallesActividadAsignada = function (idActividadesAsignadas, res) {
                   fechaInicio = fechaFin;
                 }
                 console.log(idActividad, idSector, idModulo, fechaInicio, fechaFin);
-                respuesta = {
+                var respuesta = {
                   "idActividad" : idActividad,
                   "idSector" : idSector,
                   "idModulo" : idModulo,
