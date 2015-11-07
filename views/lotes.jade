@@ -40,14 +40,41 @@ block content
                 each lote in lotes
                   tr
                     td idRaro
-                    td #{lote.nombre}
-                    td #{lote.sector}
-                    td #{lote.fecha}
-                    td #{lote.modulo}
-                    td #{lote.contenido}
+                    td(class='nombre') #{lote.nombre}
+                    td(class='sector') #{lote.sector}
+                    td(class='fecha') #{lote.fecha}
+                    td(class='modulo') #{lote.modulo}
+                    td(class='contenido') #{lote.contenido}
+                    td(class='id' style='display:none;') #{lote.idLote}
                     td#botones-modificar 
                       button.btn.btn-primary(type="button" class="modificar" data-toggle="modal" data-target="#MAA" id='boton-modificar') Modificar
                       &nbsp&nbsp&nbsp
                       button.btn.btn-default( type="button" class="eliminar" data-dismiss="modal" onclick="window.location.href='/lotes/eliminar/#{lote.idLote}'" ) Eliminar
           else
             p.watermark No se han encontrado lotes en el sistema.
+
+        //Modal para modificar un tipo de poste
+        div(id='MAA' class='modal fade' role='dialog')
+            div.modal-dialog
+              div.modal-content
+                div.modal-header
+                  button(type='button' class='close' data-dismiss="modal") &times;
+                  h4.modal-title Modificar Sector
+                form(action="/sector/modificar" method="post" id="modificaSector" onsubmit="return checkform(this);")
+                  div.modal-body
+                    label(for="cosechador") Cosechador
+                    input.form-control(name="cosechador", type='text', id="cosechador", required)
+                    label(for="sector") Sector
+                    input.form-control(name="sector", type='text', id="sector", required)
+                    label(for="fecha") Fecha
+                    input.form-control(name="fecha", type='text', id="fecha", required)
+                    label(for="modulo") Modulo
+                    input.form-control(name="modulo", type='text', id="modulo", required)
+                    label(for="contenido") Contenido
+                    input.form-control(name="contenido", type='text', id="contenido", required)
+                    input.form-control(type="numeric" name="idlote" id="MIDU" style='display:none;')
+                  div.modal-footer
+                    button.btn.btn-primary#modificarLote(type="submit") Modificar
+                    button.btn.btn-default#cerrarModal(type='button', data-dismiss='modal') Cerrar
+  
+  script(src='/js/modificarlote.js')
