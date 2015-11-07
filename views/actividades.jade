@@ -19,6 +19,7 @@ block content
               thead
                 th  Nombre
                 th  Descripcion
+                th  Imagen
                 th
               tbody
                 each actividad in actividades
@@ -28,6 +29,10 @@ block content
                     td(class='descripcion') #{actividad.descripcion}
                     //td(class='img' style='display:none;') #{actividad.ruta} 
                     //poner TD con class img
+                    td(class='img' ) 
+                      a(href="/images/actividades/#{actividad.ruta}" target="_blank")
+                        button.btn.btn-info Ver imagen
+                      //img(src="/images/actividades/#{actividad.ruta}" alt="nombreimagen" style="width:304px;height:228px;")
                     td#botones-modificar 
                       button.btn.btn-primary(type="button" class="modificar" data-toggle="modal" data-target="#MAA" id='boton-modificar') Modificar
                       &nbsp&nbsp&nbsp
@@ -51,6 +56,8 @@ block content
               label Descripción 
               textarea.form-control(rows='5' cols='60' name="descripcionModActividad" id="MDA")
               label Foto
+              //div.imagen
+              //img(src="/images/actividades/#{actividades.ruta}" alt="nombreimagen" id="MIA" style="width:304px;height:228px;")
               input(type="file" name="imaMod" size="58" id="MIA")
             div.modal-footer
               button.btn.btn-primary(type="submit") Modificar
