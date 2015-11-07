@@ -1,0 +1,53 @@
+extends menu
+block content
+  head
+  title Lotes
+  link(rel='stylesheet', href="/stylesheets/qzar-modulos.css", type='text/css')
+  //Contenido de Pagina
+  div#page-wrapper
+    div.container-fluid
+
+      //- if aviso
+      //-   div.row
+      //-     div(class="alert alert-#{aviso.tipo} col-md-6 col-md-offset-3", role="alert")
+      //-       i(class="#{aviso.icono}")
+      //-       p.inline #{aviso.mensaje}
+
+      div.row
+        div#barra-de-actividades
+          div.col-sm-12.col-md-8.col-md-offset-2
+            i#icono-modulo.material-icons dashboard
+            //p #{mensaje}
+            h1#h1Modulos #{titulo}
+            if usuario.idRoles === 1
+              //Icono que te lleva al modal
+              a(class='nav navbar-right top-nav' href='#' data-toggle="modal" data-target="#FAA")
+                i.material-icons.md-48#boton-agregar-actividad control_point
+                p Agregar
+        
+        //Contenido de la pagina
+        div.col-sm-12.col-md-8.col-md-offset-2
+          if lotes && lotes.length
+            table.table.table-striped.table-bordered
+              thead
+                th Lote
+                th Cosechador
+                th Sector
+                th Fecha
+                th Modulo
+                th Contenido
+              tbody
+                each lote in lotes
+                  tr
+                    td idRaro
+                    td #{lote.nombre}
+                    td #{lote.sector}
+                    td #{lote.fecha}
+                    td #{lote.modulo}
+                    td #{lote.contenido}
+                    td#botones-modificar 
+                      button.btn.btn-primary(type="button" class="modificar" data-toggle="modal" data-target="#MAA" id='boton-modificar') Modificar
+                      &nbsp&nbsp&nbsp
+                      button.btn.btn-default( type="button" class="eliminar" data-dismiss="modal" onclick="window.location.href='/lotes/eliminar/#{lote.idLote}'" ) Eliminar
+          else
+            p.watermark No se han encontrado lotes en el sistema.

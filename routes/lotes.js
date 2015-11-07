@@ -6,7 +6,7 @@ var router = express.Router();
 var usuarios = require('../components/usuarios.js');
 var lotes = require('../components/lotes.js');
 
-// Página principal de módulos
+// Página principal de lote
 router.get('/', function (req, res, next) {
     if (req.session.usuario.idRoles !== 1) {
         res.redirect('/lotes/' + req.session.usuario.idModulo);
@@ -24,5 +24,23 @@ router.get('/', function (req, res, next) {
         });
     });
 });
+
+
+//eliminar lote
+router.get('/eliminar/:id(\\d+)', function (req, res, next) {
+    var idLote = req.params.id;
+
+    // Valida permisos para eliminar módulo.
+    if (req.session.usuario.idRoles !== 1) {
+        res.sendStatus(403);
+        return;
+    }
+
+    lotes.eliminar(idLote, function (err, modulos) {
+        res.redirect('/lotes');
+    });
+});
+
+
 
 module.exports = router;
