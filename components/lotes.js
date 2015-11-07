@@ -42,7 +42,28 @@ function eliminarLote(id, callback) {
     });
 }
 
+//Modificar Lote
+function modificarLote(nuevoLote, callback)
+{
+    var bd = mysql.createConnection(credenciales),
+        sql = 'UPDATE Lotes SET numeroCosechador= ?, numeroSector= ?, fecha= ?,numeroModulo= ?, contenido= ? WHERE idLote= ?;',
+        params = [nuevoLote.cosechador, nuevoLote.sector, nuevoLote.fecha, nuevoLote.modulo, nuevoLote.contenido, nuevoLote.idlote ];
+
+        // Prepara consulta y la ejecuta.
+        sql = mysql.format(sql, params);
+        bd.query(sql, function (err, resultados) {
+            if (err) {
+            bd.end();
+            return callback(err);
+        }
+        bd.end();
+        return callback(null, resultados.insertId);
+    });
+}
+
+
 module.exports = {
     'listar' : listarLotes,
-    'eliminar' : eliminarLote
+    'eliminar' : eliminarLote,
+    'modificar' : modificarLote
 };

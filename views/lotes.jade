@@ -53,14 +53,14 @@ block content
           else
             p.watermark No se han encontrado lotes en el sistema.
 
-        //Modal para modificar un tipo de poste
+        //Modal para modificar un Lote
         div(id='MAA' class='modal fade' role='dialog')
             div.modal-dialog
               div.modal-content
                 div.modal-header
                   button(type='button' class='close' data-dismiss="modal") &times;
                   h4.modal-title Modificar Sector
-                form(action="/sector/modificar" method="post" id="modificaSector" onsubmit="return checkform(this);")
+                form(action="/lotes/modificar" method="post" id="modificaLote" onsubmit="return checkform(this);")
                   div.modal-body
                     label(for="cosechador") Cosechador
                     input.form-control(name="cosechador", type='text', id="cosechador", required)

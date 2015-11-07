@@ -41,6 +41,34 @@ router.get('/eliminar/:id(\\d+)', function (req, res, next) {
     });
 });
 
+//Modificar lotes
+router.post('/modificar', function (req, res, next) {
+    
+
+    var nuevoLote = {
+        "cosechador" : req.body.cosechador,
+        "sector" : req.body.sector,
+        "fecha" : req.body.modulo,
+        "modulo" : req.body.modulo,
+        "contenido" : req.body.contenido,
+        "idlote" : req.body.idlote
+
+    };
+
+    lotes.modificar(nuevoLote, function (err) {
+        if (err) {
+            console.log(err);
+            if (err.code === 'ER_DUP_ENTRY') {
+                res.send('Ya esxiste');
+            } else {
+                res.send('Hubo un error al crear un nuevo lote. Inténtelo más tarde');
+            }
+        } else {
+            console.log("lote modificado con exito");
+            res.redirect("/lotes");
+        }
+    });
+});
 
 
 module.exports = router;

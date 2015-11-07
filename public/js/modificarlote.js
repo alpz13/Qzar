@@ -16,3 +16,5 @@ $(document).on("click", ".modificar", function () {
     document.getElementById('modulo').value = modulo;
     document.getElementById('contenido').value = contenido;
 });
+
+
