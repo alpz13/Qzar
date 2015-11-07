@@ -8,7 +8,7 @@ function listarLotes(callback) {
 
     // Que el usuario no esté jarcodeado.
     var bd = mysql.createConnection(credenciales),
-        sql = 'SELECT lotes.idLote, usuarios.nombre as nombre, lotes.idSector as sector, lotes.fecha, modulos.nombre as modulo, lotes.contenido from lotes, cosechas, usuarios, modulos where cosechas.idCosecha = lotes.idCosechador and cosechas.idUsuario = usuarios.idUsuario and lotes.idModulo = modulos.idModulo;';
+        sql = 'SELECT lotes.idLote, usuarios.nombre as nombre, lotes.idSector as sector, DATE_FORMAT(lotes.fecha, \'%m-%d-%Y\') AS fecha, modulos.nombre as modulo, lotes.contenido from lotes, cosechas, usuarios, modulos where cosechas.idCosecha = lotes.idCosechador and cosechas.idUsuario = usuarios.idUsuario and lotes.idModulo = modulos.idModulo;';
 
     bd.connect();
 
