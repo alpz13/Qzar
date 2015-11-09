@@ -12,9 +12,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 
-var inicio = require('./routes/index');
+var inicio = require('./routes/inicio');
 var sesiones = require('./routes/sesiones');
-var crearHuerta = require('./routes/crearHuerta'); // Cambiar esto
 var modulos = require('./routes/modulos');
 var usuarios = require('./routes/usuarios');
 var actividades = require('./routes/actividades');
@@ -51,7 +50,6 @@ app.get(/.*/, function(req, res, next) {
         next();
     }
 });
-app.use('/modulo/huerta', crearHuerta); // Cambiar esto.
 app.use('/sesiones', sesiones);
 app.use('/modulos', modulos);
 app.use('/actividades', actividades);
@@ -61,7 +59,7 @@ app.use('/retroalimentacion', retroalimentaciones);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-    var err = new Error('Not Found');
+    var err = new Error('No se encontró la página que buscabas.');
     err.status = 404;
     next(err);
 });
@@ -76,7 +74,7 @@ if (app.get('env') === 'development') {
         res.status(err.status || 500);
         res.render('error', {
             usuario: req.session.usuario,
-            message: err.message,
+            mensaje: err.message,
             error: err
         });
     });
@@ -88,7 +86,7 @@ app.use(function (err, req, res, next) {
     res.status(err.status || 500);
     res.render('error', {
         usuario: req.session.usuario,
-        message: err.message,
+        mensaje: err.message,
         error: {}
     });
 });

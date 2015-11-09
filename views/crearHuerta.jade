@@ -65,10 +65,11 @@ block content
           console.log(cuadritos);
           //mandamos cuadriots al servidor
           var url = window.location.href.split("/");
-          $.post("/modulo/huerta/crearGuardar",
+          var modulo = url[4];
+          $.post("/modulos/" + modulo + "/huerta/nueva",
           {
               'cuadritos': JSON.stringify(cuadritos),
-              'modulo': url[url.length-1],
+              'modulo': modulo,
               'alto': renglon,
               'ancho': columna
           },

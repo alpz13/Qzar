@@ -11,9 +11,9 @@ var router = express.Router();
  */
 router.get('/', function (req, res, next) {
     if (!req.session.usuario) {
-        res.render('index');
+        res.render('index', {titulo: 'Iniciar sesión'});
     } else {
-        res.render('menu', {usuario: req.session.usuario, aviso: {mensaje:'MARC ES SEXY', tipo:'danger'}});
+        res.render('menu', {titulo: 'Bienvenido', usuario: req.session.usuario});
     }
 });
 

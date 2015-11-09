@@ -3,14 +3,16 @@ $("#crearModulo").click(function() {
     var moduloNuevo = {
         nombre: $("#nombre").val(),
         numero: $("#numero").val(),
-        admin: $("#admin").val()
+        //admin: $("#admin").val()
+		admin: null
     };
 
     $.post("/modulos/nuevo", moduloNuevo, function(respuesta){
-        if (respuesta.match(/^\d+$/)) {
-            window.location.assign("/modulos/" + respuesta);
+		respuesta = JSON.parse(respuesta);
+        if (!respuesta.error) {
+            window.location.assign("/modulos/" + respuesta.idModulo);
         } else {
-            $("#mensajeAgregaModulo").html(respuesta);
+            $("#mensajeAgregaModulo").html(respuesta.error);
         }
     });
 });

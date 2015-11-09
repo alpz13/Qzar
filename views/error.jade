@@ -4,14 +4,11 @@ block content
   title Error
   link(rel='stylesheet', href="/stylesheets/qzar-modulos.css", type='text/css')
   div#page-wrapper
-    if aviso
+    if mensaje
       div.container
-        div(class="alert alert-#{aviso.tipo} col-md-6 col-md-offset-3", role="alert")
-          i(class="#{aviso.icono}")
-          p.inline #{aviso.mensaje}
+        div(class="alert alert-danger col-md-6 col-md-offset-3", role="alert")
+          i(class="fa fa-exclamation-triangle")
+          p.inline #{mensaje}
           p.message
           p.error.status
           pre #{error.stack}
-    h1= message
-    h2= error.status
-    pre #{error.stack}

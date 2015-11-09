@@ -1,29 +1,32 @@
-/*jslint
-  indent: 4, unparam: true
- */
+/* globals require: true, console: true, module: true */
 'use strict';
 
 var mysql = require('mysql');
 
 var credenciales = require('../database/credencialesbd.json');
+var bd = mysql.createConnection(credenciales);
 
 function crearModulo(moduloNuevo, callback) {
 
     var bd = mysql.createConnection(credenciales),
-        sql = 'INSERT INTO Modulos(usuarioAdministrador, nombre, numeroModulo, activo) VALUES(?,?,?,1);',
-        params = [moduloNuevo.usuarioAdministrador, moduloNuevo.nombre, moduloNuevo.numeroModulo];
+        //sql = 'INSERT INTO Modulos(nombre, numeroModulo, activo) VALUES(?,?,1);',
+	    // Jarcodeado temporalmente en lo que se actualiza bd y se quita constraint (problema del huevo y la gallina).
+        sql = 'INSERT INTO Modulos(nombre, numeroModulo, activo, usuarioAdministrador) VALUES(?,?,1,1);',
+        params = [moduloNuevo.nombre, moduloNuevo.numeroModulo];
 
-    bd.connect();
+    //bd.connect();
 
     // Prepara consulta y la ejecuta.
     sql = mysql.format(sql, params);
     bd.query(sql, function (err, resultado) {
         if (err) {
-            bd.end();
-            return callback(err);
+            //bd.end();
+            callback(err);
+			return;
         }
-        bd.end();
-        return callback(null, resultado.insertId);
+        //bd.end();
+        callback(null, resultado.insertId);
+		return;
     });
 }
 
@@ -33,16 +36,18 @@ function listarModulos(callback) {
     var bd = mysql.createConnection(credenciales),
         sql = 'SELECT m.idModulo, m.nombre, m.numeroModulo, m.usuarioAdministrador, u.nombre AS admin FROM Modulos AS m INNER JOIN Usuarios AS u ON m.usuarioAdministrador = u.idUsuario WHERE m.activo = 1 and u.activo = 1;';
 
-    bd.connect();
+    //bd.connect();
 
     // Ejecuta consulta.
     bd.query(sql, function (err, resultados) {
         if (err) {
-            bd.end();
-            return callback(err);
+            //bd.end();
+            callback(err);
+			return;
         }
-        bd.end();
-        return callback(null, resultados);
+        //bd.end();
+        callback(null, resultados);
+		return;
     });
 }
 
@@ -53,35 +58,39 @@ function mostrarModulos(id, callback) {
     
     sql = mysql.format(sql, params);
 
-    bd.connect();
+    //bd.connect();
 
     bd.query(sql, function (err, resultados) {
         if (err) {
-            bd.end();
-            return callback(err, []);
+            //bd.end();
+            callback(err, []);
+			return;
         }
-        bd.end();
-        return callback(null, resultados);
+        //bd.end();
+        callback(null, resultados);
+		return;
     });
 }
 
 function actualizarModulo(modulo, callback) {
 
     var bd = mysql.createConnection(credenciales),
-        sql = 'UPDATE Modulos SET usuarioAdministrador = ?, nombre = ?, numeroModulo = ? WHERE idModulo = ?;',
-        params = [modulo.usuarioAdministrador, modulo.nombre, modulo.numeroModulo, modulo.idModulo];
+        sql = 'UPDATE Modulos SET nombre = ?, numeroModulo = ? WHERE idModulo = ?;',
+        params = [modulo.nombre, modulo.numeroModulo, modulo.idModulo];
 
-    bd.connect();
+    //bd.connect();
 
     // Prepara consulta y la ejecuta.
     sql = mysql.format(sql, params);
     bd.query(sql, function (err) {
         if (err) {
-            bd.end();
-            return callback(err);
+            //bd.end();
+            callback(err);
+			return;
         }
-        bd.end();
-        return callback(null);
+        //bd.end();
+        callback(null);
+		return;
     });
 }
 
@@ -92,67 +101,24 @@ function eliminarModulo(id, callback) {
     
     sql = mysql.format(sql, params);
 
-    bd.connect();
+    //bd.connect();
 
     bd.query(sql, function (err, resultados) {
         if (err) {
-            bd.end();
-            return callback(err, []);
+            //bd.end();
+            callback(err, []);
+			return;
         }
-        bd.end();
-        return callback(null, resultados);
+        //bd.end();
+        callback(null, resultados);
+		return;
     });
 }
-
-
-
-function desplegarCuadritos(idModulo, callback) {
-    var bd = mysql.createConnection(credenciales),
-        sql = "Select ContenidoCuadritos.color, ContenidoCuadritos.nombre, Cuadritos.x, Cuadritos.y, Sectores.numeroSector from Sectores, Cuadritos, ContenidoCuadritos where Sectores.idModulos = ? AND Sectores.idSector = Cuadritos.idSectores AND Cuadritos.idContenidoCuadritos = ContenidoCuadritos.idContenidoCuadritos",
-        params= [idModulo];
-    
-    sql = mysql.format(sql, params);
-
-    bd.connect();
-
-    bd.query(sql, function (err, resultados) {
-        if (err) {
-            bd.end();
-            return callback(err, []);
-        }
-        bd.end();
-        return callback(null, resultados);
-    });
-}
-
-
-//Borra el tamaño de la huerta
-function borraHuerta(idModulo, alto, ancho, callback){
-    var bd = mysql.createConnection(credenciales),
-        sql = "UPDATE Modulos SET Modulos.alto = ?, Modulos.ancho = ? WHERE Modulos.idModulo = ? ",
-        params= [alto, ancho, idModulo];
-    
-    sql = mysql.format(sql, params);
-
-    bd.connect();
-
-    bd.query(sql, function (err, resultados) {
-        if (err) {
-            bd.end();
-            return callback(err, []);
-        }
-        bd.end();
-        return callback(null, resultados);
-    });
-}
-
 
 module.exports = {
     'crear' : crearModulo,
     'listar' : listarModulos,
     'mostrar' : mostrarModulos,
     'actualizar' : actualizarModulo,
-    'eliminar' : eliminarModulo,
-    'desplegar': desplegarCuadritos,
-    'borraHuerta': borraHuerta
+    'eliminar' : eliminarModulo
 };

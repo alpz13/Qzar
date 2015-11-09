@@ -5,10 +5,11 @@ var express = require('express');
 var router = express.Router();
 
 var modulos = require('../components/modulos.js');
+var huertas = require('../components/huertas.js');
 var usuarios = require('../components/usuarios.js');
 var asignaciones = require('../components/asignaciones.js');
 
-// Página principal de módulos
+// Página principal de módulos.
 router.get('/', function (req, res, next) {
     if (req.session.usuario.idRoles !== 1) {
         res.redirect('/modulos/' + req.session.usuario.idModulo);
@@ -18,32 +19,15 @@ router.get('/', function (req, res, next) {
         if (err) {
             console.log(err);
         }
-		// Revisar si es necesaria esta consulta.
-        usuarios.listarAdminsGenerales(function (err, usuarios) {
-            if (err) {
-                console.log(err);
-            }
-            res.render('modulos', { titulo: 'Módulos', modulos: modulos, usuario: req.session.usuario, listaAdmins: usuarios, barraLateral: 'modulos' });
-        });
+        res.render('modulos', { titulo: 'Módulos', modulos: modulos, usuario: req.session.usuario, barraLateral: 'modulos' });
     });
 });
-
-var desplegarCuadritos = function (req, res, next) {
-    modulos.desplegar(function (err, cuadritos) {
-        if (err) {
-            console.log(err);
-            return;
-        }
-        res.render('modulos', { titulo: 'Módulos', modulos: modulos, usuario: req.session.usuario, listaAdmins: usuarios, barraLateral: 'modulos' });    
-    });
-}
 
 // Petición de crear nuevo módulo.
 router.post('/nuevo', function (req, res, next) {
     var moduloNuevo = {
         "nombre": req.body.nombre,
-        "numeroModulo": req.body.numero,
-        "usuarioAdministrador": req.body.admin
+        "numeroModulo": req.body.numero
     };
 
     // Valida permisos para crear módulo.
@@ -74,67 +58,60 @@ router.post('/nuevo', function (req, res, next) {
 
 // Página ver módulo
 router.get('/:id(\\d+)', function (req, res, next) {
-    var idModulo = req.params.id;
+    var modulo = { idModulo: req.params.id };
      
-    modulos.mostrar(idModulo, function (err, modulos) {
+    modulos.mostrar(modulo.idModulo, function (err, resultados) {
         if (err) {
             console.log(err);
             err = new Error("Hubo un error interno.");
             err.status = 500;
             next(err);
             return;
-        } else if (!modulos[0]) {
+        } else if (!resultados[0]) {
             err = new Error("Módulo no encontrado. Es posible que el módulo no exista o que haya sido dado de baja del sistema.");
             err.status = 404;
             next(err);
             return;
         }
 
-        if (req.session.usuario.idRoles !== 1 && req.session.usuario.idModulo !== modulos[0].idModulo) {
+        modulo = resultados[0];
+
+        if (req.session.usuario.idRoles !== 1 && req.session.usuario.idModulo !== modulo.idModulo) {
             err = new Error("No tienes permisos para acceder a este módulo.");
             err.status = 403;
             next(err);
             return;
         }
 
-        usuarios.listarUsuariosModulo(idModulo, function (err, usuarios) {
-            if (err) {
-                console.log(err);
-                return;
-            }
-            var alto = [];
-            var ancho = [];
-            while (modulos[0].alto > 0) {
-                alto.push(modulos[0].alto);
-                modulos[0].alto--;
-            }
-            while (modulos[0].ancho > 0) {
-                ancho.push(modulos[0].ancho);
-                modulos[0].ancho--;
-            }
-            //modulos[0].ancho = ancho;
-            //modulos[0].alto = alto;
-            cuadritos.desplegar(idModulo, function (err, cuadritos) {
+        var alto = [];
+        var ancho = [];
+        while (modulo.alto > 0) {
+            alto.push(modulo.alto);
+            modulo.alto--;
+        }
+        while (modulo.ancho > 0) {
+            ancho.push(modulo.ancho);
+            modulo.ancho--;
+        }
+
+        huertas.cuadritos(modulo.idModulo, function (err, cuadritos) {
             if (err) {
                 console.log(err);
             }
             else{
-                res.render('vermodulos', { titulo: 'Módulo ', modulo: modulos[0], usuario: req.session.usuario, listaAdmins: usuarios, barraLateral: 'modulos', alto: alto, ancho: ancho, cuadritos: cuadritos});
+                res.render('vermodulos', { titulo: 'Módulo ' + modulo.nombre, modulo: modulo, usuario: req.session.usuario, barraLateral: 'modulos', alto: alto, ancho: ancho, cuadritos: cuadritos});
             }
-            
-        });
-        //res.render('vermodulos', { titulo: 'Módulo ', modulo: modulos[0], usuario: req.session.usuario, listaAdmins: usuarios, barraLateral: 'modulos', alto: alto, ancho: ancho});            
         });
     });
 });
 
+// Actualizar módulo.
 router.post('/:id(\\d+)/actualizar', function (req, res, next) {
 
     var moduloActualizado = {
         "idModulo": req.params.id,
         "nombre": req.body.nombre,
-        "numeroModulo": req.body.numero,
-        "usuarioAdministrador": req.body.admin
+        "numeroModulo": req.body.numero
     };
 
     // Valida permisos para actualizar módulo.
@@ -160,8 +137,8 @@ router.post('/:id(\\d+)/actualizar', function (req, res, next) {
     });
 });
 
-//eliminar modulo
-router.get('/eliminar/:id(\\d+)', function (req, res, next) {
+// Eliminar módulo.
+router.get('/:id(\\d+)/eliminar', function (req, res, next) {
     var idModulo = req.params.id;
 
     // Valida permisos para eliminar módulo.
@@ -175,6 +152,120 @@ router.get('/eliminar/:id(\\d+)', function (req, res, next) {
     });
 });
 
+/*
+var desplegarCuadritos = function (req, res, next) {
+    huertas.cuadritos(function (err, cuadritos) {
+        if (err) {
+            console.log(err);
+            return;
+        }
+        res.render('modulos', { titulo: 'Módulos', modulos: modulos, usuario: req.session.usuario, barraLateral: 'modulos' });    
+    });
+}
+*/
+
+// Formulario para crear huerta.
+router.get('/:id(\\d+)/huerta/nueva', function (req, res, next) {
+  var altoA = [];
+  var anchoA = [];
+  var alto = req.query.alto;
+  var ancho = req.query.ancho;
+  var cuadritos = req.query.cuadritos;
+  console.log(cuadritos);
+  while (alto > 0) {
+    altoA.push(alto);
+    alto--;
+  }
+  while (ancho > 0) {
+    anchoA.push(ancho);
+    ancho--;
+  }
+  res.render('crearHuerta', {titulo: 'Crear huerta', alto: altoA, ancho: anchoA, usuario: req.session.usuario, cuadritos: cuadritos});
+});
+
+// Petición para guardar huerta.
+router.post('/:id(\\d+)/huerta/nueva', function (req, res, next) {
+  
+  var cuadritos = JSON.parse(req.body.cuadritos);
+  var idModulo = req.params.id;
+  //Ver si existe el sector, si no crearlo
+  var renglones = cuadritos.length;
+  //Alto y ancho
+  var ancho = req.body.ancho;
+  var alto = req.body.alto;
+
+  res.setHeader('Content-Type', 'application/json');
+
+  huertas.tamHuerta(idModulo, alto, ancho, function(err) {
+    if (err) {
+		console.log(err);
+		res.send(JSON.stringify({error: "Error"}));
+		return;
+	}
+	console.log("No hay error, soy de España");
+  });
+  console.log("ALto:"+ alto);
+  console.log("ancho: "+ ancho);
+  //Existe el sector ¿?
+  huertas.selectSector(idModulo, cuadritos, 0);
+  //Termina la conexion
+  //Redirecciona a una URL
+  //response.redirect('/contador');
+  res.send(JSON.stringify(idModulo));
+
+});
+
+
+router.get('/editar/:id(\\d+)', function (req, res, next) {
+ /* res.send('respond with a resource');*/
+  var idModulo = req.params.id;
+  modulos.mostrar(idModulo, function (err, modulos) {
+    if(err) {
+      console.log(err);
+    } else {
+      var altoA = [];
+      var anchoA = [];
+      var alto = modulos[0].alto;
+      var ancho = modulos[0].ancho;
+      while (alto > 0) {
+        altoA.push(alto);
+        alto--;
+      }
+      while (ancho > 0) {
+        anchoA.push(ancho);
+        ancho--;
+      }
+      huertas.cuadritos(idModulo, function (err, cuadritos) {
+        if (err) {
+          console.log(err);
+        }
+        else {
+          res.render('crearHuerta', {titulo: 'Editar Huerta', alto: altoA, ancho: anchoA, usuario: req.session.usuario, cuadritos: cuadritos});
+        }    
+      });
+    }
+ });
+});
+
+//Elimina la Huerta
+router.get('/eliminar/:id(\\d+)',function (req, res, next) {
+
+  var idModulo = req.params.id;
+  var al = cuadritos.alto;
+  var an = cuadritos.ancho;
+  eliminaHuerta(idModulo);
+  modulos.borraHuerta(idModulo, al, an, function (err, cuadritos) {
+        if (err) {
+          console.log(err);
+        }
+        else {
+          res.redirect('/modulos/'+idModulo+'');
+        }    
+      });
+
+});
+
+// Ver itinerario.
 router.post('/itinerario', function (req, res, next) {
     /*
     if (req.session.usuario.idRoles != 1) {
