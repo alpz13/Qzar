@@ -39,5 +39,4 @@ router.get('/cerrar', function (req, res, next) {
     controlador.cerrarSesion(req);
 });
 
-
 module.exports = router;
