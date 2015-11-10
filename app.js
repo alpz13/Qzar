@@ -23,6 +23,7 @@ var lotes = require('./routes/lotes');
 var asignacion = require('./routes/asignacion');
 var retroalimentacion = require('./routes/retroalimentacion');
 var sector = require('./routes/sector');
+var categoria = require('./routes/categoria');
 
 var app = express();
 
@@ -68,6 +69,7 @@ app.use('/lotes', lotes);
 app.use('/asignacion', asignacion);
 app.use('/retroalimentacion', retroalimentacion);
 app.use('/sector', sector);
+app.use('/categoria', categoria);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
