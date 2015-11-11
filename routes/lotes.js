@@ -48,7 +48,7 @@ router.post('/modificar', function (req, res, next) {
     var nuevoLote = {
         "cosechador" : req.body.cosechador,
         "sector" : req.body.sector,
-        "fecha" : req.body.modulo,
+        "fecha" : req.body.fecha,
         "modulo" : req.body.modulo,
         "contenido" : req.body.contenido,
         "idlote" : req.body.idlote

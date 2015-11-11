@@ -15,6 +15,8 @@ $(document).on("click", ".modificar", function () {
     document.getElementById('fecha').value = fecha;
     document.getElementById('modulo').value = modulo;
     document.getElementById('contenido').value = contenido;
+
+    console.log(fecha);
 });
 
 
