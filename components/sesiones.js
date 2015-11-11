@@ -3,15 +3,21 @@
 
 var mysql = require('mysql');
 var credenciales = require('../database/credencialesbd.json');
-var conexion = mysql.createConnection(credenciales);
 
 var __validarCredenciales = function (nombreUsuario, contrasenia, callback) {
-    //conexion.connect();
+	var conexion = mysql.createConnection(credenciales);
     var consulta = 'SELECT `nombre`,`contrasena` FROM `Usuarios` WHERE `nombre` = ? AND `contrasena` = ?;';
     var valores = [nombreUsuario, contrasenia];
+
     consulta = mysql.format(consulta, valores);
+
     conexion.query(consulta, function (err, renglones) {
-        //conexion.end();
+		conexion.end(function (err) {
+			if (err) {
+				console.log(err);
+			}
+		});
+
         if (err) {
             console.log(err);
             callback(err);
@@ -26,12 +32,18 @@ var __validarCredenciales = function (nombreUsuario, contrasenia, callback) {
 };
 
 var __cargarUsuario = function (nombreUsuario, callback) {
-    //conexion.connect();
+	var conexion = mysql.createConnection(credenciales);
     var consulta = 'SELECT `nombre`, `idRoles`, `idModulo`, `activo` FROM `Usuarios` WHERE `nombre` = ?;';
     var valores = [nombreUsuario];
     consulta = mysql.format(consulta, valores);
+
     conexion.query(consulta, function (err, renglones){
-        //conexion.end();
+		conexion.end(function (err) {
+			if (err) {
+				console.log(err);
+			}
+		});
+
         if (err) {
             console.log(err);
             callback(err);

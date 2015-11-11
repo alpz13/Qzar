@@ -58,7 +58,7 @@ router.post('/agregausuario', function (req, res, next) {
     }
 
     //Intenta crear usuario
-    agregausuario.agregar(NuevoUsuario, function (err) {
+    usuarios.agregar(NuevoUsuario, function (err) {
         if (err) {
             console.log(err);
             if (err.code === 'ER_DUP_ENTRY') {
@@ -91,8 +91,8 @@ router.post('/modificarusuario', function (req, res, next) {
         return;
     }
 
-    //Intenta crear usuario
-    modificarusuario.modificar(NuevoUsuario, function (err) {
+    //Intenta modificar usuario
+    usuarios.modificar(NuevoUsuario, function (err) {
         if (err) {
             console.log(err);
             if (err.code === 'ER_DUP_ENTRY') {
@@ -112,35 +112,34 @@ router.post('/modificarusuario', function (req, res, next) {
 // Página ver usuario a detalle
 router.get('/:id(\\d+)', function (req, res, next) {
     var idUsuario = req.params.id;
-    usuarios.mostrarUsuarios(idUsuario, function (err, usuarios) {
+    usuarios.mostrarUsuarios(idUsuario, function (err, listaUsuarios) {
         if (err) {
             console.log(err);
-        } else if (!usuarios[0]) {
+        } else if (!listaUsuarios[0]) {
             err = new Error('Not Found');
             err.status = 404;
             next(err);
             return;
         }
 
-        if (req.session.usuario.idRoles !== 1 && req.session.usuario.idUsuario !== usuarios[0].idUsuario) {
+        if (req.session.usuario.idRoles !== 1 && req.session.usuario.idUsuario !== listaUsuarios[0].idUsuario) {
             err = new Error('No puedes.');
             err.status = 403;
             next(err);
             return;
         } else {
-            us.listarRoles(function (err, qroles) {
+            usuarios.listarRoles(function (err, qroles) {
                 if (err) {
                     console.log(err);
                 }
-                us.listarModulos(function (err, qmodulos) {
+                usuarios.listarModulos(function (err, qmodulos) {
                     if (err) {
                         console.log(err);
                     }
-                    console.log(usuarios[0]);
-                    res.render('verusuarios', { titulo: 'Usuario: ', usuarios: usuarios[0], usuario: req.session.usuario, barraLateral: 'usuarios', roles : qroles, modulos : qmodulos});
+                    console.log(listaUsuarios[0]);
+                    res.render('verusuarios', { titulo: 'Usuario: ', usuarios: listaUsuarios[0], usuario: req.session.usuario, barraLateral: 'usuarios', roles : qroles, modulos : qmodulos});
                 });
             });
-            //res.render('verusuarios', { titulo: 'Usuario: ', us: usuarios[0], usuario: req.session.usuario, listaAdmins: usuarios, barraLateral: 'usuarios'});
         }   
     });
 });

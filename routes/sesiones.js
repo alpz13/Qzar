@@ -19,9 +19,9 @@ router.post('/iniciar', function (req, res, next) {
         if (err) {
             observador.error(err);
             if (err.code === 'ECONNREFUSED') {
-                res.render('index', {mensaje: err, titulo: "###", aviso: {tipo: 'danger', icono: 'fa fa-plug', mensaje: 'Error al conectarse a la base de datos.'}});
+                res.render('index', {mensaje: err, titulo: "Iniciar sesión", aviso: {tipo: 'danger', icono: 'fa fa-plug', mensaje: 'Error al conectarse a la base de datos.'}});
             } else {
-                res.render('index', {mensaje: err, titulo: "###", aviso: {tipo: 'danger', icono: 'fa fa-exclamation-triangle', mensaje: 'Usuario y/o contraseña incorrectos.'}});
+                res.render('index', {mensaje: err, titulo: "Iniciar sesión", aviso: {tipo: 'danger', icono: 'fa fa-exclamation-triangle', mensaje: 'Usuario y/o contraseña incorrectos.'}});
             }
         } else {
             res.redirect('/');
@@ -32,8 +32,6 @@ router.post('/iniciar', function (req, res, next) {
 
 router.get('/cerrar', function (req, res, next) {
     res.redirect('/');
-	//Este ya no hace nada porque ya se mandó es repsonse en el redirect.
-    //res.render('index', {mensaje: 'Sesión cerrada'});
     controlador.cerrarSesion(req);
 });
 
