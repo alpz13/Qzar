@@ -148,6 +148,9 @@ router.get('/:id(\\d+)/eliminar', function (req, res, next) {
     }
 
     modulos.eliminar(idModulo, function (err, modulos) {
+		if (err) {
+			console.log(err);
+		}
         res.redirect('/modulos');
     });
 });
@@ -202,10 +205,7 @@ router.post('/:id(\\d+)/huerta/nueva', function (req, res, next) {
 		res.send(JSON.stringify({error: "Error"}));
 		return;
 	}
-	console.log("No hay error, soy de España");
   });
-  console.log("ALto:"+ alto);
-  console.log("ancho: "+ ancho);
   //Existe el sector ¿?
   huertas.selectSector(idModulo, cuadritos, 0);
   //Termina la conexion
@@ -215,54 +215,49 @@ router.post('/:id(\\d+)/huerta/nueva', function (req, res, next) {
 
 });
 
-
-router.get('/editar/:id(\\d+)', function (req, res, next) {
+router.get('/:id(\\d+)/huerta/editar', function (req, res, next) {
  /* res.send('respond with a resource');*/
-  var idModulo = req.params.id;
-  modulos.mostrar(idModulo, function (err, modulos) {
-    if(err) {
-      console.log(err);
-    } else {
-      var altoA = [];
-      var anchoA = [];
-      var alto = modulos[0].alto;
-      var ancho = modulos[0].ancho;
-      while (alto > 0) {
-        altoA.push(alto);
-        alto--;
-      }
-      while (ancho > 0) {
-        anchoA.push(ancho);
-        ancho--;
-      }
-      huertas.cuadritos(idModulo, function (err, cuadritos) {
-        if (err) {
+    var idModulo = req.params.id;
+    modulos.mostrar(idModulo, function (err, modulos) {
+        if(err) {
           console.log(err);
+        } else {
+          var altoA = [];
+          var anchoA = [];
+          var alto = modulos[0].alto;
+          var ancho = modulos[0].ancho;
+          while (alto > 0) {
+              altoA.push(alto);
+              alto--;
+          }
+          while (ancho > 0) {
+              anchoA.push(ancho);
+              ancho--;
+          }
+          huertas.cuadritos(idModulo, function (err, cuadritos) {
+              if (err) {
+                  console.log(err);
+              }
+              else {
+                  res.render('crearHuerta', {titulo: 'Editar Huerta', alto: altoA, ancho: anchoA, usuario: req.session.usuario, cuadritos: cuadritos});
+              }
+          });
         }
-        else {
-          res.render('crearHuerta', {titulo: 'Editar Huerta', alto: altoA, ancho: anchoA, usuario: req.session.usuario, cuadritos: cuadritos});
-        }    
-      });
-    }
- });
+    });
 });
 
 //Elimina la Huerta
-router.get('/eliminar/:id(\\d+)',function (req, res, next) {
+router.get('/:id(\\d+)/huerta/eliminar/',function (req, res, next) {
 
-  var idModulo = req.params.id;
-  var al = cuadritos.alto;
-  var an = cuadritos.ancho;
-  eliminaHuerta(idModulo);
-  modulos.borraHuerta(idModulo, al, an, function (err, cuadritos) {
-        if (err) {
-          console.log(err);
+	var idModulo = req.params.id;
+	huertas.eliminar(idModulo, function (err, cuadritos) {
+		if (err) {
+			console.log(err);
         }
         else {
-          res.redirect('/modulos/'+idModulo+'');
+			res.redirect('/modulos/'+idModulo+'');
         }    
-      });
-
+	});
 });
 
 // Ver itinerario.
