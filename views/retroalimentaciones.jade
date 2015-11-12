@@ -23,7 +23,7 @@ block content
               tbody
                 each modulo in modulos
                   tr
-                    td #[a(href='/retroalimentacion/#{modulo.idModulo}') #{modulo.nombre}]
+                    td #[a(href='/retroalimentaciones/#{modulo.idModulo}') #{modulo.nombre}]
                     td #{modulo.numeroModulo}
                     td #{modulo.admin}
           else
@@ -33,7 +33,5 @@ block content
   //Cierro Container Fluid
   //Containererro PageWrapper
   //Cierro Wrapper
-  // Crear módulo
-  script(src='/js/crearmodulo.js')
 //a(href='/modulos/nuevo')
 //a(href='#' data-toggle="modal" data-target="#FAA")

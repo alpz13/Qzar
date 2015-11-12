@@ -7,19 +7,14 @@ var router = express.Router();
 var actividadesAsignadas = require('../components/actividadesAsignadas.js');
 
 // Checa tus prvilegios
-router.get(/.*/, function(req, res, next) {
+router.post(/.*/, function(req, res, next) {
     if (req.session.usuario.idRoles !== 1) {
-        /*
-        err = new Error('No puedes.');
+        err = new Error('No tienes suficiente permisos para hacer esta acción.');
         err.status = 403;
         next(err);
-        return;
-        */
-        // res.redirect('/');
-        res.render('menu', {usuario: req.session.usuario, barraLateral: 'actividades', titulo: "###", aviso: {tipo: 'danger', icono: 'fa fa-ban', mensaje: 'No tienes suficiente permisos para hacer esta acción.'}});
-        return;
+    } else {
+	    next();
     }
-	next();
 });
 
 router.post('/asignaractividad', function (req, res, next) {

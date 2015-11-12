@@ -3,11 +3,10 @@
 */
 'use strict';
 
-// npm
 var express = require('express');
 var path = require('path');
-var logger = require('morgan');
 var favicon = require('serve-favicon');
+var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
@@ -19,6 +18,8 @@ var usuarios = require('./routes/usuarios');
 var actividades = require('./routes/actividades');
 var retroalimentaciones = require('./routes/retroalimentaciones');
 var lotes = require('./routes/lotes');
+var asignaciones = require('./routes/asignaciones');
+var sectores = require('./routes/sectores');
 
 var app = express();
 
@@ -42,20 +43,30 @@ app.use(session({
 
 // URLs del sitio.
 app.use('/', inicio);
-// Si no ha iniciado sesión, se va directo a login.
+app.use('/sesiones', sesiones);
 app.get(/.*/, function(req, res, next) {
+    // Si no ha iniciado sesión, se va directo a login.
     if (!req.session.usuario) {
         res.redirect('/');
     } else {
         next();
     }
 });
-app.use('/sesiones', sesiones);
+app.post(/.*/, function(req, res, next) {
+    // Si no ha iniciado sesión, se va directo a login.
+    if (!req.session.usuario) {
+        res.redirect('/');
+    } else {
+        next();
+    }
+});
 app.use('/modulos', modulos);
 app.use('/actividades', actividades);
 app.use('/usuarios', usuarios);
 app.use('/lotes', lotes);
-app.use('/retroalimentacion', retroalimentaciones);
+app.use('/asignaciones', asignaciones);
+app.use('/retroalimentaciones', retroalimentaciones);
+app.use('/sectores', sectores);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -68,23 +79,26 @@ app.use(function (req, res, next) {
 
 // development error handler
 // will print stacktrace
-app.set('env', 'development');
 if (app.get('env') === 'development') {
     app.use(function (err, req, res, next) {
+	    console.log(err);
         res.status(err.status || 500);
         res.render('error', {
+            titulo: 'Hubo un error',
             usuario: req.session.usuario,
             mensaje: err.message,
             error: err
-        });
+		});
     });
 }
 
 // production error handler
 // no stacktraces leaked to user
 app.use(function (err, req, res, next) {
+	console.log(err);
     res.status(err.status || 500);
     res.render('error', {
+        titulo: 'Error',
         usuario: req.session.usuario,
         mensaje: err.message,
         error: {}

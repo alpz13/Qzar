@@ -10,7 +10,7 @@ function crearModulo(moduloNuevo, callback) {
     var bd = mysql.createConnection(credenciales),
 		//sql = 'INSERT INTO Modulos(nombre, numeroModulo, activo) VALUES(?,?,1);',
 	    // Jarcodeado temporalmente en lo que se actualiza bd y se quita constraint (problema del huevo y la gallina).
-        sql = 'INSERT INTO Modulos(nombre, numeroModulo, activo, usuarioAdministrador) VALUES(?,?,1,1);',
+        sql = 'INSERT INTO Modulos(nombre, numeroModulo, activo) VALUES(?,?,1);',
         params = [moduloNuevo.nombre, moduloNuevo.numeroModulo];
 
     // Prepara consulta y la ejecuta.
@@ -32,9 +32,8 @@ function crearModulo(moduloNuevo, callback) {
 
 function listarModulos(callback) {
 
-    // Que el usuario no esté jarcodeado.
     var bd = mysql.createConnection(credenciales),
-		sql = 'SELECT m.idModulo, m.nombre, m.numeroModulo, m.usuarioAdministrador, u.nombre AS admin FROM Modulos AS m INNER JOIN Usuarios AS u ON m.usuarioAdministrador = u.idUsuario WHERE m.activo = 1 and u.activo = 1;';
+		sql = 'SELECT m.idModulo, m.nombre, m.numeroModulo, u.nombre as admin FROM Modulos AS m LEFT JOIN (SELECT nombre, idModulo FROM Usuarios WHERE (idRoles = 2 OR idRoles = 1) AND activo = 1 GROUP BY idModulo) AS u ON m.idModulo = u.idModulo WHERE m.activo = 1;';
 
     // Ejecuta consulta.
     bd.query(sql, function (err, resultados) {
@@ -54,7 +53,7 @@ function listarModulos(callback) {
 
 function mostrarModulos(id, callback) {
     var bd = mysql.createConnection(credenciales),
-		sql = 'SELECT m.idModulo, m.nombre, m.numeroModulo, m.usuarioAdministrador, u.nombre AS admin, m.ancho, m.alto FROM Modulos AS m INNER JOIN Usuarios AS u ON m.usuarioAdministrador = u.idUsuario WHERE m.idModulo = ?;',
+		sql = 'SELECT m.idModulo, m.nombre, m.numeroModulo, u.nombre as admin, m.ancho, m.alto FROM Modulos AS m LEFT JOIN (SELECT nombre, idModulo FROM Usuarios WHERE (idRoles = 2 OR idRoles = 1) AND activo = 1 GROUP BY idModulo) AS u ON m.idModulo = u.idModulo WHERE m.idModulo = ? AND m.activo = 1;',
         params= [id];
     
     sql = mysql.format(sql, params);

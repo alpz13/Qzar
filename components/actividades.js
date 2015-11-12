@@ -5,8 +5,6 @@
 var mysql = require('mysql');
 /* incluye el archivo que contiene las credenciales de la conexión a la BD: credencialesdb.json */
 var credenciales = require('../database/credencialesbd.json');
-/* crea la referencia al caso de uso listar actividades*/
-var listar = require('../components/listarActividades.js');
 
 /* crea la referencia a la libreria de node npm multiparty cuya funcion es el manejo de documentos */
 var multiparty = require("multiparty");
@@ -31,7 +29,7 @@ var path = require('path');
     una vez guardado el nombre en el servidor guardamos el registro del archivo en la base de datos, ejecutamos la consulta
     ejecutamos la consulta y volvemos a cargar la pantalla de listar actividades con los nuevos registros.
 */
-var agrega = function (req, res) {
+var agrega = function (req, callback) {
     var form = new multiparty.Form();
     form.parse(req, function (err, fields, files) {
         var nombre = fields.nombreactividad;
@@ -48,7 +46,8 @@ var agrega = function (req, res) {
         bd.query(sql, function (err, resultado) {
             if (err) {
                 bd.end();
-                console.log(err);
+                callback(err);
+                return;
             }
             bd.end();
             nombreId = resultado.insertId + ext;
@@ -57,7 +56,7 @@ var agrega = function (req, res) {
                 var path = "./public/images/actividades/" + nombreId;
                 fs.writeFile(path, data, function (err) {
                     if (err) {
-                        console.log(err);
+                        callback(err);
                     } else {
                         console.log("upload success");
                         bd = mysql.createConnection(credenciales);
@@ -66,12 +65,11 @@ var agrega = function (req, res) {
                         bd.connect();
                         sql = mysql.format(sql, params);
                         bd.query(sql, function (err) {
+                            bd.end();
                             if (err) {
-                                bd.end();
                                 console.log(err);
                             }
-                            bd.end();
-                            listar.listar(res);
+                            callback(null);
                         });
                     }
                 });
@@ -80,9 +78,101 @@ var agrega = function (req, res) {
     });
 };
 
-module.exports = {
-    'agrega' : agrega
+/*  Funcion listaractividades(callback)
+    - Necesita crear la conexión con la base de datos, en base a las credenciales hechas
+    - Se realiza la consulta con una consulta y una función que maneja tanto el error, como la consulta
+    - Se cierra la conexión con la DB
+    - Se hace el renderizado con la vista: actividades.jade, mandandole la consulta: rows
+
+*/
+
+var listaractividades = function (callback) {
+    var db = mysql.createConnection(credenciales);
+    db.connect();
+    db.query('Select * from Actividades where activo = 1', function (err, rows) {
+        db.end();
+        if (err) {
+            callback(err);
+            return;
+        }
+        callback(null, rows);
+    });
 };
 
 
+var modifica = function (req, callback) {
+    var form = new multiparty.Form();
+    form.parse(req, function (err, fields, files) {
+        var id = fields.idModActividad;
+        var nombre = fields.nombreModActividad;
+        var descripcion = fields.descripcionModActividad;
+        var nombreoriginal = files.imaMod[0].originalFilename;
+        var ext = path.extname(nombreoriginal);
 
+        var bd = mysql.createConnection(credenciales);   
+        var sql = 'UPDATE Actividades SET nombre = ?, descripcion = ? WHERE idActividad = ?';
+		var params = [nombre, descripcion, id];
+
+		sql = mysql.format(sql, params);
+
+        bd.connect();
+        bd.query(sql, function (err, resultado) {
+            if (err) {
+                bd.end();
+                callback(err);
+                return;
+            }
+            var img = files.imaMod[0];
+            fs.readFile(img.path, function (err, data) {
+                var idAc = id + ext;
+                var path = "./public/images/actividades/" + idAc;
+                fs.writeFile(path, data, function (err) {
+                    if (err) {
+                        callback(err);
+                    } else {
+
+                        sql = 'UPDATE Imagenes SET ruta = "' + idAc + '" WHERE idImagenes =' + id + ';';
+
+                        bd.query(sql, function (err) {
+                            console.log(sql);
+                            bd.end();
+                            if (err) {
+                                console.log(err);
+                            }
+                            callback(null);
+                        });
+                    }
+                });
+            });
+        });
+    });
+};
+
+var elimina = function (req, callback) {
+    var idAct = req.body.id;
+
+    var bd = mysql.createConnection(credenciales);
+    var sql = 'UPDATE Actividades SET activo = 0 WHERE idActividad = ?';
+	var params = [idAct];
+
+	sql = mysql.format(sql, params);
+
+    bd.connect();
+    sql = mysql.format(sql);
+    bd.query(sql, function (err, resultado) {
+        if (err) {
+            bd.end();
+            callback(err);
+        } else {
+            bd.end();
+            callback(null);
+        }
+    });
+};
+
+module.exports = {
+    'agrega' : agrega,
+    'elimina': elimina,
+    'listaractividades' : listaractividades,
+    'modifica' : modifica
+};

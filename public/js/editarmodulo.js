@@ -8,7 +8,7 @@ $("#editarModulo").click(function() {
     $.post($(location).attr("href") + "/actualizar", moduloActualizado, function(respuesta){
 		respuesta = JSON.parse(respuesta);
 		if (!respuesta.error) {
-            $("#nombreModulo").html(moduloActualizado.nombre);
+            $("#nombreModulo").html("<h1 id='h1VerModulos'>Módulo " + moduloActualizado.nombre + "</h1>");
             $("#numeroModulo").html(moduloActualizado.numero);
 
 			// Sí, deben ser dos clicks, si no, no se cierra la sombra del modal.

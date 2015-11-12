@@ -7,7 +7,8 @@ var router = express.Router();
 var modulos = require('../components/modulos.js');
 var huertas = require('../components/huertas.js');
 var usuarios = require('../components/usuarios.js');
-var asignaciones = require('../components/asignaciones.js');
+var actividades = require('../components/actividades.js');
+var actividadesAsignadas = require('../components/actividadesAsignadas.js');
 
 // Página principal de módulos.
 router.get('/', function (req, res, next) {
@@ -97,10 +98,22 @@ router.get('/:id(\\d+)', function (req, res, next) {
         huertas.cuadritos(modulo.idModulo, function (err, cuadritos) {
             if (err) {
                 console.log(err);
+				cuadritos = [];
             }
-            else{
-                res.render('vermodulos', { titulo: 'Módulo ' + modulo.nombre, modulo: modulo, usuario: req.session.usuario, barraLateral: 'modulos', alto: alto, ancho: ancho, cuadritos: cuadritos});
-            }
+            actividades.listaractividades(function (err, actividades) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    actividadesAsignadas.sectoresPosibles(modulo.idModulo, function (err, sectores) {
+                        if (err) {
+                            console.log(err);
+							sectores = [];
+                        } else {
+                            res.render('vermodulos', { titulo: 'Módulo ' + modulo.nombre, modulo: modulo, usuario: req.session.usuario, barraLateral: 'modulos', alto: alto, ancho: ancho, cuadritos: cuadritos, actividades: actividades, sectores: sectores});
+                        }
+                    });
+                }
+            });
         });
     });
 });
@@ -154,18 +167,6 @@ router.get('/:id(\\d+)/eliminar', function (req, res, next) {
         res.redirect('/modulos');
     });
 });
-
-/*
-var desplegarCuadritos = function (req, res, next) {
-    huertas.cuadritos(function (err, cuadritos) {
-        if (err) {
-            console.log(err);
-            return;
-        }
-        res.render('modulos', { titulo: 'Módulos', modulos: modulos, usuario: req.session.usuario, barraLateral: 'modulos' });    
-    });
-}
-*/
 
 // Formulario para crear huerta.
 router.get('/:id(\\d+)/huerta/nueva', function (req, res, next) {
@@ -267,10 +268,15 @@ router.post('/itinerario', function (req, res, next) {
         res.redirect('/modulos/' + req.session.usuario.idModulo);
         return;
     }*/
-    asignaciones.listarAsignaciones(req.body.modulo, res, function(rows) {
+    actividadesAsignadas.listarActividadesAsignadas(req.body.modulo, res);
+    /*actividadesAsignadas.listarActividadesAsignadas(req.body.modulo, function(err, rows) {
         res.setHeader('Content-Type', 'application/json');
+        if (err) {
+            console.log(err);
+			rows = [];
+		}
         res.send(JSON.stringify(rows));
-    });
+    });*/
 });
 
 module.exports = router;

@@ -24,14 +24,9 @@ block body
             b.caret
           ul.dropdown-menu
             li
-              a(href='#')
-                i(class='fa fa-fw fa-user')
-                label Profile
-            li.divider
-            li
               a(href='/sesiones/cerrar')
                 i(class='fa fa-fw fa-power-off')
-                label LOG OUT
+                label Cerrar sesión
 
       div(class='collapse navbar-collapse navbar-ex1-collapse')
         //MENU PRINCIPAL IZQUIERDO
@@ -52,12 +47,12 @@ block body
             li.activo
               a(href='/modulos')
                 i(class='fa fa-fw fa-home')
-                p.inline.leftsidebar MÓDULOS
+                p.inline.leftsidebar MODULOS
           else
             li
               a(href='/modulos')
                 i(class='fa fa-fw fa-home')
-                p.inline.leftsidebar MÓDULOS
+                p.inline.leftsidebar MODULOS
 
           // Actividades
           if barraLateral && barraLateral === 'actividades'
@@ -98,13 +93,32 @@ block body
           // Retroalimentación
           if barraLateral && barraLateral === 'retroalimentacion'
             li.activo
-              a(href='/retroalimentacion')
+              a(href='/retroalimentaciones')
                 i(class='fa fa-fw fa-book')
                 p.inline.leftsidebar RETROALIMENTACIÓN
           else
             li
-              a(href='/retroalimentacion')
+              a(href='/retroalimentaciones')
                 i(class='fa fa-fw fa-book')
                 p.inline.leftsidebar RETROALIMENTACIÓN
 
+
+
+          // Sectores
+          if barraLateral && barraLateral === 'sector'
+            li.activo
+              a(href='/sectores')
+                i(class='fa fa-fw fa-book')
+                p.inline.leftsidebar SECTORES
+          else
+            li
+              a(href='/sectores')
+                i(class='fa fa-fw fa-book')
+                p.inline.leftsidebar SECTORES
+
     block content
+      if aviso
+        div.container
+          div(class="alert alert-#{aviso.tipo} col-md-6 col-md-offset-3", role="alert")
+            i(class="#{aviso.icono}")
+            p.inline #{aviso.mensaje}

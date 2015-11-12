@@ -1,22 +1,24 @@
 extends menu
 block content
   link(rel='stylesheet', href="/stylesheets/tableHuerta.css", type='text/css')
+  link(rel='stylesheet', href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker.min.css", type='text/css')
   //Contenido de Pagina
   div#page-wrapper
     div.container-fluid
 
-      //- if aviso
-      //-   div.row
-      //-     div(class="alert alert-#{aviso.tipo} col-md-6 col-md-offset-3", role="alert")
-      //-       i(class="#{aviso.icono}")
-      //-       p.inline #{aviso.mensaje}
+       if aviso
+         div.row
+           div(class="alert alert-#{aviso.tipo} col-md-6 col-md-offset-3", role="alert")
+             i(class="#{aviso.icono}")
+             p.inline #{aviso.mensaje}
 
       div.row
         div#barra-ver-modulos
           div.col-sm-12.col-md-8.col-md-offset-2
             //p #{mensaje}
             i#icono.material-icons.agregar-modulo.inline.inline dashboard
-            h1#h1VerModulos #{titulo}
+            span#nombreModulo
+              h1#h1VerModulos #{titulo}
         div.col-sm-12.col-md-8.col-md-offset-2
           table.table.table-striped.table-bordered
             tbody
@@ -42,7 +44,7 @@ block content
               a.btn.btn-default.btn-lg(href='/modulos/#{modulo.idModulo}/huerta/eliminar') Eliminar Huerta
             else
               button.btn.btn-primary.btn-lg(type='button', data-toggle='modal', data-target='#myModal') Nueva Huerta
-
+            button.btn.btn-primary.btn-lg(type="button" data-toggle="modal" data-target="#AAM" id='boton-asignar') Asignar Actividad
             //Modal de Agregar Huerta
             #myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel')
                 .modal-dialog(role='document')
@@ -105,6 +107,35 @@ block content
       }
     script(type='text/javascript').
       var cuadritos =!{JSON.stringify(cuadritos)};
+
+    //Modal Asignar
+    div(id='AAM' class='modal fade' role='dialog')
+      div.modal-dialog
+        //Contenido modal
+        div.modal-content
+          div.modal-header
+            button(type='button' class='close' data-dismiss="modal") &times;
+            h4.modal-title Asignar Actividad
+            div.modal-body
+              div
+                label(for="actividad") Actividad: 
+                  select.form-control#actividadPosible(name="actividadPosible", required)
+                    for actividad in actividades
+                      option(value= actividad.idActividad) #{actividad.nombre}
+              div
+                label(for="sector") Sector: 
+                  select.form-control#sectorPosible(name="sectorPosible", required)
+                    for sector in sectores
+                      option(value= sector.idSector) #{sector.numeroSector}
+              div
+                laber(for="fechaIni") Fecha de inicio:
+                  input.initDate#initDate
+              div
+                laber(for="fechaFin") Fecha de fin:
+                  input.endDate#endDate
+            div.modal-footer
+              button#boton-modal-asignar.btn.btn-primary(onclick="asignarActividad()" data-dismiss="modal") Asignar
+              button.btn.btn-default(type="button" data-dismiss="modal") Cerrar
 
     div#full-clndr.clearfix
     //Codiguirri de la huerta
@@ -170,5 +201,8 @@ block content
   script(src='/js/scriptcalendarios.js')
   script(src='/js/scriptcalendarioitinerario.js')
 
+  //Huerta
   script(src='/js/scripthuerta.js')
 
+  //Asignar
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.js')

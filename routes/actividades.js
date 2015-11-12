@@ -3,10 +3,7 @@
 var express = require('express');
 var router = express.Router();
 
-var listar = require('../components/listarActividades.js');
-var agrega = require('../components/agregaActividad.js');
-var elimina = require('../components/eliminaActividad.js');
-var modifica = require('../components/modificarActividad.js');
+var actividades = require('../components/actividades.js');
 
 /*
  * Todo este componente requiere del rol con id 1.
@@ -14,18 +11,21 @@ var modifica = require('../components/modificarActividad.js');
  */
 router.get(/.*/, function(req, res, next) {
     if (req.session.usuario.idRoles !== 1) {
-        res.render('menu', {usuario: req.session.usuario, barraLateral: 'actividades', titulo: "###", aviso: {tipo: 'danger', icono: 'fa fa-ban', mensaje: 'No tienes suficiente permisos para hacer esta acción.'}});
-        return;
+        var err = new Error('No tienes suficiente permisos para hacer esta acción.');
+        err.status = 403;
+        next(err);
+    } else {
+	    next();
     }
-	next();
 });
-
 router.post(/.*/, function(req, res, next) {
     if (req.session.usuario.idRoles !== 1) {
-        res.render('menu', {usuario: req.session.usuario, barraLateral: 'actividades', titulo: "###", aviso: {tipo: 'danger', icono: 'fa fa-ban', mensaje: 'No tienes suficiente permisos para hacer esta acción.'}});
-        return;
+        var err = new Error('No tienes suficiente permisos para hacer esta acción.');
+        err.status = 403;
+        next(err);
+    } else {
+	    next();
     }
-	next();
 });
 
 /* Se crea la ruta a la página de actividades
@@ -34,7 +34,7 @@ router.post(/.*/, function(req, res, next) {
     + A partir de la variable listar, se manda llamar a la funcion: listarActividades(res)
 */
 router.get('/', function (req, res, next) {
-    listar.listaractividades(req, res, function(err, rows) {
+    actividades.listaractividades(function(err, rows) {
         if(err) {
             err.status = 401;
             next(err);
@@ -42,6 +42,7 @@ router.get('/', function (req, res, next) {
         }
         res.render('actividades', {
             title: 'Actividades',
+            titulo: 'Actividades',
             actividades: rows,
             usuario: req.session.usuario,
             barraLateral: 'actividades'
@@ -50,15 +51,30 @@ router.get('/', function (req, res, next) {
 });
 
 router.post('/agregaactividad', function (req, res, next) {
-    agrega.agrega(req, res);
+    actividades.agrega(req, function(err) {
+		if (err) {
+			console.log(err);
+		}
+		res.redirect('/actividades');
+	});
 });
 
 router.post('/modificar', function(req, res){
-	modifica.modifica(req, res);
+	actividades.modifica(req, function(err) {
+		if (err) {
+			console.log(err);
+		}
+		res.redirect('/actividades');
+	});
 });
 
 router.post('/eliminaactividad', function(req, res){
-	elimina.elimina(req, res);
+	actividades.elimina(req, function(err) {
+		if (err) {
+			console.log(err);
+		}
+		res.redirect('/actividades');
+	});
 });
 
 module.exports = router;

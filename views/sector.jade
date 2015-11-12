@@ -35,9 +35,10 @@ block content
 
                     td(class='nombre' ) #{resultado.nombre}
                     td(class='id' style='display:none;') #{resultado.idContenidoCuadritos}
+                    td(class='colores' style='display:none;') #{resultado.color}
                     td(class ='color' width="50px") 
                       div.input-group.colorpicker-component.demo.demo-auto
-                        input.form-control#escogerColor(type='hidden',value= resultado.color, disabled)
+                        input.form-control(type='hidden' class= 'colores' value=resultado.color disabled)
                         span.input-group-addon
                           i
                     td#botones-modificar 
@@ -46,9 +47,6 @@ block content
                       button.btn.btn-default( type="button" class="eliminar" data-dismiss="modal" onclick="window.location.href='/sector/eliminar/#{resultado.idContenidoCuadritos}'" ) Eliminar
           else
             p.watermark No se han encontrado sectores en el sistema.
-
-
-
 
 
         //Modal para agregar un tipo de poste
@@ -82,15 +80,14 @@ block content
                   div.modal-body
                     label(for="color") Color
                     div.input-group.colorpicker-component.demo.demo-auto
-                      input.form-control(name="cuadrosColor", type='text', value='', required)
+                      input.form-control(name="cuadrosColor" id="colorIdentificador" value='#000000' required)
                       span.input-group-addon
                         i
-                    label(for="nombre") nombre
-                    input.form-control#nombre(name="nombre", type='text', value='', required)
+                    label(for="nombre") Nombre
+                    input.form-control(name="nombre", type='text', id="nombreIdentificador", required)
                     input.form-control(type="numeric" name="idContenidoCuadritos" id="MIDU" style='display:none;')
                   div.modal-footer
                     button.btn.btn-primary#modificarModulo(type="submit") Modificar
                     button.btn.btn-default#cerrarModal(type='button', data-dismiss='modal') Cerrar
-  
-  script(src='/js/modificarsector.js')
 
+  script(src='/js/modificarsector.js')

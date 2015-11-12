@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 
-var sector = require('../components/sector.js');
+var sector = require('../components/sectores.js');
 
 
 
