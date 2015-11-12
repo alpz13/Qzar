@@ -261,22 +261,4 @@ router.get('/:id(\\d+)/huerta/eliminar/',function (req, res, next) {
 	});
 });
 
-// Ver itinerario.
-router.post('/itinerario', function (req, res, next) {
-    /*
-    if (req.session.usuario.idRoles != 1) {
-        res.redirect('/modulos/' + req.session.usuario.idModulo);
-        return;
-    }*/
-    actividadesAsignadas.listarActividadesAsignadas(req.body.modulo, res);
-    /*actividadesAsignadas.listarActividadesAsignadas(req.body.modulo, function(err, rows) {
-        res.setHeader('Content-Type', 'application/json');
-        if (err) {
-            console.log(err);
-			rows = [];
-		}
-        res.send(JSON.stringify(rows));
-    });*/
-});
-
 module.exports = router;

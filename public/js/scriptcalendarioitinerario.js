@@ -2,7 +2,7 @@ function obtenerEventos() {
   var url = window.location.href;
   url = url.split('/');
 
-  $.post("/modulos/itinerario",
+  $.post("/asignaciones/listar",
     {
       'modulo': url[url.length - 1]
     },

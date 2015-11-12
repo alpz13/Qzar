@@ -7,7 +7,7 @@ var moment = require('moment-timezone');
 var credenciales = require('../database/credencialesbd.json');
 
 // Lista todas las actividades asignadas.
-var listarActividadesAsignadas = function (idModulo, res) {
+var listarActividadesAsignadas = function (idModulo, callback) {
     var connection = mysql.createConnection(credenciales);
     var sql = "select ac.idActividadesAsignadas as idAsignada, ac.fecha as date, a.nombre as title, ac.idSectores as idSectores, s.numeroSector, a.idActividad as idActividad FROM Actividades as a, ActividadesAsignadas as ac, Sectores as s WHERE ac.idModulos = ? AND a.idActividad = ac.idActividades AND s.idSector = ac.idSectores";
     var params = [idModulo];
@@ -16,12 +16,9 @@ var listarActividadesAsignadas = function (idModulo, res) {
 
     connection.query(sql, function (err, rows) {
         if (!err) {
-            res.setHeader('Content-Type', 'application/json');
-            res.send(JSON.stringify(rows));
+			callback(null, rows);
         } else {
-            console.log(err);
-            res.setHeader('Content-Type', 'application/json');
-            res.send(JSON.stringify([]));
+			callback(err);
         }
     });
     
@@ -55,7 +52,7 @@ var listarSectoresPosibles = function (idModulo, callback) {
     });
 };
 
-var asignarActividad = function (idModulo, idSector, idActividad, fecha, res) {
+var asignarActividad = function (idModulo, idSector, idActividad, fecha) {
   var connection = mysql.createConnection(credenciales);
   var sql = "INSERT INTO ActividadesAsignadas (idModulos,idActividades,idSectores,fecha) VALUES (?, ?, ?, ?);";
   var params = [idModulo, idActividad, idSector, fecha];
@@ -106,7 +103,7 @@ var obtenerFecha = function (caracter, idModulo, idActividad, idSector, fecha, c
   });
 }
 
-var verDetallesActividadAsignada = function (idActividadesAsignadas, res) {
+var verDetallesActividadAsignada = function (idActividadesAsignadas, callback) {
   var connection = mysql.createConnection(credenciales);
   var sql = "SELECT idActividadesAsignadas, idModulos, idActividades, idSectores, DATE_FORMAT(fecha, '%m-%d-%Y') as fecha FROM qzardb.ActividadesAsignadas where idActividadesAsignadas= ?";
   var params = [idActividadesAsignadas];
@@ -148,12 +145,12 @@ var verDetallesActividadAsignada = function (idActividadesAsignadas, res) {
                   "fechaInicio" : fechaInicio,
                   "fechaFin" : fechaFin,
                 };
-                res.send(JSON.stringify(respuesta));
+				callback(null, respuesta);
               });
             });
           });
         } else{
-          console.log(err);
+		  callback(err);
         }
   });
 
@@ -225,7 +222,7 @@ function confirmarActividadAsignada(idActividadesAsignadas, callback) {
 }
 
 module.exports = {
-    'listarActividadesAsignadas': listarActividadesAsignadas,
+    'listar': listarActividadesAsignadas,
     'listarPorDia': listarAsignacionesPorDia,
     'sectoresPosibles': listarSectoresPosibles,
     'asignar': asignarActividad,

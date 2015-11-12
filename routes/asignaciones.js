@@ -17,6 +17,32 @@ router.post(/.*/, function(req, res, next) {
     }
 });
 
+// Ver itinerario del módulo.
+router.post('/listar', function (req, res, next) {
+    /*
+    if (req.session.usuario.idRoles != 1) {
+        res.redirect('/modulos/' + req.session.usuario.idModulo);
+        return;
+    }*/
+    actividadesAsignadas.listar(req.body.modulo, function(err, actividades) {
+        res.setHeader('Content-Type', 'application/json');
+		if (err) {
+			console.log(err);
+			res.send(JSON.stringify([]));
+		} else {
+			res.send(JSON.stringify(actividades));
+		}
+	});
+    /*actividadesAsignadas.listarActividadesAsignadas(req.body.modulo, function(err, rows) {
+        res.setHeader('Content-Type', 'application/json');
+        if (err) {
+            console.log(err);
+			rows = [];
+		}
+        res.send(JSON.stringify(rows));
+    });*/
+});
+
 router.post('/asignaractividad', function (req, res, next) {
     //To Do
     console.log("Entrando a asignacion");
@@ -47,7 +73,15 @@ router.post('/asignaractividad', function (req, res, next) {
 router.post('/verdetalles', function (req, res, next){
     console.log("Viendo detalles de asignacion");
     idAsignada = req.body.idAsignada;
-    actividadesAsignadas.detalles( idAsignada, res );
+    actividadesAsignadas.detalles(idAsignada, function(err, actividad) {
+		res.setHeader('Content-Type', 'application/json');
+		if (err) {
+			console.log(err);
+			res.send(JSON.stringify([]));
+		} else {
+			res.send(JSON.stringify(actividad));
+		}
+	});
     return;
 });
 
