@@ -7,6 +7,7 @@ var agregausuario = require('../components/agregaUsuario.js');
 var usuarios = require('../components/usuarios.js');
 var us = require('../components/usuarios.js');
 var modificarusuario = require('../components/modificaUsuario.js');
+var categoria = require('../components/categoria.js');
 
 router.get('/', function (req, res, next) {
     if (req.session.usuario.idRoles !== 1) {

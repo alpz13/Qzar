@@ -8,6 +8,7 @@ var listar = require('../components/listarActividades.js');
 var agrega = require('../components/agregaActividad.js');
 var elimina = require('../components/eliminaActividad.js');
 var modifica = require('../components/modificarActividad.js');
+var categoria = require('../components/categoria');
 
 // Checa tus prvilegios
 router.get(/.*/, function(req, res, next) {
@@ -43,6 +44,7 @@ router.post(/.*/, function(req, res, next) {
 */
 router.get('/', function (req, res) {
     listar.listaractividades(req, res);
+    
 });
 
 router.post('/agregaactividad', function (req, res, next) {

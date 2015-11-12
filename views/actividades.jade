@@ -19,6 +19,7 @@ block content
               thead
                 th  Nombre
                 th  Descripcion
+                th  Categoria
                 th
               tbody
                 each actividad in actividades
@@ -28,6 +29,7 @@ block content
                     td(class='descripcion') #{actividad.descripcion}
                     //td(class='img' style='display:none;') #{actividad.ruta} 
                     //poner TD con class img
+                    td(class='categoria') #{actividad.nombreCategoria}
                     td#botones-modificar 
                       button.btn.btn-primary(type="button" class="modificar" data-toggle="modal" data-target="#MAA" id='boton-modificar') Modificar
                       &nbsp&nbsp&nbsp
@@ -70,6 +72,9 @@ block content
               input.form-control(type="text" name="nombreactividad" size="58")
               label Descripción 
               textarea.form-control(rows='5' cols='60' name="descripcionactividad")
+              select.form-control(name="roles" id="MRU")
+                each categoria in categorias
+                  option(value="#{categoria.idCategoria}" name= "categoriaCrear") #{categoria.nombreCategoria} 
               label Foto
               input(type="file" name="ima" size="58" )
             div.modal-footer
@@ -90,7 +95,7 @@ block content
         document.getElementById("AgregaActividad").reset();
       }
 
-  script(src='/js/editacategoria.js')
+  script(src='/js/tablamodalmodificar.js')
   //Cierro segundo col-lg -12 
   //Cierro Container Fluid
   //Containererro PageWrapper
