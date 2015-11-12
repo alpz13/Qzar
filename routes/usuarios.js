@@ -1,8 +1,8 @@
-/*jslint
-    indent: 4, unparam: true
-*/
+'use strict';
+
 var express = require('express');
 var router = express.Router();
+
 var agregausuario = require('../components/agregaUsuario.js');
 var usuarios = require('../components/usuarios.js');
 var us = require('../components/usuarios.js');
@@ -13,7 +13,6 @@ router.get('/', function (req, res, next) {
         res.redirect('/usuarios/' + req.session.usuario.idModulo);
         return;
     }
-
     usuarios.listarUsuarios(function (err, usuarios1) {
         if (err) {
             console.log(err);

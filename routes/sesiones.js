@@ -1,11 +1,9 @@
 'use strict';
-/*jslint
-    indent: 4, unparam: true
-*/
+
 var express = require('express');
+var router = express.Router();
 
 var controlador = require('../components/login.js');
-var router = express.Router();
 var Registro = require('log');
 var observador = new Registro('info');
 
