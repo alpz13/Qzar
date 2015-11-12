@@ -28,9 +28,9 @@ block content
                     td(class='nombre') #{actividad.nombre}
                     td(class='descripcion') #{actividad.descripcion}
                     td(class='categoria') #{actividad.nombreCategoria}
+                    td(class='idcategoria' style='display:none;') #{actividad.idCategoria}
                     //td(class='img' style='display:none;') #{actividad.ruta} 
                     //poner TD con class img
-                    td(class='categoria') #{actividad.nombreCategoria}
                     td#botones-modificar 
                       button.btn.btn-primary(type="button" class="modificar" data-toggle="modal" data-target="#MAA" id='boton-modificar') Modificar
                       &nbsp&nbsp&nbsp
@@ -54,6 +54,10 @@ block content
               label Descripción 
               textarea.form-control(rows='5' cols='60' name="descripcionModActividad" id="MDA").
               label Categoria
+              select.form-control(name="roles" id="MRT")
+                each categoria in categorias
+                  option(value="#{categoria.idCategoria}") #{categoria.nombreCategoria}
+              label Categoria
               label Foto
               input(type="file" name="imaMod" size="58" id="MIA")
             div.modal-footer
@@ -74,9 +78,10 @@ block content
               input.form-control(type="text" name="nombreactividad" size="58")
               label Descripción 
               textarea.form-control(rows='5' cols='60' name="descripcionactividad")
+              label Categoria
               select.form-control(name="roles" id="MRU")
                 each categoria in categorias
-                  option(value="#{categoria.idCategoria}" name= "categoriaCrear") #{categoria.nombreCategoria} 
+                  option(value="#{categoria.idCategoria}") #{categoria.nombreCategoria} 
               label Foto
               input(type="file" name="ima" size="58" )
             div.modal-footer
