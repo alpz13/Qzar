@@ -31,6 +31,8 @@ function asignarActividad() {
     'fechaFin': fechaFin
   },
   function (data) {
+    console.log("despues");
+    console.log(data);
     //$("#full-clnd").load("modulos/2 " + "#full-clnd");
     //location.reload();
   });
@@ -75,7 +77,9 @@ function habilitarCamposModalAgregar(){
   $("#boton-modal-asignar").css('display', 'inline-block');
   $("#boton-habilitar-campos").css("display", "none");
   $("#boton-edicion-asignaciones").css("display", "none");
+  $("#boton-borrar-asignaciones").css("display", "none");
   $("#titulo-modal-actividades").html("Asignar actividades");
+  $("#boton-borrar-asignaciones").attr("onclick", "");
 }
 
 function habilitarCamposModal(){
@@ -87,11 +91,30 @@ function habilitarCamposModal(){
   $("#boton-modal-asignar").css('display', 'none');
   $("#boton-habilitar-campos").css("display", "none");
   $("#boton-edicion-asignaciones").css("display", "inline-block");
+  $("#boton-borrar-asignaciones").css("display", "inline-block");
 }
 function cargarModalAsignar(){
   $('#AAM').modal();
   habilitarCamposModalAgregar();
 }
+
+function eliminarActividadesAsignadas(idAsignada){
+  console.log(idAsignada);
+  $.post("/asignacion/borrarasignacion",
+  {
+    'idAsignada': idAsignada,
+  },
+  function (data) {
+    console.log(data);
+  });
+}
+
+function editarActividadesAsignadas(idAsignada){
+  eliminarActividadesAsignadas(idAsignada);
+  console.log("antes");
+  asignarActividad();
+}
+
 function cargarModalEditar(idAsignada){
     $('#AAM').modal();
     console.log (this.idSectores);
@@ -115,6 +138,9 @@ function cargarModalEditar(idAsignada){
       $("#titulo-modal-actividades").html("Detalles de actividad");
       $("#boton-habilitar-campos").css("display", "inline-block");
       $("#boton-edicion-asignaciones").css("display", "none");
+      $("#boton-borrar-asignaciones").css("display", "none");
+      $("#boton-edicion-asignaciones").attr("onclick", "editarActividadesAsignadas("+idAsignada+")")
+      $("#boton-borrar-asignaciones").attr("onclick", "eliminarActividadesAsignadas("+idAsignada+")")
       console.log(data.idActividad);
     });
 }

@@ -33,6 +33,7 @@ router.post('/asignaractividad', function (req, res, next) {
     fechaFin = new Date(fechaFin);
     length = idActividades.length;
     for (i = 0; i < length; i++){
+        console.log("fecha "+i);
         var idActividad = idActividades[i];
         fechaIni = req.body.fechaIni;
         fechaIni = fechaIni.split("/");
@@ -43,6 +44,7 @@ router.post('/asignaractividad', function (req, res, next) {
             actividadesAsignadas.asignar(idModulo, idSector, parseInt(idActividad), fecha);
             //fechaIni.getTime();
             fechaIni.setDate(fechaIni.getDate() + 1);
+            console.log(fecha);
         }
     }
     res.setHeader('Content-Type', 'application/json');
@@ -53,14 +55,15 @@ router.post('/asignaractividad', function (req, res, next) {
 router.post('/verdetalles', function (req, res, next){
     console.log("Viendo detalles de asignacion");
     idAsignada = req.body.idAsignada;
-    actividadesAsignadas.detalles( idAsignada, res );
+    actividadesAsignadas.edicionAsignaciones( idAsignada, res, 'ver' );
     return;
 });
 
-router.post('/borrarasignacion/:id(\\d+)', function(){
+router.post('/borrarasignacion', function (req, res, next){
     console.log("Eliminando actividades asignadas");
     idAsignada = req.body.idAsignada;
-    actividadesAsignadas.eliminar( idAsignada, res );
+    console.log(idAsignada);
+    actividadesAsignadas.edicionAsignaciones( idAsignada, res, 'eliminar' );
     return;
 });
 
