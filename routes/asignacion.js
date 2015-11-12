@@ -33,7 +33,6 @@ router.post('/asignaractividad', function (req, res, next) {
     fechaFin = new Date(fechaFin);
     length = idActividades.length;
     for (i = 0; i < length; i++){
-        console.log("fecha "+i);
         var idActividad = idActividades[i];
         fechaIni = req.body.fechaIni;
         fechaIni = fechaIni.split("/");
@@ -44,7 +43,6 @@ router.post('/asignaractividad', function (req, res, next) {
             actividadesAsignadas.asignar(idModulo, idSector, parseInt(idActividad), fecha);
             //fechaIni.getTime();
             fechaIni.setDate(fechaIni.getDate() + 1);
-            console.log(fecha);
         }
     }
     res.setHeader('Content-Type', 'application/json');

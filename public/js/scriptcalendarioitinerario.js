@@ -14,6 +14,8 @@ function obtenerEventos() {
 function asignarActividad() {
   var url = window.location.href;
   url = url.split('/');
+  url = url[url.length - 1].split('#');
+  url = url[0];
   var idSector = $('#sectorPosible').val();
   var idActividadesRaw = $('.actividades');
   var idActividades = [];
@@ -22,9 +24,14 @@ function asignarActividad() {
   });
   var fechaIni = $('#initDate').val();
   var fechaFin = $('#endDate').val();
+  console.log(url);
+  console.log(idSector);
+  console.log(fechaIni);
+  console.log(fechaFin);
+  console.log(JSON.stringify(idActividades));
   $.post("/asignacion/asignaractividad",
   {
-    'idModulo': url[url.length - 1],
+    'idModulo': url,
     'idSector': idSector,
     'idActividades': JSON.stringify(idActividades),
     'fechaIni': fechaIni,
