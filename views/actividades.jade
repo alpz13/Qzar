@@ -19,6 +19,7 @@ block content
               thead
                 th  Nombre
                 th  Descripcion
+                th  Categoria
                 th
               tbody
                 each actividad in actividades
@@ -26,6 +27,7 @@ block content
                     td(class='id' style='display:none;') #{actividad.idActividad}
                     td(class='nombre') #{actividad.nombre}
                     td(class='descripcion') #{actividad.descripcion}
+                    td(class='categoria') #{actividad.nombreCategoria}
                     //td(class='img' style='display:none;') #{actividad.ruta} 
                     //poner TD con class img
                     td#botones-modificar 
@@ -49,7 +51,8 @@ block content
               label Nombre
               input.form-control(type="text" name="nombreModActividad" size="58" id="MNA")
               label Descripción 
-              textarea.form-control(rows='5' cols='60' name="descripcionModActividad" id="MDA")
+              textarea.form-control(rows='5' cols='60' name="descripcionModActividad" id="MDA").
+              label Categoria
               label Foto
               input(type="file" name="imaMod" size="58" id="MIA")
             div.modal-footer
@@ -90,7 +93,7 @@ block content
         document.getElementById("AgregaActividad").reset();
       }
 
-  script(src='/js/editacategoria.js')
+  script(src='/js/tablamodalmodificar.js')
   //Cierro segundo col-lg -12 
   //Cierro Container Fluid
   //Containererro PageWrapper
