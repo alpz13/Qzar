@@ -1,6 +1,5 @@
-/*jslint
-    indent: 4, unparam: true
-*/
+'use strict';
+
 var express = require('express');
 var router = express.Router();
 var agregausuario = require('../components/agregaUsuario.js');
@@ -38,6 +37,19 @@ router.get('/', function (req, res, next) {
 });
 
 router.post('/agregausuario', function (req, res, next) {
+    // Valida permisos para crear usuario.
+    if (req.session.usuario.permisos.indexOf("crear usuario") < 0) {
+        res.render('menu', {usuario: req.session.usuario,
+                            mensaje: '',
+                            titulo: '###',
+                            barraLateral: 'usuarios',
+                            aviso: {tipo: 'danger',
+                                    icono: 'fa fa-exclamation-triangle',
+                                    mensaje: 'No tienes permiso para crear un usuario.'}}
+        );
+        return;
+    }
+
     var NuevoUsuario = {
         "nombre" : req.body.nombreUsuario,
         "contrasenia" : req.body.contrasenaUsuario,
@@ -46,12 +58,6 @@ router.post('/agregausuario', function (req, res, next) {
         "idRoles" : req.body.roles,
         "idModulo" : req.body.modulo
     };
-
-    // Valida permisos para crear módulo.
-    if (req.session.usuario.idRoles !== 1) {
-        res.send("No tienes permiso para crear un usuario.");
-        return;
-    }
 
     // Verifica que el nombre, la constraseña y re-contraseña no sean vacíos.
     // Segunda verificacion, la primera esta del lado del cliente.
