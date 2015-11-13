@@ -16,33 +16,79 @@ router.get('/', function (req, res, next) {
     conexion.query({sql: consulta, values: []}, function (err, renglones) {
         conexion.end();
         if (err) {
-            // TO-DO: manejar el error!
+            // TODO: manejar el error!
             res.render('index', {usuario: req.session.usuario, mensaje: err, titulo: '###', aviso: {tipo: 'danger', icono: 'fa fa-exclamation-triangle', mensaje: err}});
             return;
         }
-        /*
-        var roles = [];
-        for(var v in renglones) {
-            roles.push(renglones[v]['nombre']);
-        }
-        */
+
         res.render('roles', {usuario: req.session.usuario, barraLateral: 'roles', titulo: 'Roles', roles: renglones});
     });
 });
 
 /* */
 router.post('/crear', function (req, res, next) {
-    res.send('Yay!');
+    if(!(req.body['permisos[]'] instanceof Array)) {
+        req.body['permisos[]'] = [req.body['permisos[]']];
+    }
+    var conexion = require('mysql').createConnection(require('../database/credencialesbd.json'));
+    var consulta = 'INSERT INTO qzardb.Roles (nombre) VALUES (?);';
+    var valores = [req.body.nombre];
+
+    conexion.query({sql: consulta, values: valores}, function (err, renglones) {
+        if (err) {
+            console.log(err);
+            conexion.end();
+            res.send('Error:' + err);
+            return;
+        }
+        var id = renglones['insertId'];
+        var error = null;
+
+        for(var v in req.body['permisos[]']) {
+            consulta = 'INSERT INTO qzardb.RolesPermisos (idRoles,idPermisos) VALUES (?, ?);'
+            valores = [id, req.body['permisos[]'][v]];
+            conexion.query({sql: consulta, values: valores}, function (err) {
+                if(err) {
+                    console.log(err);
+                    error = err;
+                }
+            });
+            if(error) {
+                break;
+            }
+        }
+        conexion.end();
+
+        if(error) {
+            // TODO: manejar el error!
+            res.send('Error:' + error);
+            return;
+        }
+        res.send('1');
+    });
 });
 
 /* */
-router.post('/modificar/:id', function (req, res, next) {
-
+router.post('/modificar/:id(\\d+)', function (req, res, next) {
+    var id = req.params.id;
 });
 
 /* */
-router.post('/eliminar/:id', function (req, res, next) {
+router.post('/eliminar/:id(\\d+)', function (req, res, next) {
+    var conexion = require('mysql').createConnection(require('../database/credencialesbd.json'));
+    var id = req.params.id;
+    var consulta = 'UPDATE R.activo = 0 FROM qzardb.Roles as R WHERE R.idRol = ?';
 
+    conexion.query({sql: consulta, values: [id]}, function (err, renglones) {
+        conexion.end();
+        if (err) {
+            // TODO: manejar el error!
+            res.render('index', {usuario: req.session.usuario, mensaje: err, titulo: '###', aviso: {tipo: 'danger', icono: 'fa fa-exclamation-triangle', mensaje: err}});
+            return;
+        }
+
+        res.render('roles', {usuario: req.session.usuario, barraLateral: 'roles', titulo: 'Roles', roles: renglones});
+    });
 });
 
 module.exports = router;
