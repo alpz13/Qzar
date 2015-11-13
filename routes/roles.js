@@ -73,21 +73,23 @@ router.post('/modificar/:id(\\d+)', function (req, res, next) {
     var id = req.params.id;
 });
 
-/* */
-router.post('/eliminar/:id(\\d+)', function (req, res, next) {
+/*
+    TODO: Esto deberia de ser un POST, no???
+*/
+router.get('/eliminar/:id(\\d+)', function (req, res, next) {
     var conexion = require('mysql').createConnection(require('../database/credencialesbd.json'));
     var id = req.params.id;
-    var consulta = 'UPDATE R.activo = 0 FROM qzardb.Roles as R WHERE R.idRol = ?';
+    var consulta = 'UPDATE qzardb.Roles as R SET R.activo = 0 WHERE R.idRol = ?';
 
     conexion.query({sql: consulta, values: [id]}, function (err, renglones) {
         conexion.end();
         if (err) {
             // TODO: manejar el error!
-            res.render('index', {usuario: req.session.usuario, mensaje: err, titulo: '###', aviso: {tipo: 'danger', icono: 'fa fa-exclamation-triangle', mensaje: err}});
+            res.render('menu', {usuario: req.session.usuario, mensaje: err, titulo: '###', aviso: {tipo: 'danger', icono: 'fa fa-exclamation-triangle', mensaje: err}});
             return;
         }
 
-        res.render('roles', {usuario: req.session.usuario, barraLateral: 'roles', titulo: 'Roles', roles: renglones});
+        res.redirect('/roles');
     });
 });
 

@@ -14,7 +14,7 @@ block content
             h1#h1Modulos #{titulo}
             if usuario.idRoles === 1
               //Icono que te lleva al modal
-              a(class='nav navbar-right top-nav' href='#' data-toggle="modal" data-target="#FAA")
+              a(class='nav navbar-right top-nav' href='#' data-toggle="modal" data-target="#modal-crear")
                 i.material-icons.md-48#boton-agregar-actividad control_point
                 p Agregar
         div.col-sm-12.col-md-8.col-md-offset-2
@@ -28,14 +28,14 @@ block content
                     td(class='id' style='display:none;') #{rol.idRol}
                     td #{rol.nombre}
                     td
-                      button.btn.btn-primary(type="button" class="Modificar" data-toggle="modal" data-target="#FAB" id='boton-Modificar') Modificar
-                      button.btn.btn-default( type="button" class="Eliminar" data-dismiss="modal" onclick="window.location.href='/roles/Eliminar/#{rol.idUsuario}'" ) Eliminar
+                      button.btn.btn-primary(type="button" class="Modificar" data-toggle="modal" data-target="#modal-modificar" id='boton-Modificar') Modificar
+                      button.btn.btn-default( type="button" class="Eliminar" data-dismiss="modal" onclick="window.location.href='/roles/eliminar/#{rol.idRol}'" ) Eliminar
           else
             p.watermark No se han encontrado roles en el sistema.
 
       if usuario.idRoles === 1
         //Modal para agregar
-        div(id='FAA' class='modal fade' role='dialog')
+        div(id='modal-crear' class='modal fade' role='dialog')
             div.modal-dialog
               div.modal-content
                 div.modal-header
