@@ -40,8 +40,11 @@ var agrega = function (req, res) {
         var bd = mysql.createConnection(credenciales);
         var nombreoriginal = files.ima[0].originalFilename;
         var ext = path.extname(nombreoriginal);
-        var sql = 'INSERT INTO Actividades(nombre, descripcion, activo) VALUES(?,?, ?);';
-        var params = [nombre, descripcion, activo];
+        var categoria = fields.roles;
+
+        var sql = 'INSERT INTO Actividades(nombre, descripcion, idCategoriaAct, activo) VALUES(?,?,?,?);';
+        var params = [nombre, descripcion, categoria, activo];
+
         bd.connect();
         sql = mysql.format(sql, params);
         var nombreId = 0;

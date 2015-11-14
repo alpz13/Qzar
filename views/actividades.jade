@@ -19,6 +19,7 @@ block content
               thead
                 th  Nombre
                 th  Descripcion
+                th  Categoria
                 th
               tbody
                 each actividad in actividades
@@ -26,6 +27,8 @@ block content
                     td(class='id' style='display:none;') #{actividad.idActividad}
                     td(class='nombre') #{actividad.nombre}
                     td(class='descripcion') #{actividad.descripcion}
+                    td(class='categoria') #{actividad.nombreCategoria}
+                    td(class='idcategoria' style='display:none;') #{actividad.idCategoria}
                     //td(class='img' style='display:none;') #{actividad.ruta} 
                     //poner TD con class img
                     td#botones-modificar 
@@ -45,11 +48,15 @@ block content
             h4.modal-title Modificar Actividad
           form(action="/actividades/modificar" method="post" id="ModificaActividad" enctype="multipart/form-data")
             div.modal-body
+              label Categoria
+              select.form-control(name="roles" id="MRT")
+                each categoria in categorias
+                  option(value="#{categoria.idCategoria}") #{categoria.nombreCategoria}
               input.form-control(type="text" name="idModActividad" id="MIDA" style='display:none')
               label Nombre
               input.form-control(type="text" name="nombreModActividad" size="58" id="MNA")
               label Descripción 
-              textarea.form-control(rows='5' cols='60' name="descripcionModActividad" id="MDA")
+              textarea.form-control(rows='5' cols='60' name="descripcionModActividad" id="MDA").
               label Foto
               input(type="file" name="imaMod" size="58" id="MIA")
             div.modal-footer
@@ -66,10 +73,14 @@ block content
             h4.modal-title Agregar Actividad
           form(action="/actividades/agregaactividad" method="post" onsubmit="return checkform(this);" id="AgregaActividad" enctype="multipart/form-data")
             div.modal-body 
+              label Categoria
+              select.form-control(name="roles" id="MRU")
+                each categoria in categorias
+                  option(value="#{categoria.idCategoria}") #{categoria.nombreCategoria}
               label Nombre
               input.form-control(type="text" name="nombreactividad" size="58")
               label Descripción 
-              textarea.form-control(rows='5' cols='60' name="descripcionactividad")
+              textarea.form-control(rows='5' cols='60' name="descripcionactividad") 
               label Foto
               input(type="file" name="ima" size="58" )
             div.modal-footer
