@@ -136,7 +136,7 @@ var obtenerFecha = function (caracter, idModulo, idActividad, idSector, fecha, c
   var connection = mysql.createConnection(credenciales);
   //Prueba si se conecto correctamente a la base de datos
   connection.connect(function (err, rows) {
-    var query = "SELECT distinct DATE_FORMAT(AA.fecha, '%m-%d-%Y') as fecha FROM qzardb.ActividadesAsignadas AA WHERE AA.fecha "+ caracter +" STR_TO_DATE('"+fecha+"', '%m-%d-%Y') AND AA.idModulos = '"+idModulo+"' AND AA.idActividades = '"+idActividad+"' AND AA.idSectores = '"+idSector+"' AND (exists (select 1 from qzardb.ActividadesAsignadas AA2 where AA2.fecha = AA.fecha + interval 1 day) or exists (select 1 from qzardb.ActividadesAsignadas AA2 where AA2.fecha = AA.fecha - interval 1 day) ) ORDER BY AA.fecha ";
+    var query = "SELECT distinct DATE_FORMAT(AA.fecha, '%d/%m/%Y') as fecha FROM qzardb.ActividadesAsignadas AA WHERE AA.fecha "+ caracter +" STR_TO_DATE('"+fecha+"', '%d/%m/%Y') AND AA.idModulos = '"+idModulo+"' AND AA.idActividades = '"+idActividad+"' AND AA.idSectores = '"+idSector+"' AND (exists (select 1 from qzardb.ActividadesAsignadas AA2 where AA2.fecha = AA.fecha + interval 1 day) or exists (select 1 from qzardb.ActividadesAsignadas AA2 where AA2.fecha = AA.fecha - interval 1 day) ) ORDER BY AA.fecha ";
     if(caracter==">=") query+= "desc";
     else query += "asc";
     console.log(query);
@@ -168,7 +168,7 @@ var eliminarActividades = function(idActividad, idSector, idModulo, fechaInicio,
     if (!err) {
       console.log("Función eliminar actividades");
       console.log("Database is connected ... \n");
-      var query = "DELETE from qzardb.ActividadesAsignadas where idActividades= '"+idActividad+"' and idSectores ='"+idSector+"' and idModulos = '"+idModulo+"' and fecha>=STR_TO_DATE('"+fechaInicio+"', '%m-%d-%Y') and fecha<=STR_TO_DATE('"+fechaFin+"', '%m-%d-%Y');";
+      var query = "DELETE from qzardb.ActividadesAsignadas where idActividades= '"+idActividad+"' and idSectores ='"+idSector+"' and idModulos = '"+idModulo+"' and fecha>=STR_TO_DATE('"+fechaInicio+"', '%d/%m/%Y') and fecha<=STR_TO_DATE('"+fechaFin+"', '%d/%m/%Y');";
       console.log(query);
       connection.query (query, function (err, rowsActividadesAsignadas){
         if(!err){
@@ -193,7 +193,7 @@ var edicionAsignaciones = function(idActividadesAsignadas, res, action){
   connection.connect(function (err, rows) {
     if (!err) {
       console.log("Database is connected ... \n");
-      connection.query ("SELECT idActividadesAsignadas, idModulos, idActividades, idSectores, DATE_FORMAT(fecha, '%m-%d-%Y') as fecha FROM qzardb.ActividadesAsignadas where idActividadesAsignadas= "+idActividadesAsignadas, function (err, rowsActividadesAsignadas){
+      connection.query ("SELECT idActividadesAsignadas, idModulos, idActividades, idSectores, DATE_FORMAT(fecha, '%d/%m/%Y') as fecha FROM qzardb.ActividadesAsignadas where idActividadesAsignadas= "+idActividadesAsignadas, function (err, rowsActividadesAsignadas){
         if(!err){
           rowsActividadesAsignadas.forEach(function(row, index){
             var idActividadAsignada = row.idActividadesAsignadas;

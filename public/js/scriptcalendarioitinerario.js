@@ -38,7 +38,6 @@ function asignarActividad() {
     'fechaFin': fechaFin
   },
   function (data) {
-    console.log("despues");
     console.log(data);
     //$("#full-clnd").load("modulos/2 " + "#full-clnd");
     //location.reload();
@@ -105,7 +104,7 @@ function cargarModalAsignar(){
   habilitarCamposModalAgregar();
 }
 
-function eliminarActividadesAsignadas(idAsignada){
+function eliminarActividadesAsignadas(idAsignada, asignar){
   console.log(idAsignada);
   $.post("/asignacion/borrarasignacion",
   {
@@ -113,13 +112,17 @@ function eliminarActividadesAsignadas(idAsignada){
   },
   function (data) {
     console.log(data);
+    if (asignar === 1){
+      asignarActividad();
+    }
   });
 }
 
 function editarActividadesAsignadas(idAsignada){
-  eliminarActividadesAsignadas(idAsignada);
+  eliminarActividadesAsignadas(idAsignada, 1);
   console.log("antes");
   asignarActividad();
+  console.log("Despues");
 }
 
 function cargarModalEditar(idAsignada){
@@ -147,7 +150,7 @@ function cargarModalEditar(idAsignada){
       $("#boton-edicion-asignaciones").css("display", "none");
       $("#boton-borrar-asignaciones").css("display", "none");
       $("#boton-edicion-asignaciones").attr("onclick", "editarActividadesAsignadas("+idAsignada+")")
-      $("#boton-borrar-asignaciones").attr("onclick", "eliminarActividadesAsignadas("+idAsignada+")")
+      $("#boton-borrar-asignaciones").attr("onclick", "eliminarActividadesAsignadas("+idAsignada+", 0)")
       console.log(data.idActividad);
     });
 }

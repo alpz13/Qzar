@@ -24,6 +24,7 @@ router.get(/.*/, function(req, res, next) {
 
 router.post('/asignaractividad', function (req, res, next) {
     //To Do
+    console.log("auxiliar algoreq.body");
     idModulo = req.body.idModulo;
     idSector = req.body.idSector;
     idActividades = JSON.parse(req.body.idActividades);
@@ -33,12 +34,14 @@ router.post('/asignaractividad', function (req, res, next) {
     fechaFin = new Date(fechaFin);
     length = idActividades.length;
     for (i = 0; i < length; i++){
+        console.log("Agregando actividades");
         var idActividad = idActividades[i];
         fechaIni = req.body.fechaIni;
         fechaIni = fechaIni.split("/");
         fechaIni = fechaIni[2] + "-" + fechaIni[1] + "-" + fechaIni[0] + ":0:00";
         fechaIni = new Date(fechaIni);
         while(fechaIni <= fechaFin){
+            console.log("agregando actividad por fecha");
             fecha = fechaIni.getFullYear() + "-" + parseInt(fechaIni.getMonth() + 1) + "-" + fechaIni.getDate() + ":0:00";
             actividadesAsignadas.asignar(idModulo, idSector, parseInt(idActividad), fecha);
             //fechaIni.getTime();
