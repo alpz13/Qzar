@@ -11,6 +11,7 @@ var modulos = require('../components/modulos.js');
 var cuadritos = require('../components/modulos.js');
 var usuarios = require('../components/usuarios.js');
 var asignaciones = require('../components/asignaciones.js');
+var actividadesAsignadas = require('../components/actividadesAsignadas.js');
 
 // Página principal de módulos
 router.get('/', function (req, res, next) {
