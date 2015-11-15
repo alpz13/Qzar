@@ -13,7 +13,7 @@ router.get('/', function (req, res, next) {
     if (!req.session.usuario) {
         res.render('index');
     } else {
-        res.render('menu', {usuario: req.session.usuario, aviso: {mensaje:'', tipo:'danger'}});
+        res.render('inicio', {usuario: req.session.usuario, aviso: {mensaje:'', tipo:'danger'}});
     }
 });
 

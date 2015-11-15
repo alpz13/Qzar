@@ -1,6 +1,8 @@
 extends menu
 block content
-  link(rel='stylesheet', href="/stylesheets/qzar-actividades.css", type='text/css')
+  head
+    link(rel='stylesheet', href="/stylesheets/qzar-actividades.css", type='text/css')
+    title Actividades
   //Contenido de Pagina
   div#page-wrapper
     div.container-fluid
@@ -21,6 +23,7 @@ block content
                 th  Descripcion
                 th  Categoria
                 th
+                th
               tbody
                 each actividad in actividades
                   tr
@@ -31,7 +34,7 @@ block content
                     td(class='idcategoria' style='display:none;') #{actividad.idCategoria}
                     //td(class='img' style='display:none;') #{actividad.ruta} 
                     //poner TD con class img
-                    td(class='img' ) 
+                    td(class='img' )#imagen-actividades 
                       a(href="/images/actividades/#{actividad.ruta}" target="_blank")
                         button.btn.btn-info Ver imagen
                       //img(src="/images/actividades/#{actividad.ruta}" alt="nombreimagen" style="width:304px;height:228px;")

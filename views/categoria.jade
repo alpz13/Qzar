@@ -1,5 +1,7 @@
 extends menu
 block content
+  head
+    title Categorias
   //Contenido de Pagina
   div#page-wrapper
     div.container-fluid
@@ -21,7 +23,7 @@ block content
             table.table.table-striped.table-bordered
               thead
                 th  Nombre
-                th  Botones de cosas
+                th  Acciones
               tbody
                 each categoria in categorias
                   tr
