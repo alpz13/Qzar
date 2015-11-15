@@ -1,0 +1,92 @@
+extends menu
+block content
+  //Contenido de Pagina
+  div#page-wrapper
+    div.container-fluid
+
+      div.row
+        div#barra-de-actividades
+          div.col-sm-12.col-md-8.col-md-offset-2
+            i#icono-modulo.material-icons dashboard
+            //p #{mensaje}
+            h1#h1Modulos #{titulo}
+            
+            a(class='nav navbar-right top-nav' href='#' data-toggle="modal" data-target="#FAC" id='boton-agregar')
+              i.material-icons.md-48#boton-agregar-actividad control_point
+              p Agregar
+        
+        //Contenido de la pagina
+        div.col-sm-12.col-md-8.col-md-offset-2
+          if categorias && categorias.length
+            table.table.table-striped.table-bordered
+              thead
+                th  Nombre
+                th  Botones de cosas
+              tbody
+                each categoria in categorias
+                  tr
+                    td(class='id' style='display:none;') #{categoria.idCategoria}
+                    td(class='nombreCat' id='nombrecate') #{categoria.nombreCategoria}
+                    td#botones-modificar
+                      button.btn.btn-primary(type="button" class="modificar" data-toggle="modal" data-target="#MMC" id="botones-modificar") Modificar
+                      &nbsp&nbsp&nbsp
+                      button.btn.btn-default(type="button" class="eliminar" data-dismiss="modal") Eliminar
+          else
+            p.watermark No se han encontrado categorias en el sistema.
+    //Modal Agregar
+    div(id='FAC' class='modal fade' role='dialog')
+      div.modal-dialog
+        //Contenido modal
+        div.modal-content
+          div.modal-header
+            button(type='button' class='close' data-dismiss="modal") &times;
+            h4.modal-title Agregar Categoria
+          form(action="/categoria/agregacategoria" method="post" id="AgregaCategoria" onsubmit="return checkform(this);")
+            div.modal-body
+              label Nombre
+              input.form-control(type="text" onkeydown="return checar(event);" name="nuevaCategoria" size="58" id="CAC")
+            div.modal-footer
+              button.btn.btn-primary(type="submit") Agregar
+              button.btn.btn-default(type="button" data-dismiss="modal") Cerrar
+    //Modal Modificar
+    div(id='MMC' class='modal fade' role='dialog')
+      div.modal-dialog
+        //Contenido modal
+        div.modal-content
+          div.modal-header
+            button(type='button' class='close' data-dismiss="modal") &times;
+            h4.modal-title Modificar Categoria
+          form(action="/categoria/modificarcategoria" method="post" id="modificaCategoria" onsubmit="return checkform2(this);")
+            div.modal-body
+              input.form-control(type="text" name="idCategoriaModif" id="MCEID" style='display:none;' )
+              label Nombre
+              input.form-control(type="text" onkeydown="return checar(event);" name="modificaCategoria" size="58" id="MCE")
+            div.modal-footer
+              button.btn.btn-primary(type="submit") Modificar
+              button.btn.btn-default(type="button" data-dismiss="modal") Cerrar
+    script(language="JavaScript" type="text/javascript").
+      function checkform ( form ) {
+        if(form.nuevaCategoria.value == "") {
+          alert("Nombre de la categoria vacio");
+          form.nuevaCategoria.focus();
+          return false;
+        }   
+        else {
+          return true;
+        }
+      }
+      function checkform2( form ) {
+        if(form.modificaCategoria.value == "") {
+          alert("Nombre de la categoria vacio");
+          form.modificaCategoria.focus();
+          return false;
+        } 
+        else {
+          return true;
+        }
+      }
+      function resetform(){
+        document.getElementById("CAC").reset();
+      }
+    script(src='/js/editacategoria.js')
+    script(src='/js/scriptchecarinput.js')

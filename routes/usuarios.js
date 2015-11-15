@@ -1,19 +1,17 @@
-/*jslint
-    indent: 4, unparam: true
-*/
+'use strict';
+
 var express = require('express');
 var router = express.Router();
-var agregausuario = require('../components/agregaUsuario.js');
+
 var usuarios = require('../components/usuarios.js');
 var us = require('../components/usuarios.js');
-var modificarusuario = require('../components/modificaUsuario.js');
+var categoria = require('../components/categoria.js');
 
 router.get('/', function (req, res, next) {
     if (req.session.usuario.idRoles !== 1) {
         res.redirect('/usuarios/' + req.session.usuario.idModulo);
         return;
     }
-
     usuarios.listarUsuarios(function (err, usuarios1) {
         if (err) {
             console.log(err);
@@ -61,7 +59,7 @@ router.post('/agregausuario', function (req, res, next) {
     }
 
     //Intenta crear usuario
-    agregausuario.agregar(NuevoUsuario, function (err) {
+    usuarios.agregar(NuevoUsuario, function (err) {
         if (err) {
             console.log(err);
             if (err.code === 'ER_DUP_ENTRY') {
@@ -95,7 +93,7 @@ router.post('/modificarusuario', function (req, res, next) {
     }
 
     //Intenta crear usuario
-    modificarusuario.modificar(NuevoUsuario, function (err) {
+    usuarios.modificar(NuevoUsuario, function (err) {
         if (err) {
             console.log(err);
             if (err.code === 'ER_DUP_ENTRY') {

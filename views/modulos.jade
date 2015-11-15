@@ -3,21 +3,12 @@ block content
   head
   title Módulos
   link(rel='stylesheet', href="/stylesheets/qzar-modulos.css", type='text/css')
-  //Contenido de Pagina
   div#page-wrapper
     div.container-fluid
-
-      //- if aviso
-      //-   div.row
-      //-     div(class="alert alert-#{aviso.tipo} col-md-6 col-md-offset-3", role="alert")
-      //-       i(class="#{aviso.icono}")
-      //-       p.inline #{aviso.mensaje}
-
       div.row
         div#barra-de-actividades
           div.col-sm-12.col-md-8.col-md-offset-2
             i#icono-modulo.material-icons dashboard
-            //p #{mensaje}
             h1#h1Modulos #{titulo}
             if usuario.idRoles === 1
               //Icono que te lleva al modal
