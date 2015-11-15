@@ -62,8 +62,8 @@ block content
                     |       
                     form#formcrearHuerta(name="crearHuerta",method="post",action="/modulo/huerta/crear/#{modulo.idModulo}")
                       .modal-body
-                          input.form-control#inputAncho(type="number", placeholder="ancho", name="ancho", onchange="posAncho()", required)
-                          input.form-control#inputAlto(type="number", placeholder="alto", name="alto", onchange="posAlto()", required)
+                          input.form-control#inputAncho(type="number", autocomplete="off", placeholder="ancho", name="ancho", onchange="posAncho()", required)
+                          input.form-control#inputAlto(type="number", autocomplete="off", placeholder="alto", name="alto", onchange="posAlto()", required)
                           input.form-control#inputAlto(type="hidden", placeholder="", name="cuadritos", value=[])
                       |       
                       .modal-footer
@@ -131,11 +131,16 @@ block content
               div#agregarActividad
                 button.btn.btn-default(type="button" onclick="agregarActividad()") +
                 button.btn.btn-default(type="button" onclick="quitarActividad()") -
+              div.actividadesDiv#categoriasDiv
+                label(for="categorias") Categoría: 
+                  select.form-control.actividades#categoriasPosibles(name="categoriaPosible", onchange="cambiarActividades()", required)
+                    for categoria in categorias
+                      option(value= categoria.idCategoria) #{categoria.nombreCategoria}
               div.actividadesDiv#actividadesDiv
                 label(for="actividad") Actividad: 
                   select.form-control.actividades#actividadPosible(name="actividadPosible", required)
                     for actividad in actividades
-                      option(value= actividad.idActividad) #{actividad.nombre}
+                      option.opcionActividad(value= actividad.idActividad, categoria= actividad.idCategoriaAct) #{actividad.nombre}
               div
                 label(for="sector") Sector: 
                   select.form-control#sectorPosible(name="sectorPosible", required)

@@ -11,6 +11,23 @@ function obtenerEventos() {
     });
 }
 
+function cambiarActividades() {
+  console.log("Cambio");
+  var categoria = parseInt($('#categoriasPosibles').val());
+  var primerElemento = true;
+  $('.opcionActividad').each(function(){
+    if(primerElemento && $(this).attr('categoria') == categoria){
+      $(this).attr('selected', true);
+      $(this).attr('hidden', false);
+      primerElemento = false;
+    } else if ( $(this).attr('categoria') == categoria ) {
+      $(this).attr('hidden', false);
+    } else {
+      $(this).attr('hidden', true);
+    }
+  });
+}
+
 function asignarActividad() {
   var url = window.location.href;
   url = url.split('/');

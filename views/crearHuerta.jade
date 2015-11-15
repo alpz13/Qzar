@@ -100,10 +100,8 @@ block content
           div
             label Sectores:
             select#listaCuadritos.form-control
-              option(type='1', BGCOLOR='') Vacio
-              option(type='2', BGCOLOR='red') Fresa
-              option(type='3', BGCOLOR='yellow') Piña
-              option(type='4', BGCOLOR='blue') Zarzamora
+              for sector in sectores
+                option(type=sector.idContenidoCuadritos, BGCOLOR=sector.color) #{sector.nombre}
             //Abre el modal
             a(class='nav navbar-right top-nav' href='#' data-toggle="modal" data-target="#FAA")
                 i.material-icons.md-48#boton-agregar-actividad control_point

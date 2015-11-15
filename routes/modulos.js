@@ -135,7 +135,13 @@ router.get('/:id(\\d+)', function (req, res, next) {
                             if (errSectores) {
                                 console.log("Err Sectores");
                             } else {
-                                res.render('vermodulos', { titulo: 'Módulo ', modulo: modulos[0], usuario: req.session.usuario, listaAdmins: usuarios, barraLateral: 'modulos', alto: alto, ancho: ancho, cuadritos: cuadritos, actividades: actividades, sectores: sectores});
+                                actividadesAsignadas.listarCategorias(function (errSectores, categorias) {
+                                    if (errSectores) {
+                                        console.log("Err Categorias");
+                                    } else {
+                                        res.render('vermodulos', { titulo: 'Módulo ', modulo: modulos[0], usuario: req.session.usuario, listaAdmins: usuarios, barraLateral: 'modulos', alto: alto, ancho: ancho, cuadritos: cuadritos, actividades: actividades, sectores: sectores, categorias: categorias});
+                                    }
+                                });
                             }
                         });
                     }
