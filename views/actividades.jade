@@ -31,6 +31,10 @@ block content
                     td(class='idcategoria' style='display:none;') #{actividad.idCategoria}
                     //td(class='img' style='display:none;') #{actividad.ruta} 
                     //poner TD con class img
+                    td(class='img' ) 
+                      a(href="/images/actividades/#{actividad.ruta}" target="_blank")
+                        button.btn.btn-info Ver imagen
+                      //img(src="/images/actividades/#{actividad.ruta}" alt="nombreimagen" style="width:304px;height:228px;")
                     td#botones-modificar 
                       button.btn.btn-primary(type="button" class="modificar" data-toggle="modal" data-target="#MAA" id='boton-modificar') Modificar
                       &nbsp&nbsp&nbsp
