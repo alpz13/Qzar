@@ -14,6 +14,7 @@ router.get('/', function (req, res, next) {
         res.render('index');
     } else {
         res.render('menu', {usuario: req.session.usuario, aviso: {mensaje:'', tipo:'danger'}});
+		console.log(req.session.usuario);
     }
 });
 
