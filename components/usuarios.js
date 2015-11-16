@@ -68,7 +68,7 @@ function mostrarUsuarios(id, callback) {
 }
 
 function listarRoles(callback) {
-    var consulta = 'SELECT * FROM Roles;';
+    var consulta = 'SELECT * FROM Roles WHERE activo = 1;';
     //conexion.connect();
     conexion.query(consulta, function (err, resultados) {
         if (err) {
