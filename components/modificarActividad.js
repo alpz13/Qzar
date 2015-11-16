@@ -16,9 +16,10 @@ var modifica = function (req, res) {
         var descripcion = fields.descripcionModActividad;
         var nombreoriginal = files.imaMod[0].originalFilename;
         var ext = path.extname(nombreoriginal);
+        var categoria = fields.roles;
 
         var bd = mysql.createConnection(credenciales);   
-        var sql = 'UPDATE Actividades SET nombre = "' + nombre + '", descripcion = "' + descripcion + '" WHERE idActividad = "' + id + '"';
+        var sql = 'UPDATE Actividades SET nombre = "' + nombre + '", descripcion = "' + descripcion + '", idCategoriaAct = "' + categoria + '" WHERE idActividad = "' + id + '"';
 
         bd.connect();
         bd.query(sql, function (err, resultado) {

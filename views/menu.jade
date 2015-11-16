@@ -71,6 +71,18 @@ block body
                 i(class='fa fa-fw fa-edit')
                 p.inline.leftsidebar ACTIVIDADES
 
+          // Categorias
+          if barraLateral && barraLateral === 'categorias'
+            li.activo
+              a(href='/categoria')
+                i(class='fa fa-fw fa-book')
+                p.inline.leftsidebar CATEGORIAS
+          else
+            li
+              a(href='/categoria')
+                i(class='fa fa-fw fa-book')
+                p.inline.leftsidebar CATEGORIAS
+
           // Usuarios
           if barraLateral && barraLateral === 'usuarios'
             li.activo

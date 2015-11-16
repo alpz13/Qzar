@@ -21,6 +21,7 @@ var roles = require('./routes/roles');
 var asignacion = require('./routes/asignacion');
 var retroalimentacion = require('./routes/retroalimentacion');
 var sector = require('./routes/sector');
+var categoria = require('./routes/categoria');
 
 var app = express();
 
@@ -67,6 +68,7 @@ app.use('/roles', roles);
 app.use('/asignacion', asignacion);
 app.use('/retroalimentacion', retroalimentacion);
 app.use('/sector', sector);
+app.use('/categoria', categoria);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -79,10 +81,12 @@ app.use(function (req, res, next) {
 
 // development error handler
 // will print stacktrace
+app.set('env', 'development');
 if (app.get('env') === 'development') {
     app.use(function (err, req, res, next) {
         res.status(err.status || 500);
         res.render('error', {
+            usuario: req.session.usuario,
             message: err.message,
             error: err
         });
@@ -94,6 +98,7 @@ if (app.get('env') === 'development') {
 app.use(function (err, req, res, next) {
     res.status(err.status || 500);
     res.render('error', {
+        usuario: req.session.usuario,
         message: err.message,
         error: {}
     });
