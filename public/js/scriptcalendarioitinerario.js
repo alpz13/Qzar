@@ -92,12 +92,14 @@ function agregarActividad(){
 
 function habilitarCamposModalAgregar(){
   $('#actividadPosible').prop('disabled', false);
+  $('#categoriasPosibles').prop('disabled', false);
   $('#sectorPosible').prop('disabled', false);
   $('#initDate').prop('disabled', false);
   $('#endDate').prop('disabled', false);
   $("#boton-modal-asignar").prop('value', 'Agregar');
   $("#boton-modal-asignar").html('Asignar');
   $("#actividadPosible").val("");
+  $("#categoriasPosibles").val("");
   $("#sectorPosible").val("");
   $("#initDate").val("");
   $("#endDate").val("");
@@ -111,6 +113,7 @@ function habilitarCamposModalAgregar(){
 
 function habilitarCamposModal(){
   $('#actividadPosible').prop('disabled', false);
+  $('#categoriasPosibles').prop('disabled', false);
   $('#sectorPosible').prop('disabled', false);
   $('#initDate').prop('disabled', false);
   $('#endDate').prop('disabled', false);
@@ -162,6 +165,7 @@ function cargarModalEditar(idAsignada){
       $("#initDate").val(data.fechaInicio);
       $("#endDate").val(data.fechaFin);
       $("#actividadPosible").prop('disabled', true);
+      $("#categoriasPosibles").prop('disabled', true);
       $("#sectorPosible").prop('disabled', true);
       $("#initDate").prop('disabled', true);
       $("#endDate").prop('disabled', true);

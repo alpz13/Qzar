@@ -68,8 +68,4 @@ router.post('/borrarasignacion', function (req, res, next){
     return;
 });
 
-router.post('/editarasignacion/:id(\\d+)', function(){
-
-});
-
 module.exports = router;
