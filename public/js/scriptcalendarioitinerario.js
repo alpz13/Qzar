@@ -11,11 +11,11 @@ function obtenerEventos() {
     });
 }
 
-function cambiarActividades() {
-  console.log("Cambio");
-  var categoria = parseInt($('#categoriasPosibles').val());
+function cambiarActividades(div) {
+  var categoria = parseInt($(div).val());
   var primerElemento = true;
-  $('.opcionActividad').each(function(){
+  $(div).parent().parent().parent().find('.opcionActividad').each(function(){
+    console.log($(this));
     if(primerElemento && $(this).attr('categoria') == categoria){
       $(this).attr('selected', true);
       $(this).attr('hidden', false);
@@ -73,17 +73,21 @@ $(document).ready(
     });
   //AJAX
     obtenerEventos();
+    var div = $('#categoriasPosibles');
+    cambiarActividades($(div));
   }
 );
 
 function quitarActividad(){
-  if($(".actividadesDiv").length > 1)
-    $(".actividadesDiv").first().remove();
+  if($(".actividadesDiv").length > 1){
+    $(".categoriaActividad").first().remove();
+  }
 }
 
 function agregarActividad(){
-  var div = $(".actividadesDiv");
-  $('<div class="actividadesDiv">' + div.html() + "</div>").insertAfter("#agregarActividad");
+  var divActividades = $(".categoriaActividad").first();
+  var newDiv = $('<div class="categoriaActividad">' + divActividades.html() + '</div>').insertAfter("#agregarActividad");
+  cambiarActividades($(newDiv.find('select')));
 }
 
 function habilitarCamposModalAgregar(){

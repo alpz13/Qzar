@@ -131,16 +131,17 @@ block content
               div#agregarActividad
                 button.btn.btn-default(type="button" onclick="agregarActividad()") +
                 button.btn.btn-default(type="button" onclick="quitarActividad()") -
-              div.actividadesDiv#categoriasDiv
-                label(for="categorias") Categoría: 
-                  select.form-control.actividades#categoriasPosibles(name="categoriaPosible", onchange="cambiarActividades()", required)
-                    for categoria in categorias
-                      option(value= categoria.idCategoria) #{categoria.nombreCategoria}
-              div.actividadesDiv#actividadesDiv
-                label(for="actividad") Actividad: 
-                  select.form-control.actividades#actividadPosible(name="actividadPosible", required)
-                    for actividad in actividades
-                      option.opcionActividad(value= actividad.idActividad, categoria= actividad.idCategoriaAct) #{actividad.nombre}
+              div.categoriaActividad
+                div.categoriasDiv#categoriasDiv
+                  label(for="categorias") Categoría: 
+                    select.form-control.actividades#categoriasPosibles(name="categoriaPosible", onchange="cambiarActividades(this)", required)
+                      for categoria in categorias
+                        option(value= categoria.idCategoria) #{categoria.nombreCategoria}
+                div.actividadesDiv#actividadesDiv
+                  label(for="actividad") Actividad: 
+                    select.form-control.actividades#actividadPosible(name="actividadPosible", required)
+                      for actividad in actividades
+                        option.opcionActividad(value= actividad.idActividad, categoria= actividad.idCategoriaAct) #{actividad.nombre}
               div
                 label(for="sector") Sector: 
                   select.form-control#sectorPosible(name="sectorPosible", required)
