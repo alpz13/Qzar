@@ -9,7 +9,7 @@ var credenciales = require('../database/credencialesbd.json');
 
 var modificar = function (NuevoUsuario, callback) {
     var bd = mysql.createConnection(credenciales),
-        sql = 'UPDATE `usuarios` SET `idRoles`= "' + NuevoUsuario.idRoles + '",`nombre`= "' + NuevoUsuario.nombre + '",`contrasena`= "'+ NuevoUsuario.contrasenia +'",`idModulo`= "'+ NuevoUsuario.idModulo + '" WHERE usuarios.idUsuario = ' + NuevoUsuario.idUsuario + '';
+        sql = 'UPDATE `Usuarios` SET `idRoles`= "' + NuevoUsuario.idRoles + '",`nombre`= "' + NuevoUsuario.nombre + '",`contrasena`= "'+ NuevoUsuario.contrasenia +'",`idModulo`= "'+ NuevoUsuario.idModulo + '" WHERE Usuarios.idUsuario = ' + NuevoUsuario.idUsuario + '';
     console.log(sql);
     bd.connect();
     bd.query(sql, function (err, resultado) {
