@@ -14,7 +14,7 @@ block content
             h1#h1Modulos #{titulo}
             if usuario.idRoles === 1
               //Icono que te lleva al modal
-              a(class='nav navbar-right top-nav' href='#' data-toggle="modal" data-target="#modal-crear")
+              a(class='nav navbar-right top-nav' href='#' data-toggle="modal" data-target="#modal-crear" onclick="limpiarModalRoles()")
                 i.material-icons.md-48#boton-agregar-actividad control_point
                 p Agregar
         div.col-sm-12.col-md-8.col-md-offset-2
@@ -28,7 +28,7 @@ block content
                     td(class='id' style='display:none;') #{rol.idRol}
                     td #{rol.nombre}
                     td
-                      button.btn.btn-primary(type="button" class="Modificar" data-toggle="modal" data-target="#modal-modificar" id='boton-Modificar') Modificar
+                      button.btn.btn-primary(type="button" class="Modificar" data-toggle="modal" data-target="#modal-crear" id='boton-Modificar' onclick= "rellenaModalModificarRol(#{rol.idRol})") Modificar
                       button.btn.btn-default( type="button" class="Eliminar" data-dismiss="modal" onclick="window.location.href='/roles/eliminar/#{rol.idRol}'" ) Eliminar
           else
             p.watermark No se han encontrado roles en el sistema.
@@ -40,125 +40,116 @@ block content
               div.modal-content
                 div.modal-header
                   button(type='button' class='close' data-dismiss="modal") &times;
-                  h4.modal-title Agregar rol
-                if roles && roles.length
-                  form#agregaRol(name="agregaRol")
-                    div.modal-body
-                      label(for="nombre") Nombre del rol:
-                      input.form-control#nombre(type="text", placeholder="Nombre", name="nombre", required)
-                      hr
-                      label= "Permisos asignados al rol:"
-                      table#checkboxes
-                        tr
-                          td(style="width:32px")
-                            input(type="checkbox" name="permiso" value="3")
-                          td= "Crear módulo"
-                        tr
-                          td(style="width:32px")
-                            input(type="checkbox" name="permiso" value="4")
-                          td= "Ver módulo"
-                        tr
-                          td(style="width:32px")
-                            input(type="checkbox" name="permiso" value="5")
-                          td= "Modificar módulo"
-                        tr
-                          td(style="width:32px")
-                            input(type="checkbox" name="permiso" value="6")
-                          td= "Eliminar módulo"
-                        tr
-                          td(style="width:32px")
-                            input(type="checkbox" name="permiso" value="7")
-                          td= "Crear actividad"
-                        tr
-                          td(style="width:32px")
-                            input(type="checkbox" name="permiso" value="8")
-                          td= "Ver actividad"
-                        tr
-                          td(style="width:32px")
-                            input(type="checkbox" name="permiso" value="9")
-                          td= "Modificar actividad"
-                        tr
-                          td(style="width:32px")
-                            input(type="checkbox" name="permiso" value="10")
-                          td= "Eliminar actividad"
-                        tr
-                          td(style="width:32px")
-                            input(type="checkbox" name="permiso" value="11")
-                          td= "Crear usuario"
-                        tr
-                          td(style="width:32px")
-                            input(type="checkbox" name="permiso" value="12")
-                          td= "Ver usuario"
-                        tr
-                          td(style="width:32px")
-                            input(type="checkbox" name="permiso" value="13")
-                          td= "Modificar usuario"
-                        tr
-                          td(style="width:32px")
-                            input(type="checkbox" name="permiso" value="14")
-                          td= "Eliminar usuario"
-                        tr
-                          td(style="width:32px")
-                            input(type="checkbox" name="permiso" value="15")
-                          td= "Crear rol"
-                        tr
-                          td(style="width:32px")
-                            input(type="checkbox" name="permiso" value="16")
-                          td= "Ver rol"
-                        tr
-                          td(style="width:32px")
-                            input(type="checkbox" name="permiso" value="17")
-                          td= "Modificar rol"
-                        tr
-                          td(style="width:32px")
-                            input(type="checkbox" name="permiso" value="18")
-                          td= "Eliminar rol"
-                        tr
-                          td(style="width:32px")
-                            input(type="checkbox" name="permiso" value="19")
-                          td= "Crear retroalimentación"
-                        tr
-                          td(style="width:32px")
-                            input(type="checkbox" name="permiso" value="20")
-                          td= "Ver retroalimentación"
-                        tr
-                          td(style="width:32px")
-                            input(type="checkbox" name="permiso" value="21")
-                          td= "Modificar retroalimentación"
-                        tr
-                          td(style="width:32px")
-                            input(type="checkbox" name="permiso" value="22")
-                          td= "Eliminar retroalimentación"
-                        tr
-                          td(style="width:32px")
-                            input(type="checkbox" name="permiso" value="23")
-                          td= "Crear asignación"
-                        tr
-                          td(style="width:32px")
-                            input(type="checkbox" name="permiso" value="24")
-                          td= "Ver asignación"
-                        tr
-                          td(style="width:32px")
-                            input(type="checkbox" name="permiso" value="25")
-                          td= "Modificar asignación"
-                        tr
-                          td(style="width:32px")
-                            input(type="checkbox" name="permiso" value="26")
-                          td= "Eliminar asignación"
-
-                      // label(for="numero") Número del módulo: 
-                      // input.form-control#numero(type="number", placeholder="Número", name="numero", min="0", max="999", required)
-                      // label(for="admin") Administrador del módulo: 
-                      // select.form-control#admin(name="admin", required)
-                        // for usuario in listaAdmins
-                          // option(value= usuario.idUsuario) #{usuario.nombre}
-
-                    div.modal-footer
-                      button.btn.btn-primary#crearRol(type="button") Crear
-                      button.btn.btn-default#cerrarModal(type='button', data-dismiss='modal') Cerrar
-                else
+                  span#mensajeModal
+                  h4.modal-title#tituloModal Agregar rol
+                form#agregaRol(name="agregaRol")
                   div.modal-body
-                    p No hay usuarios disponibles con el rol de administrador de módulo.
+                    label(for="nombre") Nombre del rol:
+                    input.form-control#nombre(type="text", placeholder="Nombre", name="nombre", required)
+                    input#idRol(type="hidden")
+                    hr
+                    label= "Permisos asignados al rol:"
+                    table#checkboxes
+                      tr
+                        td(style="width:32px")
+                          input#permiso3(type="checkbox" name="permiso" value="3")
+                        td= "Crear módulo"
+                      tr
+                        td(style="width:32px")
+                          input#permiso4(type="checkbox" name="permiso" value="4")
+                        td= "Ver módulo"
+                      tr
+                        td(style="width:32px")
+                          input#permiso5(type="checkbox" name="permiso" value="5")
+                        td= "Modificar módulo"
+                      tr
+                        td(style="width:32px")
+                          input#permiso6(type="checkbox" name="permiso" value="6")
+                        td= "Eliminar módulo"
+                      tr
+                        td(style="width:32px")
+                          input#permiso7(type="checkbox" name="permiso" value="7")
+                        td= "Crear actividad"
+                      tr
+                        td(style="width:32px")
+                          input#permiso8(type="checkbox" name="permiso" value="8")
+                        td= "Ver actividad"
+                      tr
+                        td(style="width:32px")
+                          input#permiso9(type="checkbox" name="permiso" value="9")
+                        td= "Modificar actividad"
+                      tr
+                        td(style="width:32px")
+                          input#permiso10(type="checkbox" name="permiso" value="10")
+                        td= "Eliminar actividad"
+                      tr
+                        td(style="width:32px")
+                          input#permiso11(type="checkbox" name="permiso" value="11")
+                        td= "Crear usuario"
+                      tr
+                        td(style="width:32px")
+                          input#permiso12(type="checkbox" name="permiso" value="12")
+                        td= "Ver usuario"
+                      tr
+                        td(style="width:32px")
+                          input#permiso13(type="checkbox" name="permiso" value="13")
+                        td= "Modificar usuario"
+                      tr
+                        td(style="width:32px")
+                          input#permiso14(type="checkbox" name="permiso" value="14")
+                        td= "Eliminar usuario"
+                      tr
+                        td(style="width:32px")
+                          input#permiso15(type="checkbox" name="permiso" value="15")
+                        td= "Crear rol"
+                      tr
+                        td(style="width:32px")
+                          input#permiso16(type="checkbox" name="permiso" value="16")
+                        td= "Ver rol"
+                      tr
+                        td(style="width:32px")
+                          input#permiso17(type="checkbox" name="permiso" value="17")
+                        td= "Modificar rol"
+                      tr
+                        td(style="width:32px")
+                          input#permiso18(type="checkbox" name="permiso" value="18")
+                        td= "Eliminar rol"
+                      tr
+                        td(style="width:32px")
+                          input#permiso19(type="checkbox" name="permiso" value="19")
+                        td= "Crear retroalimentación"
+                      tr
+                        td(style="width:32px")
+                          input#permiso20(type="checkbox" name="permiso" value="20")
+                        td= "Ver retroalimentación"
+                      tr
+                        td(style="width:32px")
+                          input#permiso21(type="checkbox" name="permiso" value="21")
+                        td= "Modificar retroalimentación"
+                      tr
+                        td(style="width:32px")
+                          input#permiso22(type="checkbox" name="permiso" value="22")
+                        td= "Eliminar retroalimentación"
+                      tr
+                        td(style="width:32px")
+                          input#permiso23(type="checkbox" name="permiso" value="23")
+                        td= "Crear asignación"
+                      tr
+                        td(style="width:32px")
+                          input#permiso24(type="checkbox" name="permiso" value="24")
+                        td= "Ver asignación"
+                      tr
+                        td(style="width:32px")
+                          input#permiso25(type="checkbox" name="permiso" value="25")
+                        td= "Modificar asignación"
+                      tr
+                        td(style="width:32px")
+                          input#permiso26(type="checkbox" name="permiso" value="26")
+                        td= "Eliminar asignación"
+
                   div.modal-footer
-                    button.btn.btn-default(type='button', data-dismiss='modal') Cerrar
+                    button.btn.btn-primary#crearRol(type="button") Crear
+                    button.btn.btn-primary#modificarRol(type="button", style="display: none;") Modificar
+                    button.btn.btn-default#cerrarModal(type='button', data-dismiss='modal') Cerrar
+
 script(src='/js/crearrol.js')

@@ -70,7 +70,55 @@ router.post('/crear', function (req, res, next) {
 
 /* */
 router.post('/modificar/:id(\\d+)', function (req, res, next) {
-    var id = req.params.id;
+
+    if (!(req.body['permisos[]'] instanceof Array)) {
+        req.body['permisos[]'] = [req.body['permisos[]']];
+    }
+    var conexion = require('mysql').createConnection(require('../database/credencialesbd.json'));
+    var consulta = 'UPDATE Roles SET nombre = ? WHERE idRol = ?;';
+    var valores = [req.body.nombre, req.params.id];
+
+    conexion.query({sql: consulta, values: valores}, function (err, renglones) {
+        if (err) {
+            console.log(err);
+            conexion.end();
+            res.send('Error: ' + err);
+            return;
+        }
+        var error = null;
+
+		// Resetra todos los permisos.
+		consulta = 'DELETE FROM RolesPermisos WHERE idRoles = ?;';
+		valores = [req.params.id];
+
+		conexion.query({sql: consulta, values: valores}, function (err, renglones) {
+			if(err) {
+				console.log(err);
+				error = err;
+			} else {
+
+				// Agrega los nuevos permisos.
+				for(var v in req.body['permisos[]']) {
+					consulta = 'INSERT INTO RolesPermisos (idRoles,idPermisos) VALUES (?, ?);'
+					valores = [req.params.id, req.body['permisos[]'][v]];
+					conexion.query({sql: consulta, values: valores}, function (err) {
+					    if(err) {
+					        console.log(err);
+					        error = err;
+					    }
+					});
+				}
+				conexion.end();
+
+				if(error) {
+					// TODO: manejar el error!
+					res.send('Error:' + error);
+					return;
+				}
+				res.send('1');
+			}
+		});
+	});
 });
 
 /*
@@ -79,7 +127,7 @@ router.post('/modificar/:id(\\d+)', function (req, res, next) {
 router.get('/eliminar/:id(\\d+)', function (req, res, next) {
     var conexion = require('mysql').createConnection(require('../database/credencialesbd.json'));
     var id = req.params.id;
-    var consulta = 'UPDATE qzardb.Roles as R SET R.activo = 0 WHERE R.idRol = ?';
+    var consulta = 'UPDATE Roles as R SET R.activo = 0 WHERE R.idRol = ?';
 
     conexion.query({sql: consulta, values: [id]}, function (err, renglones) {
         conexion.end();
@@ -90,6 +138,29 @@ router.get('/eliminar/:id(\\d+)', function (req, res, next) {
         }
 
         res.redirect('/roles');
+    });
+});
+
+// Consulta rol.
+router.get('/:id(\\d+)', function (req, res, next) {
+    var conexion = require('mysql').createConnection(require('../database/credencialesbd.json'));
+    var id = req.params.id;
+	var permisos = [];
+    var consulta = 'SELECT R.nombre, P.idPermisos FROM Roles AS R LEFT JOIN RolesPermisos AS P ON R.idRol = P.idRoles WHERE R.idRol = ?';
+
+    conexion.query({sql: consulta, values: [id]}, function (err, renglones) {
+        conexion.end();
+        if (err) {
+			console.log(err);
+			res.send(JSON.stringify({error: "Hubo un errror interno."}));
+        } else if (renglones.length === 0) {
+			res.send(JSON.stringify({error: "No se encontró el rol en el sistema."}));
+		} else {
+			for (var i in renglones) {
+				permisos.push(renglones[i].idPermisos);
+			}
+			res.send(JSON.stringify({nombre: renglones[0].nombre, permisos: permisos}));
+		}
     });
 });
 
