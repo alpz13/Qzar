@@ -10,7 +10,6 @@ var router = express.Router();
 var modulos = require('../components/modulos.js');
 var cuadritos = require('../components/modulos.js');
 var usuarios = require('../components/usuarios.js');
-var asignaciones = require('../components/asignaciones.js');
 var actividadesAsignadas = require('../components/actividadesAsignadas.js');
 
 // Página principal de módulos
@@ -211,7 +210,7 @@ router.post('/itinerario', function (req, res, next) {
         res.redirect('/modulos/' + req.session.usuario.idModulo);
         return;
     }*/
-    asignaciones.listarAsignaciones(req.body.modulo, res, function(rows) {
+    actividadesAsignadas.listarActividadesAsignadas(req.body.modulo, res, function(rows) {
         res.setHeader('Content-Type', 'application/json');
         res.send(JSON.stringify(rows));
     });
