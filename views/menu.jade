@@ -133,6 +133,17 @@ block body
                 i(class='fa fa-fw fa-book')
                 p.inline.leftsidebar SECTORES
 
+          // Roles
+          if barraLateral && barraLateral === 'roles'
+            li.activo
+              a(href='/roles')
+                i(class='fa fa-fw fa-male')
+                p.inline.leftsidebar ROLES
+          else
+            li
+              a(href='/roles')
+                i(class='fa fa-fw fa-male')
+                p.inline.leftsidebar ROLES
 
     block content
       if aviso
