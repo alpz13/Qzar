@@ -144,7 +144,7 @@ function listarRetroalimentaciones(idModulo, mes, callback) {
             + "FROM Retroalimentaciones as R "
             + "WHERE R.idModulos = ? AND MONTH(R.fecha) = MONTH(?) "
             + "AND R.fecha NOT IN (SELECT fecha FROM ActividadesAsignadas WHERE idModulos = ? AND MONTH(fecha) = ?)",
-		params = [idModulo, mes];
+		params = [idModulo, mes, idModulo, mes, idModulo, mes];
 
 	connection.connect(function (err) {
 		if (!err) {
