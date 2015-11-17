@@ -10,7 +10,6 @@ var router = express.Router();
 var modulos = require('../components/modulos.js');
 var cuadritos = require('../components/modulos.js');
 var usuarios = require('../components/usuarios.js');
-var asignaciones = require('../components/asignaciones.js');
 var actividadesAsignadas = require('../components/actividadesAsignadas.js');
 
 // Página principal de módulos
@@ -23,12 +22,7 @@ router.get('/', function (req, res, next) {
         if (err) {
             console.log(err);
         }
-        usuarios.listarAdminsGenerales(function (err, usuarios) {
-            if (err) {
-                console.log(err);
-            }
-            res.render('modulos', { titulo: 'Módulos', modulos: modulos, usuario: req.session.usuario, listaAdmins: usuarios, barraLateral: 'modulos' });
-        });
+        res.render('modulos', { titulo: 'Módulos', modulos: modulos, usuario: req.session.usuario, barraLateral: 'modulos' });
     });
 });
 
@@ -38,7 +32,7 @@ var desplegarCuadritos = function (req, res, next) {
             console.log(err);
             return;
         }
-        res.render('modulos', { titulo: 'Módulos', modulos: modulos, usuario: req.session.usuario, listaAdmins: usuarios, barraLateral: 'modulos' });    
+        res.render('modulos', { titulo: 'Módulos', modulos: modulos, usuario: req.session.usuario, barraLateral: 'modulos' });    
     });
 }
 
@@ -48,8 +42,7 @@ var desplegarCuadritos = function (req, res, next) {
 router.post('/nuevo', function (req, res, next) {
     var moduloNuevo = {
         "nombre": req.body.nombre,
-        "numeroModulo": req.body.numero,
-        "usuarioAdministrador": req.body.admin
+        "numeroModulo": req.body.numero
     };
 
     // Valida permisos para crear módulo.
@@ -135,14 +128,19 @@ router.get('/:id(\\d+)', function (req, res, next) {
                             if (errSectores) {
                                 console.log("Err Sectores");
                             } else {
-                                res.render('vermodulos', { titulo: 'Módulo ', modulo: modulos[0], usuario: req.session.usuario, listaAdmins: usuarios, barraLateral: 'modulos', alto: alto, ancho: ancho, cuadritos: cuadritos, actividades: actividades, sectores: sectores});
+                                actividadesAsignadas.listarCategorias(function (errSectores, categorias) {
+                                    if (errSectores) {
+                                        console.log("Err Categorias");
+                                    } else {
+                                        res.render('vermodulos', { titulo: 'Módulo ', modulo: modulos[0], usuario: req.session.usuario, listaAdmins: usuarios, barraLateral: 'modulos', alto: alto, ancho: ancho, cuadritos: cuadritos, actividades: actividades, sectores: sectores, categorias: categorias});
+                                    }
+                                });
                             }
                         });
                     }
                 });
             } 
-        });
-        //res.render('vermodulos', { titulo: 'Módulo ', modulo: modulos[0], usuario: req.session.usuario, listaAdmins: usuarios, barraLateral: 'modulos', alto: alto, ancho: ancho});            
+            });
         });
     });
 });
@@ -152,8 +150,7 @@ router.post('/:id(\\d+)/actualizar', function (req, res, next) {
     var moduloActualizado = {
         "idModulo": req.params.id,
         "nombre": req.body.nombre,
-        "numeroModulo": req.body.numero,
-        "usuarioAdministrador": req.body.admin
+        "numeroModulo": req.body.numero
     };
 
     // Valida permisos para actualizar módulo.
@@ -205,7 +202,7 @@ router.post('/itinerario', function (req, res, next) {
         res.redirect('/modulos/' + req.session.usuario.idModulo);
         return;
     }*/
-    asignaciones.listarAsignaciones(req.body.modulo, res, function(rows) {
+    actividadesAsignadas.listarActividadesAsignadas(req.body.modulo, res, function(rows) {
         res.setHeader('Content-Type', 'application/json');
         res.send(JSON.stringify(rows));
     });

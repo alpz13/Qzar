@@ -23,11 +23,11 @@ block body
             label  #{usuario.nombre}
             b.caret
           ul.dropdown-menu
-            li
+            //li
               a(href='#')
                 i(class='fa fa-fw fa-user')
                 label Profile
-            li.divider
+            //li.divider
             li
               a(href='/sesiones/cerrar')
                 i(class='fa fa-fw fa-power-off')
@@ -38,12 +38,12 @@ block body
         ul(class='nav navbar-nav side-nav')
           if !barraLateral
             li.activo
-              a(href='#')
+              a(href='/')
                 i(class='fa fa-fw fa-dashboard')
                 p.inline.leftsidebar INICIO
           else
             li
-              a(href='#')
+              a(href='/')
                 i(class='fa fa-fw fa-dashboard')
                 p.inline.leftsidebar INICIO
   
@@ -118,6 +118,8 @@ block body
               a(href='/retroalimentacion')
                 i(class='fa fa-fw fa-book')
                 p.inline.leftsidebar RETROALIMENTACIÓN
+
+
 
           // Sectores
           if barraLateral && barraLateral === 'sector'

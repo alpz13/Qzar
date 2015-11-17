@@ -5,6 +5,7 @@ var router = express.Router();
 
 var modulos = require('../components/modulos.js');
 var cuadritos = require('../components/modulos.js');
+var huerta = require('../components/huerta.js');
 
 /* GET users listing. */
 router.post('/crear/:id(\\d+)', function (req, res, next) {
@@ -22,7 +23,13 @@ router.post('/crear/:id(\\d+)', function (req, res, next) {
     anchoA.push(ancho);
     ancho--;
   }
-  res.render('crearHuerta', {title: 'Crear huerta', alto: altoA, ancho: anchoA, usuario: req.session.usuario, cuadritos: cuadritos});
+  huerta.sectoresPosibles(function (errSectores, sectores) {
+    if (errSectores) {
+      console.log("Err Sectores");
+    } else {
+      res.render('crearHuerta', {title: 'Crear huerta', alto: altoA, ancho: anchoA, usuario: req.session.usuario, cuadritos: cuadritos, sectores: sectores});
+    }
+  });
 });
 
 /*
@@ -47,145 +54,233 @@ var borrarCuadritos = function (idModulo) {
 
 
 var eliminaHuerta = function (idModulo) {
+  var credenciales = require('../database/credencialesbd.json');
   //Carga el modulo de mySQL
   var mysql = require('mysql');
-  connection = creaConexion();
-  //Guardar el cuadrito
-  connection.query("DELETE FROM Cuadritos USING Cuadritos, Sectores, Modulos WHERE Sectores.idModulos = '"+idModulo+"' AND Cuadritos.idSectores = Sectores.idSector", function (err, rows, fields) {
-    //Funcion callback del query
-    if (!err) {
-      //Si no ocurrio un error al realizar la query
-      
+  //Crea la coneccion
+  var connection = mysql.createConnection(credenciales);
+  //Prueba si se conecto correctamente a la base de datos
+  connection.connect(function (err) {
+    if(!err) {
+      console.log("Database is connected ... \n");
+      //Guardar el cuadrito
+      connection.query("DELETE FROM Cuadritos USING Cuadritos, Sectores, Modulos WHERE Sectores.idModulos = '"+idModulo+"' AND Cuadritos.idSectores = Sectores.idSector", function (err, rows, fields) {
+        //Funcion callback del query
+        if (!err) {
+          //Si no ocurrio un error al realizar la query
+          
+        } else {
+          //Error al ejecutar el query
+          console.log(err);
+        }
+      });
+      //Termina la conexion
     } else {
-      //Error al ejecutar el query
-      console.log(err);
+      console.log("Error connecting database ... \n");  
     }
+    connection.end();
   });
-  //Termina la conexion
-  connection.end();
+  
+}
+
+var seleccionaContenidoCuadrito = function () {
+  var credenciales = require('../database/credencialesbd.json');
+  //Carga el modulo de mySQL
+  var mysql = require('mysql');
+  //Crea la coneccion
+  var connection = mysql.createConnection(credenciales);
+  //Prueba si se conecto correctamente a la base de datos
+  connection.connect(function (err) {
+    if(!err) {
+      console.log("Database is connected ... \n");
+      connection.query("SELECT * from ContenidoCuadritos", function (err, rows, fields) {
+        if (!err) {
+          if(rows.length > 0) {
+            //Existe
+            console.log("Success: selectSector encontrado");
+            idSector=rows[0].idSector;
+            seleccionaCuadrito(idModulo, idSector, cuadrito);
+            if(cuadritos.length > _renglon+1)
+              selectSector(idModulo, cuadritos, _renglon+1);
+          } else {
+            //No existe
+            console.log("Success: selectSector NO encontrado");
+            idSector = insertaSector(idModulo, cuadrito["sector"], cuadrito, _renglon, cuadritos);
+          }
+          
+        } else {
+          console.log('Error while performing Query. (Searching if sector exist)');
+        } 
+      });
+    } else {
+      console.log("Error connecting database ... \n");  
+    }
+    connection.end(); 
+  });  
 }
 
 var seleccionaCuadrito = function (idModulo, idSector, cuadrito) {
+  var credenciales = require('../database/credencialesbd.json');
   //Carga el modulo de mySQL
   var mysql = require('mysql');
-  connection = creaConexion();
-  //Guardar el cuadrito
-  connection.query("SELECT DISTINCT idCuadrito from Cuadritos, Sectores, Modulos WHERE Sectores.idModulos = '"+idModulo+"' AND Sectores.idSector = Cuadritos.idSectores AND Cuadritos.x = '" + cuadrito["ejeX"] + "'   AND Cuadritos.y = '" + cuadrito["ejeY"] + "' ", function (err, rows, fields) {
-    //Funcion callback del query
-    if (!err) {
-      //Si no ocurrio un error al realizar la query
-      if(rows.length > 0) {
-        //Existe el cuadrito
-        var idCuadrito = rows[0].idCuadrito;
-        actualizaCuadrito(idModulo, idSector, cuadrito, idCuadrito);
-      } else {
-        //No existe el cuadrito
-        insertaCuadrito(idModulo, idSector, cuadrito);
-      }
+  //Crea la coneccion
+  var connection = mysql.createConnection(credenciales);
+  //Prueba si se conecto correctamente a la base de datos
+  connection.connect(function (err) {
+    if(!err) {
+      console.log("Database is connected ... \n");
+      //Guardar el cuadrito
+      connection.query("SELECT DISTINCT idCuadrito from Cuadritos, Sectores, Modulos WHERE Sectores.idModulos = '"+idModulo+"' AND Sectores.idSector = Cuadritos.idSectores AND Cuadritos.x = '" + cuadrito["ejeX"] + "'   AND Cuadritos.y = '" + cuadrito["ejeY"] + "' ", function (err, rows, fields) {
+        //Funcion callback del query
+        if (!err) {
+          //Si no ocurrio un error al realizar la query
+          if(rows.length > 0) {
+            //Existe el cuadrito
+            var idCuadrito = rows[0].idCuadrito;
+            actualizaCuadrito(idModulo, idSector, cuadrito, idCuadrito);
+          } else {
+            //No existe el cuadrito
+            insertaCuadrito(idModulo, idSector, cuadrito);
+          }
+        } else {
+          //Error al ejecutar el query
+          console.log(err);
+        }
+      });
+      //Termina la conexion
     } else {
-      //Error al ejecutar el query
-      console.log(err);
+      console.log("Error connecting database ... \n");  
     }
+    connection.end();
   });
-  //Termina la conexion
-  connection.end();
 }
 
 var actualizaCuadrito = function (idModulo, idSector, cuadrito, idCuadrito) {
+  var credenciales = require('../database/credencialesbd.json');
   //Carga el modulo de mySQL
   var mysql = require('mysql');
-  connection = creaConexion();
-  //Guardar el cuadrito
-  connection.query('UPDATE Cuadritos SET Cuadritos.idSectores = '+idSector+', Cuadritos.idContenidoCuadritos = '+cuadrito["type"]+' WHERE Cuadritos.idCuadrito = '+idCuadrito+'', function (err, rows, fields) {
-    //Funcion callback del query
-    if (!err) {
-      //Si no ocurrio un error al realizar la query
+  //Crea la coneccion
+  var connection = mysql.createConnection(credenciales);
+  //Prueba si se conecto correctamente a la base de datos
+  connection.connect(function (err) {
+    if(!err) {
+      console.log("Database is connected ... \n");
+      //Guardar el cuadrito
+      connection.query('UPDATE Cuadritos SET Cuadritos.idSectores = '+idSector+', Cuadritos.idContenidoCuadritos = '+cuadrito["type"]+' WHERE Cuadritos.idCuadrito = '+idCuadrito+'', function (err, rows, fields) {
+        //Funcion callback del query
+        if (!err) {
+          //Si no ocurrio un error al realizar la query
+        } else {
+          //Error al ejecutar el query
+          console.log(err);
+        }
+      });
+      //Termina la conexion
     } else {
-      //Error al ejecutar el query
-      console.log(err);
+      console.log("Error connecting database ... \n");  
     }
+    connection.end();
   });
-  //Termina la conexion
-  connection.end();
 }
 
 var insertaCuadrito = function (idModulo, idSector, cuadrito) {
+  var credenciales = require('../database/credencialesbd.json');
   //Carga el modulo de mySQL
   var mysql = require('mysql');
-  connection = creaConexion();
-  //Guardar el cuadrito
-  connection.query("INSERT INTO Cuadritos (idSectores, idContenidoCuadritos, x, y) VALUES ('" + idSector + "', '" + cuadrito["type"] + "', '" + cuadrito["ejeX"] + "', '" + cuadrito["ejeY"] + "')", function (err, rows, fields) {
-    //Funcion callback del query
-    if (!err) {
-      //Si no ocurrio un error al realizar la query
+  //Crea la coneccion
+  var connection = mysql.createConnection(credenciales);
+  //Prueba si se conecto correctamente a la base de datos
+  connection.connect(function (err) {
+    if(!err) {
+      console.log("Database is connected ... \n");
+      //Guardar el cuadrito
+      connection.query("INSERT INTO Cuadritos (idSectores, idContenidoCuadritos, x, y) VALUES ('" + idSector + "', '" + cuadrito["type"] + "', '" + cuadrito["ejeX"] + "', '" + cuadrito["ejeY"] + "')", function (err, rows, fields) {
+        //Funcion callback del query
+        if (!err) {
+          //Si no ocurrio un error al realizar la query
+        } else {
+          //Error al ejecutar el query
+          console.log(err);
+        }
+      });
+      //Termina la conexion
     } else {
-      //Error al ejecutar el query
-      console.log(err);
+      console.log("Error connecting database ... \n");  
     }
+    connection.end();
   });
-  //Termina la conexion
-  connection.end();
+  
 }
 
 var insertaSector = function (idModulo, numeroSector, cuadrito, _renglon, cuadritos) {
+  var credenciales = require('../database/credencialesbd.json');
   //Carga el modulo de mySQL
-  console.log("-----------" + numeroSector);
   var mysql = require('mysql');
-  connection = creaConexion();
-  //Guardar el cuadrito
-  connection.query("INSERT INTO Sectores (idModulos, numeroSector) VALUES ('" + idModulo + "', '" + numeroSector + "')", function (err, rows, fields) {
-    //Funcion callback del query
-    if (!err) {
-      //Si no ocurrio un error al realizar la query
-      console.log(rows.insertId);
-      seleccionaCuadrito(idModulo, rows.insertId, cuadrito);
-      //return rows.insertId;
+  //Crea la coneccion
+  var connection = mysql.createConnection(credenciales);
+  //Prueba si se conecto correctamente a la base de datos
+  connection.connect(function (err) {
+    if(!err) {
+      console.log("Database is connected ... \n");
+      //Guardar el cuadrito
+      connection.query("INSERT INTO Sectores (idModulos, numeroSector) VALUES ('" + idModulo + "', '" + numeroSector + "')", function (err, rows, fields) {
+        //Funcion callback del query
+        if (!err) {
+          //Si no ocurrio un error al realizar la query
+          seleccionaCuadrito(idModulo, rows.insertId, cuadrito);
+        } else {
+          //Error al ejecutar el query
+          console.log('Error while performing Query. (insertar sector)');
+        }
+        if(cuadritos.length > _renglon+1)
+          selectSector(idModulo, cuadritos, _renglon+1)
+      });
+      //Termina la conexion
     } else {
-      //Error al ejecutar el query
-      console.log("INSERT INTO Sectores (idModulos, numeroSector) VALUES ('" + idModulo + "', '" + numeroSector + "')");
-      console.log('Error while performing Query. (insertar sector)');
-      console.log(err);
+      console.log("Error connecting database ... \n");  
     }
-    if(cuadritos.length > _renglon+1)
-      selectSector(idModulo, cuadritos, _renglon+1)
-    console.log("+++++++++++++++++" + numeroSector);
+    connection.end();
   });
-  //Termina la conexion
-  connection.end();
 }
 
 var selectSector = function (idModulo, cuadritos, _renglon) {
   var cuadrito = cuadritos[_renglon];
-  connection = creaConexion();
-  connection.query("SELECT idSector from Sectores WHERE idModulos = '" + idModulo + "' AND numeroSector = '" + cuadrito['sector'] + "'", function (err, rows, fields) {
-      if (!err) {
-        var idSector;
-        if(rows.length > 0) {
-          //Existe
-          console.log("Select exitoso");
-          console.log(rows[0].idSector);
-          idSector=rows[0].idSector;
-          seleccionaCuadrito(idModulo, idSector, cuadrito);
-          if(cuadritos.length > _renglon+1)
-            selectSector(idModulo, cuadritos, _renglon+1);
+
+  var credenciales = require('../database/credencialesbd.json');
+  //Carga el modulo de mySQL
+  var mysql = require('mysql');
+  //Crea la coneccion
+  var connection = mysql.createConnection(credenciales);
+  //Prueba si se conecto correctamente a la base de datos
+  connection.connect(function (err) {
+    if(!err) {
+      console.log("Database is connected ... \n");
+      connection.query("SELECT idSector from Sectores WHERE idModulos = '" + idModulo + "' AND numeroSector = '" + cuadrito['sector'] + "'", function (err, rows, fields) {
+        if (!err) {
+          var idSector;
+          if(rows.length > 0) {
+            //Existe
+            console.log("Success: selectSector encontrado");
+            idSector=rows[0].idSector;
+            seleccionaCuadrito(idModulo, idSector, cuadrito);
+            if(cuadritos.length > _renglon+1)
+              selectSector(idModulo, cuadritos, _renglon+1);
+          } else {
+            //No existe
+            console.log("Success: selectSector NO encontrado");
+            idSector = insertaSector(idModulo, cuadrito["sector"], cuadrito, _renglon, cuadritos);
+          }
+          
         } else {
-          //No existe
-          console.log("Select no exitoso");
-          idSector = insertaSector(idModulo, cuadrito["sector"], cuadrito, _renglon, cuadritos);
-        }
-        
-      } else {
-        console.log('Error while performing Query. (Searching if sector exist)');
-        console.log("este es el error joven: " + err);
-        //console.log(cuadrito['type']);
-        //console.log("SELECT idSector from Sectores WHERE idModulos = '" + idModulo + "' numeroSector = '" + cuadrito['sector'] + "' ");
-      }
-    
-    });
-    connection.end();  
+          console.log('Error while performing Query. (Searching if sector exist)');
+        } 
+      });
+    } else {
+      console.log("Error connecting database ... \n");  
+    }
+    connection.end(); 
+  });  
 }
-
-
 
 var creaConexion = function () {
   var credenciales = require('../database/credencialesbd.json');
@@ -196,32 +291,41 @@ var creaConexion = function () {
   //Prueba si se conecto correctamente a la base de datos
   connection.connect(function (err) {
     if(!err) {
-      console.log("Database is connected ... \n"); 
+      console.log("Database is connected ... \n");
+      return connection;
     } else {
       console.log("Error connecting database ... \n");  
     }
   });
-  return connection;
 }
 
 
 var tamHuerta = function (idModulo, alto, ancho) {
-  connection = creaConexion();
-  connection.query("UPDATE Modulos set alto = '"+ alto +"', ancho = '"+ ancho +"' WHERE idModulo = '"+ idModulo + "'", function (err, rows, fields) {
-      if (!err) {
-        console.log("UPDATE Modulos set alto = '"+ alto +"', ancho = '"+ ancho +"' WHERE idModulo = '"+ idModulo + "'");
-      } else {
-        console.log('Error while performing Query. (Searching if sector exist)');
-        console.log("este es el error joven: " + err);
-      }
-    
-    });
-    connection.end();  
-
+  var credenciales = require('../database/credencialesbd.json');
+  //Carga el modulo de mySQL
+  var mysql = require('mysql');
+  //Crea la coneccion
+  var connection = mysql.createConnection(credenciales);
+  //Prueba si se conecto correctamente a la base de datos
+  connection.connect(function (err) {
+    if(!err) {
+      connection.query("UPDATE Modulos set alto = '"+ alto +"', ancho = '"+ ancho +"' WHERE idModulo = '"+ idModulo + "'", function (err, rows, fields) {
+        if (!err) {
+          console.log("Success tamHuerta");
+        } else {
+          console.log('Error while performing Query. (tamHuerta)');
+        }
+      });
+      connection.end();
+    } else {
+      console.log("Error connecting database ... \n");  
+    }
+  });
 }
 
 
 router.post("/crearGuardar", function (request, response, next) {
+  console.log("hola");
   //Carga el modulo de mySQL
   var mysql = require('mysql');
   
@@ -233,8 +337,6 @@ router.post("/crearGuardar", function (request, response, next) {
   var ancho = request.body.ancho;
   var alto = request.body.alto;
   tamHuerta(idModulo, alto, ancho);
-  console.log("ALto:"+ alto);
-  console.log("ancho: "+ ancho);
   //Existe el sector ¿?
   selectSector(idModulo, cuadritos, 0);
   //Termina la conexion
@@ -276,7 +378,13 @@ router.get('/editar/:id(\\d+)', function (req, res, next) {
         }
         else {
           //res.render('vermodulos', { titulo: 'Módulo ', modulo: modulos[0], usuario: req.session.usuario, listaAdmins: usuarios, barraLateral: 'modulos', alto: alto, ancho: ancho, cuadritos: cuadritos});
-          res.render('crearHuerta', {title: 'Editar Huerta', alto: altoA, ancho: anchoA, usuario: req.session.usuario, cuadritos: cuadritos});
+          huerta.sectoresPosibles(function (errSectores, sectores) {
+            if (errSectores) {
+              console.log("Err Sectores");
+            } else {
+              res.render('crearHuerta', {title: 'Editar Huerta', alto: altoA, ancho: anchoA, usuario: req.session.usuario, cuadritos: cuadritos, sectores: sectores});
+            }
+        });
         }    
       });
     }

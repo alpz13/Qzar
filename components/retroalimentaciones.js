@@ -136,10 +136,14 @@ function listarRetroalimentaciones(idModulo, mes, callback) {
 	// A quien tenga que mantener esto: Perdón.
 	var connection = mysql.createConnection(credenciales),
 		sql = "SELECT A.nombre, S.numeroSector, DATE_FORMAT(AA.fecha, '%Y-%m-%d') as fecha, AA.cumplido, R.descripcion, R.contenidoMultimedia as ruta "
-			+ "FROM ActividadesAsignadas as AA LEFT JOIN Retroalimentaciones as R ON AA.idModulos = R.idModulos AND AA.fecha = R.fecha "
-			+ "INNER JOIN Actividades as A ON A.idActividad = AA.idActividades "
-			+ "INNER JOIN Sectores as S ON S.idSector = AA.idSectores "
-			+ "WHERE AA.idModulos = ? AND MONTH(AA.fecha) = MONTH(?);",
+            + "FROM ActividadesAsignadas as AA LEFT JOIN Retroalimentaciones as R ON AA.idModulos = R.idModulos AND AA.fecha = R.fecha "
+            + "INNER JOIN Actividades as A ON A.idActividad = AA.idActividades "
+            + "INNER JOIN Sectores as S ON S.idSector = AA.idSectores "
+            + "WHERE AA.idModulos = ? AND MONTH(AA.fecha) = MONTH(?) "
+            + "UNION SELECT null AS nombre, null AS numeroSector, DATE_FORMAT(R.fecha, '%Y-%m-%d') as fecha, null AS cumplido, R.descripcion, R.contenidoMultimedia as ruta "
+            + "FROM Retroalimentaciones as R "
+            + "WHERE R.idModulos = ? AND MONTH(R.fecha) = MONTH(?) "
+            + "AND R.fecha NOT IN (SELECT fecha FROM ActividadesAsignadas WHERE idModulos = ? AND MONTH(fecha) = ?)",
 		params = [idModulo, mes];
 
 	connection.connect(function (err) {

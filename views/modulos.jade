@@ -49,10 +49,6 @@ block content
                       input.form-control#nombre(type="text", placeholder="Nombre", name="nombre", required)
                       label(for="numero") Número del módulo: 
                       input.form-control#numero(type="number", placeholder="Número", name="numero", min="0", max="999", required)
-                      label(for="admin") Administrador del módulo: 
-                      select.form-control#admin(name="admin", required)
-                        for usuario in listaAdmins
-                          option(value= usuario.idUsuario) #{usuario.nombre}
                     div.modal-footer
                       button.btn.btn-primary#crearModulo(type="button") Crear
                       button.btn.btn-default#cerrarModal(type='button', data-dismiss='modal') Cerrar

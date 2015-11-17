@@ -6,6 +6,7 @@ block content
     link(rel='stylesheet', href="/stylesheets/docs.css", type="text/css")
     link(rel='stylesheet', href="/stylesheets/qzar-modulos.css", type='text/css')
     script(src='/js/scripthuerta.js')
+    title Sectores
    div#page-wrapper
     div.conten-fluid
       div.row
@@ -42,12 +43,17 @@ block content
                         span.input-group-addon
                           i
                     td#botones-modificar 
-                      button.btn.btn-primary(type="button" class="modificar" data-toggle="modal" data-target="#MAA" id='boton-modificar') Modificar &nbsp&nbsp&nbsp
+                      button.btn.btn-primary(type="button" class="modificar" data-toggle="modal" data-target="#MAA" id='boton-modificar') Modificar
+                      &nbsp&nbsp&nbsp
                       button.btn.btn-default( type="button" class="eliminar" data-dismiss="modal" onclick="window.location.href='/sector/eliminar/#{resultado.idContenidoCuadritos}'" ) Eliminar
           else
             p.watermark No se han encontrado sectores en el sistema.
 
-        //Modal para agregar un tipo de poste
+
+
+
+
+        //Modal para agregar un tipo de sector
         div(id='FAA' class='modal fade' role='dialog')
             div.modal-dialog
               div.modal-content
