@@ -13,8 +13,6 @@ var session = require('express-session');
 
 var routes = require('./routes/index');
 var crearHuerta = require('./routes/crearHuerta');
-//var formularioCrearHuerta = require('./routes/formularioCrearHuerta'); //donde leer
-//var crearHuertaGuardar = require('./routes/crearHuertaGuardar');
 var modulos = require('./routes/modulos');
 var actividades = require('./routes/actividades');
 var sesiones = require('./routes/sesiones');
@@ -24,6 +22,7 @@ var asignacion = require('./routes/asignacion');
 var retroalimentacion = require('./routes/retroalimentacion');
 var sector = require('./routes/sector');
 var categoria = require('./routes/categoria');
+var roles = require('./routes/roles');
 
 var app = express();
 
@@ -45,7 +44,9 @@ app.use(session({
     cookie: { secure: false }
 }));
 
+//Si llaman esta url, ejecutar
 app.use('/', routes);
+app.use('/sesiones', sesiones);
 // Si no ha iniciado sesión, se va directo a login.
 app.get(/.*/, function(req, res, next) {
     if (!req.session.usuario) {
@@ -54,22 +55,23 @@ app.get(/.*/, function(req, res, next) {
         next();
     }
 });
-
-//app.use('/users', users);
-app.use('/modulo/huerta', crearHuerta);//Si llaman esta url, ejecutar
-//app.use('/modulo/huerta/crear', crearHuerta);//Si llaman esta url, ejecutar
-//app.use('/modulo/huerta/formulario', formularioCrearHuerta);
-//app.use('/modulo/huerta/crearGuardar', crearHuertaGuardar);
-
+app.post(/.*/, function(req, res, next) {
+    if (!req.session.usuario) {
+        res.redirect('/');
+    } else {
+        next();
+    }
+});
+app.use('/modulo/huerta', crearHuerta);
 app.use('/modulos', modulos);
 app.use('/actividades', actividades);
-app.use('/sesiones', sesiones);
 app.use('/usuarios', usuarios);
 app.use('/lotes', lotes);
 app.use('/asignacion', asignacion);
 app.use('/retroalimentacion', retroalimentacion);
 app.use('/sector', sector);
 app.use('/categoria', categoria);
+app.use('/roles', roles);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
