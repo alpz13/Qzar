@@ -150,34 +150,45 @@ function editarActividadesAsignadas(idAsignada){
 }
 
 function cargarModalEditar(idAsignada){
-    $('#AAM').modal();
-    console.log (this.idSectores);
-    $.post("/asignacion/verdetalles",
-    {
-      'idAsignada': idAsignada,
-    },
-    function (data) {
-      //$('.selDiv option:eq(1)')
-      data = JSON.parse( data );
-      //$("#country").val("China");
-      $("#actividadPosible").val(data.idActividad);
-      $("#sectorPosible").val(data.idSector);
-      $("#initDate").val(data.fechaInicio);
-      $("#endDate").val(data.fechaFin);
-      $("#actividadPosible").prop('disabled', true);
-      $("#categoriasPosibles").prop('disabled', true);
-      $("#sectorPosible").prop('disabled', true);
-      $("#initDate").prop('disabled', true);
-      $("#endDate").prop('disabled', true);
-      $("#boton-modal-asignar").css("display", "none");
-      $("#titulo-modal-actividades").html("Detalles de actividad");
-      $("#boton-habilitar-campos").css("display", "inline-block");
-      $("#boton-edicion-asignaciones").css("display", "none");
-      $("#boton-borrar-asignaciones").css("display", "none");
-      $("#boton-edicion-asignaciones").attr("onclick", "editarActividadesAsignadas("+idAsignada+")")
-      $("#boton-borrar-asignaciones").attr("onclick", "eliminarActividadesAsignadas("+idAsignada+", 0)")
-      console.log(data.idActividad);
+  $('#AAM').modal();
+  console.log (this.idSectores);
+  $.post("/asignacion/verdetalles",
+  {
+    'idAsignada': idAsignada,
+  },
+  function (data) {
+    //$('.selDiv option:eq(1)')
+    data = JSON.parse( data );
+    //$("#country").val("China");
+    $("#actividadPosible").val(data.idActividad);
+    $("#sectorPosible").val(data.idSector);
+    $("#initDate").val(data.fechaInicio);
+    $("#endDate").val(data.fechaFin);
+    $("#actividadPosible").prop('disabled', true);
+    $("#categoriasPosibles").prop('disabled', true);
+    $("#sectorPosible").prop('disabled', true);
+    $("#initDate").prop('disabled', true);
+    $("#endDate").prop('disabled', true);
+    $("#boton-modal-asignar").css("display", "none");
+    $("#titulo-modal-actividades").html("Detalles de actividad");
+    $("#boton-habilitar-campos").css("display", "inline-block");
+    $("#boton-edicion-asignaciones").css("display", "none");
+    $("#boton-borrar-asignaciones").css("display", "none");
+    $("#boton-edicion-asignaciones").attr("onclick", "editarActividadesAsignadas("+idAsignada+")");
+    $("#boton-borrar-asignaciones").attr("onclick", "eliminarActividadesAsignadas("+idAsignada+", 0)");
+    $("#categoriasPosibles").find("option").each(function(){
+      if(parseInt($(this).attr("value")) == parseInt(data.idCategoria)){
+        $(this).attr("selected", true);
+      }
     });
+    var div = $('#categoriasPosibles');
+    cambiarActividades($(div));
+    $(".opcionActividad").each(function(){
+      if(parseInt($(this).attr("value")) == parseInt(data.idActividad)){
+        $(this).attr("selected", true);
+      }
+    });
+  });
 }
 
 function llenaPanel(eventos, date) {
