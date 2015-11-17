@@ -23,12 +23,7 @@ router.get('/', function (req, res, next) {
         if (err) {
             console.log(err);
         }
-        usuarios.listarAdminsGenerales(function (err, usuarios) {
-            if (err) {
-                console.log(err);
-            }
-            res.render('modulos', { titulo: 'Módulos', modulos: modulos, usuario: req.session.usuario, listaAdmins: usuarios, barraLateral: 'modulos' });
-        });
+        res.render('modulos', { titulo: 'Módulos', modulos: modulos, usuario: req.session.usuario, barraLateral: 'modulos' });
     });
 });
 
@@ -38,7 +33,7 @@ var desplegarCuadritos = function (req, res, next) {
             console.log(err);
             return;
         }
-        res.render('modulos', { titulo: 'Módulos', modulos: modulos, usuario: req.session.usuario, listaAdmins: usuarios, barraLateral: 'modulos' });    
+        res.render('modulos', { titulo: 'Módulos', modulos: modulos, usuario: req.session.usuario, barraLateral: 'modulos' });    
     });
 }
 
@@ -48,8 +43,7 @@ var desplegarCuadritos = function (req, res, next) {
 router.post('/nuevo', function (req, res, next) {
     var moduloNuevo = {
         "nombre": req.body.nombre,
-        "numeroModulo": req.body.numero,
-        "usuarioAdministrador": req.body.admin
+        "numeroModulo": req.body.numero
     };
 
     // Valida permisos para crear módulo.
@@ -135,14 +129,13 @@ router.get('/:id(\\d+)', function (req, res, next) {
                             if (errSectores) {
                                 console.log("Err Sectores");
                             } else {
-                                res.render('vermodulos', { titulo: 'Módulo ', modulo: modulos[0], usuario: req.session.usuario, listaAdmins: usuarios, barraLateral: 'modulos', alto: alto, ancho: ancho, cuadritos: cuadritos, actividades: actividades, sectores: sectores});
+                                res.render('vermodulos', { titulo: 'Módulo ', modulo: modulos[0], usuario: req.session.usuario, barraLateral: 'modulos', alto: alto, ancho: ancho, cuadritos: cuadritos, actividades: actividades, sectores: sectores});
                             }
                         });
                     }
                 });
             } 
-        });
-        //res.render('vermodulos', { titulo: 'Módulo ', modulo: modulos[0], usuario: req.session.usuario, listaAdmins: usuarios, barraLateral: 'modulos', alto: alto, ancho: ancho});            
+            });
         });
     });
 });
@@ -152,8 +145,7 @@ router.post('/:id(\\d+)/actualizar', function (req, res, next) {
     var moduloActualizado = {
         "idModulo": req.params.id,
         "nombre": req.body.nombre,
-        "numeroModulo": req.body.numero,
-        "usuarioAdministrador": req.body.admin
+        "numeroModulo": req.body.numero
     };
 
     // Valida permisos para actualizar módulo.
