@@ -164,8 +164,8 @@ textarea{
 
 .navbar-inverse .navbar-nav>li.activo>a {
     color: white;
-    margin-left: 15px;
-    font-size: 20px;
+    /*margin-left: 15px;*/
+    font-size: 15px; /*Esto es para que el texto de retroalimentacion este acuerdo con el tamaño del resto del menu*/
 }
 
 .side-nav li a:hover {
@@ -192,6 +192,18 @@ div#retro-item-image{
 .btn-primary {
     background-color: #668E39;
     border-color: #466E19;
+}
+
+
+/*Over ride del active de bootstrap*/
+.btn-primary.active, .btn-primary.focus, .btn-primary:active, .btn-primary:focus, .btn-primary:hover, .open>.dropdown-toggle.btn-primary {
+    color: #fff;
+    background-color: #96b566;
+    border-color: #466E19;
+}
+
+#imagen-actividades{
+    text-align: center;
 }
 
 /* http://www.colorcombos.com/color-schemes/170/ColorCombo170.html */

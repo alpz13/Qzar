@@ -18,7 +18,7 @@ var categoria = require('../components/categoria.js');
 var listaractividades = function (req, res) {
     var db = mysql.createConnection(credenciales);
     db.connect();
-    db.query('select * from Actividades, Categorias where idCategoria = idCategoriaAct and Actividades.activo = 1;', function (err, rows) {
+    db.query('select * from actividades a, categorias c, imagenes i where idCategoria = idCategoriaAct and a.activo = 1 and i.idImagenes = a.idActividad;', function (err, rows) {
         if (err) {
             console.log("Sucedio el error" + err);
         }

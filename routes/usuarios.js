@@ -124,6 +124,7 @@ router.get('/:id(\\d+)', function (req, res, next) {
         }
 
         if (req.session.usuario.idRoles !== 1 && req.session.usuario.idUsuario !== usuarios[0].idUsuario) {
+            res.render('noAccess', {usuario: req.session.usuario, barraLateral: 'lotes', titulo: "###", aviso: {tipo: 'danger', icono: 'fa fa-frown-o', mensaje: 'No tiene Acceso a este componente'}});
             err = new Error('No puedes.');
             err.status = 403;
             next(err);
