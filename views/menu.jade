@@ -23,11 +23,11 @@ block body
             label  #{usuario.nombre}
             b.caret
           ul.dropdown-menu
-            li
+            //li
               a(href='#')
                 i(class='fa fa-fw fa-user')
                 label Profile
-            li.divider
+            //li.divider
             li
               a(href='/sesiones/cerrar')
                 i(class='fa fa-fw fa-power-off')
@@ -38,12 +38,12 @@ block body
         ul(class='nav navbar-nav side-nav')
           if !barraLateral
             li.activo
-              a(href='#')
+              a(href='/')
                 i(class='fa fa-fw fa-dashboard')
                 p.inline.leftsidebar INICIO
           else
             li
-              a(href='#')
+              a(href='/')
                 i(class='fa fa-fw fa-dashboard')
                 p.inline.leftsidebar INICIO
   
@@ -70,6 +70,18 @@ block body
               a(href='/actividades')
                 i(class='fa fa-fw fa-edit')
                 p.inline.leftsidebar ACTIVIDADES
+
+          // Categorias
+          if barraLateral && barraLateral === 'categorias'
+            li.activo
+              a(href='/categoria')
+                i(class='fa fa-fw fa-book')
+                p.inline.leftsidebar CATEGORIAS
+          else
+            li
+              a(href='/categoria')
+                i(class='fa fa-fw fa-book')
+                p.inline.leftsidebar CATEGORIAS
 
           // Usuarios
           if barraLateral && barraLateral === 'usuarios'
@@ -107,6 +119,8 @@ block body
                 i(class='fa fa-fw fa-book')
                 p.inline.leftsidebar RETROALIMENTACIÓN
 
+
+
           // Sectores
           if barraLateral && barraLateral === 'sector'
             li.activo
@@ -119,17 +133,6 @@ block body
                 i(class='fa fa-fw fa-book')
                 p.inline.leftsidebar SECTORES
 
-          // Roles
-          if barraLateral && barraLateral === 'roles'
-            li.activo
-              a(href='/roles')
-                i(class='fa fa-fw fa-male')
-                p.inline.leftsidebar ROLES
-          else
-            li
-              a(href='/roles')
-                i(class='fa fa-fw fa-male')
-                p.inline.leftsidebar ROLES
 
     block content
       if aviso

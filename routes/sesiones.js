@@ -1,11 +1,9 @@
 'use strict';
-/*jslint
-    indent: 4, unparam: true
-*/
-var express = require('express');
 
-var controlador = require('../components/login.js');
+var express = require('express');
 var router = express.Router();
+
+var controlador = require('../components/sesiones.js');
 var Registro = require('log');
 var observador = new Registro('info');
 
@@ -38,5 +36,6 @@ router.get('/cerrar', function (req, res, next) {
     //res.render('index', {mensaje: 'Sesión cerrada'});
     controlador.cerrarSesion(req);
 });
+
 
 module.exports = router;

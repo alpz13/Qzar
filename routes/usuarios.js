@@ -2,17 +2,16 @@
 
 var express = require('express');
 var router = express.Router();
-var agregausuario = require('../components/agregaUsuario.js');
+
 var usuarios = require('../components/usuarios.js');
 var us = require('../components/usuarios.js');
-var modificarusuario = require('../components/modificaUsuario.js');
+var categoria = require('../components/categoria.js');
 
 router.get('/', function (req, res, next) {
     if (req.session.usuario.idRoles !== 1) {
         res.redirect('/usuarios/' + req.session.usuario.idModulo);
         return;
     }
-
     usuarios.listarUsuarios(function (err, usuarios1) {
         if (err) {
             console.log(err);
@@ -37,19 +36,6 @@ router.get('/', function (req, res, next) {
 });
 
 router.post('/agregausuario', function (req, res, next) {
-    // Valida permisos para crear usuario.
-    if (req.session.usuario.permisos.indexOf("crear usuario") < 0) {
-        res.render('menu', {usuario: req.session.usuario,
-                            mensaje: '',
-                            titulo: '###',
-                            barraLateral: 'usuarios',
-                            aviso: {tipo: 'danger',
-                                    icono: 'fa fa-exclamation-triangle',
-                                    mensaje: 'No tienes permiso para crear un usuario.'}}
-        );
-        return;
-    }
-
     var NuevoUsuario = {
         "nombre" : req.body.nombreUsuario,
         "contrasenia" : req.body.contrasenaUsuario,
@@ -59,6 +45,12 @@ router.post('/agregausuario', function (req, res, next) {
         "idModulo" : req.body.modulo
     };
 
+    // Valida permisos para crear módulo.
+    if (req.session.usuario.idRoles !== 1) {
+        res.send("No tienes permiso para crear un usuario.");
+        return;
+    }
+
     // Verifica que el nombre, la constraseña y re-contraseña no sean vacíos.
     // Segunda verificacion, la primera esta del lado del cliente.
     if (NuevoUsuario.nombre.match(/^\s*$/) || NuevoUsuario.contrasenia.match(/^\s*$/) || NuevoUsuario.recontrasenia.match(/^\s*$/)) {
@@ -67,7 +59,7 @@ router.post('/agregausuario', function (req, res, next) {
     }
 
     //Intenta crear usuario
-    agregausuario.agregar(NuevoUsuario, function (err) {
+    usuarios.agregar(NuevoUsuario, function (err) {
         if (err) {
             console.log(err);
             if (err.code === 'ER_DUP_ENTRY') {
@@ -101,7 +93,7 @@ router.post('/modificarusuario', function (req, res, next) {
     }
 
     //Intenta crear usuario
-    modificarusuario.modificar(NuevoUsuario, function (err) {
+    usuarios.modificar(NuevoUsuario, function (err) {
         if (err) {
             console.log(err);
             if (err.code === 'ER_DUP_ENTRY') {
@@ -132,6 +124,7 @@ router.get('/:id(\\d+)', function (req, res, next) {
         }
 
         if (req.session.usuario.idRoles !== 1 && req.session.usuario.idUsuario !== usuarios[0].idUsuario) {
+            res.render('noAccess', {usuario: req.session.usuario, barraLateral: 'lotes', titulo: "###", aviso: {tipo: 'danger', icono: 'fa fa-frown-o', mensaje: 'No tiene Acceso a este componente'}});
             err = new Error('No puedes.');
             err.status = 403;
             next(err);
