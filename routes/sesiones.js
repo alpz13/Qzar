@@ -3,7 +3,7 @@
 var express = require('express');
 var router = express.Router();
 
-var controlador = require('../components/login.js');
+var controlador = require('../components/sesiones.js');
 var Registro = require('log');
 var observador = new Registro('info');
 

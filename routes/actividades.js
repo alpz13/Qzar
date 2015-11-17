@@ -29,6 +29,8 @@ router.post(/.*/, function(req, res, next) {
     + A partir de la variable listar, se manda llamar a la funcion: listarActividades(res)
 */
     
+router.get('/', function (req, res) {
+    listar.listaractividades(req, res);
 });
 
 router.post('/agregaactividad', function (req, res, next) {

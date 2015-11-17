@@ -10,7 +10,7 @@ var router = express.Router();
 var credenciales = require('../database/credencialesbd.json');
 
 function agregar (nombre, callback) {
-	var sql = 'INSERT INTO categorias(nombreCategoria) VALUES (?);';
+	var sql = 'INSERT INTO Categorias(nombreCategoria) VALUES (?);';
 	var bd = mysql.createConnection(credenciales);
 	bd.connect();
 	sql = mysql.format(sql, nombre);
@@ -26,7 +26,7 @@ function agregar (nombre, callback) {
 };
 
 function listar(callback) {
-	var sql = 'SELECT * FROM categorias;';
+	var sql = 'SELECT * FROM Categorias;';
 	var bd = mysql.createConnection(credenciales);
 	bd.connect();
 	bd.query(sql, function (err, resultados) {
@@ -41,7 +41,7 @@ function listar(callback) {
 };
 
 function modificar(infomodificar, callback) {
-	var sql = 'UPDATE categorias SET nombreCategoria = ? WHERE idCategoria = ?';
+	var sql = 'UPDATE Categorias SET nombreCategoria = ? WHERE idCategoria = ?';
 	var bd = mysql.createConnection(credenciales);
 	var params = [infomodificar.nombre, infomodificar.id];
 	sql= mysql.format(sql, params);
