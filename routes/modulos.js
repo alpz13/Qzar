@@ -10,7 +10,6 @@ var router = express.Router();
 var modulos = require('../components/modulos.js');
 var cuadritos = require('../components/modulos.js');
 var usuarios = require('../components/usuarios.js');
-var asignaciones = require('../components/asignaciones.js');
 var actividadesAsignadas = require('../components/actividadesAsignadas.js');
 
 // Página principal de módulos
@@ -135,7 +134,13 @@ router.get('/:id(\\d+)', function (req, res, next) {
                             if (errSectores) {
                                 console.log("Err Sectores");
                             } else {
-                                res.render('vermodulos', { titulo: 'Módulo ', modulo: modulos[0], usuario: req.session.usuario, listaAdmins: usuarios, barraLateral: 'modulos', alto: alto, ancho: ancho, cuadritos: cuadritos, actividades: actividades, sectores: sectores});
+                                actividadesAsignadas.listarCategorias(function (errSectores, categorias) {
+                                    if (errSectores) {
+                                        console.log("Err Categorias");
+                                    } else {
+                                        res.render('vermodulos', { titulo: 'Módulo ', modulo: modulos[0], usuario: req.session.usuario, listaAdmins: usuarios, barraLateral: 'modulos', alto: alto, ancho: ancho, cuadritos: cuadritos, actividades: actividades, sectores: sectores, categorias: categorias});
+                                    }
+                                });
                             }
                         });
                     }
@@ -205,7 +210,7 @@ router.post('/itinerario', function (req, res, next) {
         res.redirect('/modulos/' + req.session.usuario.idModulo);
         return;
     }*/
-    asignaciones.listarAsignaciones(req.body.modulo, res, function(rows) {
+    actividadesAsignadas.listarActividadesAsignadas(req.body.modulo, res, function(rows) {
         res.setHeader('Content-Type', 'application/json');
         res.send(JSON.stringify(rows));
     });
