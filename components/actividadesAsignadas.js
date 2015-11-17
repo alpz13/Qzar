@@ -260,8 +260,7 @@ var edicionAsignaciones = function(idActividadesAsignadas, res, action){
                   "fechaInicio" : fechaInicio,
                   "fechaFin" : fechaFin,
                   "idCategoria" : idCategoria,
-                  "nombreCategoria" : nombreCategoria,
-                  "idActividad" : idActividad
+                  "nombreCategoria" : nombreCategoria
                 };
                 console.log(respuesta);
                 if (action === 'ver'){
