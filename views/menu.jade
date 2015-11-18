@@ -21,17 +21,11 @@ block body
           a(href='#' class='dropdown-toggle' data-toggle='dropdown')
             i(class='fa fa-user') &nbsp
             label  #{usuario.nombre}
-            b.caret
-          ul.dropdown-menu
-            //li
-              a(href='#')
-                i(class='fa fa-fw fa-user')
-                label Profile
-            //li.divider
-            li
-              a(href='/sesiones/cerrar')
-                i(class='fa fa-fw fa-power-off')
-                label LOG OUT
+            //b.caret
+        li
+          a(href='/sesiones/cerrar')
+            i(class='fa fa-fw fa-power-off')
+            label LOG OUT
 
       div(class='collapse navbar-collapse navbar-ex1-collapse')
         //MENU PRINCIPAL IZQUIERDO
