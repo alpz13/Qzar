@@ -206,4 +206,31 @@ div#retro-item-image{
     text-align: center;
 }
 
+#opciones-modulo{
+    font-weight: bold;
+}
+
+#eliminarCosas{
+    margin: 0 auto;
+    text-align: center;
+    font-weight: bold;
+    font-size: 24px;
+}
+
+
+.sectorCustom{
+    width: 900% !important;
+}
+
+.dateCustom{
+    width: 247%;
+}
+
+.actividadCustom{
+    width: 303%;
+}
+
+.categoriaCustom{
+    width: 480%;
+}
 /* http://www.colorcombos.com/color-schemes/170/ColorCombo170.html */

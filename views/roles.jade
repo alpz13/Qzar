@@ -1,7 +1,7 @@
 extends menu
 block content
   head
-  title Módulos
+  title Roles
   script(src='/js/crearrol.js')
   //Contenido de Pagina
   div#page-wrapper
@@ -22,6 +22,7 @@ block content
             table.table.table-striped.table-bordered
               thead
                 th Rol
+                th Opciones
               tbody
                 each rol in roles
                   tr
