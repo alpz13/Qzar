@@ -17,7 +17,7 @@ block content
         div#barra-ver-modulos
           div.col-sm-12.col-md-8.col-md-offset-2
             //p #{mensaje}
-            i#icono.material-icons.agregar-modulo.inline.inline dashboard
+            i(class='fa fa-fw fa-home')#icono-modulo
             h1#h1VerModulos #{titulo}
               span#nombreModulo #{modulo.nombre}
             // TODO: Cambiar icono.
@@ -59,12 +59,13 @@ block content
             //Botones de Editar y Agregar Nueva Huerta
             //Si existe una huerta, despleiga boton de editar
             if alto.length > 0
-              a.btn.btn-warning.btn-lg(href='/modulo/huerta/editar/#{modulo.idModulo}') Editar Huerta
+              a.btn.btn-warning.btn-lg(href='/modulo/huerta/editar/#{modulo.idModulo}') Editar croquis
               &nbsp&nbsp&nbsp
-              a.btn.btn-danger.btn-lg(href='/modulo/huerta/eliminar/#{modulo.idModulo}') Eliminar Huerta
+              a.btn.btn-danger.btn-lg(type='button', data-toggle='modal', data-target='#EliminarHuerta') Eliminar croquis
               &nbsp&nbsp&nbsp
             else
-              button.btn.btn-primary.btn-lg(type='button', data-toggle='modal', data-target='#myModal') Nueva Huerta
+              button.btn.btn-primary.btn-lg(type='button', data-toggle='modal', data-target='#myModal') Nuevo croquis
+            &nbsp&nbsp&nbsp
             button.btn.btn-primary.btn-lg(type="button" data-toggle="modal" onclick="cargarModalAsignar()" id='boton-asignar') Asignar Actividad
             
 
@@ -90,7 +91,29 @@ block content
 
 
 
-            //Modal de Agregar Huerta
+
+
+            //Modal para eliminar la huerta
+            //////////////////////////////////////////////////////
+            div(id='EliminarHuerta' class='modal fade' role='dialog')
+              div.modal-dialog
+                div.modal-content
+                  div.modal-header
+                      button(type='button' class='close' data-dismiss="modal") &times;
+                      h4.modal-title Advertencia
+                    p#mensajeActualizacion
+                    form#actualizaModulo(name="actualizaModulo")
+                      div.modal-body
+                        div.form-group
+                          p#eliminarCosas ¿Desea eliminar el croquis del módulo?
+                      div.modal-footer
+                        a.btn.btn-primary(href='/modulo/huerta/eliminar/#{modulo.idModulo}') Eliminar croquis
+                        button.btn.btn-danger#cerrarModal(type='button', data-dismiss='modal') Cancelar
+            /////////////////////////////////////////////////
+
+
+
+            //Modal de Agregar croquis
             #myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel')
                 .modal-dialog(role='document')
                   .modal-content
@@ -98,7 +121,7 @@ block content
                       button.close(type='button', data-dismiss='modal', aria-label='Close')
                         span(aria-hidden='true') &times;
                       |         
-                      h4#myModalLabel.modal-title Nueva Huerta
+                      h4#myModalLabel.modal-title Nuevo croquis
                     |       
                     form#formcrearHuerta(name="crearHuerta",method="post",action="/modulo/huerta/crear/#{modulo.idModulo}")
                       .modal-body

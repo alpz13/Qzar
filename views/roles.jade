@@ -30,7 +30,8 @@ block content
                     td #{rol.nombre}
                     td
                       button.btn.btn-primary(type="button" class="Modificar" data-toggle="modal" data-target="#modal-crear" id='boton-Modificar' onclick= "rellenaModalModificarRol(#{rol.idRol})") Modificar
-                      button.btn.btn-default( type="button" class="Eliminar" data-dismiss="modal" onclick="window.location.href='/roles/eliminar/#{rol.idRol}'" ) Eliminar
+                      &nbsp&nbsp&nbsp 
+                      button.btn.btn-danger( type="button" class="Eliminar" data-dismiss="modal" onclick="window.location.href='/roles/eliminar/#{rol.idRol}'" ) Eliminar
           else
             p.watermark No se han encontrado roles en el sistema.
 
@@ -151,6 +152,6 @@ block content
                   div.modal-footer
                     button.btn.btn-primary#crearRol(type="button") Crear
                     button.btn.btn-primary#modificarRol(type="button", style="display: none;") Modificar
-                    button.btn.btn-default#cerrarModal(type='button', data-dismiss='modal') Cerrar
+                    button.btn.btn-danger#cerrarModal(type='button', data-dismiss='modal') Cancelar
 
 script(src='/js/crearrol.js')

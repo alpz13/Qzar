@@ -27,7 +27,7 @@ router.post('/crear/:id(\\d+)', function (req, res, next) {
     if (errSectores) {
       console.log("Err Sectores");
     } else {
-      res.render('crearHuerta', {title: 'Crear huerta', alto: altoA, ancho: anchoA, usuario: req.session.usuario, cuadritos: cuadritos, sectores: sectores});
+      res.render('crearHuerta', {title: 'Crear Croquis', alto: altoA, ancho: anchoA, usuario: req.session.usuario, cuadritos: cuadritos, sectores: sectores});
     }
   });
 });
@@ -382,7 +382,7 @@ router.get('/editar/:id(\\d+)', function (req, res, next) {
             if (errSectores) {
               console.log("Err Sectores");
             } else {
-              res.render('crearHuerta', {title: 'Editar Huerta', alto: altoA, ancho: anchoA, usuario: req.session.usuario, cuadritos: cuadritos, sectores: sectores});
+              res.render('crearHuerta', {title: 'Editar Croquis', alto: altoA, ancho: anchoA, usuario: req.session.usuario, cuadritos: cuadritos, sectores: sectores});
             }
         });
         }    

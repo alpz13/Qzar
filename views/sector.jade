@@ -12,7 +12,7 @@ block content
       div.row
         div#barra-de-actividades
           div.col-sm-12.col-md-8.col-md-offset-2
-            i#icono-modulo.material-icons dashboard
+            i(class='fa fa-fw fa-archive')#icono-modulo
             //p #{mensaje}
             h1#h1Modulos Sectores
             if usuario.idRoles === 1
@@ -45,7 +45,7 @@ block content
                     td#botones-modificar 
                       button.btn.btn-primary(type="button" class="modificar" data-toggle="modal" data-target="#MAA" id='boton-modificar') Modificar
                       &nbsp&nbsp&nbsp
-                      button.btn.btn-default( type="button" class="eliminar" data-dismiss="modal" onclick="window.location.href='/sector/eliminar/#{resultado.idContenidoCuadritos}'" ) Eliminar
+                      button.btn.btn-danger( type="button" class="eliminar" data-dismiss="modal" onclick="window.location.href='/sector/eliminar/#{resultado.idContenidoCuadritos}'" ) Eliminar
           else
             p.watermark No se han encontrado sectores en el sistema.
 
@@ -71,7 +71,7 @@ block content
                     input.form-control#nombreDeTipoDePoste(name="nombre", type='text', value='', required)
                   div.modal-footer
                     button.btn.btn-primary#crearModulo(type="submit") Crear
-                    button.btn.btn-default#cerrarModal(type='button', data-dismiss='modal') Cerrar
+                    button.btn.btn-danger#cerrarModal(type='button', data-dismiss='modal') Cancelar
 
         //Modal para modificar un tipo de poste
         div(id='MAA' class='modal fade' role='dialog')
@@ -92,6 +92,6 @@ block content
                     input.form-control(type="numeric" name="idContenidoCuadritos" id="MIDU" style='display:none;')
                   div.modal-footer
                     button.btn.btn-primary#modificarModulo(type="submit") Modificar
-                    button.btn.btn-default#cerrarModal(type='button', data-dismiss='modal') Cerrar
+                    button.btn.btn-danger#cerrarModal(type='button', data-dismiss='modal') Cancelar
   
   script(src='/js/modificarsector.js')

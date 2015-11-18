@@ -90,12 +90,12 @@ block body
                 p.inline.leftsidebar USUARIOS
 
           // Lotes
-          if barraLateral && barraLateral === 'lotes'
+          //if barraLateral && barraLateral === 'lotes'
             li.activo
               a(href='/lotes')
                 i(class='fa fa-fw fa-archive')
                 p.inline.leftsidebar LOTES
-          else
+          //else
             li
               a(href='/lotes')
                 i(class='fa fa-fw fa-archive')
@@ -105,12 +105,12 @@ block body
           if barraLateral && barraLateral === 'retroalimentacion'
             li.activo
               a(href='/retroalimentacion')
-                i(class='fa fa-fw fa-book')
+                i(class='fa fa-fw fa-bookmark-o')
                 p.inline.leftsidebar RETROALIMENTACIÓN
           else
             li
               a(href='/retroalimentacion')
-                i(class='fa fa-fw fa-book')
+                i(class='fa fa-fw fa-bookmark-o')
                 p.inline.leftsidebar RETROALIMENTACIÓN
 
 
@@ -119,12 +119,12 @@ block body
           if barraLateral && barraLateral === 'sector'
             li.activo
               a(href='/sector')
-                i(class='fa fa-fw fa-book')
+                i(class='fa fa-fw fa-archive')
                 p.inline.leftsidebar SECTORES
           else
             li
               a(href='/sector')
-                i(class='fa fa-fw fa-book')
+                i(class='fa fa-fw fa-archive')
                 p.inline.leftsidebar SECTORES
 
           // Roles
