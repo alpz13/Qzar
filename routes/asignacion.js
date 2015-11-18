@@ -68,4 +68,11 @@ router.post('/borrarasignacion', function (req, res, next){
     return;
 });
 
+router.post('/verActividadesHoy', function (req, res, next){
+    idModulo = req.body.idModulo;
+    console.log("HOLA");
+    actividadesAsignadas.obtenerActividadesHoy(res, idModulo);
+    return;
+})
+
 module.exports = router;

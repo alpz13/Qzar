@@ -309,8 +309,8 @@ function listarAsignacionesPorDia(idModulo, fecha, callback) {
             connection.query(sql, function (err, actividades) {
                 connection.end();
                 if (!err) {
-                    callback(null, actividades);
-                    return;
+                  res.send(JSON.stringify(actividades))
+                  return;
                 }
                 //console.log(err);
                 callback(err);
@@ -319,6 +319,30 @@ function listarAsignacionesPorDia(idModulo, fecha, callback) {
         } else {
             //console.log(err);
             callback(err);
+        }
+    });
+}
+
+function obtenerActividadesHoy(res, idModulo, callback){
+    var credenciales = require('../database/credencialesbd.json');
+    var mysql = require('mysql');
+    var connection = mysql.createConnection(credenciales);
+    var sql = "select a.nombre as nombre, s.numeroSector as numeroSector from ActividadesAsignadas aa, Actividades a, Sectores s where aa.idActividades = a.idActividad and s.idSector = aa.idSectores and aa.idModulos = ? AND aa.fecha = ?";
+    var params = [idModulo, moment().tz('America/Mexico_City').format('YYYY-MM-DD')];
+        connection.connect(function (err) {
+        if (!err) {
+            sql = mysql.format(sql, params);
+            console.log(sql);
+            connection.query(sql, function (err, actividades) {
+                connection.end();
+                if (!err) {
+                  res.send(JSON.stringify(actividades))
+                  return;
+                }
+                return;
+            });
+        } else {
+          return;
         }
     });
 }
@@ -372,5 +396,6 @@ module.exports = {
     'edicionAsignaciones': edicionAsignaciones,
     'cancelarConfirmacionesHoy': cancelarConfirmacionesHoy,
     'confirmar': confirmarActividadAsignada,
-    'listarCategorias': listarCategorias 
+    'listarCategorias': listarCategorias,
+    'obtenerActividadesHoy' : obtenerActividadesHoy
 };
