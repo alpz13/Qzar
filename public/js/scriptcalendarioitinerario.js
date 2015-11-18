@@ -75,6 +75,7 @@ $(document).ready(
     obtenerEventos();
     var div = $('#categoriasPosibles');
     cambiarActividades($(div));
+    cargarActividadesHoy();
   }
 );
 
@@ -123,6 +124,7 @@ function habilitarCamposModal(){
   $("#boton-edicion-asignaciones").css("display", "inline-block");
   $("#boton-borrar-asignaciones").css("display", "inline-block");
 }
+
 function cargarModalAsignar(){
   $('#AAM').modal();
   habilitarCamposModalAgregar();
@@ -147,6 +149,28 @@ function editarActividadesAsignadas(idAsignada){
   console.log("antes");
   asignarActividad();
   console.log("Despues");
+}
+
+function cargarActividadesHoy(){
+  var url = window.location.href;
+  url = url.split('/');
+  url = url[url.length - 1].split('#');
+  url = url[0];
+  $.post("/asignacion/verActividadesHoy",
+  {
+    'idModulo': url,
+  },
+  function(data){
+    data = JSON.parse( data );
+    console.log(data);
+    html = "<thead><tr><th>Actividad por hacer</th><th>Sector</th></tr></thead><tbody>";
+    data.forEach(function(element, index){
+      html += "<tr id='actividadesHoy"+index+"'><td>"+data[index].nombre+"</td><td>"+data[index].numeroSector+"</td></tr>"
+    });
+    html += "</tbody></table>";
+    $("#actividadesHoy").replaceWith("<table id='actividadesHoy'>"+html+"</table>");
+  });
+
 }
 
 function cargarModalEditar(idAsignada){
