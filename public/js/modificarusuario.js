@@ -19,3 +19,13 @@ $(document).on("click", ".modificar", function () {
         }
     });
 });
+
+
+
+$(document).on("click", ".eliminarUsuario", function () { 
+    var obj = (this).closest("tr");
+    var id = $(obj).find(".id").html();
+    $("#boton-EliminarModal").attr("idVal", id);
+    document.getElementById('etiqueta').value = id;   
+ 
+});

@@ -32,7 +32,7 @@ block content
                     td
                       button.btn.btn-primary(type="button" class="modificar" data-toggle="modal" data-target="#MMC" ) Modificar
                       &nbsp&nbsp&nbsp
-                      button.btn.btn-default(type="button" class="eliminar" data-dismiss="modal") Eliminar
+                      //button.btn.btn-danger(type="hidden" class="eliminar" data-dismiss="modal") Eliminar
           else
             p.watermark No se han encontrado categorias en el sistema.
     //Modal Agregar
@@ -49,7 +49,7 @@ block content
               input.form-control(type="text" onkeydown="return checar(event);" name="nuevaCategoria" size="58" id="CAC")
             div.modal-footer
               button.btn.btn-primary(type="submit") Agregar
-              button.btn.btn-default(type="button" data-dismiss="modal") Cerrar
+              button.btn.btn-danger(type="button" data-dismiss="modal") Cancelar
     //Modal Modificar
     div(id='MMC' class='modal fade' role='dialog')
       div.modal-dialog
@@ -65,7 +65,7 @@ block content
               input.form-control(type="text" onkeydown="return checar(event);" name="modificaCategoria" size="58" id="MCE")
             div.modal-footer
               button.btn.btn-primary(type="submit") Modificar
-              button.btn.btn-default(type="button" data-dismiss="modal") Cerrar
+              button.btn.btn-danger(type="button" data-dismiss="modal") Cancelar
     script(language="JavaScript" type="text/javascript").
       function checkform ( form ) {
         if(form.nuevaCategoria.value == "") {
