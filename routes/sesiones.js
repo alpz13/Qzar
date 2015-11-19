@@ -24,6 +24,7 @@ router.post('/iniciar', function (req, res, next) {
                 res.render('index', {mensaje: err, titulo: "###", aviso: {tipo: 'danger', icono: 'fa fa-exclamation-triangle', mensaje: 'Usuario y/o contraseña incorrectos.'}});
             }
         } else {
+			console.log(req.session.usuario);
             res.redirect('/');
             res.render('index', {usuario: req.session.usuario });
         }

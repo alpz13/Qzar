@@ -4,9 +4,31 @@
 var mysql = require('mysql');
 var credenciales = require('../database/credencialesbd.json');
 
+/*
+*/
+var __obtenerPermisos = function (idUsuario, callback) {
+
+    var conexion = mysql.createConnection(credenciales);
+
+    var consulta = 'SELECT P.`idPermiso` ,P.`nombre` FROM `qzardb`.`Permisos` as P ,`qzardb`.`RolesPermisos` as RP ,`qzardb`.`Usuarios` as U WHERE U.`idUsuario` = ? AND U.`idRoles` = RP.`idRoles` AND P.`idPermiso` = RP.`idPermisos`;';
+    var valores = [idUsuario];
+    conexion.query({sql: consulta, values: valores}, function (err, renglones) {
+        conexion.end();
+        if (err) {
+            callback(err);
+            return;
+        }
+        var permisos = [];
+        for(var v in renglones) {
+            permisos.push(renglones[v]['nombre']);
+        }
+        callback(null, permisos);
+    });
+}
+
 var __validarCredenciales = function (nombreUsuario, contrasenia, callback) {
 	var conexion = mysql.createConnection(credenciales);
-    var consulta = 'SELECT `nombre`,`contrasena` FROM `Usuarios` WHERE `nombre` = ? AND `contrasena` = ?;';
+    var consulta = 'SELECT idUsuario FROM Usuarios WHERE activo = 1 AND `nombre` = ? AND `contrasena` = ?;';
     var valores = [nombreUsuario, contrasenia];
     consulta = mysql.format(consulta, valores);
 
@@ -21,15 +43,15 @@ var __validarCredenciales = function (nombreUsuario, contrasenia, callback) {
         if (renglones.length === 0) {
             callback(new Error('Usuario y/o contraseña incorrectos.'));
         } else {
-            callback(null, true);
+            callback(null, renglones[0].idUsuario);
         }
     });
 };
 
-var __cargarUsuario = function (nombreUsuario, callback) {
+var __cargarUsuario = function (idUsuario, callback) {
 	var conexion = mysql.createConnection(credenciales);
-    var consulta = 'SELECT `nombre`, `idRoles`, `idModulo`, `activo` FROM `Usuarios` WHERE `nombre` = ?;';
-    var valores = [nombreUsuario];
+    var consulta = 'SELECT nombre, idRoles, idModulo FROM Usuarios WHERE idUsuario = ?;';
+    var valores = [idUsuario];
     consulta = mysql.format(consulta, valores);
 	
     conexion.connect();
@@ -62,20 +84,23 @@ var abrirSesion = function (req, res, callback) {
         return;
     }
 
-    __validarCredenciales(nombreUsuario, contrasenia, function (err) {
+    __validarCredenciales(nombreUsuario, contrasenia, function (err, idUsuario) {
         if (err) {
             callback(err);
             return;
         }
 
-        __cargarUsuario(nombreUsuario, function (err, usuario) {
+        __cargarUsuario(idUsuario, function (err, usuario) {
             if (err) {
                 callback(err);
                 return;
             }
 
             req.session.usuario = usuario;
-            callback(null, usuario);
+            __obtenerPermisos(idUsuario, function (err, permisos) {
+                req.session.usuario.permisos = permisos;    
+                callback(null, usuario);
+            });
         });
     });
 };
