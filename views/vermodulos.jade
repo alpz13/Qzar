@@ -168,7 +168,7 @@ block content
 
                     div.modal-footer
                       button.btn.btn-primary#editarModulo(type='button') Guardar cambios
-                      button.btn.btn-danger#cerrarModal(type='button', data-dismiss='modal') Cancelar
+                      button.btn.btn-danger#cerrarModalEditar(type='button', data-dismiss='modal') Cancelar
 
     script.
       var posAlto = function(){
@@ -283,7 +283,6 @@ block content
   //Bootstrap Core JS
   script(src='/bootstrap/js/bootstrap.min.js')
 
-  // Editar módulos
   //Underscore
   script(src='https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js')
 
@@ -294,6 +293,7 @@ block content
   //clndr
   script(src='/plugins/clndr.min.js')
 
+  // Editar módulos
   script(src='/js/editarmodulo.js')
 
   script(src='/js/scriptcalendarios.js')
