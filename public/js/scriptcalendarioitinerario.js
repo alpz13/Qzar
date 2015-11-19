@@ -163,12 +163,22 @@ function cargarActividadesHoy(){
   function(data){
     data = JSON.parse( data );
     console.log(data);
-    html = "<thead><tr><th>Actividad por hacer</th><th>Sector</th></tr></thead><tbody>";
+    var flag = false;
+    html = "<thead><tr><th>Actividades del dia</th><th>Sector</th></tr></thead><tbody>";
     data.forEach(function(element, index){
+      if(data[index].numeroSector!=null){
+        flag = true;
+      }
       html += "<tr id='actividadesHoy"+index+"'><td>"+data[index].nombre+"</td><td>"+data[index].numeroSector+"</td></tr>"
     });
+    if(flag){
     html += "</tbody></table>";
-    $("#actividadesHoy").replaceWith("<table id='actividadesHoy'>"+html+"</table>");
+    $("#actividadesHoy").replaceWith("<table id='actividadesHoy' class='table table-striped table-bordered'>"+html+"</table>");
+    }
+    else{
+      $("#actividadesHoy").replaceWith("<p class='noActividades' >No hay actividades asignadas para el día de hoy </p>");
+    }
+    
   });
 
 }

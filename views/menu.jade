@@ -21,17 +21,11 @@ block body
           a(href='#' class='dropdown-toggle' data-toggle='dropdown')
             i(class='fa fa-user') &nbsp
             label  #{usuario.nombre}
-            b.caret
-          ul.dropdown-menu
-            //li
-              a(href='#')
-                i(class='fa fa-fw fa-user')
-                label Profile
-            //li.divider
-            li
-              a(href='/sesiones/cerrar')
-                i(class='fa fa-fw fa-power-off')
-                label LOG OUT
+            //b.caret
+        li
+          a(href='/sesiones/cerrar')
+            i(class='fa fa-fw fa-power-off')
+            label LOG OUT
 
       div(class='collapse navbar-collapse navbar-ex1-collapse')
         //MENU PRINCIPAL IZQUIERDO
@@ -96,12 +90,12 @@ block body
                 p.inline.leftsidebar USUARIOS
 
           // Lotes
-          if barraLateral && barraLateral === 'lotes'
+          //if barraLateral && barraLateral === 'lotes'
             li.activo
               a(href='/lotes')
                 i(class='fa fa-fw fa-archive')
                 p.inline.leftsidebar LOTES
-          else
+          //else
             li
               a(href='/lotes')
                 i(class='fa fa-fw fa-archive')
@@ -111,12 +105,12 @@ block body
           if barraLateral && barraLateral === 'retroalimentacion'
             li.activo
               a(href='/retroalimentacion')
-                i(class='fa fa-fw fa-book')
+                i(class='fa fa-fw fa-bookmark-o')
                 p.inline.leftsidebar RETROALIMENTACIÓN
           else
             li
               a(href='/retroalimentacion')
-                i(class='fa fa-fw fa-book')
+                i(class='fa fa-fw fa-bookmark-o')
                 p.inline.leftsidebar RETROALIMENTACIÓN
 
 
@@ -125,12 +119,12 @@ block body
           if barraLateral && barraLateral === 'sector'
             li.activo
               a(href='/sector')
-                i(class='fa fa-fw fa-book')
+                i(class='fa fa-fw fa-archive')
                 p.inline.leftsidebar SECTORES
           else
             li
               a(href='/sector')
-                i(class='fa fa-fw fa-book')
+                i(class='fa fa-fw fa-archive')
                 p.inline.leftsidebar SECTORES
 
           // Roles

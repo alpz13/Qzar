@@ -52,6 +52,10 @@ textarea{
     font-size: 48px
 }
 
+#boton-agregar-retro{
+    font-size: 48px;
+}
+
 #barra-de-titulo > div{
     /*padding: 10px 0;*/
     display: flex;
@@ -204,6 +208,54 @@ div#retro-item-image{
 
 #imagen-actividades{
     text-align: center;
+}
+
+#opciones-modulo{
+    font-weight: bold;
+}
+
+#eliminarCosas{
+    margin: 0 auto;
+    text-align: center;
+    font-weight: bold;
+    font-size: 24px;
+}
+
+
+.sectorCustom{
+    width: 27vw;
+}
+
+.dateCustom{
+    width: 27vw;
+}
+
+.actividadCustom{
+    width: 27vw;
+}
+
+.categoriaCustom{
+    width: 27vw;
+}
+
+
+.actividadesDelDia{
+    padding: 1vw;
+}
+.noActividades{
+    font-weight: bold;
+    font-size: 24px;
+    text-align: center;
+    padding-bottom: inherit;
+}
+
+.formCheckboxRoles{
+    width: 20px;
+}
+
+.spanRetro{
+    vertical-align: sub;
+    font-weight: bold;
 }
 
 /* http://www.colorcombos.com/color-schemes/170/ColorCombo170.html */

@@ -9,7 +9,7 @@ $(document).ready( function() {
 
         $.post('/roles/crear', rolNuevo, function (respuesta) {
             if(respuesta == '1') {
-                alert('Rol creado exitosamente!');
+                //alert('Rol creado exitosamente!');
             } else {
                 $('#mensajeModal').html = respuesta;
             }
@@ -26,7 +26,7 @@ $(document).ready( function() {
 
         $.post('/roles/modificar/'+rolModificado.idRol, rolModificado, function (respuesta) {
             if(respuesta == '1') {
-                alert('Rol modificado exitosamente!');
+                //alert('Rol modificado exitosamente!');
             } else {
                 $('#mensajeModal').html = respuesta;
             }
@@ -72,3 +72,22 @@ function rellenaModalModificarRol(idRol) {
         }
     });
 }
+
+
+$(document).on("click", ".eliminarModal", function(){
+    var obj = (this).closest("tr");
+    var id = $(obj).find(".id").html();
+    console.log(id);
+    $("input.ninja").attr("value", id);
+
+});
+
+$(document).on("click", ".eliminar", function(){
+    var id = $("input.ninja").attr("value");
+    //html = "<a href='/roles/eliminar/"+id+">"+"</a>";
+    window.location.href='/roles/eliminar/'+id;
+    //console.log(html);
+    //$("#eliminarRoles").replaceWith(html);
+});
+
+

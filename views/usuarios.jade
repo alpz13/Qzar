@@ -16,7 +16,7 @@ block content
       div.row
         div#barra-de-actividades
           div.col-sm-12.col-md-8.col-md-offset-2
-            i#icono-modulo.material-icons dashboard
+            i(class='fa fa-fw fa-users')#icono-modulo
             //p #{mensaje}
             h1#h1Modulos #{titulo}
             if usuario.idRoles === 1
@@ -44,7 +44,7 @@ block content
                     td
                       button.btn.btn-primary(type="button" class="modificar" data-toggle="modal" data-target="#FAB" id='boton-modificar') Modificar
                       &nbsp&nbsp&nbsp 
-                      button.btn.btn-default( type="button" class="eliminar" data-dismiss="modal" onclick="window.location.href='/usuarios/eliminar/#{user.idUsuario}'" ) Eliminar
+                      button.btn.btn-danger(data-toggle="modal" data-target="#Eliminar" type="button" class="eliminarUsuario" ) Eliminar
           else
             p.watermark No se han encontrado usuarios en el sistema.
     //Modificar Usuario
@@ -74,7 +74,7 @@ block content
                   option(value="#{modulo.idModulo}") #{modulo.nombre}
             div.modal-footer
               button.btn.btn-primary(type="submit" ) Modificar
-              button.btn.btn-default(type="button" data-dismiss="modal") Cerrar
+              button.btn.btn-danger(type="button" data-dismiss="modal") Cerrar
     script(language="JavaScript" type="text/javascript").
       function checkform ( form ) {
         if(form.nombreUsuario.value == "") {
@@ -104,6 +104,22 @@ block content
       function resetform(){
         document.getElementById("AgregaActividad").reset();
       }
+
+
+      function mandaEliminar()
+      {
+        var id = $("#boton-EliminarModal").attr("idVal");
+        var url = "/usuarios/eliminar/" + id;
+        window.location = url;
+      }
+
+
+
+
+
+
+
+
     //Modal Agregar
     div(id='FAU' class='modal fade' role='dialog')
       div.modal-dialog
@@ -130,7 +146,27 @@ block content
                   option(value="#{modulo.idModulo}") #{modulo.nombre}
             div.modal-footer
               button.btn.btn-primary(type="submit" ) Agregar
-              button.btn.btn-default(type="button" data-dismiss="modal") Cerrar
+              button.btn.btn-danger(type="button" data-dismiss="modal") Cancelar
+
+    //Modal Advertencia
+    div(id='Eliminar' class='modal fade' role='dialog')
+      div.modal-dialog
+        //Contenido modal
+        div.modal-content
+          div.modal-header
+            button(type='button' class='close' data-dismiss="modal") &times;
+            h4.modal-title Advertencia
+          form(id="formaRelleno")
+            div.modal-body 
+              p#eliminarCosas ¿Desea eliminar al usuario?
+            div.modal-footer
+              label(id='etiqueta')
+              
+
+              button#boton-EliminarModal.btn.btn-primary( onClick="mandaEliminar()" type="button" class="eliminarUsuario" ) Eliminar
+              button.btn.btn-danger(type="button" data-dismiss="modal") Cerrar
+
+
   script(src='/js/modificarusuario.js')
   //Cierro segundo col-lg-12 
   //Cierro Container Fluid

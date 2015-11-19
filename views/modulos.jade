@@ -8,7 +8,7 @@ block content
       div.row
         div#barra-de-actividades
           div.col-sm-12.col-md-8.col-md-offset-2
-            i#icono-modulo.material-icons dashboard
+            i(class='fa fa-fw fa-home')#icono-modulo
             h1#h1Modulos #{titulo}
             if usuario.idRoles === 1
               //Icono que te lleva al modal
@@ -44,13 +44,15 @@ block content
                 p#mensajeAgregaModulo
                 form#agregaModulo(name="agregaModulo")
                   div.modal-body
-                    label(for="nombre") Nombre del módulo:
-                    input.form-control#nombre(type="text", placeholder="Nombre", name="nombre", required)
-                    label(for="numero") Número del módulo: 
-                    input.form-control#numero(type="number", placeholder="Número", name="numero", min="0", max="999", required)
+                    div.form-group
+                      label(for="nombre") Nombre del módulo:
+                      input.form-control#nombre(type="text", placeholder="Nombre", name="nombre", required)
+                    div.form-group
+                      label(for="numero") Número del módulo 
+                      input.form-control#numero(type="number", placeholder="Número", name="numero", min="0", max="999", required)
                   div.modal-footer
                     button.btn.btn-primary#crearModulo(type="button") Crear
-                    button.btn.btn-default#cerrarModal(type='button', data-dismiss='modal') Cerrar
+                    button.btn.btn-danger#cerrarModal(type='button', data-dismiss='modal') Cancelar
 
   //Cierro segundo col-lg-12 
   //Cierro Container Fluid
