@@ -1,3 +1,5 @@
+var calendario;
+
 function estandarizarFecha(date) {
   date = new Date(date);
   var dd = date.getDate();
@@ -14,17 +16,12 @@ function estandarizarFecha(date) {
 }
 
 function llenarCalendario(data) {
-  // alert("Data: " + data);
+  //alert("Data: " + data);
   console.log("info: " + data);
-  $('#full-clndr').clndr(
+  calendario = $('#full-clndr').clndr(
     {
       template: $('.todo').html(),
       events: data,
-      multiDayEvents: {
-        startDate: 'startDate',
-        endDate: 'endDate',
-        singleDay: 'date'
-      },
       daysOfTheWeek: ['L', 'M', 'M', 'J', 'V', 'S', 'D'],
       clickEvents: {
         click: function (target) {
@@ -33,10 +30,11 @@ function llenarCalendario(data) {
         },
         onMonthChange: function (month) {
           console.log('you just went to ' + month.format('MMMM, YYYY'));
+		  cargaMes(month.format('YYYY-MM') + '-01');
         }
       },
       doneRendering: function () {
-        console.log('this would be a fine place to attach custom event handlers.');
+        //console.log('this would be a fine place to attach custom event handlers.');
       }
     }
   );

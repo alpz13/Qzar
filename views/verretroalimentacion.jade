@@ -9,18 +9,19 @@ block content
         div#barra-ver-modulos
           div.col-sm-12.col-md-8.col-md-offset-2
             //p #{mensaje}
-            i#icono.material-icons.agregar-modulo.inline.inline dashboard
+            i(class='fa fa-fw fa-bookmark-o')#icono-modulo
             h1#h1VerModulos #{titulo}
               span#nombreModulo  #{modulo.nombre}
 
-      // TODO: Que no esté jarcodeado
-      if usuario.idRoles == 2
-        a(class='nav navbar-right top-nav' href='#' data-toggle="modal" data-target="#FAA" id='boton-agregar')
-          i.material-icons.md-48#boton-agregar-retro control_point
-          if retroalimentacionHoy
-            p Cambiar retroalimentación de hoy
-          else
-            p Enviar retroalimentación de hoy
+        //Contenido de la pagina
+        div.col-sm-12.col-md-8.col-md-offset-2
+        if usuario.permisos.indexOf("crear retroalimentacion") >= 0
+          a(class='nav navbar-right top-nav' href='#' data-toggle="modal" data-target="#FAA" id='boton-agregar')
+            i.material-icons.md-48#boton-agregar-retro control_point
+            if retroalimentacionHoy
+              p Cambiar retroalimentación
+            else
+              p Retroalimentación
 
     div#full-clndr.clearfix
     script.todo.
@@ -50,8 +51,7 @@ block content
         <div id="eventos-del-dia">
           <p>Selecciona un día para ver la retroalimentación del día</p>
       </div>
-
-    if usuario.idRoles == 2
+    if usuario.permisos.indexOf("crear retroalimentacion") >= 0
       if !retroalimentacionHoy
         //Modal Agregar
         div(id='FAA' class='modal fade' role='dialog')
@@ -63,13 +63,22 @@ block content
                 h4.modal-title Agregar retroalimentación del día
               form#AgregarRetro(action="/retroalimentacion/nuevo" method="post" enctype="multipart/form-data")
                 div.modal-body 
-                  label Descripción 
-                  textarea.form-control(rows='5' cols='60' name="descripcion" required)
+                  label Actividades de hoy
+                  div.row
+                  for actividad in actividades
+                      div.row
+                        div.col-sm-1.col-sm-offset-1.col-md-0
+                          input.form-control.formCheckboxRoles(type="checkbox" name= actividad.idActividadesAsignadas)
+                        div.col-sm-8.col-md-8.col-md-offset-0
+                          span.spanRetro #{actividad.nombre} en sector #{actividad.numeroSector}.
+                  div.row
+                  label Comentarios 
+                  textarea.form-control(rows='5' cols='60' name="descripcion")
                   label Foto
-                  input(type="file" name="foto" size="58")
+                  input.form-control(type="file" name="foto" size="58")
                 div.modal-footer
                   button#agregaRetro.btn.btn-primary(type="submit") Enviar
-                  button.btn.btn-default(type="button" data-dismiss="modal") Cerrar
+                  button.btn.btn-danger(type="button" data-dismiss="modal") Cancelar
       else
         //Modal Actualizar
         div(id='FAA' class='modal fade' role='dialog')
@@ -81,16 +90,26 @@ block content
                 h4.modal-title Cambiar retroalimentación del día
               form#AgregarRetro(action="/retroalimentacion/actualizar" method="post" enctype="multipart/form-data")
                 div.modal-body 
-                  label Descripción 
-                  textarea.form-control(rows='5' cols='60' name="descripcion" required) #{retroalimentacionHoy.descripcion}
+                  label Actividades de hoy
+                  div.row
+                  for actividad in actividades
+                      div.row
+                        div.col-sm-1.col-sm-offset-1.col-md-1.col-md-offset-1
+                          if actividad.cumplido
+                            input.form-control.formCheckboxRoles(type="checkbox" name= actividad.idActividadesAsignadas checked)
+                          else
+                            input.form-control.formCheckboxRoles(type="checkbox" name= actividad.idActividadesAsignadas)
+                        div.col-sm-8.col-md-8.col-md-offset-0
+                          span.spanRetro #{actividad.nombre} en sector #{actividad.numeroSector}.
+                  div.row
+                  label Comentarios 
+                  textarea.form-control(rows='5' cols='60' name="descripcion") #{retroalimentacionHoy.descripcion}
                   label Foto
-                  //img(src='/images/retros/#{retroalimentacionHoy.contenidoMultimedia}')
-                  input(type="file" name="foto" size="58")
+                  input.form-control(type="file" name="foto" size="58")
                 div.modal-footer
                   button#agregaRetro.btn.btn-primary(type="submit") Enviar
-                  button.btn.btn-default(type="button" data-dismiss="modal") Cerrar
+                  button.btn.btn-danger(type="button" data-dismiss="modal") Cancelar
 
-  script(src='/js/agregaretroalimentacion.js')
   //Cierro segundo col-lg-12 
   //Cierro Container Fluid
   //Containererro PageWrapper
@@ -99,16 +118,12 @@ block content
   script(src='/bootstrap/js/jquery.js')
   //Bootstrap Core JS
   script(src='/bootstrap/js/bootstrap.min.js')
-
   //Underscore
   script(src='https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js')
-
   //moment
   script(src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js')
   script(src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/locale/es.js')
-
   //clndr
   script(src='/plugins/clndr.min.js')
-
   script(src='/js/scriptcalendarios.js')
   script(src='/js/scriptcalendarioretroalimentacion.js')

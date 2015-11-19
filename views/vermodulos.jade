@@ -1,46 +1,123 @@
 extends menu
 block content
   link(rel='stylesheet', href="/stylesheets/tableHuerta.css", type='text/css')
+  link(rel='stylesheet', href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker.min.css", type='text/css')
   title #{modulo.nombre}
   //Contenido de Pagina
   div#page-wrapper
     div.container-fluid
+      
+      
+      
 
-      //- if aviso
-      //-   div.row
-      //-     div(class="alert alert-#{aviso.tipo} col-md-6 col-md-offset-3", role="alert")
-      //-       i(class="#{aviso.icono}")
-      //-       p.inline #{aviso.mensaje}
+
+       if aviso
+         div.row
+           div(class="alert alert-#{aviso.tipo} col-md-6 col-md-offset-3", role="alert")
+             i(class="#{aviso.icono}")
+             p.inline #{aviso.mensaje}
 
       div.row
         div#barra-ver-modulos
           div.col-sm-12.col-md-8.col-md-offset-2
             //p #{mensaje}
-            i#icono.material-icons.agregar-modulo.inline.inline dashboard
+            i(class='fa fa-fw fa-home')#icono-modulo
             h1#h1VerModulos #{titulo}
               span#nombreModulo #{modulo.nombre}
-            // TODO: Cambiar icono.
-            if usuario.idRoles == 1
-              //a(class='nav navbar-right top-nav' href='#' data-toggle="modal" data-target="#FAA") Editar
-              //a(href='/modulos/eliminar/#{modulo.idModulo}') Eliminar módulo
+          //Lista de Eventos
+          //div.form-group.col-sm-12.col-md-8.col-md-offset-2
+            div#eventos-del-dia
+        //Parte de Edu
+        div.actividadesDelDia.col-sm-12.col-md-8.col-md-offset-2
+          table#actividadesHoy
+
+
+        //Croquis
+        &nbsp&nbsp&nbsp&nbsp&nbsp
+        if alto.length > 0
+          div.form-group.col-sm-12.col-md-8.col-md-offset-2
+            table#huerta.table.table-bordered
+              tbody
+                each number in alto
+                  tr.renglon
+                    each row in ancho 
+                      td.cuadrito &nbsp
+
         div.col-sm-12.col-md-8.col-md-offset-2
           table.table.table-striped.table-bordered
             tbody
                 tr
-                  td Número
+                  td#opciones-modulo Número de Módulo
                   td#numeroModulo #{modulo.numeroModulo}
-                  td
+                  td#opciones-modulo Opciones
                 tr
-                  td Administrador
+                  td#opciones-modulo Administrador de Módulo
                   td#administradorModulo #{modulo.admin}
-                  if usuario.idRoles == 1
+                  if usuario.permisos.indexOf("modificar modulo") >= 0
                     td#botones-modificar
                       button.btn.btn-primary(type="button" class="modificar" data-toggle="modal" data-target="#FAA" id='boton-modificar') Modificar
                       &nbsp&nbsp&nbsp
-                      button.btn.btn-default(href='/modulos/eliminar/#{modulo.idModulo}' type="button" class="eliminar" data-dismiss="modal") Eliminar
-          if usuario.idRoles == 1
-            //Modal de Agregar Huerta
-            button.btn.btn-primary.btn-lg(type='button', data-toggle='modal', data-target='#myModal') Nueva Huerta
+                      button.btn.btn-danger(type="button" class="modificar" data-toggle="modal" data-target="#Eliminar" id='boton-eliminar') Eliminar
+          if usuario.permisos.indexOf("modificar modulo") >= 0
+            
+            //Botones de Editar y Agregar Nueva Huerta
+            //Si existe una huerta, despleiga boton de editar
+            if alto.length > 0
+              a.btn.btn-warning.btn-lg(href='/modulo/huerta/editar/#{modulo.idModulo}') Editar croquis
+              &nbsp&nbsp&nbsp
+              a.btn.btn-danger.btn-lg(type='button', data-toggle='modal', data-target='#EliminarHuerta') Eliminar croquis
+              &nbsp&nbsp&nbsp
+            else
+              button.btn.btn-primary.btn-lg(type='button', data-toggle='modal', data-target='#myModal') Nuevo croquis
+            &nbsp&nbsp&nbsp
+            button.btn.btn-primary.btn-lg(type="button" data-toggle="modal" onclick="cargarModalAsignar()" id='boton-asignar') Asignar Actividad
+            
+
+
+
+            //Modal para eliminar modulo
+            //////////////////////////////////////////////////////
+            div(id='Eliminar' class='modal fade' role='dialog')
+              div.modal-dialog
+                div.modal-content
+                  div.modal-header
+                      button(type='button' class='close' data-dismiss="modal") &times;
+                      h4.modal-title Advertencia
+                    p#mensajeActualizacion
+                    form#actualizaModulo(name="actualizaModulo")
+                      div.modal-body
+                        div.form-group
+                          p#eliminarCosas ¿Desea eliminar el módulo?
+                      div.modal-footer
+                        a.btn.btn-primary(href='/modulos/eliminar/#{modulo.idModulo}' type="button" class="eliminar") Eliminar
+                        button.btn.btn-danger#cerrarModal(type='button', data-dismiss='modal') Cancelar
+            /////////////////////////////////////////////////
+
+
+
+
+
+            //Modal para eliminar la huerta
+            //////////////////////////////////////////////////////
+            div(id='EliminarHuerta' class='modal fade' role='dialog')
+              div.modal-dialog
+                div.modal-content
+                  div.modal-header
+                      button(type='button' class='close' data-dismiss="modal") &times;
+                      h4.modal-title Advertencia
+                    p#mensajeActualizacion
+                    form#actualizaModulo(name="actualizaModulo")
+                      div.modal-body
+                        div.form-group
+                          p#eliminarCosas ¿Desea eliminar el croquis del módulo?
+                      div.modal-footer
+                        a.btn.btn-primary(href='/modulo/huerta/eliminar/#{modulo.idModulo}') Eliminar croquis
+                        button.btn.btn-danger#cerrarModal(type='button', data-dismiss='modal') Cancelar
+            /////////////////////////////////////////////////
+
+
+
+            //Modal de Agregar croquis
             #myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel')
                 .modal-dialog(role='document')
                   .modal-content
@@ -48,20 +125,26 @@ block content
                       button.close(type='button', data-dismiss='modal', aria-label='Close')
                         span(aria-hidden='true') &times;
                       |         
-                      h4#myModalLabel.modal-title Nueva Huerta
+                      h4#myModalLabel.modal-title Nuevo croquis
                     |       
-                    form#formcrearHuerta(name="crearHuerta",method="post",action="/modulo/huerta/crear")
+                    form#formcrearHuerta(name="crearHuerta",method="post",action="/modulo/huerta/crear/#{modulo.idModulo}")
                       .modal-body
-                          input.form-control#inputAncho(type="number", placeholder="ancho", name="ancho", onchange="posAncho()", required)
-                          input.form-control#inputAlto(type="number", placeholder="alto", name="alto", onchange="posAlto()", required)
+                        div.form-group
+                          input.form-control#inputAncho(type="number", autocomplete="off", placeholder="ancho", name="ancho", onchange="posAncho()", required)
+                        div.form-group
+                          input.form-control#inputAlto(type="number", autocomplete="off", placeholder="alto", name="alto", onchange="posAlto()", required)
+                          input.form-control#inputAlto(type="hidden", placeholder="", name="cuadritos", value=[])
                       |       
                       .modal-footer
-                        button.btn.btn-primary#btnSubmit(type="submit") submit
-                        button.btn.btn-default(type='button', data-dismiss='modal') Close
+                        button.btn.btn-primary#btnSubmit(type="submit") Crear
+                        button.btn.btn-danger(type='button', data-dismiss='modal') Cancelar
                       |         
                 //button.btn.btn-primary(type='submit') Save changes
 
-      if usuario.idRoles == 1
+            
+
+
+      if usuario.permisos.indexOf("modificar modulo") >= 0
         div(id='FAA' class='modal fade' role='dialog')
             div.modal-dialog
               div.modal-content
@@ -71,19 +154,17 @@ block content
                   p#mensajeActualizacion
                   form#actualizaModulo(name="actualizaModulo")
                     div.modal-body
-                      label(for="nombre") Nombre del módulo:
-                      input.form-control#nombre(type="text", placeholder="Nombre", name="nombre", value=modulo.nombre, required)
-                      label(for="numero") Número del módulo: 
-                      input.form-control#numero(type="number", placeholder="Número", name="numero", min="0", max="999", value=modulo.numeroModulo, required)
-                      label(for="admin") Administrador del módulo: 
-                      select.form-control#admin(name="admin", required)
-                        option(value= modulo.usuarioAdministrador selected) #{modulo.admin}
-                        for usuario in listaAdmins
-                          if usuario.idUsuario != modulo.usuarioAdministrador
-                            option(value= usuario.idUsuario) #{usuario.nombre}
+
+                      div.form-group
+                        label(for="nombre") Nombre del módulo:
+                        input.form-control#nombre(type="text", placeholder="Nombre", name="nombre", value=modulo.nombre, required)
+                      div.form-group
+                        label(for="numero") Número del módulo: 
+                        input.form-control#numero(type="number", placeholder="Número", name="numero", min="0", max="999", value=modulo.numeroModulo, required)
+
                     div.modal-footer
                       button.btn.btn-primary#editarModulo(type='button') Guardar cambios
-                      button.btn.btn-default#cerrarModal(type='button', data-dismiss='modal') Cerrar
+                      button.btn.btn-danger#cerrarModalEditar(type='button', data-dismiss='modal') Cancelar
 
     script.
       var posAlto = function(){
@@ -105,17 +186,62 @@ block content
             ancho = parseInt(ancho)
             $("#inputAncho").val(ancho) ;
       }
+    script(type='text/javascript').
+      var cuadritos =!{JSON.stringify(cuadritos)};
+
+    //Modal Asignar Actividades
+    div(id='AAM' class='modal fade' role='dialog')
+      div.modal-dialog
+        //Contenido modal
+        div.modal-content
+          div.modal-header
+            button(type='button' class='close' data-dismiss="modal") &times;
+            h4.modal-title#titulo-modal-actividades Asignar Actividad
+            hr
+            div.modal-body
+              div.group-control#agregarActividad
+                button.btn.btn-primary(type="button" onclick="agregarActividad()" data-toggle="tool-tip", title="Agregar actividad") +
+                &nbsp
+                button.btn.btn-danger(type="button" onclick="quitarActividad()" data-toggle="tool-tip", title="Quitar actividad") -
+              div.categoriaActividad.group-control
+                hr
+                div.categoriasDiv.group-control#categoriasDiv
+                  label(for="categorias") Categoría: 
+                    select.form-control.actividades.categoriaCustom#categoriasPosibles(name="categoriaPosible", onchange="cambiarActividades(this)", required)
+                      for categoria in categorias
+                        option(value= categoria.idCategoria) #{categoria.nombreCategoria}
+                div.actividadesDiv.group-control#actividadesDiv
+                  label(for="actividad") Actividad: 
+                    select.form-control.actividades.actividadCustom#actividadPosible(name="actividadPosible", required)
+                      for actividad in actividades
+                        option.opcionActividad(value= actividad.idActividad, categoria= actividad.idCategoriaAct) #{actividad.nombre}
+                  hr
+              div.group-control
+                label(for="sector") Sector: 
+                  select.form-control.sectorCustom#sectorPosible(name="sectorPosible", required)
+                    for sector in sectores
+                      option(value= sector.idSector) #{sector.numeroSector}
+              div.group-control
+                label(for="fechaIni") Fecha de inicio:
+                  input.initDate.form-control.dateCustom#initDate
+              div.group-control
+                label(for="fechaFin") Fecha de fin:
+                  input.endDate.form-control.dateCustom#endDate
+            div.modal-footer
+              button#boton-habilitar-campos.btn.btn-info(type="button" onclick="habilitarCamposModal()") Habilitar para edición
+              button#boton-edicion-asignaciones.btn.btn-primary(type="button" data-dismiss="modal") Editar
+              button#boton-borrar-asignaciones.btn.btn-danger(type="button" data-dismiss="modal") Eliminar
+              button#boton-modal-asignar.btn.btn-primary(onclick="asignarActividad()" data-dismiss="modal") Asignar
+              button.btn.btn-danger(type="button" data-dismiss="modal") Cerrar
+
+    script.
+      $(document).ready(function(){$('[data-toggle="tooltip"]').tooltip(); });
+
+
+
+    //Calendario
     div#full-clndr.clearfix
-    //Codiguirri de la huerta
     
-    if alto.length > 0
-      div.form-group.col-sm-12.col-md-8.col-md-offset-2
-        table#huerta.table.table-bordered
-          tbody
-            each number in alto
-              tr.renglon
-                each row in ancho 
-                  td.cuadrito &nbsp
     script.todo.
       <div class="clndr-controls">
         <div class="clndr-previous-button">&lsaquo;</div>
@@ -153,7 +279,6 @@ block content
   //Bootstrap Core JS
   script(src='/bootstrap/js/bootstrap.min.js')
 
-  // Editar módulos
   //Underscore
   script(src='https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js')
 
@@ -164,6 +289,14 @@ block content
   //clndr
   script(src='/plugins/clndr.min.js')
 
+  // Editar módulos
   script(src='/js/editarmodulo.js')
+
   script(src='/js/scriptcalendarios.js')
   script(src='/js/scriptcalendarioitinerario.js')
+
+  //Huerta
+  script(src='/js/scripthuerta.js')
+
+  //Asignar
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.js')

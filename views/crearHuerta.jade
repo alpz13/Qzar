@@ -1,8 +1,14 @@
-extend layout
-extend menu
+extends menu
 block content
   head
+    title Croquis
     link(rel='stylesheet', href="/stylesheets/tableHuerta.css", type='text/css')
+    link(rel='stylesheet', href="/stylesheets/bootstrap-colorpicker.min.css", type="text/css")
+    link(rel='stylesheet', href="/stylesheets/qzar-modulos.css", type='text/css')
+    link(rel='stylesheet', href="/stylesheets/docs.css", type="text/css")
+    script(src='/js/scripthuerta.js')  
+    script(type='text/javascript').
+      var cuadritos =!{JSON.stringify(cuadritos)};
     script.
       var flag = false;
       $(document).ready(function() {
@@ -11,7 +17,6 @@ block content
         $(".cuadrito").mousedown(function(){flag=true;marked($(this));});
         $(".cuadrito").mouseenter(function(){marked($(this));});
         });
-
 
       var marked = function(cuadrito)
       {
@@ -63,10 +68,11 @@ block content
           });
           console.log(cuadritos);
           //mandamos cuadriots al servidor
+          var url = window.location.href.split("/");
           $.post("/modulo/huerta/crearGuardar",
           {
               'cuadritos': JSON.stringify(cuadritos),
-              'modulo': 2,
+              'modulo': url[url.length-1],
               'alto': renglon,
               'ancho': columna
           },
@@ -90,15 +96,14 @@ block content
         div#barra-crear-huerta
           div.col-sm-12.col-md-8.col-md-offset-2
             i#icono.material-icons.inline.inline dashboard
-            h1#h1CrearHuerta Crear Huerta
+            h1#h1CrearHuerta #{title}
         div.form-group.col-sm-12.col-md-8.col-md-offset-2.crear-labels
           div
             label Sectores:
             select#listaCuadritos.form-control
-              option(type='1', BGCOLOR='') Vacio
-              option(type='2', BGCOLOR='red') Fresa
-              option(type='3', BGCOLOR='yellow') Piña
-              option(type='4', BGCOLOR='blue') Zarzamora
+              for sector in sectores
+                option(type=sector.idContenidoCuadritos, BGCOLOR=sector.color) #{sector.nombre}
+            
           div
             label N° Sector:   
             input#selectSector.form-control(type="number", min='0', value="0" onchange="verPositivos()")
@@ -114,4 +119,25 @@ block content
                   each row in ancho 
                     td.cuadrito &nbsp
 
-    
+        //Modal para agregar un tipo de poste
+        div(id='FAA' class='modal fade' role='dialog')
+            div.modal-dialog
+              div.modal-content
+                div.modal-header
+                  button(type='button' class='close' data-dismiss="modal") &times;
+                  h4.modal-title Agregar Poste
+                
+                  div.modal-body
+                    div.input-group.colorpicker-component.demo.demo-auto
+                      label(for="color") Color
+                      input.form-control#escogerColor(type='text', value='', required)
+                      span.input-group-addon
+                        i
+                    label(for="nombre") Nombre
+                    input.form-control#nombreDeTipoDePoste(type='text', value='', required)
+                      
+
+
+                  div.modal-footer
+                    button.btn.btn-primary#crearModulo(type="button") Crear
+                    button.btn.btn-default#cerrarModal(type='button', data-dismiss='modal') Cerrar

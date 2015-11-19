@@ -13,14 +13,15 @@ var session = require('express-session');
 
 var routes = require('./routes/index');
 var crearHuerta = require('./routes/crearHuerta');
-var formularioCrearHuerta = require('./routes/formularioCrearHuerta'); //donde leer
-var crearHuertaGuardar = require('./routes/crearHuertaGuardar');
 var modulos = require('./routes/modulos');
 var actividades = require('./routes/actividades');
 var sesiones = require('./routes/sesiones');
 var usuarios = require('./routes/usuarios');
-var lotes = require('./routes/lotes');
+var asignacion = require('./routes/asignacion');
 var retroalimentacion = require('./routes/retroalimentacion');
+var sector = require('./routes/sector');
+var categoria = require('./routes/categoria');
+var roles = require('./routes/roles');
 
 var app = express();
 
@@ -42,7 +43,9 @@ app.use(session({
     cookie: { secure: false }
 }));
 
+//Si llaman esta url, ejecutar
 app.use('/', routes);
+app.use('/sesiones', sesiones);
 // Si no ha iniciado sesión, se va directo a login.
 app.get(/.*/, function(req, res, next) {
     if (!req.session.usuario) {
@@ -51,20 +54,26 @@ app.get(/.*/, function(req, res, next) {
         next();
     }
 });
-
-app.use('/modulo/huerta/crear', crearHuerta);//Si llaman esta url, ejecutar
-app.use('/modulo/huerta/formulario', formularioCrearHuerta);
-app.use('/modulo/huerta/crearGuardar', crearHuertaGuardar);
+app.post(/.*/, function(req, res, next) {
+    if (!req.session.usuario) {
+        res.redirect('/');
+    } else {
+        next();
+    }
+});
+app.use('/modulo/huerta', crearHuerta);
 app.use('/modulos', modulos);
 app.use('/actividades', actividades);
-app.use('/sesiones', sesiones);
 app.use('/usuarios', usuarios);
-app.use('/lotes', lotes);
+app.use('/asignacion', asignacion);
 app.use('/retroalimentacion', retroalimentacion);
+app.use('/sector', sector);
+app.use('/categoria', categoria);
+app.use('/roles', roles);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-    var err = new Error('Not Found');
+    var err = new Error('No se encontró la página.');
     err.status = 404;
     next(err);
 });
@@ -73,10 +82,15 @@ app.use(function (req, res, next) {
 
 // development error handler
 // will print stacktrace
+app.set('env', 'development');
 if (app.get('env') === 'development') {
     app.use(function (err, req, res, next) {
+		if (err.status === 403) {
+			err.message = "No tienes permiso para hacer esta acción. " + err.message;
+		}
         res.status(err.status || 500);
         res.render('error', {
+            usuario: req.session.usuario,
             message: err.message,
             error: err
         });
@@ -86,8 +100,12 @@ if (app.get('env') === 'development') {
 // production error handler
 // no stacktraces leaked to user
 app.use(function (err, req, res, next) {
+	if (err.status === 403) {
+		err.message = "No tienes permiso para hacer esta acción. " + err.message;
+	}
     res.status(err.status || 500);
     res.render('error', {
+        usuario: req.session.usuario,
         message: err.message,
         error: {}
     });

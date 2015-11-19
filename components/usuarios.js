@@ -1,137 +1,146 @@
-/*jslint
-  indent: 4, unparam: true
-*/
+/* globals require: true, module: true, console: true, console: true*/
 'use strict';
 
-var express = require('express');
 var mysql = require('mysql');
-var router = express.Router();
-
 var credenciales = require('../database/credencialesbd.json');
 
-// Regresa la lista de usuarios de un módulo.
-// SELECT nombre, idRoles, activo FROM Usuarios WHERE idModulo = ? AND activo = 1;
 function listarUsuariosModulo(id, callback) {
-    var bd = mysql.createConnection(credenciales),
-        sql = 'SELECT nombre, idRoles, activo FROM Usuarios WHERE idModulo = ? AND activo = 1;',
+	var conexion = mysql.createConnection(credenciales);
+    var consulta = 'SELECT nombre, idRoles, activo FROM Usuarios WHERE idModulo = ? AND activo = 1;',
         params = [id];
-    sql = mysql.format(sql, params);
-
-    bd.connect();
-
-    bd.query(sql, function (err, resultados) {
+    consulta = mysql.format(consulta, params);
+    conexion.connect();
+    conexion.query(consulta, function (err, resultados) {
+        conexion.end();
         if (err) {
-            bd.end();
+            console.log(err);
             return callback(err, []);
         }
-        bd.end();
         return callback(null, resultados);
     });
 }
-//listar usuarios
+
 function listarUsuarios(callback) {
-    var bd = mysql.createConnection(credenciales),
-        sql = '(Select u.idUsuario, u.nombre as nombreUsuario, r.nombre as nombreRol, m.nombre as nombreModulo from usuarios as u, roles as r, modulos as m where u.idRoles = r.idRol and u.idModulo = m.idModulo and u.activo = 1 order by m.nombre) UNION (Select u.idUsuario, u.nombre as nombreUsuario, r.nombre as nombreRol, u.idModulo as nombreModulo from usuarios as u, roles as r where u.idRoles = r.idRol and u.activo = 1 and idModulo IS NULL);';
-        //sql = '(Select u.nombre as nombreUsuario, r.nombre as nombreRol, m.nombre as nombreModulo from usuarios as u, roles as r, modulos as m where u.idRoles = r.idRol and u.idModulo = m.idModulo) UNION (Select u.nombre as nombreUsuario, r.nombre as nombreRol, u.idModulo as nombreModulo from usuarios as u, roles as r where u.idRoles = r.idRol and  idModulo IS NULL);';
-    bd.connect();
-    // Ejecuta consulta.
-    bd.query(sql, function (err, resultados) {
+	var conexion = mysql.createConnection(credenciales);
+    var consulta = '(Select u.idUsuario, u.nombre as nombreUsuario, r.nombre as nombreRol, m.nombre as nombreModulo from Usuarios as u, Roles as r, Modulos as m where u.idRoles = r.idRol and u.idModulo = m.idModulo and u.activo = 1 order by m.nombre) UNION (Select u.idUsuario, u.nombre as nombreUsuario, r.nombre as nombreRol, u.idModulo as nombreModulo from Usuarios as u, Roles as r where u.idRoles = r.idRol and u.activo = 1 and idModulo IS NULL);';
+    conexion.connect();
+    conexion.query(consulta, function (err, resultados) {
+        conexion.end();
         if (err) {
-            bd.end();
+            console.log(err);
             return callback(err);
         }
-        bd.end();
         return callback(null, resultados);
     });
 }
 
-
-// Regresa la lista de administradores generales.
 function listarAdminsGenerales(callback) {
-
-    var bd = mysql.createConnection(credenciales),
-        sql = 'SELECT * FROM Usuarios WHERE idRoles = 1 AND activo = 1;';
-
-    bd.connect();
-
-    // Ejecuta consulta.
-    bd.query(sql, function (err, resultados) {
+	var conexion = mysql.createConnection(credenciales);
+    var consulta = 'SELECT * FROM Usuarios WHERE idRoles = 1 AND activo = 1;';
+    conexion.connect();
+    conexion.query(consulta, function (err, resultados) {
+        conexion.end();
         if (err) {
-            bd.end();
+            console.log(err);
             return callback(err);
         }
-        bd.end();
         return callback(null, resultados);
     });
 }
 
 
 function mostrarUsuarios(id, callback) {
-    var bd = mysql.createConnection(credenciales),
-        //sql = 'SELECT idRoles, nombre, idUsuario FROM usuarios where idUsuario = ?',
-        sql ='Select u.nombre as nombreUsuario, r.nombre as nombreRol, m.nombre as nombreModulo, u.idModulo, u.idRoles, idUsuario from usuarios as u, roles as r, modulos as m where u.idRoles = r.idRol and u.idModulo = m.idModulo and idUsuario= ?',
+	var conexion = mysql.createConnection(credenciales);
+    var consulta ='Select u.nombre as nombreUsuario, r.nombre as nombreRol, m.nombre as nombreModulo, u.idModulo, u.idRoles, idUsuario from Usuarios as u, Roles as r, Modulos as m where u.idRoles = r.idRol and u.idModulo = m.idModulo and idUsuario= ?',
         params= [id];
-    
-    sql = mysql.format(sql, params);
+    consulta = mysql.format(consulta, params);
+    conexion.connect();
 
-    bd.connect();
-
-    bd.query(sql, function (err, resultados) {
+    conexion.query(consulta, function (err, resultados) {
+        conexion.end();
         if (err) {
-            bd.end();
+            console.log(err);
             return callback(err, []);
         }
-        bd.end();
         return callback(null, resultados);
     });
 }
 
 function listarRoles(callback) {
-    var bd = mysql.createConnection(credenciales),
-        sql = 'SELECT * FROM roles;';
-    bd.connect();
-    bd.query(sql, function (err, resultados) {
+	var conexion = mysql.createConnection(credenciales);
+    var consulta = 'SELECT * FROM Roles WHERE activo = 1;';
+    conexion.connect();
+    conexion.query(consulta, function (err, resultados) {
+        conexion.end();
         if (err) {
-            bd.end();
+            console.log(err);
             return callback(err);
         }
-        bd.end();
         return callback(null, resultados);
     });
 }
 
 function listarModulos(callback) {
-    var bd = mysql.createConnection(credenciales),
-        sql = 'SELECT idModulo, nombre FROM modulos;';
-    bd.connect();
-    bd.query(sql, function (err, resultados) {
+	var conexion = mysql.createConnection(credenciales);
+    var consulta = 'SELECT idModulo, nombre FROM Modulos;';
+    conexion.connect();
+    conexion.query(consulta, function (err, resultados) {
+        conexion.end();
         if (err) {
-            bd.end();
+            console.log(err);
             return callback(err);
         }
-        bd.end();
         return callback(null, resultados);
     });
 }
 
 function eliminarUsuario(id, callback) {
-    var bd = mysql.createConnection(credenciales),
-        sql = 'UPDATE Usuarios SET activo=0 WHERE idUsuario=?;',
+	var conexion = mysql.createConnection(credenciales);
+    var consulta = 'UPDATE Usuarios SET activo=0 WHERE idUsuario=?;',
         params= [id];
-    
-    sql = mysql.format(sql, params);
-
-    bd.connect();
-
-    bd.query(sql, function (err, resultados) {
+    consulta = mysql.format(consulta, params);
+    conexion.connect();
+    conexion.query(consulta, function (err, resultados) {
+        conexion.end();
         if (err) {
-            bd.end();
+            console.log(err);
             return callback(err, []);
         }
-        bd.end();
         return callback(null, resultados);
     });
 }
+
+var agregar = function (NuevoUsuario, callback) {
+	var conexion = mysql.createConnection(credenciales);
+    var consulta = 'INSERT INTO Usuarios(idRoles, nombre, contrasena, idModulo, activo) VALUES(?, ?, ?, ?, 1);',
+        params = [NuevoUsuario.idRoles, NuevoUsuario.nombre, NuevoUsuario.contrasenia, NuevoUsuario.idModulo];
+    conexion.connect();
+    consulta = mysql.format(consulta, params);
+    conexion.query(consulta, function (err) {
+        conexion.end();
+        if (err) {
+            console.log(err);
+            return callback(err);
+        }
+        console.log('Usuario creado');
+        return callback(null);
+    });
+};
+
+var modificar = function (NuevoUsuario, callback) {
+	var conexion = mysql.createConnection(credenciales);
+    var consulta = 'UPDATE `Usuarios` SET `idRoles`= "' + NuevoUsuario.idRoles + '",`nombre`= "' + NuevoUsuario.nombre + '",`contrasena`= "'+ NuevoUsuario.contrasenia +'",`idModulo`= "'+ NuevoUsuario.idModulo + '" WHERE Usuarios.idUsuario = ' + NuevoUsuario.idUsuario + '';
+    conexion.connect();
+    conexion.query(consulta, function (err) {
+        conexion.end();
+        if (err) {
+            console.log(err);
+            return callback(err);
+        }
+        console.log('Usuario modificado');
+        return callback(null);
+    });
+};
 
 module.exports = {
     'listarUsuariosModulo' : listarUsuariosModulo,
@@ -140,5 +149,7 @@ module.exports = {
     'mostrarUsuarios' : mostrarUsuarios,
     'listarRoles': listarRoles,
     'listarModulos' : listarModulos,
-    'eliminarUsuario' : eliminarUsuario
+    'eliminarUsuario' : eliminarUsuario,
+    'agregar' : agregar,
+    'modificar' : modificar
 };

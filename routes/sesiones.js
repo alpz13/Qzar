@@ -1,11 +1,9 @@
 'use strict';
-/*jslint
-    indent: 4, unparam: true
-*/
-var express = require('express');
 
-var controlador = require('../components/login.js');
+var express = require('express');
 var router = express.Router();
+
+var controlador = require('../components/sesiones.js');
 var Registro = require('log');
 var observador = new Registro('info');
 
@@ -26,6 +24,7 @@ router.post('/iniciar', function (req, res, next) {
                 res.render('index', {mensaje: err, titulo: "###", aviso: {tipo: 'danger', icono: 'fa fa-exclamation-triangle', mensaje: 'Usuario y/o contraseña incorrectos.'}});
             }
         } else {
+			//console.log(req.session.usuario);
             res.redirect('/');
             res.render('index', {usuario: req.session.usuario });
         }

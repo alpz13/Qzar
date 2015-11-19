@@ -16,9 +16,13 @@ var modifica = function (req, res) {
         var descripcion = fields.descripcionModActividad;
         var nombreoriginal = files.imaMod[0].originalFilename;
         var ext = path.extname(nombreoriginal);
+        var categoria = fields.roles;
+        var img = files.imaMod[0];
 
         var bd = mysql.createConnection(credenciales);   
-        var sql = 'UPDATE Actividades SET nombre = "' + nombre + '", descripcion = "' + descripcion + '" WHERE idActividad = "' + id + '"';
+        var sql = 'UPDATE Actividades SET nombre = "' + nombre + '", descripcion = "' + descripcion + '", idCategoriaAct = "' + categoria + '", imagen = "' + id+ext + '" WHERE idActividad = "' + fields.idModActividad + '"';
+
+        console.log(sql);
 
         bd.connect();
         bd.query(sql, function (err, resultado) {
@@ -26,26 +30,15 @@ var modifica = function (req, res) {
                 bd.end();
                 console.log(err);
             }
-            var img = files.imaMod[0];
+           
             fs.readFile(img.path, function (err, data) {
                 var idAc = id + ext;
                 var path = "./public/images/actividades/" + idAc;
                 fs.writeFile(path, data, function (err) {
                     if (err) {
                         console.log(err);
-                    } else {
-
-                        sql = 'UPDATE Imagenes SET ruta = "' + idAc + '" WHERE idImagenes =' + id + ';';
-
-                        bd.query(sql, function (err) {
-                            console.log(sql);
-                            if (err) {
-                                bd.end();
-                                console.log(err);
-                            }
-                            bd.end();
+                    } else {                        
                             listar.listar(res);
-                        });
                     }
                 });
             });

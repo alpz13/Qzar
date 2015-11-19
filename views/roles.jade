@@ -1,0 +1,188 @@
+extends menu
+block content
+  head
+  title Roles
+  script(src='/js/crearrol.js')
+  //Contenido de Pagina
+  div#page-wrapper
+    div.container-fluid
+      div.row
+        div#barra-de-actividades
+          div.col-sm-12.col-md-8.col-md-offset-2
+            i#icono-modulo.material-icons accessibility
+            //p #{mensaje}
+            h1#h1Modulos #{titulo}
+            if usuario.permisos.indexOf("crear rol") > 0
+              //Icono que te lleva al modal
+              a(class='nav navbar-right top-nav' href='#' data-toggle="modal" data-target="#modal-crear" onclick="limpiarModalRoles()")
+                i.material-icons.md-48#boton-agregar-actividad control_point
+                p Agregar
+        div.col-sm-12.col-md-8.col-md-offset-2
+          if roles && roles.length
+            table.table.table-striped.table-bordered
+              thead
+                th Rol
+                th Opciones
+              tbody
+                each rol in roles
+                  tr
+                    td(class='id' style='display:none;') #{rol.idRol}
+                    td #{rol.nombre}
+                    td
+                      button.btn.btn-primary(type="button" class="Modificar" data-toggle="modal" data-target="#modal-crear" id='boton-Modificar' onclick= "rellenaModalModificarRol(#{rol.idRol})") Modificar
+                      &nbsp&nbsp&nbsp 
+                      button.btn.btn-danger( type="button" class="eliminarModal" data-toggle="modal" data-target="#EliminarRol") Eliminar
+          else
+            p.watermark No se han encontrado roles en el sistema.
+
+      if usuario.permisos.indexOf("crear rol") >= 0
+        //Modal para agregar
+        div(id='modal-crear' class='modal fade' role='dialog')
+            div.modal-dialog
+              div.modal-content
+                div.modal-header
+                  button(type='button' class='close' data-dismiss="modal") &times;
+                  span#mensajeModal
+                  h4.modal-title#tituloModal Agregar rol
+                form#agregaRol(name="agregaRol")
+                  div.modal-body
+                    label(for="nombre") Nombre del rol:
+                    input.form-control#nombre(type="text", placeholder="Nombre", name="nombre", required)
+                    input#idRol(type="hidden")
+                    hr
+                    label= "Permisos asignados al rol:"
+                    table#checkboxes
+                      tr
+                        td(style="width:32px")
+                          input.form-control.formCheckboxRoles#permiso3(type="checkbox" name="permiso" value="3")
+                        td= "Crear módulo"
+                      tr
+                        td(style="width:32px")
+                          input.form-control.formCheckboxRoles#permiso4(type="checkbox" name="permiso" value="4")
+                        td= "Ver módulos"
+                      tr
+                        td(style="width:32px")
+                          input.form-control.formCheckboxRoles#permiso5(type="checkbox" name="permiso" value="5")
+                        td= "Modificar módulo"
+                      tr
+                        td(style="width:32px")
+                          input.form-control.formCheckboxRoles#permiso6(type="checkbox" name="permiso" value="6")
+                        td= "Eliminar módulo"
+                      tr
+                        td(style="width:32px")
+                          input.form-control.formCheckboxRoles#permiso7(type="checkbox" name="permiso" value="7")
+                        td= "Crear actividad"
+                      tr
+                        td(style="width:32px")
+                          input.form-control.formCheckboxRoles#permiso8(type="checkbox" name="permiso" value="8")
+                        td= "Ver actividades"
+                      tr
+                        td(style="width:32px")
+                          input.form-control.formCheckboxRoles#permiso9(type="checkbox" name="permiso" value="9")
+                        td= "Modificar actividad"
+                      tr
+                        td(style="width:32px")
+                          input.form-control.formCheckboxRoles#permiso10(type="checkbox" name="permiso" value="10")
+                        td= "Eliminar actividad"
+                      tr
+                        td(style="width:32px")
+                          input.form-control.formCheckboxRoles#permiso11(type="checkbox" name="permiso" value="11")
+                        td= "Crear usuario"
+                      tr
+                        td(style="width:32px")
+                          input.form-control.formCheckboxRoles#permiso12(type="checkbox" name="permiso" value="12")
+                        td= "Ver usuarios"
+                      tr
+                        td(style="width:32px")
+                          input.form-control.formCheckboxRoles#permiso13(type="checkbox" name="permiso" value="13")
+                        td= "Modificar usuario"
+                      tr
+                        td(style="width:32px")
+                          input.form-control.formCheckboxRoles#permiso14(type="checkbox" name="permiso" value="14")
+                        td= "Eliminar usuario"
+                      tr
+                        td(style="width:32px")
+                          input.form-control.formCheckboxRoles#permiso15(type="checkbox" name="permiso" value="15")
+                        td= "Crear rol"
+                      tr
+                        td(style="width:32px")
+                          input.form-control.formCheckboxRoles#permiso16(type="checkbox" name="permiso" value="16")
+                        td= "Ver roles"
+                      tr
+                        td(style="width:32px")
+                          input.form-control.formCheckboxRoles#permiso17(type="checkbox" name="permiso" value="17")
+                        td= "Modificar rol"
+                      tr
+                        td(style="width:32px")
+                          input.form-control.formCheckboxRoles#permiso18(type="checkbox" name="permiso" value="18")
+                        td= "Eliminar rol"
+                      tr
+                        td(style="width:32px")
+                          input.form-control.formCheckboxRoles#permiso19(type="checkbox" name="permiso" value="19")
+                        td= "Crear retroalimentación"
+                      tr
+                        td(style="width:32px")
+                          input.form-control.formCheckboxRoles#permiso20(type="checkbox" name="permiso" value="20")
+                        td= "Ver retroalimentaciones"
+                      tr
+                        td(style="width:32px")
+                          input.form-control.formCheckboxRoles#permiso21(type="checkbox" name="permiso" value="21")
+                        td= "Modificar retroalimentación"
+                      tr
+                        td(style="width:32px")
+                          input.form-control.formCheckboxRoles#permiso22(type="checkbox" name="permiso" value="22")
+                        td= "Eliminar retroalimentación"
+                      tr
+                        td(style="width:32px")
+                          input.form-control.formCheckboxRoles#permiso23(type="checkbox" name="permiso" value="23")
+                        td= "Crear asignación"
+                      tr
+                        td(style="width:32px")
+                          input.form-control.formCheckboxRoles#permiso24(type="checkbox" name="permiso" value="24")
+                        td= "Ver asignaciones"
+                      tr
+                        td(style="width:32px")
+                          input.form-control.formCheckboxRoles#permiso25(type="checkbox" name="permiso" value="25")
+                        td= "Modificar asignación"
+                      tr
+                        td(style="width:32px")
+                          input.form-control.formCheckboxRoles#permiso26(type="checkbox" name="permiso" value="26")
+                        td= "Eliminar asignación"
+                      tr
+                        td(style="width:32px")
+                          input.form-control.formCheckboxRoles#permiso27(type="checkbox" name="permiso" value="27")
+                        td= "Crear sector"
+                      tr
+                        td(style="width:32px")
+                          input.form-control.formCheckboxRoles#permiso28(type="checkbox" name="permiso" value="28")
+                        td= "Ver sectores"
+
+                  div.modal-footer
+                    button.btn.btn-primary#crearRol(type="button") Crear
+                    button.btn.btn-primary#modificarRol(type="button", style="display: none;") Modificar
+                    button.btn.btn-danger#cerrarModal(type='button', data-dismiss='modal') Cancelar
+
+
+    //Modal Advertencia
+    if usuario.permisos.indexOf("eliminar rol") >= 0
+      div(id='EliminarRol' class='modal fade' role='dialog')
+        div.modal-dialog
+          //Contenido modal
+          div.modal-content
+            div.modal-header
+              button(type='button' class='close' data-dismiss="modal") &times;
+              h4.modal-title Advertencia
+            form
+              div.modal-body
+                p#eliminarCosas ¿Desea eliminar el rol?
+                //Importante NO BORRAR
+                input.ninja(type="hidden")
+              div.modal-footer
+                button#eliminarRoles.btn.btn-primary( type="button" class="eliminar" data-dismiss="modal"  ) Eliminar
+                button.btn.btn-danger(type="button" data-dismiss="modal") Cancelar
+
+                //button#eliminarRoles.btn.btn-danger( type="button" class="Eliminar" data-dismiss="modal" onclick="window.location.href='/roles/eliminar/#{rol.idRol}'" ) Eliminar
+
+
+if usuario.permisos.indexOf("crear rol") >= 0 || usuario.permisos.indexOf("modificar rol") >= 0
+  script(src='/js/crearrol.js')
