@@ -8,4 +8,6 @@ $(document).on("click", ".modificar", function () {
     document.getElementById('MIDU').value = id;
     document.getElementById('nombreIdentificador').value = nombre;
     document.getElementById('colorIdentificador').value = color;
+    $('.modal-content span.input-group-addon i').css("background-color" , color);
+
 });
