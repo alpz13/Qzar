@@ -190,11 +190,13 @@ router.post('/verRetroalimentacion', function (req, res, next) {
 						"actividades": []
 					};
 				}
-				retros[filas[i].fecha].actividades.push({
-					"nombre": filas[i].nombre,
-					"numeroSector": filas[i].numeroSector,
-					"cumplido": filas[i].cumplido
-				});
+				if (filas[i].nombre) {
+					retros[filas[i].fecha].actividades.push({
+						"nombre": filas[i].nombre,
+						"numeroSector": filas[i].numeroSector,
+						"cumplido": filas[i].cumplido
+					});
+				}
 			}
 			for (var llave in retros) {
 				listaRetros.push(retros[llave]);
