@@ -52,6 +52,10 @@ textarea{
     font-size: 48px
 }
 
+#boton-agregar-retro{
+    font-size: 48px;
+}
+
 #barra-de-titulo > div{
     /*padding: 10px 0;*/
     display: flex;
@@ -247,6 +251,11 @@ div#retro-item-image{
 
 .formCheckboxRoles{
     width: 20px;
+}
+
+.spanRetro{
+    vertical-align: sub;
+    font-weight: bold;
 }
 
 /* http://www.colorcombos.com/color-schemes/170/ColorCombo170.html */
