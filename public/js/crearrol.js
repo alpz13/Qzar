@@ -72,3 +72,22 @@ function rellenaModalModificarRol(idRol) {
         }
     });
 }
+
+
+$(document).on("click", ".eliminarModal", function(){
+    var obj = (this).closest("tr");
+    var id = $(obj).find(".id").html();
+    console.log(id);
+    $("input.ninja").attr("value", id);
+
+});
+
+$(document).on("click", ".eliminar", function(){
+    var id = $("input.ninja").attr("value");
+    //html = "<a href='/roles/eliminar/"+id+">"+"</a>";
+    window.location.href='/roles/eliminar/'+id;
+    //console.log(html);
+    //$("#eliminarRoles").replaceWith(html);
+});
+
+
