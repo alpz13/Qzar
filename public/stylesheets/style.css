@@ -238,6 +238,12 @@ div#retro-item-image{
 .actividadesDelDia{
     padding: 1vw;
 }
+.noActividades{
+    font-weight: bold;
+    font-size: 24px;
+    text-align: center;
+    padding-bottom: inherit;
+}
 
 
 /* http://www.colorcombos.com/color-schemes/170/ColorCombo170.html */
