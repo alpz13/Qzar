@@ -163,12 +163,12 @@ function cargarActividadesHoy(){
   function(data){
     data = JSON.parse( data );
     console.log(data);
-    html = "<thead><tr><th>Actividad por hacer</th><th>Sector</th></tr></thead><tbody>";
+    html = "<thead><tr><th>Actividades del dia</th><th>Sector</th></tr></thead><tbody>";
     data.forEach(function(element, index){
       html += "<tr id='actividadesHoy"+index+"'><td>"+data[index].nombre+"</td><td>"+data[index].numeroSector+"</td></tr>"
     });
     html += "</tbody></table>";
-    $("#actividadesHoy").replaceWith("<table id='actividadesHoy'>"+html+"</table>");
+    $("#actividadesHoy").replaceWith("<table id='actividadesHoy' class='table table-striped table-bordered'>"+html+"</table>");
   });
 
 }

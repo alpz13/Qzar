@@ -219,18 +219,25 @@ div#retro-item-image{
 
 
 .sectorCustom{
-    width: 900% !important;
+    width: 27vw;
 }
 
 .dateCustom{
-    width: 247%;
+    width: 27vw;
 }
 
 .actividadCustom{
-    width: 303%;
+    width: 27vw;
 }
 
 .categoriaCustom{
-    width: 480%;
+    width: 27vw;
 }
+
+
+.actividadesDelDia{
+    padding: 1vw;
+}
+
+
 /* http://www.colorcombos.com/color-schemes/170/ColorCombo170.html */

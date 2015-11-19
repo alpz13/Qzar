@@ -6,7 +6,10 @@ block content
   //Contenido de Pagina
   div#page-wrapper
     div.container-fluid
-      table.table#actividadesHoy
+      
+      
+      
+
 
        if aviso
          div.row
@@ -28,6 +31,10 @@ block content
           //Lista de Eventos
           //div.form-group.col-sm-12.col-md-8.col-md-offset-2
             div#eventos-del-dia
+        //Parte de Edu
+        div.actividadesDelDia.col-sm-12.col-md-8.col-md-offset-2
+          table#actividadesHoy
+
 
         //Croquis
         &nbsp&nbsp&nbsp&nbsp&nbsp
@@ -205,8 +212,8 @@ block content
                 button.btn.btn-primary(type="button" onclick="agregarActividad()" data-toggle="tool-tip", title="Agregar actividad") +
                 &nbsp
                 button.btn.btn-danger(type="button" onclick="quitarActividad()" data-toggle="tool-tip", title="Quitar actividad") -
-                hr
               div.categoriaActividad.group-control
+                hr
                 div.categoriasDiv.group-control#categoriasDiv
                   label(for="categorias") Categoría: 
                     select.form-control.actividades.categoriaCustom#categoriasPosibles(name="categoriaPosible", onchange="cambiarActividades(this)", required)
@@ -217,6 +224,7 @@ block content
                     select.form-control.actividades.actividadCustom#actividadPosible(name="actividadPosible", required)
                       for actividad in actividades
                         option.opcionActividad(value= actividad.idActividad, categoria= actividad.idCategoriaAct) #{actividad.nombre}
+                  hr
               div.group-control
                 label(for="sector") Sector: 
                   select.form-control.sectorCustom#sectorPosible(name="sectorPosible", required)
