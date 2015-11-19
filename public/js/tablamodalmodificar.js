@@ -16,9 +16,21 @@ $(document).on("click", ".modificar", function () {
 	
 });
 
-$(document).on("click", ".eliminar", function () {
+
+//Ninja para pasar el id
+$(document).on("click", ".eliminarModal", function (){
 	var obj = (this).closest("tr");	
 	var id = $(obj).find(".id").html();
+	$("input.ninja").attr("value", id);
+	console.log($("input.ninja"));
+});
+
+
+
+$(document).on("click", ".eliminar", function () {
+	
+	var id = $("input.ninja").attr("value");
+	console.log(id);
 	$.post("/actividades/eliminaactividad",
           {
               'id': id

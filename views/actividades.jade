@@ -41,7 +41,7 @@ block content
                     td#botones-modificar 
                       button.btn.btn-primary(type="button" class="modificar" data-toggle="modal" data-target="#MAA" id='boton-modificar') Modificar
                       &nbsp&nbsp&nbsp
-                      button.btn.btn-danger(type="button" class="eliminar" data-dismiss="modal") Eliminar
+                      button.btn.btn-danger(type="button" class="eliminarModal" data-toggle="modal" data-target="#EliminarActividad") Eliminar
           else
             p.watermark No se han encontrado actividades en el sistema.
 
@@ -101,6 +101,26 @@ block content
             div.modal-footer
               button.btn.btn-primary(type="submit" ) Agregar
               button.btn.btn-danger(type="button" data-dismiss="modal") Cerrar
+
+    //Modal Advertencia
+    div(id='EliminarActividad' class='modal fade' role='dialog')
+      div.modal-dialog
+        //Contenido modal
+        div.modal-content
+          div.modal-header
+            button(type='button' class='close' data-dismiss="modal") &times;
+            h4.modal-title Advertencia
+          form
+            div.modal-body
+              p#eliminarCosas ¿Desea eliminar la actividad?
+              //Importante NO BORRAR
+              input.ninja(type="hidden")
+            div.modal-footer
+              button.btn.btn-primary(type="button" class="eliminar" data-dismiss="modal") Eliminar
+              button.btn.btn-danger(type="button" data-dismiss="modal") Cancelar
+
+
+
     script(language="JavaScript" type="text/javascript").
       function checkform ( form ) {
         if(form.nombreactividad.value == "") {

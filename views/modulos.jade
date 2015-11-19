@@ -41,22 +41,18 @@ block content
                 div.modal-header
                   button(type='button' class='close' data-dismiss="modal") &times;
                   h4.modal-title Agregar módulo
-                if listaAdmins && listaAdmins.length
-                  p#mensajeAgregaModulo
-                  form#agregaModulo(name="agregaModulo")
-                    div.modal-body
+                p#mensajeAgregaModulo
+                form#agregaModulo(name="agregaModulo")
+                  div.modal-body
+                    div.form-group
                       label(for="nombre") Nombre del módulo:
                       input.form-control#nombre(type="text", placeholder="Nombre", name="nombre", required)
-                      label(for="numero") Número del módulo: 
+                    div.form-group
+                      label(for="numero") Número del módulo 
                       input.form-control#numero(type="number", placeholder="Número", name="numero", min="0", max="999", required)
-                    div.modal-footer
-                      button.btn.btn-primary#crearModulo(type="button") Crear
-                      button.btn.btn-default#cerrarModal(type='button', data-dismiss='modal') Cerrar
-                else
-                  div.modal-body
-                    p No hay usuarios disponibles con el rol de administrador de módulo.
                   div.modal-footer
-                    button.btn.btn-default(type='button', data-dismiss='modal') Cerrar
+                    button.btn.btn-primary#crearModulo(type="button") Crear
+                    button.btn.btn-danger#cerrarModal(type='button', data-dismiss='modal') Cancelar
 
   //Cierro segundo col-lg-12 
   //Cierro Container Fluid

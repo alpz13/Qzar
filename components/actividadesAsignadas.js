@@ -309,7 +309,7 @@ function listarAsignacionesPorDia(idModulo, fecha, callback) {
             connection.query(sql, function (err, actividades) {
                 connection.end();
                 if (!err) {
-                  res.send(JSON.stringify(actividades))
+                  callback(null, actividades);
                   return;
                 }
                 //console.log(err);
