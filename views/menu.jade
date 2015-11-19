@@ -42,7 +42,7 @@ block body
                 p.inline.leftsidebar INICIO
   
           // Modulos
-          if usuario.permisos.indexOf("ver modulos") >= 0
+          if usuario.permisos.indexOf("ver modulo") >= 0
             if barraLateral && barraLateral === 'modulos'
               li.activo
                 a(href='/modulos')
@@ -55,7 +55,7 @@ block body
                   p.inline.leftsidebar MODULOS
 
           // Actividades
-          if usuario.permisos.indexOf("ver actividades") >= 0
+          if usuario.permisos.indexOf("ver actividad") >= 0
             if barraLateral && barraLateral === 'actividades'
               li.activo
                 a(href='/actividades')
@@ -68,7 +68,7 @@ block body
                   p.inline.leftsidebar ACTIVIDADES
 
           // Categorias
-          if usuario.permisos.indexOf("crear actividades") >= 0
+          if usuario.permisos.indexOf("crear actividad") >= 0
             if barraLateral && barraLateral === 'categorias'
               li.activo
                 a(href='/categoria')
