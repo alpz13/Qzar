@@ -12,8 +12,8 @@ $("#editarModulo").click(function() {
             $("#numeroModulo").html(moduloActualizado.numero);
             $("#administradorModulo").html($("#admin").find("option:selected").text());
 			// Sí, deben ser dos clicks, si no, no se cierra la sombra del modal.
-			$("#cerrarModal").click();
-			$("#cerrarModal").click();
+			$("#cerrarModalEditar").click();
+			$("#cerrarModalEditar").click();
 		} else {
             $("#mensajeActualizacion").html(respuesta);
 		}
