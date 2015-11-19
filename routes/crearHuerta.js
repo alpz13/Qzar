@@ -7,7 +7,26 @@ var modulos = require('../components/modulos.js');
 var cuadritos = require('../components/modulos.js');
 var huerta = require('../components/huerta.js');
 
-/* GET users listing. */
+// Checar privilegios.
+router.get(/.*/, function(req, res, next) {
+	if (req.session.usuario.permisos.indexOf("crear modulo") < 0 && req.session.usuario.permisos.indexOf("modificar modulo") < 0) {
+		var err = new Error("No tienes permiso para hacer esta acción.");
+		err.status = 403;
+		next(err);
+	} else {
+		next();
+	}
+});
+router.post(/.*/, function(req, res, next) {
+	if (req.session.usuario.permisos.indexOf("crear modulo") < 0 && req.session.usuario.permisos.indexOf("modificar modulo") < 0) {
+		var err = new Error("No tienes permiso para hacer esta acción.");
+		err.status = 403;
+		next(err);
+	} else {
+		next();
+	}
+});
+
 router.post('/crear/:id(\\d+)', function (req, res, next) {
  /* res.send('respond with a resource');*/
   var altoA = [];
@@ -31,26 +50,6 @@ router.post('/crear/:id(\\d+)', function (req, res, next) {
     }
   });
 });
-
-/*
-var borrarCuadritos = function (idModulo) {
-  //Carga el modulo de mySQL
-  var mysql = require('mysql');
-  connection = creaConexion();
-  //Guardar el cuadrito
-  connection.query("DELETE FROM Cuadritos USING Cuadritos, Sectores, Modulos WHERE Sectores.idModulos = idModulo AND Cuadritos.idSectores = Sectores.idSector", function (err, rows, fields) {
-    //Funcion callback del query
-    if (!err) {
-      //Si no ocurrio un error al realizar la query
-    } else {
-      //Error al ejecutar el query
-      console.log(err);
-    }
-  });
-  //Termina la conexion
-  connection.end();
-}
-*/
 
 
 var eliminaHuerta = function (idModulo) {
@@ -325,7 +324,6 @@ var tamHuerta = function (idModulo, alto, ancho) {
 
 
 router.post("/crearGuardar", function (request, response, next) {
-  console.log("hola");
   //Carga el modulo de mySQL
   var mysql = require('mysql');
   
@@ -403,8 +401,6 @@ router.get('/eliminar/:id(\\d+)',function (req, res, next) {
           console.log(err);
         }
         else {
-          //res.render('vermodulos', { titulo: 'Módulo ', modulo: modulos[0], usuario: req.session.usuario, listaAdmins: usuarios, barraLateral: 'modulos', alto: alto, ancho: ancho, cuadritos: cuadritos});
-          //res.render('crearHuerta', {title: 'Editar Huerta', alto: altoA, ancho: anchoA, usuario: req.session.usuario, cuadritos: cuadritos});
           res.redirect('/modulos/'+idModulo+'');
         }    
       });

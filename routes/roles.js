@@ -6,18 +6,21 @@ var mysql = require('mysql');
 
 /* */
 router.get('/', function (req, res, next) {
+	if (req.session.usuario.permisos.indexOf("ver rol") < 0) {
+		var err = new Error();
+		err.status = 403;
+		next(err);
+        return;
+	}
+
     var conexion = require('mysql').createConnection(require('../database/credencialesbd.json'));
-    /*
-    var consulta = 'SELECT P.idPermiso ,P.nombre FROM qzardb.Permisos as P ,qzardb.RolesPermisos as RP ,qzardb.Usuarios as U WHERE U.nombre = ? AND U.idRoles = RP.idRoles AND P.idPermiso = RP.idPermisos;';
-    var valores = [nombreUsuario];
-    */
     var consulta = 'SELECT R.idRol, R.nombre FROM qzardb.Roles as R WHERE R.activo = 1';
 
     conexion.query({sql: consulta, values: []}, function (err, renglones) {
         conexion.end();
         if (err) {
-            // TODO: manejar el error!
-            res.render('index', {usuario: req.session.usuario, mensaje: err, titulo: '###', aviso: {tipo: 'danger', icono: 'fa fa-exclamation-triangle', mensaje: err}});
+			var err = new Error("Lo sentimos. Hubo un error interno.");
+			next(err);
             return;
         }
 
@@ -27,6 +30,13 @@ router.get('/', function (req, res, next) {
 
 /* */
 router.post('/crear', function (req, res, next) {
+	if (req.session.usuario.permisos.indexOf("crear rol") < 0) {
+		var err = new Error();
+		err.status = 403;
+		next(err);
+        return;
+	}
+
     if(!(req.body['permisos[]'] instanceof Array)) {
         req.body['permisos[]'] = [req.body['permisos[]']];
     }
@@ -38,7 +48,7 @@ router.post('/crear', function (req, res, next) {
         if (err) {
             console.log(err);
             conexion.end();
-            res.send('Error:' + err);
+            res.send('Error');
             return;
         }
         var id = renglones['insertId'];
@@ -60,8 +70,7 @@ router.post('/crear', function (req, res, next) {
         conexion.end();
 
         if(error) {
-            // TODO: manejar el error!
-            res.send('Error:' + error);
+            res.send('Error');
             return;
         }
         res.send('1');
@@ -70,6 +79,12 @@ router.post('/crear', function (req, res, next) {
 
 /* */
 router.post('/modificar/:id(\\d+)', function (req, res, next) {
+	if (req.session.usuario.permisos.indexOf("modificar rol") < 0) {
+		var err = new Error();
+		err.status = 403;
+		next(err);
+        return;
+	}
 
     if (!(req.body['permisos[]'] instanceof Array)) {
         req.body['permisos[]'] = [req.body['permisos[]']];
@@ -82,7 +97,7 @@ router.post('/modificar/:id(\\d+)', function (req, res, next) {
         if (err) {
             console.log(err);
             conexion.end();
-            res.send('Error: ' + err);
+            res.send('Error');
             return;
         }
         var error = null;
@@ -111,8 +126,7 @@ router.post('/modificar/:id(\\d+)', function (req, res, next) {
 				conexion.end();
 
 				if(error) {
-					// TODO: manejar el error!
-					res.send('Error:' + error);
+					res.send('Error');
 					return;
 				}
 				res.send('1');
@@ -124,7 +138,15 @@ router.post('/modificar/:id(\\d+)', function (req, res, next) {
 /*
     TODO: Esto deberia de ser un POST, no???
 */
+//  Ni modo, así es la vida.
 router.get('/eliminar/:id(\\d+)', function (req, res, next) {
+	if (req.session.usuario.permisos.indexOf("eliminar rol") < 0) {
+		var err = new Error();
+		err.status = 403;
+		next(err);
+        return;
+	}
+
     var conexion = require('mysql').createConnection(require('../database/credencialesbd.json'));
     var id = req.params.id;
     var consulta = 'UPDATE Roles as R SET R.activo = 0 WHERE R.idRol = ?';
@@ -132,8 +154,9 @@ router.get('/eliminar/:id(\\d+)', function (req, res, next) {
     conexion.query({sql: consulta, values: [id]}, function (err, renglones) {
         conexion.end();
         if (err) {
-            // TODO: manejar el error!
-            res.render('menu', {usuario: req.session.usuario, mensaje: err, titulo: '###', aviso: {tipo: 'danger', icono: 'fa fa-exclamation-triangle', mensaje: err}});
+			console.log(err);
+			var err = new Error("Lo sentimos. Hubo un error interno.");
+			next(err);
             return;
         }
 
@@ -143,6 +166,13 @@ router.get('/eliminar/:id(\\d+)', function (req, res, next) {
 
 // Consulta rol.
 router.get('/:id(\\d+)', function (req, res, next) {
+	if (req.session.usuario.permisos.indexOf("ver rol") < 0) {
+		var err = new Error();
+		err.status = 403;
+		next(err);
+        return;
+	}
+
     var conexion = require('mysql').createConnection(require('../database/credencialesbd.json'));
     var id = req.params.id;
 	var permisos = [];

@@ -17,7 +17,6 @@ var modulos = require('./routes/modulos');
 var actividades = require('./routes/actividades');
 var sesiones = require('./routes/sesiones');
 var usuarios = require('./routes/usuarios');
-var lotes = require('./routes/lotes');
 var asignacion = require('./routes/asignacion');
 var retroalimentacion = require('./routes/retroalimentacion');
 var sector = require('./routes/sector');
@@ -66,7 +65,6 @@ app.use('/modulo/huerta', crearHuerta);
 app.use('/modulos', modulos);
 app.use('/actividades', actividades);
 app.use('/usuarios', usuarios);
-app.use('/lotes', lotes);
 app.use('/asignacion', asignacion);
 app.use('/retroalimentacion', retroalimentacion);
 app.use('/sector', sector);
@@ -75,7 +73,7 @@ app.use('/roles', roles);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-    var err = new Error('Not Found');
+    var err = new Error('No se encontró la página.');
     err.status = 404;
     next(err);
 });
@@ -87,6 +85,9 @@ app.use(function (req, res, next) {
 app.set('env', 'development');
 if (app.get('env') === 'development') {
     app.use(function (err, req, res, next) {
+		if (err.status === 403) {
+			err.message = "No tienes permiso para hacer esta acción. " + err.message;
+		}
         res.status(err.status || 500);
         res.render('error', {
             usuario: req.session.usuario,
@@ -99,6 +100,9 @@ if (app.get('env') === 'development') {
 // production error handler
 // no stacktraces leaked to user
 app.use(function (err, req, res, next) {
+	if (err.status === 403) {
+		err.message = "No tienes permiso para hacer esta acción. " + err.message;
+	}
     res.status(err.status || 500);
     res.render('error', {
         usuario: req.session.usuario,

@@ -8,7 +8,13 @@ var sector = require('../components/sector.js');
 
 //Pagina Principal
 router.get('/', function (req, res, next) {
-    
+	if (req.session.usuario.permisos.indexOf("ver permiso") < 0) {
+		var err = new Error();
+		err.status = 403;
+		next(err);
+		return;
+	}
+
     sector.listar(function (err, resultados) {
         if (err) {
             console.log(err);
@@ -22,7 +28,12 @@ router.get('/', function (req, res, next) {
 
 //Agregar sectores
 router.post('/agregar', function (req, res, next) {
-    
+	if (req.session.usuario.permisos.indexOf("crear permiso") < 0) {
+		var err = new Error();
+		err.status = 403;
+		next(err);
+		return;
+	}
 
     var nuevoSector = {
     	"nombre" : req.body.nombre,
@@ -46,6 +57,13 @@ router.post('/agregar', function (req, res, next) {
 
 //Eliminar sector
 router.get('/eliminar/:id(\\d+)', function (req, res, next) {
+	if (req.session.usuario.permisos.indexOf("crear permiso") < 0) {
+		var err = new Error();
+		err.status = 403;
+		next(err);
+		return;
+	}
+
     var idContenidoCuadritos = req.params.id;
 
     sector.eliminar(idContenidoCuadritos, function (err, modulos) {
@@ -55,7 +73,12 @@ router.get('/eliminar/:id(\\d+)', function (req, res, next) {
 
 //Modificar sector
 router.post('/modificar', function (req, res, next) {
-    
+	if (req.session.usuario.permisos.indexOf("crear permiso") < 0) {
+		var err = new Error();
+		err.status = 403;
+		next(err);
+		return;
+	}
 
     var nuevoSector = {
         "nombre" : req.body.nombre,

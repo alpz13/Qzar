@@ -1,17 +1,10 @@
 extends menu
 block content
-  head
   title Error
-  link(rel='stylesheet', href="/stylesheets/qzar-modulos.css", type='text/css')
-  div#page-wrapper
-    if aviso
-      div.container
-        div(class="alert alert-#{aviso.tipo} col-md-6 col-md-offset-3", role="alert")
-          i(class="#{aviso.icono}")
-          p.inline #{aviso.mensaje}
-          p.message
-          p.error.status
-          pre #{error.stack}
-    h1= message
-    h2= error.status
-    pre #{error.stack}
+  link(rel='stylesheet', href="/stylesheets/qzar-usuarios.css", type='text/css')
+
+  div#page--wrapper
+    div.container-fluid
+      div.row
+        p.watermark #{message}
+        p.inline #{error.stack}

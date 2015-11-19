@@ -140,8 +140,3 @@ block body
                 p.inline.leftsidebar ROLES
 
     block content
-      if aviso
-        div.container
-          div(class="alert alert-#{aviso.tipo} col-md-6 col-md-offset-3", role="alert")
-            i(class="#{aviso.icono}")
-            p.inline #{aviso.mensaje}
