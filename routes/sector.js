@@ -8,7 +8,7 @@ var sector = require('../components/sector.js');
 
 //Pagina Principal
 router.get('/', function (req, res, next) {
-	if (req.session.usuario.permisos.indexOf("ver permiso") < 0) {
+	if (req.session.usuario.permisos.indexOf("ver sector") < 0) {
 		var err = new Error();
 		err.status = 403;
 		next(err);
@@ -28,7 +28,7 @@ router.get('/', function (req, res, next) {
 
 //Agregar sectores
 router.post('/agregar', function (req, res, next) {
-	if (req.session.usuario.permisos.indexOf("crear permiso") < 0) {
+	if (req.session.usuario.permisos.indexOf("crear sector") < 0) {
 		var err = new Error();
 		err.status = 403;
 		next(err);
@@ -57,7 +57,7 @@ router.post('/agregar', function (req, res, next) {
 
 //Eliminar sector
 router.get('/eliminar/:id(\\d+)', function (req, res, next) {
-	if (req.session.usuario.permisos.indexOf("crear permiso") < 0) {
+	if (req.session.usuario.permisos.indexOf("crear sector") < 0) {
 		var err = new Error();
 		err.status = 403;
 		next(err);
@@ -73,7 +73,7 @@ router.get('/eliminar/:id(\\d+)', function (req, res, next) {
 
 //Modificar sector
 router.post('/modificar', function (req, res, next) {
-	if (req.session.usuario.permisos.indexOf("crear permiso") < 0) {
+	if (req.session.usuario.permisos.indexOf("crear sector") < 0) {
 		var err = new Error();
 		err.status = 403;
 		next(err);

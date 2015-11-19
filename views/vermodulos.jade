@@ -24,10 +24,6 @@ block content
             i(class='fa fa-fw fa-home')#icono-modulo
             h1#h1VerModulos #{titulo}
               span#nombreModulo #{modulo.nombre}
-            // TODO: Cambiar icono.
-            if usuario.idRoles == 1
-              //a(class='nav navbar-right top-nav' href='#' data-toggle="modal" data-target="#FAA") Editar
-              //a(href='/modulos/eliminar/#{modulo.idModulo}') Eliminar módulo
           //Lista de Eventos
           //div.form-group.col-sm-12.col-md-8.col-md-offset-2
             div#eventos-del-dia
@@ -57,12 +53,12 @@ block content
                 tr
                   td#opciones-modulo Administrador de Módulo
                   td#administradorModulo #{modulo.admin}
-                  if usuario.idRoles == 1
+                  if usuario.permisos.indexOf("modificar modulo") >= 0
                     td#botones-modificar
                       button.btn.btn-primary(type="button" class="modificar" data-toggle="modal" data-target="#FAA" id='boton-modificar') Modificar
                       &nbsp&nbsp&nbsp
                       button.btn.btn-danger(type="button" class="modificar" data-toggle="modal" data-target="#Eliminar" id='boton-eliminar') Eliminar
-          if usuario.idRoles == 1
+          if usuario.permisos.indexOf("modificar modulo") >= 0
             
             //Botones de Editar y Agregar Nueva Huerta
             //Si existe una huerta, despleiga boton de editar
@@ -148,7 +144,7 @@ block content
             
 
 
-      if usuario.idRoles == 1
+      if usuario.permisos.indexOf("modificar modulo") >= 0
         div(id='FAA' class='modal fade' role='dialog')
             div.modal-dialog
               div.modal-content

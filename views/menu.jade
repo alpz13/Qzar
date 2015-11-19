@@ -42,52 +42,56 @@ block body
                 p.inline.leftsidebar INICIO
   
           // Modulos
-          if barraLateral && barraLateral === 'modulos'
-            li.activo
-              a(href='/modulos')
-                i(class='fa fa-fw fa-home')
-                p.inline.leftsidebar MODULOS
-          else
-            li
-              a(href='/modulos')
-                i(class='fa fa-fw fa-home')
-                p.inline.leftsidebar MODULOS
+          if usuario.permisos.indexOf("ver modulos") >= 0
+            if barraLateral && barraLateral === 'modulos'
+              li.activo
+                a(href='/modulos')
+                  i(class='fa fa-fw fa-home')
+                  p.inline.leftsidebar MODULOS
+            else
+              li
+                a(href='/modulos')
+                  i(class='fa fa-fw fa-home')
+                  p.inline.leftsidebar MODULOS
 
           // Actividades
-          if barraLateral && barraLateral === 'actividades'
-            li.activo
-              a(href='/actividades')
-                i(class='fa fa-fw fa-edit')
-                p.inline.leftsidebar ACTIVIDADES
-          else
-            li
-              a(href='/actividades')
-                i(class='fa fa-fw fa-edit')
-                p.inline.leftsidebar ACTIVIDADES
+          if usuario.permisos.indexOf("ver actividades") >= 0
+            if barraLateral && barraLateral === 'actividades'
+              li.activo
+                a(href='/actividades')
+                  i(class='fa fa-fw fa-edit')
+                  p.inline.leftsidebar ACTIVIDADES
+            else
+              li
+                a(href='/actividades')
+                  i(class='fa fa-fw fa-edit')
+                  p.inline.leftsidebar ACTIVIDADES
 
           // Categorias
-          if barraLateral && barraLateral === 'categorias'
-            li.activo
-              a(href='/categoria')
-                i(class='fa fa-fw fa-book')
-                p.inline.leftsidebar CATEGORIAS
-          else
-            li
-              a(href='/categoria')
-                i(class='fa fa-fw fa-book')
-                p.inline.leftsidebar CATEGORIAS
+          if usuario.permisos.indexOf("crear actividades") >= 0
+            if barraLateral && barraLateral === 'categorias'
+              li.activo
+                a(href='/categoria')
+                  i(class='fa fa-fw fa-book')
+                  p.inline.leftsidebar CATEGORIAS
+            else
+              li
+                a(href='/categoria')
+                  i(class='fa fa-fw fa-book')
+                  p.inline.leftsidebar CATEGORIAS
 
           // Usuarios
-          if barraLateral && barraLateral === 'usuarios'
-            li.activo
-              a(href='/usuarios')
-                i(class='fa fa-fw fa-users')
-                p.inline.leftsidebar USUARIOS
-          else
-            li
-              a(href='/usuarios')
-                i(class='fa fa-fw fa-users')
-                p.inline.leftsidebar USUARIOS
+          if usuario.permisos.indexOf("ver usuario") >= 0
+            if barraLateral && barraLateral === 'usuarios'
+              li.activo
+                a(href='/usuarios')
+                  i(class='fa fa-fw fa-users')
+                  p.inline.leftsidebar USUARIOS
+            else
+              li
+                a(href='/usuarios')
+                  i(class='fa fa-fw fa-users')
+                  p.inline.leftsidebar USUARIOS
 
           // Lotes
           //if barraLateral && barraLateral === 'lotes'
@@ -102,41 +106,44 @@ block body
                 p.inline.leftsidebar LOTES
 
           // Retroalimentación
-          if barraLateral && barraLateral === 'retroalimentacion'
-            li.activo
-              a(href='/retroalimentacion')
-                i(class='fa fa-fw fa-bookmark-o')
-                p.inline.leftsidebar RETROALIMENTACIÓN
-          else
-            li
-              a(href='/retroalimentacion')
-                i(class='fa fa-fw fa-bookmark-o')
-                p.inline.leftsidebar RETROALIMENTACIÓN
+          if usuario.permisos.indexOf("ver retroalimentacion") >= 0
+            if barraLateral && barraLateral === 'retroalimentacion'
+              li.activo
+                a(href='/retroalimentacion')
+                  i(class='fa fa-fw fa-bookmark-o')
+                  p.inline.leftsidebar RETROALIMENTACIÓN
+            else
+              li
+                a(href='/retroalimentacion')
+                  i(class='fa fa-fw fa-bookmark-o')
+                  p.inline.leftsidebar RETROALIMENTACIÓN
 
 
 
           // Sectores
-          if barraLateral && barraLateral === 'sector'
-            li.activo
-              a(href='/sector')
-                i(class='fa fa-fw fa-archive')
-                p.inline.leftsidebar SECTORES
-          else
-            li
-              a(href='/sector')
-                i(class='fa fa-fw fa-archive')
-                p.inline.leftsidebar SECTORES
+          if usuario.permisos.indexOf("crear sector") >= 0
+            if barraLateral && barraLateral === 'sector'
+              li.activo
+                a(href='/sector')
+                  i(class='fa fa-fw fa-archive')
+                  p.inline.leftsidebar SECTORES
+            else
+              li
+                a(href='/sector')
+                  i(class='fa fa-fw fa-archive')
+                  p.inline.leftsidebar SECTORES
 
           // Roles
-          if barraLateral && barraLateral === 'roles'
-            li.activo
-              a(href='/roles')
-                i(class='fa fa-fw fa-male')
-                p.inline.leftsidebar ROLES
-          else
-            li
-              a(href='/roles')
-                i(class='fa fa-fw fa-male')
-                p.inline.leftsidebar ROLES
+          if usuario.permisos.indexOf("ver rol") >= 0
+            if barraLateral && barraLateral === 'roles'
+              li.activo
+                a(href='/roles')
+                  i(class='fa fa-fw fa-male')
+                  p.inline.leftsidebar ROLES
+            else
+              li
+                a(href='/roles')
+                  i(class='fa fa-fw fa-male')
+                  p.inline.leftsidebar ROLES
 
     block content
