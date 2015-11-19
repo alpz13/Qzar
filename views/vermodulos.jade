@@ -6,6 +6,7 @@ block content
   //Contenido de Pagina
   div#page-wrapper
     div.container-fluid
+      table.table#actividadesHoy
 
        if aviso
          div.row
@@ -44,12 +45,12 @@ block content
             //Botones de Editar y Agregar Nueva Huerta
             //Si existe una huerta, despleiga boton de editar
             if alto.length > 0
-              a.btn.btn-primary.btn-lg(href='/modulo/huerta/editar/#{modulo.idModulo}') Editar Huerta
+              a.btn.btn-warning.btn-lg(href='/modulo/huerta/editar/#{modulo.idModulo}') Editar Huerta
               &nbsp&nbsp&nbsp
-              a.btn.btn-default.btn-lg(href='/modulo/huerta/eliminar/#{modulo.idModulo}') Eliminar Huerta
+              a.btn.btn-danger.btn-lg(href='/modulo/huerta/eliminar/#{modulo.idModulo}') Eliminar Huerta
             else
               button.btn.btn-primary.btn-lg(type='button', data-toggle='modal', data-target='#myModal') Nueva Huerta
-            button.btn.btn-primary.btn-lg(type="button" data-toggle="modal" data-target="#AAM" id='boton-asignar') Asignar Actividad
+            button.btn.btn-primary.btn-lg(type="button" data-toggle="modal" onclick="cargarModalAsignar()" id='boton-asignar') Asignar Actividad
             //Modal de Agregar Huerta
             #myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel')
                 .modal-dialog(role='document')
@@ -62,8 +63,8 @@ block content
                     |       
                     form#formcrearHuerta(name="crearHuerta",method="post",action="/modulo/huerta/crear/#{modulo.idModulo}")
                       .modal-body
-                          input.form-control#inputAncho(type="number", placeholder="ancho", name="ancho", onchange="posAncho()", required)
-                          input.form-control#inputAlto(type="number", placeholder="alto", name="alto", onchange="posAlto()", required)
+                          input.form-control#inputAncho(type="number", autocomplete="off", placeholder="ancho", name="ancho", onchange="posAncho()", required)
+                          input.form-control#inputAlto(type="number", autocomplete="off", placeholder="alto", name="alto", onchange="posAlto()", required)
                           input.form-control#inputAlto(type="hidden", placeholder="", name="cuadritos", value=[])
                       |       
                       .modal-footer
@@ -86,12 +87,6 @@ block content
                       input.form-control#nombre(type="text", placeholder="Nombre", name="nombre", value=modulo.nombre, required)
                       label(for="numero") Número del módulo: 
                       input.form-control#numero(type="number", placeholder="Número", name="numero", min="0", max="999", value=modulo.numeroModulo, required)
-                      label(for="admin") Administrador del módulo: 
-                      select.form-control#admin(name="admin", required)
-                        option(value= modulo.usuarioAdministrador selected) #{modulo.admin}
-                        for usuario in listaAdmins
-                          if usuario.idUsuario != modulo.usuarioAdministrador
-                            option(value= usuario.idUsuario) #{usuario.nombre}
                     div.modal-footer
                       button.btn.btn-primary#editarModulo(type='button') Guardar cambios
                       button.btn.btn-default#cerrarModal(type='button', data-dismiss='modal') Cerrar
@@ -126,13 +121,22 @@ block content
         div.modal-content
           div.modal-header
             button(type='button' class='close' data-dismiss="modal") &times;
-            h4.modal-title Asignar Actividad
+            h4.modal-title#titulo-modal-actividades Asignar Actividad
             div.modal-body
-              div
-                label(for="actividad") Actividad: 
-                  select.form-control#actividadPosible(name="actividadPosible", required)
-                    for actividad in actividades
-                      option(value= actividad.idActividad) #{actividad.nombre}
+              div#agregarActividad
+                button.btn.btn-default(type="button" onclick="agregarActividad()") +
+                button.btn.btn-default(type="button" onclick="quitarActividad()") -
+              div.categoriaActividad
+                div.categoriasDiv#categoriasDiv
+                  label(for="categorias") Categoría: 
+                    select.form-control.actividades#categoriasPosibles(name="categoriaPosible", onchange="cambiarActividades(this)", required)
+                      for categoria in categorias
+                        option(value= categoria.idCategoria) #{categoria.nombreCategoria}
+                div.actividadesDiv#actividadesDiv
+                  label(for="actividad") Actividad: 
+                    select.form-control.actividades#actividadPosible(name="actividadPosible", required)
+                      for actividad in actividades
+                        option.opcionActividad(value= actividad.idActividad, categoria= actividad.idCategoriaAct) #{actividad.nombre}
               div
                 label(for="sector") Sector: 
                   select.form-control#sectorPosible(name="sectorPosible", required)
@@ -145,8 +149,11 @@ block content
                 laber(for="fechaFin") Fecha de fin:
                   input.endDate#endDate
             div.modal-footer
+              button#boton-habilitar-campos.btn.btn-info(type="button" onclick="habilitarCamposModal()") Habilitar para edición
+              button#boton-edicion-asignaciones.btn.btn-primary(type="button" data-dismiss="modal") Editar
+              button#boton-borrar-asignaciones.btn.btn-danger(type="button" data-dismiss="modal") Eliminar
               button#boton-modal-asignar.btn.btn-primary(onclick="asignarActividad()" data-dismiss="modal") Asignar
-              button.btn.btn-default(type="button" data-dismiss="modal") Cerrar
+              button.btn.btn-danger(type="button" data-dismiss="modal") Cerrar
 
     div#full-clndr.clearfix
     //Codiguirri de la huerta

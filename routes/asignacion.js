@@ -24,25 +24,29 @@ router.get(/.*/, function(req, res, next) {
 
 router.post('/asignaractividad', function (req, res, next) {
     //To Do
-    console.log("Entrando a asignacion");
+    console.log("auxiliar algoreq.body");
     idModulo = req.body.idModulo;
     idSector = req.body.idSector;
-    idActividad = req.body.idActividad;
+    idActividades = JSON.parse(req.body.idActividades);
     fechaFin = req.body.fechaFin;
     fechaFin = fechaFin.split("/");
     fechaFin = fechaFin[2] + "-" + fechaFin[1] + "-" + fechaFin[0] + ":0:00";
-    fechaIni = req.body.fechaIni;
-    fechaIni = fechaIni.split("/");
-    fechaIni = fechaIni[2] + "-" + fechaIni[1] + "-" + fechaIni[0] + ":0:00";
-    fechaIni = new Date(fechaIni);
     fechaFin = new Date(fechaFin);
-    while(fechaIni <= fechaFin){
-    	console.log("asignando");
-        fecha = fechaIni.getFullYear() + "-" + parseInt(fechaIni.getMonth() + 1) + "-" + fechaIni.getDate() + ":0:00";
-        console.log(fecha);
-	    actividadesAsignadas.asignar(idModulo, idSector, idActividad, fecha);
-        //fechaIni.getTime();
-    	fechaIni.setDate(fechaIni.getDate() + 1);
+    length = idActividades.length;
+    for (i = 0; i < length; i++){
+        console.log("Agregando actividades");
+        var idActividad = idActividades[i];
+        fechaIni = req.body.fechaIni;
+        fechaIni = fechaIni.split("/");
+        fechaIni = fechaIni[2] + "-" + fechaIni[1] + "-" + fechaIni[0] + ":0:00";
+        fechaIni = new Date(fechaIni);
+        while(fechaIni <= fechaFin){
+            console.log("agregando actividad por fecha");
+            fecha = fechaIni.getFullYear() + "-" + parseInt(fechaIni.getMonth() + 1) + "-" + fechaIni.getDate() + ":0:00";
+            actividadesAsignadas.asignar(idModulo, idSector, parseInt(idActividad), fecha);
+            //fechaIni.getTime();
+            fechaIni.setDate(fechaIni.getDate() + 1);
+        }
     }
     res.setHeader('Content-Type', 'application/json');
     res.send(JSON.stringify([]));
@@ -52,8 +56,23 @@ router.post('/asignaractividad', function (req, res, next) {
 router.post('/verdetalles', function (req, res, next){
     console.log("Viendo detalles de asignacion");
     idAsignada = req.body.idAsignada;
-    actividadesAsignadas.detalles( idAsignada, res );
+    actividadesAsignadas.edicionAsignaciones( idAsignada, res, 'ver' );
     return;
 });
+
+router.post('/borrarasignacion', function (req, res, next){
+    console.log("Eliminando actividades asignadas");
+    idAsignada = req.body.idAsignada;
+    console.log(idAsignada);
+    actividadesAsignadas.edicionAsignaciones( idAsignada, res, 'eliminar' );
+    return;
+});
+
+router.post('/verActividadesHoy', function (req, res, next){
+    idModulo = req.body.idModulo;
+    console.log("HOLA");
+    actividadesAsignadas.obtenerActividadesHoy(res, idModulo);
+    return;
+})
 
 module.exports = router;

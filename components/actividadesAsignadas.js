@@ -14,22 +14,22 @@ var listarActividadesAsignadas = function (idModulo, res) {
     //Prueba si se conecto correctamente a la base de datos
     connection.connect(function (err) {
         if (!err) {
-            console.log("Database is connected ... \n");
+            //console.log("Database is connected ... \n");
             //Guardar el cuadrito
-            console.log("antes de la query");
+            //console.log("antes de la query");
             connection.query("select ac.idActividadesAsignadas as idAsignada, ac.fecha as date, a.nombre as title, ac.idSectores as idSectores, s.numeroSector, a.idActividad as idActividad FROM Actividades as a, ActividadesAsignadas as ac, Sectores as s WHERE ac.idModulos = " + idModulo + " AND a.idActividad = ac.idActividades AND s.idSector = ac.idSectores", function (err, rows) {
                 //Funcion callback del query
-                console.log("despues de la query");
+                //console.log("despues de la query");
                 if (!err) {
                     //Si no ocurrio un error al realizar la query
-                    console.log(rows);
+                    //console.log(rows);
                     res.setHeader('Content-Type', 'application/json');
                     res.send(JSON.stringify(rows));
                     return;
                     //return rows.insertId;
                 }
                 //Error al ejecutar el query
-                console.log(err);
+                //console.log(err);
                 res.setHeader('Content-Type', 'application/json');
                 res.send(JSON.stringify([]));
                 return;
@@ -37,7 +37,7 @@ var listarActividadesAsignadas = function (idModulo, res) {
             //Termina la conexion
             connection.end();
         } else {
-            console.log("Error connecting database ... \n");
+            //console.log("Error connecting database ... \n");
         }
     });
 };
@@ -51,21 +51,49 @@ var listarActividadesPosibles = function (callback) {
   //Prueba si se conecto correctamente a la base de datos
   connection.connect(function (err) {
     if (!err) {
-      console.log("Database is connected ... \n");
-      connection.query("SELECT idActividad, nombre FROM Actividades  WHERE ACTIVO = 1", function (err, rows) {
+      //console.log("Database is connected ... \n");
+      connection.query("SELECT idActividad, nombre, idCategoriaAct FROM Actividades  WHERE ACTIVO = 1", function (err, rows) {
         //Funcion callback del query
         if (!err) {
           //Si no ocurrio un error al realizar la query
           return callback(null, rows);
         }
         //Error al ejecutar el query
-        console.log(err);
+        //console.log(err);
         return callback(err, []);
       });
       //Termina la conexion
       connection.end();
     } else {
-      console.log("Error connecting database ... \n");
+      //console.log("Error connecting database ... \n");
+    }
+  });
+};
+
+var listarCategorias = function (callback) {
+  var credenciales = require('../database/credencialesbd.json');
+  //Carga el modulo de mySQL
+  var mysql = require('mysql');
+  //Crea la coneccion
+  var connection = mysql.createConnection(credenciales);
+  //Prueba si se conecto correctamente a la base de datos
+  connection.connect(function (err) {
+    if (!err) {
+      //console.log("Database is connected ... \n");
+      connection.query("SELECT * FROM Categorias", function (err, rows) {
+        //Funcion callback del query
+        if (!err) {
+          //Si no ocurrio un error al realizar la query
+          return callback(null, rows);
+        }
+        //Error al ejecutar el query
+        //console.log(err);
+        return callback(err, []);
+      });
+      //Termina la conexion
+      connection.end();
+    } else {
+      //console.log("Error connecting database ... \n");
     }
   });
 };
@@ -79,7 +107,7 @@ var listarSectoresPosibles = function (idModulo, callback) {
   //Prueba si se conecto correctamente a la base de datos
   connection.connect(function (err, rows) {
     if (!err) {
-      console.log("Database is connected ... \n");
+      //console.log("Database is connected ... \n");
       connection.query("SELECT DISTINCT S.idSector, S.numeroSector FROM qzardb.Sectores  as S, Cuadritos as C WHERE C.idSectores = S.idSector AND S.idModulos = " + idModulo + " ORDER BY S.numeroSector", function (err, rows) {
         //Funcion callback del query
         if (!err) {
@@ -87,13 +115,13 @@ var listarSectoresPosibles = function (idModulo, callback) {
           return callback(null, rows);
         }
         //Error al ejecutar el query
-        console.log(err);
+        //console.log(err);
         return callback(err, []);
       });
       //Termina la conexion
       connection.end();
     } else {
-      console.log("Error connecting database ... \n");
+      //console.log("Error connecting database ... \n");
     }
   });
 };
@@ -107,28 +135,28 @@ var asignarActividad = function (idModulo, idSector, idActividad, fecha, res) {
   //Prueba si se conecto correctamente a la base de datos
   connection.connect(function (err, rows) {
     if (!err) {
-      console.log("Database is connected ... \n");
+      //console.log("Database is connected ... \n");
       connection.query("INSERT INTO ActividadesAsignadas (idModulos,idActividades,idSectores,fecha) VALUES (" + idModulo + ", " + idActividad + ", " + idSector + ", '" + fecha + "');", function (err, rows) {
         //Funcion callback del query
         if (!err) {
           //Si no ocurrio un error al realizar la query
-          console.log(rows);
+          //console.log(rows);
           return;
         }
         //Error al ejecutar el query
-        console.log(err);
+        //console.log(err);
         return;
       });
       //Termina la conexion
       connection.end();
     } else {
-      console.log("Error connecting database ... \n");
+      //console.log("Error connecting database ... \n");
     }
   });
 };
 
 var obtenerFecha = function (caracter, idModulo, idActividad, idSector, fecha, callback){
-  console.log(caracter);
+  //console.log(caracter);
   var credenciales = require('../database/credencialesbd.json');
   //Carga el modulo de mySQL
   var mysql = require('mysql');
@@ -136,13 +164,13 @@ var obtenerFecha = function (caracter, idModulo, idActividad, idSector, fecha, c
   var connection = mysql.createConnection(credenciales);
   //Prueba si se conecto correctamente a la base de datos
   connection.connect(function (err, rows) {
-    var query = "SELECT distinct DATE_FORMAT(AA.fecha, '%m-%d-%Y') as fecha FROM qzardb.ActividadesAsignadas AA WHERE AA.fecha "+ caracter +" STR_TO_DATE('"+fecha+"', '%m-%d-%Y') AND AA.idModulos = '"+idModulo+"' AND AA.idActividades = '"+idActividad+"' AND AA.idSectores = '"+idSector+"' AND (exists (select 1 from qzardb.ActividadesAsignadas AA2 where AA2.fecha = AA.fecha + interval 1 day) or exists (select 1 from qzardb.ActividadesAsignadas AA2 where AA2.fecha = AA.fecha - interval 1 day) ) ORDER BY AA.fecha ";
+    var query = "SELECT distinct DATE_FORMAT(AA.fecha, '%d/%m/%Y') as fecha FROM qzardb.ActividadesAsignadas AA WHERE AA.fecha "+ caracter +" STR_TO_DATE('"+fecha+"', '%d/%m/%Y') AND AA.idModulos = '"+idModulo+"' AND AA.idActividades = '"+idActividad+"' AND AA.idSectores = '"+idSector+"' AND (exists (select 1 from qzardb.ActividadesAsignadas AA2 where AA2.fecha = AA.fecha + interval 1 day) or exists (select 1 from qzardb.ActividadesAsignadas AA2 where AA2.fecha = AA.fecha - interval 1 day) ) ORDER BY AA.fecha ";
     if(caracter==">=") query+= "desc";
     else query += "asc";
-    console.log(query);
+    //console.log(query);
     connection.query(query, function (err, rows){
       if(!err){
-        console.log(rows);
+        //console.log(rows);
         if(!rows[0] || typeof rows[0]==='undefined'){
           callback(null, undefined);
         }
@@ -150,15 +178,14 @@ var obtenerFecha = function (caracter, idModulo, idActividad, idSector, fecha, c
           callback(null, rows[0].fecha);
         }
       }
-      console.log(err);
+      //console.log(err);
       return;
     });
     connection.end();
   });
-
 }
 
-var verDetallesActividadAsignada = function (idActividadesAsignadas, res) {
+var eliminarActividades = function(idActividad, idSector, idModulo, fechaInicio, fechaFin, callback){
   var credenciales = require('../database/credencialesbd.json');
   //Carga el modulo de mySQL
   var mysql = require('mysql');
@@ -167,8 +194,35 @@ var verDetallesActividadAsignada = function (idActividadesAsignadas, res) {
   //Prueba si se conecto correctamente a la base de datos
   connection.connect(function (err, rows) {
     if (!err) {
-      console.log("Database is connected ... \n");
-      connection.query ("SELECT idActividadesAsignadas, idModulos, idActividades, idSectores, DATE_FORMAT(fecha, '%m-%d-%Y') as fecha FROM qzardb.ActividadesAsignadas where idActividadesAsignadas= "+idActividadesAsignadas, function (err, rowsActividadesAsignadas){
+      //console.log("Función eliminar actividades");
+      //console.log("Database is connected ... \n");
+      var query = "DELETE from qzardb.ActividadesAsignadas where idActividades= '"+idActividad+"' and idSectores ='"+idSector+"' and idModulos = '"+idModulo+"' and fecha>=STR_TO_DATE('"+fechaInicio+"', '%d/%m/%Y') and fecha<=STR_TO_DATE('"+fechaFin+"', '%d/%m/%Y');";
+      //console.log(query);
+      connection.query (query, function (err, rowsActividadesAsignadas){
+        if(!err){
+          callback(1);
+        }
+        else{
+          //console.log("noooooo");
+          callback(-1);
+        }
+      });
+    }
+  });
+};
+
+var edicionAsignaciones = function(idActividadesAsignadas, res, action){
+  var credenciales = require('../database/credencialesbd.json');
+  //Carga el modulo de mySQL
+  var mysql = require('mysql');
+  //Crea la coneccion
+  var connection = mysql.createConnection(credenciales);
+  //Prueba si se conecto correctamente a la base de datos
+  connection.connect(function (err, rows) {
+    if (!err) {
+      //console.log("Database is connected ... \n");
+      //console.log("SELECT AA.idActividadesAsignadas, AA.idModulos, AA.idActividades, AA.idSectores, DATE_FORMAT(AA.fecha, '%d/%m/%Y') as fecha, Cat.idCategoria, Cat.nombreCategoria FROM qzardb.ActividadesAsignadas as AA, qzardb.Actividades as Act, qzardb.Categorias as Cat where Act.idCategoriaAct = Cat.idCategoria AND idActividadesAsignadas= "+idActividadesAsignadas);
+      connection.query ("SELECT AA.idActividadesAsignadas, AA.idModulos, AA.idActividades, AA.idSectores, DATE_FORMAT(AA.fecha, '%d/%m/%Y') as fecha, Cat.idCategoria, Cat.nombreCategoria, Act.idActividad FROM qzardb.ActividadesAsignadas as AA, qzardb.Actividades as Act, qzardb.Categorias as Cat where Act.idCategoriaAct = Cat.idCategoria AND Act.idActividad = AA.idActividades AND idActividadesAsignadas= "+idActividadesAsignadas, function (err, rowsActividadesAsignadas){
         if(!err){
           rowsActividadesAsignadas.forEach(function(row, index){
             var idActividadAsignada = row.idActividadesAsignadas;
@@ -176,6 +230,9 @@ var verDetallesActividadAsignada = function (idActividadesAsignadas, res) {
             var idActividad = row.idActividades;
             var idSector = row.idSectores;
             var fecha = row.fecha;
+            var idCategoria = row.idCategoria;
+            var nombreCategoria = row.nombreCategoria;
+            var idActividad = row.idActividad;
             var fechaInicio;
             var fechaFin;
             obtenerFecha("<=", idModulo, idActividad, idSector, fecha, function(err, fec){
@@ -195,40 +252,47 @@ var verDetallesActividadAsignada = function (idActividadesAsignadas, res) {
                 if (typeof fechaInicio==='undefined'){
                   fechaInicio = fechaFin;
                 }
-                console.log(idActividad, idSector, idModulo, fechaInicio, fechaFin);
+                //console.log(idActividad, idSector, idModulo, fechaInicio, fechaFin);
                 var respuesta = {
                   "idActividad" : idActividad,
                   "idSector" : idSector,
                   "idModulo" : idModulo,
                   "fechaInicio" : fechaInicio,
                   "fechaFin" : fechaFin,
+                  "idCategoria" : idCategoria,
+                  "nombreCategoria" : nombreCategoria
                 };
-                res.send(JSON.stringify(respuesta));
-                return;
+                console.log(respuesta);
+                if (action === 'ver'){
+                  res.send(JSON.stringify(respuesta));
+                  return;
+                }
+                else if (action === 'eliminar' || action === 'editar'){
+                  eliminarActividades(idActividad, idSector, idModulo, fechaInicio, fechaFin, function (err, result){
+                    if(result === -1){
+                      //console.log("error :(");
+                      res.send("Error");
+                      return;
+                    }
+                    else{
+                      //console.log("Éxito!");
+                      res.send("Éxito");
+                      return;
+                    }
+                  });
+                }
+
               });
             });
           });
         }
-        console.log(err);
+        //console.log(err);
         return;
       });
       connection.end();
     } else {
-      console.log("Error connecting database ... \n");
+      //console.log("Error connecting database ... \n");
     }
-      /*connection.query("SELECT * FROM qzardb.ActividadesAsignadas AA WHERE AA.fecha > "+fecha+" AND AA.idModulos = "+idModulo+" AND AA.idActividades = "+idActividades+" AND AA.idSectores = "+idSector+" ORDER BY AA.fecha ", function (err, rows) {
-        //Funcion callback del query
-        if (!err) {
-          //Si no ocurrio un error al realizar la query
-          res.setHeader('Content-Type', 'application/json');
-          res.send(JSON.stringify(rows));
-          return;
-        }
-        //Error al ejecutar el query
-        console.log(err);
-        return;
-      });
-      *///Termina la conexion
   });
 };
 
@@ -245,16 +309,40 @@ function listarAsignacionesPorDia(idModulo, fecha, callback) {
             connection.query(sql, function (err, actividades) {
                 connection.end();
                 if (!err) {
-                    callback(null, actividades);
-                    return;
+                  callback(null, actividades);
+                  return;
                 }
-                console.log(err);
+                //console.log(err);
                 callback(err);
                 return;
             });
         } else {
-            console.log(err);
+            //console.log(err);
             callback(err);
+        }
+    });
+}
+
+function obtenerActividadesHoy(res, idModulo, callback){
+    var credenciales = require('../database/credencialesbd.json');
+    var mysql = require('mysql');
+    var connection = mysql.createConnection(credenciales);
+    var sql = "select a.nombre as nombre, s.numeroSector as numeroSector from ActividadesAsignadas aa, Actividades a, Sectores s where aa.idActividades = a.idActividad and s.idSector = aa.idSectores and aa.idModulos = ? AND aa.fecha = ?";
+    var params = [idModulo, moment().tz('America/Mexico_City').format('YYYY-MM-DD')];
+        connection.connect(function (err) {
+        if (!err) {
+            sql = mysql.format(sql, params);
+            console.log(sql);
+            connection.query(sql, function (err, actividades) {
+                connection.end();
+                if (!err) {
+                  res.send(JSON.stringify(actividades))
+                  return;
+                }
+                return;
+            });
+        } else {
+          return;
         }
     });
 }
@@ -305,7 +393,9 @@ module.exports = {
     'actividadesPosibles': listarActividadesPosibles,
     'sectoresPosibles': listarSectoresPosibles,
     'asignar': asignarActividad,
-    'detalles': verDetallesActividadAsignada,
+    'edicionAsignaciones': edicionAsignaciones,
     'cancelarConfirmacionesHoy': cancelarConfirmacionesHoy,
-    'confirmar': confirmarActividadAsignada
+    'confirmar': confirmarActividadAsignada,
+    'listarCategorias': listarCategorias,
+    'obtenerActividadesHoy' : obtenerActividadesHoy
 };
