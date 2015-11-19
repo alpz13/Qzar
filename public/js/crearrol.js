@@ -9,7 +9,7 @@ $(document).ready( function() {
 
         $.post('/roles/crear', rolNuevo, function (respuesta) {
             if(respuesta == '1') {
-                alert('Rol creado exitosamente!');
+                //alert('Rol creado exitosamente!');
             } else {
                 $('#mensajeModal').html = respuesta;
             }
@@ -26,7 +26,7 @@ $(document).ready( function() {
 
         $.post('/roles/modificar/'+rolModificado.idRol, rolModificado, function (respuesta) {
             if(respuesta == '1') {
-                alert('Rol modificado exitosamente!');
+                //alert('Rol modificado exitosamente!');
             } else {
                 $('#mensajeModal').html = respuesta;
             }
