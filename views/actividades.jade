@@ -32,15 +32,18 @@ block content
                     td(class='descripcion') #{actividad.descripcion}
                     td(class='categoria') #{actividad.nombreCategoria}
                     td(class='idcategoria' style='display:none;') #{actividad.idCategoria}
-                    //td(class='img' style='display:none;') #{actividad.ruta} 
+                    //td(class='img' style='display:none;') #{actividad.imagen} 
                     //poner TD con class img
                     td(class='img' )#imagen-actividades 
-                      a(href="/images/actividades/#{actividad.ruta}" target="_blank")
-                        button.btn.btn-info Ver imagen
+                      if actividad.imagen == 'NULL'
+                        a(href="#")
+                          label.btn.btn-danger Sin imagen
+                      else
+                        a(href="/images/actividades/#{actividad.imagen}" target="_blank")
+                          button.btn.btn-info Ver imagen
                       //img(src="/images/actividades/#{actividad.ruta}" alt="nombreimagen" style="width:304px;height:228px;")
                     td#botones-modificar 
                       button.btn.btn-primary(type="button" class="modificar" data-toggle="modal" data-target="#MAA" id='boton-modificar') Modificar
-                      &nbsp&nbsp&nbsp
                       button.btn.btn-danger(type="button" class="eliminarModal" data-toggle="modal" data-target="#EliminarActividad") Eliminar
           else
             p.watermark No se han encontrado actividades en el sistema.

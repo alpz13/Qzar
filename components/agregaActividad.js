@@ -42,44 +42,50 @@ var agrega = function (req, res) {
         var ext = path.extname(nombreoriginal);
         var categoria = fields.roles;
 
-        var sql = 'INSERT INTO Actividades(nombre, descripcion, idCategoriaAct, activo) VALUES(?,?,?,?);';
-        var params = [nombre, descripcion, categoria, activo];
-
+        var sql = 'INSERT INTO Actividades(nombre, descripcion, idCategoriaAct, activo, imagen) VALUES(?,?,?,?,?);';
+        
+        var sql2 = 'SELECT idActividad FROM Actividades order by idActividad desc limit 1';
         bd.connect();
-        sql = mysql.format(sql, params);
-        var nombreId = 0;
-        bd.query(sql, function (err, resultado) {
-            if (err) {
+        bd.query(sql2, function (err, cosa) {
+            if(err) {
                 bd.end();
                 console.log(err);
             }
-            bd.end();
-            nombreId = resultado.insertId + ext;
-            var img = files.ima[0];
-            fs.readFile(img.path, function (err, data) {
-                var path = "./public/images/actividades/" + nombreId;
-                fs.writeFile(path, data, function (err) {
-                    if (err) {
-                        console.log(err);
-                    } else {
-                        console.log("upload success");
-                        bd = mysql.createConnection(credenciales);
-                        sql = 'INSERT INTO Imagenes(ruta) VALUES(?);';
-                        params = [nombreId];
-                        bd.connect();
-                        sql = mysql.format(sql, params);
-                        bd.query(sql, function (err) {
-                            if (err) {
-                                bd.end();
-                                console.log(err);
-                            }
-                            bd.end();
-                            listar.listar(res);
-                        });
-                    }
+
+            var nombreId;
+            if(cosa.length == 0) {
+                nombreId = 1;
+            } else {
+                nombreId = cosa[0].idActividad + 1;
+            }
+            
+            nombreId = nombreId + ext;
+            if(!ext) { nombreId = 'NULL'; }
+            var params = [nombre, descripcion, categoria, activo, nombreId];
+            sql = mysql.format(sql, params);
+            bd.query(sql, function (err, resultado) {
+                if (err) {
+                    bd.end();
+                    console.log(err);
+                }
+                bd.end();           
+
+                var img = files.ima[0];
+                fs.readFile(img.path, function (err, data) {
+                    var path = "./public/images/actividades/" + nombreId;
+                    fs.writeFile(path, data, function (err) {
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            console.log("upload success");
+                                listar.listar(res);
+                        }
+                    });
                 });
             });
+            
         });
+
     });
 };
 
