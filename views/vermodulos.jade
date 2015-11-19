@@ -87,12 +87,6 @@ block content
                       input.form-control#nombre(type="text", placeholder="Nombre", name="nombre", value=modulo.nombre, required)
                       label(for="numero") Número del módulo: 
                       input.form-control#numero(type="number", placeholder="Número", name="numero", min="0", max="999", value=modulo.numeroModulo, required)
-                      label(for="admin") Administrador del módulo: 
-                      select.form-control#admin(name="admin", required)
-                        option(value= modulo.usuarioAdministrador selected) #{modulo.admin}
-                        for usuario in listaAdmins
-                          if usuario.idUsuario != modulo.usuarioAdministrador
-                            option(value= usuario.idUsuario) #{usuario.nombre}
                     div.modal-footer
                       button.btn.btn-primary#editarModulo(type='button') Guardar cambios
                       button.btn.btn-default#cerrarModal(type='button', data-dismiss='modal') Cerrar
