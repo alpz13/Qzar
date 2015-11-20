@@ -13,7 +13,7 @@ var actividadesAsignadas = require('../components/actividadesAsignadas.js');
 // Para administrador de módulo: sus retroalimentaciones.
 router.get('/', function (req, res, next) {
 
-    if (req.session.usuario.idRoles !== 1) {
+    if (req.session.usuario.permisos.indexOf("ver retroalimentacion") < 0) {
         res.redirect('/retroalimentacion/' + req.session.usuario.idModulo);
         return;
     }
@@ -36,8 +36,7 @@ router.post('/nuevo', function (req, res, next) {
         };
 
     // Valida permisos para agregar retroalimentación.
-    // Que no cheque tan chacamente.
-    if (req.session.usuario.idRoles !== 2) {
+    if (req.session.usuario.permisos.indexOf("crear retroalimentacion") < 0) {
         res.send("No tienes permiso para enviar retroalimentación.");
         return;
     }
@@ -86,8 +85,7 @@ router.post('/actualizar', function (req, res, next) {
         };
 
     // Valida permisos para actualizar retroalimentación.
-    // Que no cheque tan chacamente.
-    if (req.session.usuario.idRoles !== 2) {
+    if (req.session.usuario.permisos.indexOf("modificar retroalimentacion") < 0) {
         res.send("No tienes permiso para actualizar la retroalimentación.");
         return;
     }
@@ -143,8 +141,8 @@ router.get('/:id(\\d+)', function (req, res, next) {
             return;
         }
 
-        if (req.session.usuario.idRoles !== 1 && req.session.usuario.idModulo !== modulos[0].idModulo) {
-            err = new Error('No puedes.');
+        if (req.session.usuario.permisos.indexOf("ver retroalimentacion") < 0 && req.session.usuario.idModulo !== modulos[0].idModulo) {
+            err = new Error();
             err.status = 403;
             next(err);
             return;
@@ -158,6 +156,7 @@ router.get('/:id(\\d+)', function (req, res, next) {
 			retroalimentaciones.hoy(idModulo, function(err, retroalimentacionHoy) {
 				if (err) {
 					console.log(err);
+					retroalimentacionHoy = [];
 				}
 				res.render('verretroalimentacion', { titulo: 'Retroalimentaciones', usuario:req.session.usuario, barraLateral: "retroalimentacion", modulo: modulos[0], actividades: actividades, retroalimentacionHoy: retroalimentacionHoy});
 			});
@@ -172,6 +171,13 @@ router.post('/verRetroalimentacion', function (req, res, next) {
 
 	if (req.body.mes) {
 		mes = req.body.mes;
+	}
+
+	if (req.session.usuario.permisos.indexOf("ver retroalimentacion") < 0 && req.session.usuario.idModulo !== req.body.modulo) {
+		var err = new Error();
+		err.status = 403;
+		next(err);
+		return;
 	}
 
     retroalimentaciones.listarRetroalimentaciones(req.body.modulo, mes, function(err, filas) {

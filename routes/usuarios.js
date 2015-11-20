@@ -8,25 +8,37 @@ var us = require('../components/usuarios.js');
 var categoria = require('../components/categoria.js');
 
 router.get('/', function (req, res, next) {
-    if (req.session.usuario.idRoles !== 1) {
-        res.redirect('/usuarios/' + req.session.usuario.idModulo);
+    if (req.session.usuario.permisos.indexOf("ver usuario") < 0) {
+        //res.redirect('/usuarios/' + req.session.usuario.idUsuario);
+		var err = new Error();
+		err.status = 403;
+		next(err);
         return;
     }
+
     usuarios.listarUsuarios(function (err, usuarios1) {
         if (err) {
             console.log(err);
+			err = new Error();
+			next(err);
         }
         usuarios.listarAdminsGenerales(function (err, usuarios2) {
             if (err) {
                 console.log(err);
+				err = new Error();
+				next(err);
             }
             usuarios.listarRoles(function (err, qroles) {
                 if (err) {
                     console.log(err);
+					err = new Error();
+					next(err);
                 }
                 usuarios.listarModulos(function (err, qmodulos) {
                     if (err) {
                         console.log(err);
+						err = new Error();
+						next(err);
                     }
                     res.render('usuarios', { titulo: 'Usuarios', usuarios: usuarios1, usuario: req.session.usuario, listaAdmins: usuarios2, barraLateral: 'usuarios', roles: qroles, modulos: qmodulos });
                 });
@@ -46,7 +58,7 @@ router.post('/agregausuario', function (req, res, next) {
     };
 
     // Valida permisos para crear módulo.
-    if (req.session.usuario.idRoles !== 1) {
+    if (req.session.usuario.permisos.indexOf("crear usuario") < 0) {
         res.send("No tienes permiso para crear un usuario.");
         return;
     }
@@ -75,6 +87,12 @@ router.post('/agregausuario', function (req, res, next) {
 });
 
 router.post('/modificarusuario', function (req, res, next) {
+    // Valida permisos para crear módulo.
+    if (req.session.usuario.permisos.indexOf("modificar usuario") < 0) {
+        res.send("No tienes permiso para crear un usuario.");
+        return;
+    }
+
     var NuevoUsuario = {
         "nombre" : req.body.nombreUsuario,
         "contrasenia" : req.body.contrasenaUsuario,
@@ -123,9 +141,8 @@ router.get('/:id(\\d+)', function (req, res, next) {
             return;
         }
 
-        if (req.session.usuario.idRoles !== 1 && req.session.usuario.idUsuario !== usuarios[0].idUsuario) {
-            res.render('noAccess', {usuario: req.session.usuario, barraLateral: 'lotes', titulo: "###", aviso: {tipo: 'danger', icono: 'fa fa-frown-o', mensaje: 'No tiene Acceso a este componente'}});
-            err = new Error('No puedes.');
+        if (req.session.usuario.permisos.indexOf("ver usuario") < 0 && req.session.usuario.idUsuario !== usuarios[0].idUsuario) {
+            err = new Error();
             err.status = 403;
             next(err);
             return;
@@ -133,17 +150,22 @@ router.get('/:id(\\d+)', function (req, res, next) {
             us.listarRoles(function (err, qroles) {
                 if (err) {
                     console.log(err);
+					err = new Error();
+					next(err);
+					return;
                 }
                 us.listarModulos(function (err, qmodulos) {
                     if (err) {
                         console.log(err);
+						err = new Error();
+						next(err);
+						return;
                     }
                     console.log(usuarios[0]);
                     res.render('verusuarios', { titulo: 'Usuario: ', usuarios: usuarios[0], usuario: req.session.usuario, barraLateral: 'usuarios', roles : qroles, modulos : qmodulos});
                 });
             });
-            //res.render('verusuarios', { titulo: 'Usuario: ', us: usuarios[0], usuario: req.session.usuario, listaAdmins: usuarios, barraLateral: 'usuarios'});
-        }   
+        } 
     });
 });
 

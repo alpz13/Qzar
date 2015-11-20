@@ -12,7 +12,7 @@ block content
             i#icono-modulo.material-icons accessibility
             //p #{mensaje}
             h1#h1Modulos #{titulo}
-            if usuario.idRoles === 1
+            if usuario.permisos.indexOf("crear rol") > 0
               //Icono que te lleva al modal
               a(class='nav navbar-right top-nav' href='#' data-toggle="modal" data-target="#modal-crear" onclick="limpiarModalRoles()")
                 i.material-icons.md-48#boton-agregar-actividad control_point
@@ -35,7 +35,7 @@ block content
           else
             p.watermark No se han encontrado roles en el sistema.
 
-      if usuario.idRoles === 1
+      if usuario.permisos.indexOf("crear rol") >= 0
         //Modal para agregar
         div(id='modal-crear' class='modal fade' role='dialog')
             div.modal-dialog
@@ -59,7 +59,7 @@ block content
                       tr
                         td(style="width:32px")
                           input.form-control.formCheckboxRoles#permiso4(type="checkbox" name="permiso" value="4")
-                        td= "Ver módulo"
+                        td= "Ver módulos"
                       tr
                         td(style="width:32px")
                           input.form-control.formCheckboxRoles#permiso5(type="checkbox" name="permiso" value="5")
@@ -75,7 +75,7 @@ block content
                       tr
                         td(style="width:32px")
                           input.form-control.formCheckboxRoles#permiso8(type="checkbox" name="permiso" value="8")
-                        td= "Ver actividad"
+                        td= "Ver actividades"
                       tr
                         td(style="width:32px")
                           input.form-control.formCheckboxRoles#permiso9(type="checkbox" name="permiso" value="9")
@@ -91,7 +91,7 @@ block content
                       tr
                         td(style="width:32px")
                           input.form-control.formCheckboxRoles#permiso12(type="checkbox" name="permiso" value="12")
-                        td= "Ver usuario"
+                        td= "Ver usuarios"
                       tr
                         td(style="width:32px")
                           input.form-control.formCheckboxRoles#permiso13(type="checkbox" name="permiso" value="13")
@@ -107,7 +107,7 @@ block content
                       tr
                         td(style="width:32px")
                           input.form-control.formCheckboxRoles#permiso16(type="checkbox" name="permiso" value="16")
-                        td= "Ver rol"
+                        td= "Ver roles"
                       tr
                         td(style="width:32px")
                           input.form-control.formCheckboxRoles#permiso17(type="checkbox" name="permiso" value="17")
@@ -123,7 +123,7 @@ block content
                       tr
                         td(style="width:32px")
                           input.form-control.formCheckboxRoles#permiso20(type="checkbox" name="permiso" value="20")
-                        td= "Ver retroalimentación"
+                        td= "Ver retroalimentaciones"
                       tr
                         td(style="width:32px")
                           input.form-control.formCheckboxRoles#permiso21(type="checkbox" name="permiso" value="21")
@@ -139,7 +139,7 @@ block content
                       tr
                         td(style="width:32px")
                           input.form-control.formCheckboxRoles#permiso24(type="checkbox" name="permiso" value="24")
-                        td= "Ver asignación"
+                        td= "Ver asignaciones"
                       tr
                         td(style="width:32px")
                           input.form-control.formCheckboxRoles#permiso25(type="checkbox" name="permiso" value="25")
@@ -148,6 +148,14 @@ block content
                         td(style="width:32px")
                           input.form-control.formCheckboxRoles#permiso26(type="checkbox" name="permiso" value="26")
                         td= "Eliminar asignación"
+                      tr
+                        td(style="width:32px")
+                          input.form-control.formCheckboxRoles#permiso27(type="checkbox" name="permiso" value="27")
+                        td= "Crear sector"
+                      tr
+                        td(style="width:32px")
+                          input.form-control.formCheckboxRoles#permiso28(type="checkbox" name="permiso" value="28")
+                        td= "Ver sectores"
 
                   div.modal-footer
                     button.btn.btn-primary#crearRol(type="button") Crear
@@ -156,22 +164,25 @@ block content
 
 
     //Modal Advertencia
-    div(id='EliminarRol' class='modal fade' role='dialog')
-      div.modal-dialog
-        //Contenido modal
-        div.modal-content
-          div.modal-header
-            button(type='button' class='close' data-dismiss="modal") &times;
-            h4.modal-title Advertencia
-          form
-            div.modal-body
-              p#eliminarCosas ¿Desea eliminar el rol?
-              //Importante NO BORRAR
-              input.ninja(type="hidden")
-            div.modal-footer
-              button#eliminarRoles.btn.btn-primary( type="button" class="eliminar" data-dismiss="modal"  ) Eliminar
-              button.btn.btn-danger(type="button" data-dismiss="modal") Cancelar
+    if usuario.permisos.indexOf("eliminar rol") >= 0
+      div(id='EliminarRol' class='modal fade' role='dialog')
+        div.modal-dialog
+          //Contenido modal
+          div.modal-content
+            div.modal-header
+              button(type='button' class='close' data-dismiss="modal") &times;
+              h4.modal-title Advertencia
+            form
+              div.modal-body
+                p#eliminarCosas ¿Desea eliminar el rol?
+                //Importante NO BORRAR
+                input.ninja(type="hidden")
+              div.modal-footer
+                button#eliminarRoles.btn.btn-primary( type="button" class="eliminar" data-dismiss="modal"  ) Eliminar
+                button.btn.btn-danger(type="button" data-dismiss="modal") Cancelar
 
-              //button#eliminarRoles.btn.btn-danger( type="button" class="Eliminar" data-dismiss="modal" onclick="window.location.href='/roles/eliminar/#{rol.idRol}'" ) Eliminar
+                //button#eliminarRoles.btn.btn-danger( type="button" class="Eliminar" data-dismiss="modal" onclick="window.location.href='/roles/eliminar/#{rol.idRol}'" ) Eliminar
 
-script(src='/js/crearrol.js')
+
+if usuario.permisos.indexOf("crear rol") >= 0 || usuario.permisos.indexOf("modificar rol") >= 0
+  script(src='/js/crearrol.js')

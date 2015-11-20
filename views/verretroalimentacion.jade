@@ -15,8 +15,7 @@ block content
 
         //Contenido de la pagina
         div.col-sm-12.col-md-8.col-md-offset-2
-        // TODO: Que no esté jarcodeado
-        if usuario.idRoles == 2
+        if usuario.permisos.indexOf("crear retroalimentacion") >= 0
           a(class='nav navbar-right top-nav' href='#' data-toggle="modal" data-target="#FAA" id='boton-agregar')
             i.material-icons.md-48#boton-agregar-retro control_point
             if retroalimentacionHoy
@@ -52,7 +51,7 @@ block content
         <div id="eventos-del-dia">
           <p>Selecciona un día para ver la retroalimentación del día</p>
       </div>
-    if usuario.idRoles == 2
+    if usuario.permisos.indexOf("crear retroalimentacion") >= 0
       if !retroalimentacionHoy
         //Modal Agregar
         div(id='FAA' class='modal fade' role='dialog')

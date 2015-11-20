@@ -23,7 +23,7 @@ block content
                   td#Rol #{usuarios.nombreRol}
                   td#administradorModulo #{usuarios.nombreModulo}
                   td(class='id' style='display:none;') #{usuarios.nombreUsuario}
-                  if usuario.idRoles == 1
+                  if usuario.permisos.indexOf("modificar usuario") >= 0
                     td#botones-modificar
                       button.btn.btn-primary(type="button" class="modificar" data-toggle="modal" data-target="#MMU" id='boton-modificar') Modificar
                       &nbsp&nbsp&nbsp

@@ -15,7 +15,7 @@ block content
             i(class='fa fa-fw fa-archive')#icono-modulo
             //p #{mensaje}
             h1#h1Modulos Sectores
-            if usuario.idRoles === 1
+            if usuario.permisos.indexOf("crear sector") >= 0
               //Icono que te lleva al modal
               a(class='nav navbar-right top-nav' href='#' data-toggle="modal" data-target="#FAA")
                 i.material-icons.md-48#boton-agregar-actividad control_point
