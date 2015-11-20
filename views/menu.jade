@@ -42,17 +42,16 @@ block body
                 p.inline.leftsidebar INICIO
   
           // Modulos
-          if usuario.permisos.indexOf("ver modulo") >= 0
-            if barraLateral && barraLateral === 'modulos'
-              li.activo
-                a(href='/modulos')
-                  i(class='fa fa-fw fa-home')
-                  p.inline.leftsidebar MODULOS
-            else
-              li
-                a(href='/modulos')
-                  i(class='fa fa-fw fa-home')
-                  p.inline.leftsidebar MODULOS
+          if barraLateral && barraLateral === 'modulos'
+            li.activo
+              a(href='/modulos')
+                i(class='fa fa-fw fa-home')
+                p.inline.leftsidebar MODULOS
+          else
+            li
+              a(href='/modulos')
+                i(class='fa fa-fw fa-home')
+                p.inline.leftsidebar MODULOS
 
           // Actividades
           if usuario.permisos.indexOf("ver actividad") >= 0
@@ -106,19 +105,16 @@ block body
                 p.inline.leftsidebar LOTES
 
           // Retroalimentación
-          if usuario.permisos.indexOf("ver retroalimentacion") >= 0
-            if barraLateral && barraLateral === 'retroalimentacion'
-              li.activo
-                a(href='/retroalimentacion')
-                  i(class='fa fa-fw fa-bookmark-o')
-                  p.inline.leftsidebar RETROALIMENTACIÓN
-            else
-              li
-                a(href='/retroalimentacion')
-                  i(class='fa fa-fw fa-bookmark-o')
-                  p.inline.leftsidebar RETROALIMENTACIÓN
-
-
+          if barraLateral && barraLateral === 'retroalimentacion'
+            li.activo
+              a(href='/retroalimentacion')
+                i(class='fa fa-fw fa-bookmark-o')
+                p.inline.leftsidebar RETROALIMENTACIÓN
+          else
+            li
+              a(href='/retroalimentacion')
+                i(class='fa fa-fw fa-bookmark-o')
+                p.inline.leftsidebar RETROALIMENTACIÓN
 
           // Sectores
           if usuario.permisos.indexOf("crear sector") >= 0
