@@ -8,7 +8,7 @@ var sector = require('../components/sector.js');
 
 //Pagina Principal
 router.get('/', function (req, res, next) {
-	if (req.session.usuario.permisos.indexOf("ver sector") < 0) {
+	if (req.session.usuario.permisos.indexOf("ver sectores") < 0) {
 		var err = new Error();
 		err.status = 403;
 		next(err);
