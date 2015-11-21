@@ -82,7 +82,7 @@ function listarRoles(callback) {
 
 function listarModulos(callback) {
 	var conexion = mysql.createConnection(credenciales);
-    var consulta = 'SELECT idModulo, nombre FROM Modulos;';
+    var consulta = 'SELECT idModulo, nombre FROM Modulos WHERE activo = 1;';
     conexion.connect();
     conexion.query(consulta, function (err, resultados) {
         conexion.end();
