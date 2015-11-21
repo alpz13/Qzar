@@ -45,23 +45,38 @@ function listarSector(callback)
 }
 
 //Eliminar sectores
-function eliminarSector(id, callback){
+function eliminarSector(id, res){
 	var bd = mysql.createConnection(credenciales),
 		sql = 'DELETE FROM ContenidoCuadritos WHERE idContenidoCuadritos = ?',
 		params = [id];
-
+        res.setHeader('Content-Type', 'application/json');
 		sql = mysql.format(sql,params);
 		console.log("aqui estoy"+sql);
 
 		bd.connect();
 
-		bd.query(sql, function (err, resultados) {
+		bd.query(sql, function (err ,resultados) {
         if (err) {
             bd.end();
-            return callback(err, []);
+            console.log(resultados);
+            if (resultados === undefined){
+                console.log("fuuu");
+                res.setHeader('Content-Type', 'application/json');
+                res.send(JSON.stringify(0));
+                return;
+                //return callback(null, 0);
+            }
+            res.setHeader('Content-Type', 'application/json');
+            res.send(JSON.stringify(-1));
+            return;
+            //return callback(err, []);
         }
+        console.log("importante n.3"+resultados);
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify(1));
+        return;
+        //return callback(null, 1);
         bd.end();
-        return callback(null, resultados);
     });
 }
 
@@ -88,13 +103,6 @@ function modificarSector(nuevoPoste, callback)
         return callback(null, resultados.insertId);
     });
 }
-
-
-
-
-
-
-
 
 module.exports = {
 	'crear' : crearSector,
