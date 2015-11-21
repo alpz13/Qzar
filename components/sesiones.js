@@ -29,7 +29,7 @@ var __obtenerPermisos = function (idUsuario, callback) {
 
 var __validarCredenciales = function (nombreUsuario, contrasenia, callback) {
 	var conexion = mysql.createConnection(credenciales);
-    var consulta = 'SELECT `contrasena` FROM `Usuarios` WHERE `nombre` = ?;';
+    var consulta = 'SELECT `contrasena` FROM `Usuarios` WHERE `nombre` = ? AND activo = 1;';
     var valores = [nombreUsuario, contrasenia];
     consulta = mysql.format(consulta, valores);
 
@@ -56,7 +56,7 @@ var __validarCredenciales = function (nombreUsuario, contrasenia, callback) {
 
 var __cargarUsuario = function (idUsuario, callback) {
 	var conexion = mysql.createConnection(credenciales);
-    var consulta = 'SELECT nombre, idRoles, idModulo FROM Usuarios WHERE idUsuario = ?;';
+    var consulta = 'SELECT nombre, idRoles, idModulo FROM Usuarios WHERE idUsuario = ? AND activo = 1;';
     var valores = [idUsuario];
     consulta = mysql.format(consulta, valores);
 	
