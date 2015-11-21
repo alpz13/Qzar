@@ -3,6 +3,7 @@
 
 var mysql = require('mysql');
 var credenciales = require('../database/credencialesbd.json');
+var bcrypt = require('bcrypt');
 
 /*
 */
@@ -28,11 +29,12 @@ var __obtenerPermisos = function (idUsuario, callback) {
 
 var __validarCredenciales = function (nombreUsuario, contrasenia, callback) {
 	var conexion = mysql.createConnection(credenciales);
-    var consulta = 'SELECT idUsuario FROM Usuarios WHERE activo = 1 AND `nombre` = ? AND `contrasena` = ?;';
+    var consulta = 'SELECT `contrasena` FROM `Usuarios` WHERE `nombre` = ?;';
     var valores = [nombreUsuario, contrasenia];
     consulta = mysql.format(consulta, valores);
 
     conexion.connect();
+    // Busca los usuarios con ese nombre.
     conexion.query(consulta, function (err, renglones) {
         conexion.end();
         if (err) {
@@ -40,11 +42,15 @@ var __validarCredenciales = function (nombreUsuario, contrasenia, callback) {
             callback(err);
             return;
         }
-        if (renglones.length === 0) {
-            callback(new Error('Usuario y/o contraseña incorrectos.'));
-        } else {
-            callback(null, renglones[0].idUsuario);
-        }
+        
+        // Busca al usuario que tenga la contraseña dada.
+        for (var i in renglones) {
+			if (bcrypt.compareSync(contrasenia, renglones[i].contrasena || ' ')) {
+				callback(null, true);
+				return;
+			}
+		}
+		callback(new Error('Usuario y/o contraseña incorrectos.'));
     });
 };
 
