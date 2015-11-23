@@ -82,7 +82,7 @@ app.use(function (req, res, next) {
 
 // development error handler
 // will print stacktrace
-app.set('env', 'development');
+app.set('env', 'production');
 if (app.get('env') === 'development') {
     app.use(function (err, req, res, next) {
 		if (err.status === 403) {
