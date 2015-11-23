@@ -202,7 +202,7 @@ block content
                 hr
                 div.categoriasDiv.group-control#categoriasDiv
                   label(for="categorias") Categoría: 
-                    select.form-control.actividades.categoriaCustom#categoriasPosibles(name="categoriaPosible", onchange="cambiarActividades(this)", required)
+                    select.form-control.catActividades.categoriaCustom#categoriasPosibles(name="categoriaPosible", onchange="cambiarActividades(this)", required)
                       for categoria in categorias
                         option(value= categoria.idCategoria) #{categoria.nombreCategoria}
                 div.actividadesDiv.group-control#actividadesDiv

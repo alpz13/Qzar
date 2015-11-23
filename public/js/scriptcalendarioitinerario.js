@@ -36,6 +36,7 @@ function asignarActividad() {
   var idSector = $('#sectorPosible').val();
   var idActividadesRaw = $('.actividades');
   var idActividades = [];
+  //console.log(idActividadesRaw);
   $(idActividadesRaw).each(function(){
     idActividades.push($(this).val());
   });
