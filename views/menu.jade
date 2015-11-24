@@ -46,27 +46,28 @@ block body
             li.activo
               a(href='/modulos')
                 i(class='fa fa-fw fa-home')
-                p.inline.leftsidebar MODULOS
+                p.inline.leftsidebar MÓDULOS
           else
             li
               a(href='/modulos')
                 i(class='fa fa-fw fa-home')
-                p.inline.leftsidebar MODULOS
+                p.inline.leftsidebar MÓDULOS
 
           // Retroalimentación
-          if barraLateral && barraLateral === 'retroalimentacion'
-            li.activo
-              a(href='/retroalimentacion')
-                i(class='fa fa-fw fa-bookmark-o')
-                p.inline.leftsidebar RETROALIMENTACIÓN
-          else
-            li
-              a(href='/retroalimentacion')
-                i(class='fa fa-fw fa-bookmark-o')
-                p.inline.leftsidebar RETROALIMENTACIÓN
+          if usuario.permisos.indexOf("ver retroalimentaciones") >= 0
+            if barraLateral && barraLateral === 'retroalimentacion'
+              li.activo
+                a(href='/retroalimentacion')
+                  i(class='fa fa-fw fa-bookmark-o')
+                  p.inline.leftsidebar RETROALIMENTACIÓN
+            else
+              li
+                a(href='/retroalimentacion')
+                  i(class='fa fa-fw fa-bookmark-o')
+                  p.inline.leftsidebar RETROALIMENTACIÓN
 
           // Sectores
-          if usuario.permisos.indexOf("ver sector") >= 0
+          if usuario.permisos.indexOf("ver sectores") >= 0
             if barraLateral && barraLateral === 'sector'
               li.activo
                 a(href='/sector')
@@ -84,12 +85,12 @@ block body
               li.activo
                 a(href='/categoria')
                   i(class='fa fa-fw fa-book')
-                  p.inline.leftsidebar CATEGORIAS
+                  p.inline.leftsidebar CATEGORÍAS
             else
               li
                 a(href='/categoria')
                   i(class='fa fa-fw fa-book')
-                  p.inline.leftsidebar CATEGORIAS
+                  p.inline.leftsidebar CATEGORÍAS
 
           // Actividades
           if usuario.permisos.indexOf("ver actividad") >= 0

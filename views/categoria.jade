@@ -1,7 +1,8 @@
 extends menu
 block content
   head
-    title Categorias
+    link(rel='stylesheet', href="/stylesheets/qzar-actividades.css", type='text/css')
+    title Categorías
   //Contenido de Pagina
   div#page-wrapper
     div.container-fluid
@@ -34,7 +35,7 @@ block content
                       &nbsp&nbsp&nbsp
                       //button.btn.btn-danger(type="hidden" class="eliminar" data-dismiss="modal") Eliminar
           else
-            p.watermark No se han encontrado categorias en el sistema.
+            p.watermark No se han encontrado categorías en el sistema.
     //Modal Agregar
     div(id='FAC' class='modal fade' role='dialog')
       div.modal-dialog
