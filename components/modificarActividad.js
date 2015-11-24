@@ -20,11 +20,13 @@ var modifica = function (req, res) {
         var img = files.imaMod[0];
 
         var bd = mysql.createConnection(credenciales);   
-        var sql = 'UPDATE Actividades SET nombre = "' + nombre + '", descripcion = "' + descripcion + '", idCategoriaAct = "' + categoria + '", imagen = "' + id+ext + '" WHERE idActividad = "' + fields.idModActividad + '"';
+        var sql = 'UPDATE Actividades SET nombre = ?, descripcion = ?, idCategoriaAct = ?, imagen = ? WHERE idActividad = ?';
+		var params = [nombre, descripcion, categoria, id+ext, fields.idModActividad];
 
         console.log(sql);
 
         bd.connect();
+		sql = mysql.format(sql, params);
         bd.query(sql, function (err, resultado) {
             if (err) {
                 bd.end();
@@ -49,6 +51,3 @@ var modifica = function (req, res) {
 module.exports = {
     'modifica' : modifica
 };
-
-
-
