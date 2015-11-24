@@ -48,9 +48,9 @@
     height: 42px;
     border-radius: 3px;
     display: inline-block;
-    line-height: 0px;
+    line-height: 12px;
     text-shadow: #393939 2px 2px 9px;
-    font-size: 17px;
+    font-size: 27px;
 }
 
 #huerta {

@@ -27,10 +27,27 @@ block content
           table#actividadesHoy
 
 
+        .col-sm-12.col-md-8.col-md-offset-2
+          table.table.table-striped.table-bordered
+            tbody
+                tr
+                  td#opciones-modulo Número de Módulo
+                  td#numeroModulo #{modulo.numeroModulo}
+                tr
+                  td#opciones-modulo Administrador de Módulo
+                  td#administradorModulo #{modulo.admin}
+        if usuario.permisos.indexOf("modificar modulo") >= 0
+          .col-sm-8.col-sm-offset-4
+            button.btn.btn-primary(type="button" class="modificar" data-toggle="modal" data-target="#FAA" id='boton-modificar') Modificar Módulo
+            &nbsp&nbsp&nbsp
+            button.btn.btn-danger(type="button" class="modificar" data-toggle="modal" data-target="#Eliminar" id='boton-eliminar') Eliminar Módulo
         //Croquis
         &nbsp&nbsp&nbsp&nbsp&nbsp
         if alto.length > 0
           .container
+            .row
+              .col-sm-6.col-sm-offset-5
+                img.media-object(src="../images/rosavientos.png" alt="...")
             .row
               div(style="margin: 0 auto;")
                 table#huerta.table(align="center")
@@ -40,27 +57,9 @@ block content
                         each row in ancho 
                           td.cuadrito
                             span.poste(style="background-color: #CAE0C0")
-            .row
-              .col-sm-6.col-sm-offset-5
-                img.media-object(src="../images/rosavientos.png" alt="...")
 
-        .col-sm-12.col-md-8.col-md-offset-2
-          table.table.table-striped.table-bordered
-            tbody
-                tr
-                  td#opciones-modulo Número de Módulo
-                  td#numeroModulo #{modulo.numeroModulo}
-                  td#opciones-modulo Opciones
-                tr
-                  td#opciones-modulo Administrador de Módulo
-                  td#administradorModulo #{modulo.admin}
-                  if usuario.permisos.indexOf("modificar modulo") >= 0
-                    td#botones-modificar
-                      button.btn.btn-primary(type="button" class="modificar" data-toggle="modal" data-target="#FAA" id='boton-modificar') Modificar
-                      &nbsp&nbsp&nbsp
-                      button.btn.btn-danger(type="button" class="modificar" data-toggle="modal" data-target="#Eliminar" id='boton-eliminar') Eliminar
-          if usuario.permisos.indexOf("modificar modulo") >= 0
-            
+        if usuario.permisos.indexOf("modificar modulo") >= 0
+          .col-sm-8.col-sm-offset-4
             //Botones de Editar y Agregar Nueva Huerta
             //Si existe una huerta, despleiga boton de editar
             if alto.length > 0
