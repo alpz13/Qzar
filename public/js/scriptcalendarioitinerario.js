@@ -58,7 +58,7 @@ function asignarActividad() {
   function (data) {
     console.log(data);
     //$("#full-clnd").load("modulos/2 " + "#full-clnd");
-    //location.reload();
+    location.reload();
   });
 }
 
@@ -141,14 +141,15 @@ function eliminarActividadesAsignadas(idAsignada, asignar){
     console.log(data);
     if (asignar === 1){
       asignarActividad();
-    }
+      location.reload();
+    } 
   });
 }
 
 function editarActividadesAsignadas(idAsignada){
   eliminarActividadesAsignadas(idAsignada, 1);
   console.log("antes");
-  asignarActividad();
+  //asignarActividad();
   console.log("Despues");
 }
 
@@ -231,8 +232,11 @@ function llenaPanel(eventos, date) {
   url = url.split('/');
   var htmlALlenar = "";
   $(eventos).each(function () {
+    if(this.numeroSector < 0)
+      this.numeroSector = "Sin sector";
     htmlALlenar += "<div class='event-item'>";
     htmlALlenar += "<div class='event-item-name'>Actividad: " + this.title + "</div>";
+    htmlALlenar += "<div class='event-item-name'>Descripción de la actividad: " + this.descripcion + "</div>";
     htmlALlenar += "<div class='event-item-location'>Sector: " + this.numeroSector + "</div>";
     htmlALlenar += "<a class='event-item-details' onclick=cargarModalEditar("+ this.idAsignada +") href=#>Ver detalles</a>";
     htmlALlenar += "</div>";

@@ -14,10 +14,10 @@ var listarActividadesAsignadas = function (idModulo, res) {
     //Prueba si se conecto correctamente a la base de datos
     connection.connect(function (err) {
         if (!err) {
-            //console.log("Database is connected ... \n");
-            //Guardar el cuadrito
-            //console.log("antes de la query");
-            connection.query("select ac.idActividadesAsignadas as idAsignada, ac.fecha as date, a.nombre as title, ac.idSectores as idSectores, s.numeroSector, a.idActividad as idActividad FROM Actividades as a, ActividadesAsignadas as ac, Sectores as s WHERE ac.idModulos = " + idModulo + " AND a.idActividad = ac.idActividades AND s.idSector = ac.idSectores", function (err, rows) {
+            var sql = "select distinct ac.idActividadesAsignadas as idAsignada, ac.fecha as date, a.nombre as title, a.descripcion as descripcion, ac.idSectores as idSectores, s.numeroSector, a.idActividad as idActividad FROM Actividades as a, ActividadesAsignadas as ac, Sectores as s WHERE ac.idModulos = ? AND (ac.idSectores is NULL OR ac.idSectores = s.idSector) AND ac.idActividades = a.idActividad";
+            var params = [idModulo];
+            sql = mysql.format(sql, params);
+            connection.query(sql, function (err, rows) {
                 //Funcion callback del query
                 //console.log("despues de la query");
                 if (!err) {
@@ -136,7 +136,8 @@ var asignarActividad = function (idModulo, idSector, idActividad, fecha, res) {
   connection.connect(function (err, rows) {
     if (!err) {
       //console.log("Database is connected ... \n");
-      connection.query("INSERT INTO ActividadesAsignadas (idModulos,idActividades,idSectores,fecha) VALUES (" + idModulo + ", " + idActividad + ", " + idSector + ", '" + fecha + "');", function (err, rows) {
+      var insert = "INSERT INTO ActividadesAsignadas (idModulos,idActividades,idSectores,fecha) VALUES (" + idModulo + ", " + idActividad + ", " + idSector + ", '" + fecha + "');";
+      connection.query(insert, function (err, rows) {
         //Funcion callback del query
         if (!err) {
           //Si no ocurrio un error al realizar la query
