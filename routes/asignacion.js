@@ -6,19 +6,14 @@ var router = express.Router();
 
 var actividadesAsignadas = require('../components/actividadesAsignadas.js');
 
-// Checa tus prvilegios
-router.post(/.*/, function(req, res, next) {
+
+router.post('/asignaractividad', function (req, res, next) {
     if (req.session.usuario.permisos.indexOf("crear asignacion") < 0) {
         err = new Error();
         err.status = 403;
         next(err);
         return;
     }
-	next();
-});
-
-router.post('/asignaractividad', function (req, res, next) {
-    //To Do
     console.log("auxiliar algoreq.body");
     var idModulo = req.body.idModulo;
     var idSector = req.body.idSector;
@@ -56,6 +51,12 @@ router.post('/verdetalles', function (req, res, next){
 });
 
 router.post('/borrarasignacion', function (req, res, next){
+    if (req.session.usuario.permisos.indexOf("eliminar asignacion") < 0) {
+        err = new Error();
+        err.status = 403;
+        next(err);
+        return;
+    }
     console.log("Eliminando actividades asignadas");
     idAsignada = req.body.idAsignada;
     console.log(idAsignada);
