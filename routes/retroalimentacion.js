@@ -9,11 +9,9 @@ var usuarios = require('../components/usuarios.js');
 var retroalimentaciones = require('../components/retroalimentaciones.js');
 var actividadesAsignadas = require('../components/actividadesAsignadas.js');
 
-// Para administrador general: lista de retroalimentaciones.
-// Para administrador de módulo: sus retroalimentaciones.
 router.get('/', function (req, res, next) {
 
-    if (req.session.usuario.permisos.indexOf("ver retroalimentacion") < 0) {
+    if (req.session.usuario.permisos.indexOf("ver modulo") < 0) {
         res.redirect('/retroalimentacion/' + req.session.usuario.idModulo);
         return;
     }
@@ -32,10 +30,8 @@ router.get('/', function (req, res, next) {
 router.post('/nuevo', function (req, res, next) {
     var formulario = new multiparty.Form(),
         retroalimentacion = {
-			'dia' : req.body.hoy,
             'idModulo' : req.session.usuario.idModulo
         };
-	console.log(retroalimentacion);
 
     // Valida permisos para agregar retroalimentación.
     if (req.session.usuario.permisos.indexOf("crear retroalimentacion") < 0) {
@@ -93,6 +89,7 @@ router.post('/nuevo', function (req, res, next) {
 // Petición de actualizar retroalimentación del día.
 router.post('/actualizar', function (req, res, next) {
     var formulario = new multiparty.Form(),
+	    hoy = moment().tz('America/Mexico_City').format('YYYY-MM-DD'),
         retroalimentacion = {
             'idModulo' : req.session.usuario.idModulo
         };
@@ -117,6 +114,15 @@ router.post('/actualizar', function (req, res, next) {
             for (var campo in campos) {
 				retroalimentacion[campo] = campos[campo];
 			}
+
+			// Ya pasó la fecha.
+			if (retroalimentacion.dia != hoy) {
+		        var err = new Error('Ya pasó la fecha para modificar la retroalimentación de ese día.');
+		        err.status = 500;
+		        next(err);
+				return;
+			}
+
             if (archivos.foto[0].size > 0) {
                 if (archivos.foto[0].headers['content-type'].match(/^image/)) {
                     retroalimentacion.archivo = archivos.foto[0];

@@ -63,7 +63,7 @@ block content
                 h4.modal-title Agregar retroalimentación del día
               form#AgregarRetro(action="/retroalimentacion/nuevo" method="post" enctype="multipart/form-data")
                 div.modal-body 
-                  input(type="hidden" value="#{hoy}")
+                  input(type="hidden" name="dia" value="#{hoy}")
                   label Actividades de hoy
                   div.row
                   for actividad in actividades
@@ -91,6 +91,7 @@ block content
                 h4.modal-title Cambiar retroalimentación del día
               form#AgregarRetro(action="/retroalimentacion/actualizar" method="post" enctype="multipart/form-data")
                 div.modal-body 
+                  input(type="hidden" name="dia" value="#{hoy}")
                   label Actividades de hoy
                   div.row
                   for actividad in actividades
