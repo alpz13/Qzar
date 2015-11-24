@@ -111,6 +111,7 @@ function habilitarCamposModalAgregar(){
   $("#boton-borrar-asignaciones").css("display", "none");
   $("#titulo-modal-actividades").html("Asignar actividades");
   $("#boton-borrar-asignaciones").attr("onclick", "");
+  $("#agregarActividad").css('display', 'block');
 }
 
 function habilitarCamposModal(){
@@ -124,6 +125,7 @@ function habilitarCamposModal(){
   $("#boton-habilitar-campos").css("display", "none");
   $("#boton-edicion-asignaciones").css("display", "inline-block");
   $("#boton-borrar-asignaciones").css("display", "inline-block");
+  $("#agregarActividad").css('display', 'none');
 }
 
 function cargarModalAsignar(){
@@ -216,6 +218,7 @@ function cargarModalEditar(idAsignada){
         $(this).attr("selected", true);
       }
     });
+    $("#agregarActividad").css('display', 'none');
     var div = $('#categoriasPosibles');
     cambiarActividades($(div));
     $(".opcionActividad").each(function(){
