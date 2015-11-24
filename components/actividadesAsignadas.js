@@ -14,7 +14,7 @@ var listarActividadesAsignadas = function (idModulo, res) {
     //Prueba si se conecto correctamente a la base de datos
     connection.connect(function (err) {
         if (!err) {
-            var sql = "select distinct ac.idActividadesAsignadas as idAsignada, ac.fecha as date, a.nombre as title, ac.idSectores as idSectores, s.numeroSector, a.idActividad as idActividad FROM Actividades as a, ActividadesAsignadas as ac, Sectores as s WHERE ac.idModulos = ? AND (ac.idSectores is NULL OR ac.idSectores = s.idSector) AND ac.idActividades = a.idActividad";
+            var sql = "select distinct ac.idActividadesAsignadas as idAsignada, ac.fecha as date, a.nombre as title, a.descripcion as descripcion, ac.idSectores as idSectores, s.numeroSector, a.idActividad as idActividad FROM Actividades as a, ActividadesAsignadas as ac, Sectores as s WHERE ac.idModulos = ? AND (ac.idSectores is NULL OR ac.idSectores = s.idSector) AND ac.idActividades = a.idActividad";
             var params = [idModulo];
             sql = mysql.format(sql, params);
             connection.query(sql, function (err, rows) {
