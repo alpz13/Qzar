@@ -226,7 +226,7 @@ function cargarModalEditar(idAsignada){
     });
     $("#agregarActividad").css('display', 'none');
     while($(".actividadesDiv").length > 1){
-      $(".categoriaActividad").first().remove();
+      $(".categoriaActividad").last().remove();
     }
     var div = $('#categoriasPosibles');
     cambiarActividades($(div));
