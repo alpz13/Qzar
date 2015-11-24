@@ -13,7 +13,7 @@ var credenciales = require('../database/credencialesbd.json');
 
 function agregarRetroalimentacion(retro, callback) {
     // El archivo tiene como nombre el idModulo y la fecha.
-    var hoy = moment().tz('America/Mexico_City').format('YYYY-MM-DD'),
+    var hoy = retro.dia,
         bd = mysql.createConnection(credenciales),
         sql = "INSERT INTO Retroalimentaciones(fecha, idModulos, descripcion, contenidoMultimedia) VALUES(?,?,?,?);",
         nombreArchivo,
@@ -69,7 +69,7 @@ function agregarRetroalimentacion(retro, callback) {
 
 function actualizarRetroalimentacion(retro, callback) {
 	// El archivo tiene como nombre el idModulo y la fecha.
-	var hoy = moment().tz('America/Mexico_City').format('YYYY-MM-DD'),
+	var hoy = retro.dia,
 		bd = mysql.createConnection(credenciales),
 		sql = "UPDATE Retroalimentaciones SET descripcion = ? WHERE fecha = ? AND idModulos = ?;",
 		nombreArchivo,
