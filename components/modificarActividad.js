@@ -19,9 +19,11 @@ var modifica = function (req, res) {
         var categoria = fields.roles;
         var img = files.imaMod[0];
 
+        if(nombreoriginal == '') {nombreoriginal = 'NULL';}
+
         var bd = mysql.createConnection(credenciales);   
         var sql = 'UPDATE Actividades SET nombre = ?, descripcion = ?, idCategoriaAct = ?, imagen = ? WHERE idActividad = ?';
-		var params = [nombre, descripcion, categoria, id+ext, fields.idModActividad];
+		var params = [nombre, descripcion, categoria, nombreoriginal, fields.idModActividad];
 
         console.log(sql);
 
