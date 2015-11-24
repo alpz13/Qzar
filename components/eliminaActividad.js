@@ -13,9 +13,11 @@ var elimina = function (req, res) {
     var idAct = req.body.id;
 
     var bd = mysql.createConnection(credenciales);
-    var sql = 'UPDATE Actividades SET activo = 0 WHERE idActividad = "' + idAct + '"';
+    var sql = 'UPDATE Actividades SET activo = 0 WHERE idActividad = ?';
+    var params = [idAct];
+
     bd.connect();
-    sql = mysql.format(sql);
+    sql = mysql.format(sql, params);
     bd.query(sql, function (err, resultado) {
         if (err) {
             bd.end();
@@ -29,6 +31,3 @@ var elimina = function (req, res) {
 module.exports = {
     'elimina' : elimina
 };
-
-
-

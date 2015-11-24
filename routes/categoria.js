@@ -29,7 +29,7 @@ router.get('/', function(req, res){
 		if (err) {
 			console.log(err);
 		}
-		res.render('categoria',{ titulo: 'Categorias', usuario: req.session.usuario, barraLateral: 'categorias', categorias:resCategorias});
+		res.render('categoria',{ titulo: 'Categorías', usuario: req.session.usuario, barraLateral: 'categorias', categorias:resCategorias});
 	});
 });
 

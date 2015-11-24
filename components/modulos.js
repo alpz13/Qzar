@@ -84,6 +84,37 @@ function actualizarModulo(modulo, callback) {
     });
 }
 
+var eliminaHuerta = function (idModulo, callback) {
+  var credenciales = require('../database/credencialesbd.json');
+  //Carga el modulo de mySQL
+  var mysql = require('mysql');
+  //Crea la coneccion
+  var connection = mysql.createConnection(credenciales);
+  //Prueba si se conecto correctamente a la base de datos
+  connection.connect(function (err) {
+    if(!err) {
+      console.log("Database is connected ... \n");
+      //Guardar el cuadrito
+      connection.query("DELETE FROM Cuadritos USING Cuadritos, Sectores, Modulos WHERE Sectores.idModulos = '"+idModulo+"' AND Cuadritos.idSectores = Sectores.idSector", function (err, rows, fields) {
+        //Funcion callback del query
+        if (!err) {
+          //Si no ocurrio un error al realizar la query
+          return callback(null, fields);
+        } else {
+          //Error al ejecutar el query
+          return callback(err, []);
+          console.log(err);
+        }
+      });
+      //Termina la conexion
+    } else {
+      console.log("Error connecting database ... \n");  
+    }
+    connection.end();
+  });
+  
+}
+
 function eliminarModulo(id, callback) {
     var bd = mysql.createConnection(credenciales),
         sql = 'UPDATE Modulos SET activo=0 WHERE idModulo=?;',
@@ -98,8 +129,9 @@ function eliminarModulo(id, callback) {
             bd.end();
             return callback(err, []);
         }
+        eliminaHuerta(id, callback);
         bd.end();
-        return callback(null, resultados);
+        
     });
 }
 
