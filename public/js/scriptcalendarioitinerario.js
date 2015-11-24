@@ -58,7 +58,7 @@ function asignarActividad() {
   function (data) {
     console.log(data);
     //$("#full-clnd").load("modulos/2 " + "#full-clnd");
-    //location.reload();
+    location.reload();
   });
 }
 
@@ -143,6 +143,8 @@ function eliminarActividadesAsignadas(idAsignada, asignar){
     console.log(data);
     if (asignar === 1){
       asignarActividad();
+    } else {
+      location.reload();
     }
   });
 }
