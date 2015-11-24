@@ -29,9 +29,9 @@ function llenaPanel(eventos, date) {
 	var htmlActNoCompletadas = "<p>Actividades NO completadas:</p><ul>";
 	for (var i in this.actividades) {
 		if (this.actividades[i].cumplido) {
-			htmlActCompletadas += "<li>" + this.actividades[i].nombre + " en sector " + this.actividades[i].numeroSector + "</li>";
+			htmlActCompletadas += "<li class='colorVerde'>" + this.actividades[i].nombre + " en sector " + this.actividades[i].numeroSector + "</li>";
 		} else {
-			htmlActNoCompletadas += "<li>" + this.actividades[i].nombre + " en sector " + this.actividades[i].numeroSector + "</li>";
+			htmlActNoCompletadas += "<li class='colorRojo'>" + this.actividades[i].nombre + " en sector " + this.actividades[i].numeroSector + "</li>";
 		}
 	}
 	htmlALlenar += htmlActCompletadas + "</ul>" + htmlActNoCompletadas + "</ul>";
