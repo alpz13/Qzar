@@ -32,12 +32,17 @@ router.get('/', function (req, res, next) {
 router.post('/nuevo', function (req, res, next) {
     var formulario = new multiparty.Form(),
         retroalimentacion = {
+			'dia' : req.body.hoy,
             'idModulo' : req.session.usuario.idModulo
         };
+	console.log(retroalimentacion);
 
     // Valida permisos para agregar retroalimentación.
     if (req.session.usuario.permisos.indexOf("crear retroalimentacion") < 0) {
-        res.send("No tienes permiso para enviar retroalimentación.");
+        //res.send("No tienes permiso para enviar retroalimentación.");
+		var err = new Error();
+		err.status = 403;
+		next(err);
         return;
     }
 
@@ -45,7 +50,9 @@ router.post('/nuevo', function (req, res, next) {
     formulario.parse(req, function(err, campos, archivos) {
         if (err) {
             console.log(err);
-            res.send('Hubo un error al agregar la retroalimentación. Inténtelo más tarde.');
+		    var err = new Error('Hubo un error al agregar la retroalimentación. Inténtelo más tarde.');
+		    err.status = 500;
+		    next(err);
         } else {
             for (var campo in campos) {
 				retroalimentacion[campo] = campos[campo];
@@ -55,7 +62,9 @@ router.post('/nuevo', function (req, res, next) {
                     retroalimentacion.archivo = archivos.foto[0];
                 } else {
                     console.log(archivos.foto[0].headers);
-                    res.send('La foto de retroalimentación debe ser una imagen.');
+		            var err = new Error('La foto de retroalimentación debe ser una imagen.');
+		            err.status = 500;
+		            next(err);
 					return;
 				}
             }
@@ -65,9 +74,13 @@ router.post('/nuevo', function (req, res, next) {
                 if (err) {
                     console.log(err);
                     if (err.code === 'ER_DUP_ENTRY') {
-                        res.send('Ya se agregó una retroalimentación para este día.');
+		                var err = new Error('Ya se agregó una retroalimentación para este día.');
+		                err.status = 500;
+		                next(err);
                     } else {
-                        res.send('Hubo un error al agregar la retroalimentación. Inténtelo más tarde.');
+		                var err = new Error('Hubo un error al agregar la retroalimentación. Inténtelo más tarde.');
+		                err.status = 500;
+		                next(err);
                     }
                 } else {
                     res.redirect('/retroalimentacion/' + req.session.usuario.idModulo);
@@ -86,7 +99,9 @@ router.post('/actualizar', function (req, res, next) {
 
     // Valida permisos para actualizar retroalimentación.
     if (req.session.usuario.permisos.indexOf("modificar retroalimentacion") < 0) {
-        res.send("No tienes permiso para actualizar la retroalimentación.");
+		var err = new Error();
+		err.status = 403;
+		next(err);
         return;
     }
 
@@ -94,7 +109,10 @@ router.post('/actualizar', function (req, res, next) {
     formulario.parse(req, function(err, campos, archivos) {
         if (err) {
             console.log(err);
-            res.send('Hubo un error al actualizar la retroalimentación. Inténtelo más tarde.');
+            //res.send('Hubo un error al actualizar la retroalimentación. Inténtelo más tarde.');
+		    var err = new Error('Hubo un error al actualizar la retroalimentación. Inténtelo más tarde.');
+		    err.status = 500;
+		    next(err);
         } else {
             for (var campo in campos) {
 				retroalimentacion[campo] = campos[campo];
@@ -104,7 +122,9 @@ router.post('/actualizar', function (req, res, next) {
                     retroalimentacion.archivo = archivos.foto[0];
                 } else {
                     console.log(archivos.foto[0].headers);
-                    res.send('La foto de retroalimentación debe ser una imagen.');
+		            var err = new Error('La foto de retroalimentación debe ser una imagen.');
+		            err.status = 500;
+		            next(err);
 					return;
 				}
             }
@@ -113,7 +133,9 @@ router.post('/actualizar', function (req, res, next) {
             retroalimentaciones.actualizar(retroalimentacion, function(err) {
                 if (err) {
                     console.log(err);
-                    res.send('Hubo un error al actualizar la retroalimentación. Inténtelo más tarde.');
+		            var err = new Error('Hubo un error al actualizar la retroalimentación. Inténtelo más tarde.');
+		            err.status = 500;
+		            next(err);
                 } else {
                     res.redirect('/retroalimentacion/' + req.session.usuario.idModulo);
                 }
@@ -158,7 +180,7 @@ router.get('/:id(\\d+)', function (req, res, next) {
 					console.log(err);
 					retroalimentacionHoy = [];
 				}
-				res.render('verretroalimentacion', { titulo: 'Retroalimentaciones', usuario:req.session.usuario, barraLateral: "retroalimentacion", modulo: modulos[0], actividades: actividades, retroalimentacionHoy: retroalimentacionHoy});
+				res.render('verretroalimentacion', { titulo: 'Retroalimentaciones', usuario:req.session.usuario, barraLateral: "retroalimentacion", modulo: modulos[0], actividades: actividades, retroalimentacionHoy: retroalimentacionHoy, hoy: hoy});
 			});
 		});
     });
