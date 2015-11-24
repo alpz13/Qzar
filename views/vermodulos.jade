@@ -5,62 +5,46 @@ block content
   title #{modulo.nombre}
   //Contenido de Pagina
   div#page-wrapper
-    div.container-fluid
+    .container-fluid
        if aviso
-         div.row
+         .row
            div(class="alert alert-#{aviso.tipo} col-md-6 col-md-offset-3", role="alert")
              i(class="#{aviso.icono}")
              p.inline #{aviso.mensaje}
 
-      div.row
+      .row
         div#barra-ver-modulos
-          div.col-sm-12.col-md-8.col-md-offset-2
+          .col-sm-12.col-md-8.col-md-offset-2
             //p #{mensaje}
             i(class='fa fa-fw fa-home')#icono-modulo
             h1#h1VerModulos #{titulo}
               span#nombreModulo #{modulo.nombre}
           //Lista de Eventos
-          //div.form-group.col-sm-12.col-md-8.col-md-offset-2
+          //.form-group.col-sm-12.col-md-8.col-md-offset-2
             div#eventos-del-dia
         //Parte de Edu
-        div.actividadesDelDia.col-sm-12.col-md-8.col-md-offset-2
+        .actividadesDelDia.col-sm-12.col-md-8.col-md-offset-2
           table#actividadesHoy
 
 
         //Croquis
         &nbsp&nbsp&nbsp&nbsp&nbsp
         if alto.length > 0
-          div.col-sm-12.col-md-8.col-md-offset-2
-            table
-              tbody
-                tr
-                  td
-                    div.col-sm-12.col-md-8#norte
-                      img
-                  td
-                    table#huerta.table.table-bordered
-                      tbody
-                        each number in alto
-                          tr.renglon
-                            each row in ancho 
-                              td.cuadrito &nbsp
-                  td
-                    div.col-sm-12.col-md-8#sur
-                      img
-            
-            //div.col-sm-12.col-md-8#norte
-              img
-            //div#tablaDeLaHuerta
-              table#huerta.table.table-bordered
-                tbody
-                  each number in alto
-                    tr.renglon
-                      each row in ancho 
-                        td.cuadrito &nbsp
-            //div.col-sm-12.col-md-8#sur
-              img
+          .container
+            .row
+              div(style="margin: 0 auto;")
+                table#huerta.table(align="center")
+                  tbody
+                    each number in alto
+                      tr.renglon
+                        each row in ancho 
+                          td.cuadrito
+                            span.poste(style="background-color: #CAE0C0")
+            .row
+              .col-sm-6.col-sm-offset-5
+                img.media-object(src="../images/rosavientos.png" alt="...")
 
-        div.col-sm-12.col-md-8.col-md-offset-2
+        .col-sm-12.col-md-8.col-md-offset-2
           table.table.table-striped.table-bordered
             tbody
                 tr
@@ -95,17 +79,17 @@ block content
             //Modal para eliminar modulo
             //////////////////////////////////////////////////////
             div(id='Eliminar' class='modal fade' role='dialog')
-              div.modal-dialog
-                div.modal-content
-                  div.modal-header
+              .modal-dialog
+                .modal-content
+                  .modal-header
                       button(type='button' class='close' data-dismiss="modal") &times;
                       h4.modal-title Advertencia
                     p#mensajeActualizacion
                     form#actualizaModulo(name="actualizaModulo")
-                      div.modal-body
-                        div.form-group
+                      .modal-body
+                        .form-group
                           p#eliminarCosas ¿Desea eliminar el módulo?
-                      div.modal-footer
+                      .modal-footer
                         a.btn.btn-primary(href='/modulos/eliminar/#{modulo.idModulo}' type="button" class="eliminar") Eliminar
                         button.btn.btn-danger#cerrarModal(type='button', data-dismiss='modal') Cancelar
             /////////////////////////////////////////////////
@@ -117,17 +101,17 @@ block content
             //Modal para eliminar la huerta
             //////////////////////////////////////////////////////
             div(id='EliminarHuerta' class='modal fade' role='dialog')
-              div.modal-dialog
-                div.modal-content
-                  div.modal-header
+              .modal-dialog
+                .modal-content
+                  .modal-header
                       button(type='button' class='close' data-dismiss="modal") &times;
                       h4.modal-title Advertencia
                     p#mensajeActualizacion
                     form#actualizaModulo(name="actualizaModulo")
-                      div.modal-body
-                        div.form-group
+                      .modal-body
+                        .form-group
                           p#eliminarCosas ¿Desea eliminar el croquis del módulo?
-                      div.modal-footer
+                      .modal-footer
                         a.btn.btn-primary(href='/modulo/huerta/eliminar/#{modulo.idModulo}') Eliminar croquis
                         button.btn.btn-danger#cerrarModal(type='button', data-dismiss='modal') Cancelar
             /////////////////////////////////////////////////
@@ -146,9 +130,9 @@ block content
                     |       
                     form#formcrearHuerta(name="crearHuerta",method="post",action="/modulo/huerta/crear/#{modulo.idModulo}")
                       .modal-body
-                        div.form-group
+                        .form-group
                           input.form-control#inputAncho(type="number", autocomplete="off", placeholder="Postes (ancho)", name="ancho", onchange="posAncho()", required)
-                        div.form-group
+                        .form-group
                           input.form-control#inputAlto(type="number", autocomplete="off", placeholder="Surcos (alto)", name="alto", onchange="posAlto()", required)
                           input.form-control#inputAlto(type="hidden", placeholder="", name="cuadritos", value=[])
                       |       
@@ -163,23 +147,23 @@ block content
 
       if usuario.permisos.indexOf("modificar modulo") >= 0
         div(id='FAA' class='modal fade' role='dialog')
-            div.modal-dialog
-              div.modal-content
-                div.modal-header
+            .modal-dialog
+              .modal-content
+                .modal-header
                     button(type='button' class='close' data-dismiss="modal") &times;
                     h4.modal-title Editar módulo
                   p#mensajeActualizacion
                   form#actualizaModulo(name="actualizaModulo")
-                    div.modal-body
+                    .modal-body
 
-                      div.form-group
+                      .form-group
                         label(for="nombre") Nombre del módulo:
                         input.form-control#nombre(type="text", placeholder="Nombre", name="nombre", value=modulo.nombre, required)
-                      div.form-group
+                      .form-group
                         label(for="numero") Número del módulo: 
                         input.form-control#numero(type="number", placeholder="Número", name="numero", min="0", max="999", value=modulo.numeroModulo, required)
 
-                    div.modal-footer
+                    .modal-footer
                       button.btn.btn-primary#editarModulo(type='button') Guardar cambios
                       button.btn.btn-danger#cerrarModalEditar(type='button', data-dismiss='modal') Cancelar
 
@@ -208,44 +192,44 @@ block content
 
     //Modal Asignar Actividades
     div(id='AAM' class='modal fade' role='dialog')
-      div.modal-dialog
+      .modal-dialog
         //Contenido modal
-        div.modal-content
-          div.modal-header
+        .modal-content
+          .modal-header
             button(type='button' class='close' data-dismiss="modal") &times;
             h4.modal-title#titulo-modal-actividades Asignar Actividad
             hr
-            div.modal-body
-              div.group-control#agregarActividad
+            .modal-body
+              .group-control#agregarActividad
                 button.btn.btn-primary(type="button" onclick="agregarActividad()" data-toggle="tool-tip", title="Agregar actividad") +
                 &nbsp
                 button.btn.btn-danger(type="button" onclick="quitarActividad()" data-toggle="tool-tip", title="Quitar actividad") -
-              div.categoriaActividad.group-control
+              .categoriaActividad.group-control
                 hr
-                div.categoriasDiv.group-control#categoriasDiv
+                .categorias.group-control#categoriasDiv
                   label(for="categorias") Categoría: 
                     select.form-control.catActividades.categoriaCustom#categoriasPosibles(name="categoriaPosible", onchange="cambiarActividades(this)", required)
                       for categoria in categorias
                         option(value= categoria.idCategoria) #{categoria.nombreCategoria}
-                div.actividadesDiv.group-control#actividadesDiv
+                .actividades.group-control#actividadesDiv
                   label(for="actividad") Actividad: 
                     select.form-control.actividades.actividadCustom#actividadPosible(name="actividadPosible", required)
                       for actividad in actividades
                         option.opcionActividad(value= actividad.idActividad, categoria= actividad.idCategoriaAct) #{actividad.nombre}
                   hr
-              div.group-control
+              .group-control
                 label(for="sector") Sector: 
                   select.form-control.sectorCustom#sectorPosible(name="sectorPosible", required)
                     option(value=-1) Sin sector
                     for sector in sectores
                       option(value= sector.idSector) #{sector.numeroSector}
-              div.group-control
+              .group-control
                 label(for="fechaIni") Fecha de inicio:
                   input.initDate.form-control.dateCustom#initDate
-              div.group-control
+              .group-control
                 label(for="fechaFin") Fecha de fin:
                   input.endDate.form-control.dateCustom#endDate
-            div.modal-footer
+            .modal-footer
               button#boton-habilitar-campos.btn.btn-info(type="button" onclick="habilitarCamposModal()") Habilitar para edición
               button#boton-edicion-asignaciones.btn.btn-primary(type="button" data-dismiss="modal") Editar
               button#boton-borrar-asignaciones.btn.btn-danger(type="button" data-dismiss="modal") Eliminar
@@ -287,11 +271,7 @@ block content
         <div id="eventos-del-dia">
           <p>Selecciona un día para ver los eventos del mismo</p>
       </div>
-
-  //Cierro segundo col-lg-12 
-  //Cierro Container Fluid
-  //Containererro PageWrapper
-  //Cierro Wrapper
+      
   //Jquery
   script(src='/bootstrap/js/jquery.js')
   //Bootstrap Core JS

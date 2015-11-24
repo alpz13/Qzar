@@ -5,6 +5,7 @@
 .cuadrito{
 	width: 50px;
 	height: 30px;
+    padding: 3px;
 	-webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -38,6 +39,32 @@
 	margin-top: 10px;
 }
 #huerta td{
-	border:solid 2px;
 	text-align: center
+}
+.poste {
+    background-color: #96B566;
+    padding: 12px;
+    width: 60px;
+    height: 42px;
+    border-radius: 3px;
+    display: inline-block;
+    line-height: 0px;
+    text-shadow: #393939 2px 2px 9px;
+    font-size: 17px;
+}
+
+#huerta {
+    border: 2px solid;
+}
+
+#rosavientos {
+    background-image: url('../images/rosavientos.png');
+    width:200px;
+    height:200px;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+#mediaDeHuerta {
+    margin: auto auto;
 }
