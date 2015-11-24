@@ -32,8 +32,10 @@ router.get('/', function (req, res, next) {
 router.post('/nuevo', function (req, res, next) {
     var formulario = new multiparty.Form(),
         retroalimentacion = {
+			'dia' : req.body.hoy,
             'idModulo' : req.session.usuario.idModulo
         };
+	console.log(retroalimentacion);
 
     // Valida permisos para agregar retroalimentación.
     if (req.session.usuario.permisos.indexOf("crear retroalimentacion") < 0) {
@@ -178,7 +180,7 @@ router.get('/:id(\\d+)', function (req, res, next) {
 					console.log(err);
 					retroalimentacionHoy = [];
 				}
-				res.render('verretroalimentacion', { titulo: 'Retroalimentaciones', usuario:req.session.usuario, barraLateral: "retroalimentacion", modulo: modulos[0], actividades: actividades, retroalimentacionHoy: retroalimentacionHoy});
+				res.render('verretroalimentacion', { titulo: 'Retroalimentaciones', usuario:req.session.usuario, barraLateral: "retroalimentacion", modulo: modulos[0], actividades: actividades, retroalimentacionHoy: retroalimentacionHoy, hoy: hoy});
 			});
 		});
     });

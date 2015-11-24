@@ -129,8 +129,11 @@ var agregar = function (NuevoUsuario, callback) {
 
 var modificar = function (NuevoUsuario, callback) {
 	var conexion = mysql.createConnection(credenciales);
-    var consulta = 'UPDATE `Usuarios` SET `idRoles`= "' + NuevoUsuario.idRoles + '",`nombre`= "' + NuevoUsuario.nombre + '",`contrasena`= "'+ NuevoUsuario.contrasenia +'",`idModulo`= "'+ NuevoUsuario.idModulo + '" WHERE Usuarios.idUsuario = ' + NuevoUsuario.idUsuario + '';
+    var consulta = 'UPDATE `Usuarios` SET `idRoles`= ?, `nombre`= ?, `contrasena`= ?, `idModulo`= ? WHERE Usuarios.idUsuario = ?';
+	var params = [NuevoUsuario.idRoles, NuevoUsuario.nombre, NuevoUsuario.contrasenia, NuevoUsuario.idModulo, NuevoUsuario.idUsuario];
+
     conexion.connect();
+	consulta = mysql.format(consulta, params);
     conexion.query(consulta, function (err) {
         conexion.end();
         if (err) {
