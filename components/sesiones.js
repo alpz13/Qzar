@@ -28,7 +28,7 @@ var __obtenerPermisos = function (idUsuario, callback) {
 
 var __validarCredenciales = function (nombreUsuario, contrasenia, callback) {
 	var conexion = mysql.createConnection(credenciales);
-    var consulta = 'SELECT `contrasena` FROM `Usuarios` WHERE `nombre` = ? AND activo = 1;';
+    var consulta = 'SELECT `idUsuario`, `contrasena` FROM `Usuarios` WHERE `nombre` = ? AND activo = 1;';
     var valores = [nombreUsuario, contrasenia];
     consulta = mysql.format(consulta, valores);
 
