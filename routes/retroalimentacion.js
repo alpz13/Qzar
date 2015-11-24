@@ -29,6 +29,7 @@ router.get('/', function (req, res, next) {
 // Petición de crear nueva retroalimentación.
 router.post('/nuevo', function (req, res, next) {
     var formulario = new multiparty.Form(),
+	    hoy = moment().tz('America/Mexico_City').format('YYYY-MM-DD'),
         retroalimentacion = {
             'idModulo' : req.session.usuario.idModulo
         };
@@ -53,6 +54,15 @@ router.post('/nuevo', function (req, res, next) {
             for (var campo in campos) {
 				retroalimentacion[campo] = campos[campo];
 			}
+
+			// Ya pasó la fecha.
+			if (retroalimentacion.dia != hoy) {
+		        var err = new Error('Ya pasó la fecha para modificar la retroalimentación de ese día.');
+		        err.status = 500;
+		        next(err);
+				return;
+			}
+
             if (archivos.foto[0].size > 0) {
                 if (archivos.foto[0].headers['content-type'].match(/^image/)) {
                     retroalimentacion.archivo = archivos.foto[0];
