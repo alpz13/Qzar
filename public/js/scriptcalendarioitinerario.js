@@ -231,6 +231,8 @@ function llenaPanel(eventos, date) {
   url = url.split('/');
   var htmlALlenar = "";
   $(eventos).each(function () {
+    if(this.numeroSector < 0)
+      this.numeroSector = "Sin sector";
     htmlALlenar += "<div class='event-item'>";
     htmlALlenar += "<div class='event-item-name'>Actividad: " + this.title + "</div>";
     htmlALlenar += "<div class='event-item-location'>Sector: " + this.numeroSector + "</div>";

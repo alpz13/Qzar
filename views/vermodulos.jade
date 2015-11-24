@@ -214,6 +214,7 @@ block content
               div.group-control
                 label(for="sector") Sector: 
                   select.form-control.sectorCustom#sectorPosible(name="sectorPosible", required)
+                    option(value=-1) Sin sector
                     for sector in sectores
                       option(value= sector.idSector) #{sector.numeroSector}
               div.group-control
