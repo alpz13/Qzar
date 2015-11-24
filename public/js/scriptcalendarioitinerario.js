@@ -236,6 +236,7 @@ function llenaPanel(eventos, date) {
       this.numeroSector = "Sin sector";
     htmlALlenar += "<div class='event-item'>";
     htmlALlenar += "<div class='event-item-name'>Actividad: " + this.title + "</div>";
+    htmlALlenar += "<div class='event-item-name'>Descripción de la actividad: " + this.descripcion + "</div>";
     htmlALlenar += "<div class='event-item-location'>Sector: " + this.numeroSector + "</div>";
     htmlALlenar += "<a class='event-item-details' onclick=cargarModalEditar("+ this.idAsignada +") href=#>Ver detalles</a>";
     htmlALlenar += "</div>";
