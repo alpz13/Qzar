@@ -17,11 +17,12 @@ var sectoresPosibles = function (callback) {
         //Funcion callback del query
         if (!err) {
           //Si no ocurrio un error al realizar la query
-          return callback(null, rows);
-        }
-        //Error al ejecutar el query
-        console.log(err);
-        return callback(err, []);
+          callback(null, rows);
+        } else {
+          //Error al ejecutar el query
+          console.log(err);
+          callback(err, []);
+		}
       });
       //Termina la conexion
       connection.end();

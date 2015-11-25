@@ -80,11 +80,17 @@ app.use(function (req, res, next) {
 
 // error handlers
 
+app.set('env', 'development');
 // development error handler
 // will print stacktrace
-app.set('env', 'development');
 if (app.get('env') === 'development') {
     app.use(function (err, req, res, next) {
+		if (!req.session) {
+			res.status(err.status || 500);
+			res.send(err);
+			return;
+		}
+
 		if (err.status === 403) {
 			err.message = "No tienes permiso para hacer esta acción. " + err.message;
 		}
@@ -100,6 +106,12 @@ if (app.get('env') === 'development') {
 // production error handler
 // no stacktraces leaked to user
 app.use(function (err, req, res, next) {
+	if (!req.session) {
+		res.status(err.status || 500);
+		res.send(err);
+		return;
+	}
+
 	if (err.status === 403) {
 		err.message = "No tienes permiso para hacer esta acción. " + err.message;
 	}
