@@ -27,10 +27,29 @@ block content
           table#actividadesHoy
 
 
+        .col-sm-12.col-md-8.col-md-offset-2
+          table.table.table-striped.table-bordered
+            tbody
+                tr
+                  td#opciones-modulo Número de Módulo
+                  td#numeroModulo #{modulo.numeroModulo}
+                tr
+                  td#opciones-modulo Administrador de Módulo
+                  td#administradorModulo #{modulo.admin}
+        if usuario.permisos.indexOf("modificar modulo") >= 0
+          .col-sm-8.col-sm-offset-4
+            button.btn.btn-primary(type="button" class="modificar" data-toggle="modal" data-target="#FAA" id='boton-modificar') Modificar Módulo
+            &nbsp&nbsp&nbsp
+            button.btn.btn-danger(type="button" class="modificar" data-toggle="modal" data-target="#Eliminar" id='boton-eliminar') Eliminar Módulo
+        hr
         //Croquis
         &nbsp&nbsp&nbsp&nbsp&nbsp
         if alto.length > 0
           .container
+            .row
+              .col-sm-6.col-sm-offset-5(style="margin-top: 15px")
+                img.media-object(src="../images/rosavientos.png" alt="...")
+            hr
             .row
               div(style="margin: 0 auto;")
                 table#huerta.table(align="center")
@@ -40,27 +59,10 @@ block content
                         each row in ancho 
                           td.cuadrito
                             span.poste(style="background-color: #CAE0C0")
-            .row
-              .col-sm-6.col-sm-offset-5
-                img.media-object(src="../images/rosavientos.png" alt="...")
 
-        .col-sm-12.col-md-8.col-md-offset-2
-          table.table.table-striped.table-bordered
-            tbody
-                tr
-                  td#opciones-modulo Número de Módulo
-                  td#numeroModulo #{modulo.numeroModulo}
-                  td#opciones-modulo Opciones
-                tr
-                  td#opciones-modulo Administrador de Módulo
-                  td#administradorModulo #{modulo.admin}
-                  if usuario.permisos.indexOf("modificar modulo") >= 0
-                    td#botones-modificar
-                      button.btn.btn-primary(type="button" class="modificar" data-toggle="modal" data-target="#FAA" id='boton-modificar') Modificar
-                      &nbsp&nbsp&nbsp
-                      button.btn.btn-danger(type="button" class="modificar" data-toggle="modal" data-target="#Eliminar" id='boton-eliminar') Eliminar
-          if usuario.permisos.indexOf("modificar modulo") >= 0
-            
+      
+        if usuario.permisos.indexOf("modificar modulo") >= 0
+          .col-sm-8.col-sm-offset-4
             //Botones de Editar y Agregar Nueva Huerta
             //Si existe una huerta, despleiga boton de editar
             if alto.length > 0
@@ -69,6 +71,7 @@ block content
               a.btn.btn-danger.btn-lg(type='button', data-toggle='modal', data-target='#EliminarHuerta') Eliminar croquis
               &nbsp&nbsp&nbsp
             else
+              hr
               button.btn.btn-primary.btn-lg(type='button', data-toggle='modal', data-target='#myModal') Nuevo croquis
             &nbsp&nbsp&nbsp
             button.btn.btn-primary.btn-lg(type="button" data-toggle="modal" onclick="cargarModalAsignar()" id='boton-asignar') Asignar Actividad
@@ -131,9 +134,9 @@ block content
                     form#formcrearHuerta(name="crearHuerta",method="post",action="/modulo/huerta/crear/#{modulo.idModulo}")
                       .modal-body
                         .form-group
-                          input.form-control#inputAncho(type="number", autocomplete="off", placeholder="Postes (ancho)", name="ancho", onchange="posAncho()", required)
+                          input.form-control#inputAncho(type="number", autocomplete="off", placeholder="Postes (ancho)", name="ancho", max="40", onchange="posAncho()", required)
                         .form-group
-                          input.form-control#inputAlto(type="number", autocomplete="off", placeholder="Surcos (alto)", name="alto", onchange="posAlto()", required)
+                          input.form-control#inputAlto(type="number", autocomplete="off", placeholder="Surcos (alto)", name="alto", max="40", onchange="posAlto()", required)
                           input.form-control#inputAlto(type="hidden", placeholder="", name="cuadritos", value=[])
                       |       
                       .modal-footer
@@ -170,6 +173,7 @@ block content
     script.
       var posAlto = function(){
         var alto=$("#inputAlto").val();
+        var ancho=$("#inputAncho").val();
           if(alto <= 0)
             {
               alto = 1;
@@ -180,7 +184,8 @@ block content
 
       var posAncho = function(){
         var ancho=$("#inputAncho").val();
-          if(ancho <= 0)
+        var alto=$("#inputAlto").val();
+           if(ancho <= 0)
             {
               ancho = 1;
             }
