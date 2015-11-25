@@ -41,13 +41,15 @@ block content
             button.btn.btn-primary(type="button" class="modificar" data-toggle="modal" data-target="#FAA" id='boton-modificar') Modificar Módulo
             &nbsp&nbsp&nbsp
             button.btn.btn-danger(type="button" class="modificar" data-toggle="modal" data-target="#Eliminar" id='boton-eliminar') Eliminar Módulo
+        hr
         //Croquis
         &nbsp&nbsp&nbsp&nbsp&nbsp
         if alto.length > 0
           .container
             .row
-              .col-sm-6.col-sm-offset-5
+              .col-sm-6.col-sm-offset-5(style="margin-top: 15px")
                 img.media-object(src="../images/rosavientos.png" alt="...")
+            hr
             .row
               div(style="margin: 0 auto;")
                 table#huerta.table(align="center")
