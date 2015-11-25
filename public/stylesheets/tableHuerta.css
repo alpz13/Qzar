@@ -43,14 +43,14 @@
 }
 .poste {
     background-color: #96B566;
-    padding: 12px;
     width: 60px;
     height: 42px;
     border-radius: 3px;
     display: inline-block;
-    line-height: 12px;
+    line-height: 42px;
     text-shadow: #393939 2px 2px 9px;
     font-size: 27px;
+    text-align: center;
 }
 
 #huerta {
