@@ -134,9 +134,9 @@ block content
                     form#formcrearHuerta(name="crearHuerta",method="post",action="/modulo/huerta/crear/#{modulo.idModulo}")
                       .modal-body
                         .form-group
-                          input.form-control#inputAncho(type="number", autocomplete="off", placeholder="Postes (ancho)", name="ancho", onchange="posAncho()", required)
+                          input.form-control#inputAncho(type="number", autocomplete="off", placeholder="Postes (ancho)", name="ancho", max="40", onchange="posAncho()", required)
                         .form-group
-                          input.form-control#inputAlto(type="number", autocomplete="off", placeholder="Surcos (alto)", name="alto", onchange="posAlto()", required)
+                          input.form-control#inputAlto(type="number", autocomplete="off", placeholder="Surcos (alto)", name="alto", max="40", onchange="posAlto()", required)
                           input.form-control#inputAlto(type="hidden", placeholder="", name="cuadritos", value=[])
                       |       
                       .modal-footer
@@ -173,6 +173,7 @@ block content
     script.
       var posAlto = function(){
         var alto=$("#inputAlto").val();
+        var ancho=$("#inputAncho").val();
           if(alto <= 0)
             {
               alto = 1;
@@ -183,7 +184,8 @@ block content
 
       var posAncho = function(){
         var ancho=$("#inputAncho").val();
-          if(ancho <= 0)
+        var alto=$("#inputAlto").val();
+           if(ancho <= 0)
             {
               ancho = 1;
             }
