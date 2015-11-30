@@ -25,7 +25,7 @@ block body
         li
           a(href='/sesiones/cerrar')
             i(class='fa fa-fw fa-power-off')
-            label LOG OUT
+            label CERRAR SESIÓN
 
       div(class='collapse navbar-collapse navbar-ex1-collapse')
         //MENU PRINCIPAL IZQUIERDO
@@ -42,17 +42,55 @@ block body
                 p.inline.leftsidebar INICIO
   
           // Modulos
-          if usuario.permisos.indexOf("ver modulo") >= 0
-            if barraLateral && barraLateral === 'modulos'
+          if barraLateral && barraLateral === 'modulos'
+            li.activo
+              a(href='/modulos')
+                i(class='fa fa-fw fa-home')
+                p.inline.leftsidebar MÓDULOS
+          else
+            li
+              a(href='/modulos')
+                i(class='fa fa-fw fa-home')
+                p.inline.leftsidebar MÓDULOS
+
+          // Retroalimentación
+          if usuario.permisos.indexOf("crear retroalimentacion") >= 0 || usuario.permisos.indexOf("ver retroalimentacion") >= 0
+            if barraLateral && barraLateral === 'retroalimentacion'
               li.activo
-                a(href='/modulos')
-                  i(class='fa fa-fw fa-home')
-                  p.inline.leftsidebar MODULOS
+                a(href='/retroalimentacion')
+                  i(class='fa fa-fw fa-bookmark-o')
+                  p.inline.leftsidebar RETROALIMENTACIÓN
             else
               li
-                a(href='/modulos')
-                  i(class='fa fa-fw fa-home')
-                  p.inline.leftsidebar MODULOS
+                a(href='/retroalimentacion')
+                  i(class='fa fa-fw fa-bookmark-o')
+                  p.inline.leftsidebar RETROALIMENTACIÓN
+
+          // Sectores
+          if usuario.permisos.indexOf("ver sectores") >= 0
+            if barraLateral && barraLateral === 'sector'
+              li.activo
+                a(href='/sector')
+                  i(class='fa fa-fw fa-archive')
+                  p.inline.leftsidebar SECTORES
+            else
+              li
+                a(href='/sector')
+                  i(class='fa fa-fw fa-archive')
+                  p.inline.leftsidebar SECTORES
+
+          // Categorias
+          if usuario.permisos.indexOf("crear actividad") >= 0
+            if barraLateral && barraLateral === 'categorias'
+              li.activo
+                a(href='/categoria')
+                  i(class='fa fa-fw fa-book')
+                  p.inline.leftsidebar CATEGORÍAS
+            else
+              li
+                a(href='/categoria')
+                  i(class='fa fa-fw fa-book')
+                  p.inline.leftsidebar CATEGORÍAS
 
           // Actividades
           if usuario.permisos.indexOf("ver actividad") >= 0
@@ -67,19 +105,6 @@ block body
                   i(class='fa fa-fw fa-edit')
                   p.inline.leftsidebar ACTIVIDADES
 
-          // Categorias
-          if usuario.permisos.indexOf("crear actividad") >= 0
-            if barraLateral && barraLateral === 'categorias'
-              li.activo
-                a(href='/categoria')
-                  i(class='fa fa-fw fa-book')
-                  p.inline.leftsidebar CATEGORIAS
-            else
-              li
-                a(href='/categoria')
-                  i(class='fa fa-fw fa-book')
-                  p.inline.leftsidebar CATEGORIAS
-
           // Usuarios
           if usuario.permisos.indexOf("ver usuario") >= 0
             if barraLateral && barraLateral === 'usuarios'
@@ -93,46 +118,6 @@ block body
                   i(class='fa fa-fw fa-users')
                   p.inline.leftsidebar USUARIOS
 
-          // Lotes
-          //if barraLateral && barraLateral === 'lotes'
-            li.activo
-              a(href='/lotes')
-                i(class='fa fa-fw fa-archive')
-                p.inline.leftsidebar LOTES
-          //else
-            li
-              a(href='/lotes')
-                i(class='fa fa-fw fa-archive')
-                p.inline.leftsidebar LOTES
-
-          // Retroalimentación
-          if usuario.permisos.indexOf("ver retroalimentacion") >= 0
-            if barraLateral && barraLateral === 'retroalimentacion'
-              li.activo
-                a(href='/retroalimentacion')
-                  i(class='fa fa-fw fa-bookmark-o')
-                  p.inline.leftsidebar RETROALIMENTACIÓN
-            else
-              li
-                a(href='/retroalimentacion')
-                  i(class='fa fa-fw fa-bookmark-o')
-                  p.inline.leftsidebar RETROALIMENTACIÓN
-
-
-
-          // Sectores
-          if usuario.permisos.indexOf("crear sector") >= 0
-            if barraLateral && barraLateral === 'sector'
-              li.activo
-                a(href='/sector')
-                  i(class='fa fa-fw fa-archive')
-                  p.inline.leftsidebar SECTORES
-            else
-              li
-                a(href='/sector')
-                  i(class='fa fa-fw fa-archive')
-                  p.inline.leftsidebar SECTORES
-
           // Roles
           if usuario.permisos.indexOf("ver rol") >= 0
             if barraLateral && barraLateral === 'roles'
@@ -145,5 +130,18 @@ block body
                 a(href='/roles')
                   i(class='fa fa-fw fa-male')
                   p.inline.leftsidebar ROLES
+
+          // Lotes
+          //if barraLateral && barraLateral === 'lotes'
+            li.activo
+              a(href='/lotes')
+                i(class='fa fa-fw fa-archive')
+                p.inline.leftsidebar LOTES
+          //else
+            li
+              a(href='/lotes')
+                i(class='fa fa-fw fa-archive')
+                p.inline.leftsidebar LOTES
+
 
     block content

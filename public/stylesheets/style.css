@@ -258,4 +258,28 @@ div#retro-item-image{
     font-weight: bold;
 }
 
+.colorRojo{
+    color:red;
+}
+.colorVerde{
+    color:green;
+}
+
+#actividadesHoy th{
+    background-color: yellow;
+    color:black;
+}
+
+#norte{
+    background: url('../images/north.png') center center no-repeat;
+    width: 5vw;
+    height: 10vw;
+}
+
+#sur{
+    background: url('../images/south.png') center center no-repeat;
+    width: 5vw;
+    height: 10vw;
+}
+
 /* http://www.colorcombos.com/color-schemes/170/ColorCombo170.html */

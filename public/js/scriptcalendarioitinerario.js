@@ -36,6 +36,7 @@ function asignarActividad() {
   var idSector = $('#sectorPosible').val();
   var idActividadesRaw = $('.actividades');
   var idActividades = [];
+  //console.log(idActividadesRaw);
   $(idActividadesRaw).each(function(){
     idActividades.push($(this).val());
   });
@@ -57,7 +58,7 @@ function asignarActividad() {
   function (data) {
     console.log(data);
     //$("#full-clnd").load("modulos/2 " + "#full-clnd");
-    //location.reload();
+    location.reload();
   });
 }
 
@@ -110,6 +111,7 @@ function habilitarCamposModalAgregar(){
   $("#boton-borrar-asignaciones").css("display", "none");
   $("#titulo-modal-actividades").html("Asignar actividades");
   $("#boton-borrar-asignaciones").attr("onclick", "");
+  $("#agregarActividad").css('display', 'block');
 }
 
 function habilitarCamposModal(){
@@ -123,6 +125,10 @@ function habilitarCamposModal(){
   $("#boton-habilitar-campos").css("display", "none");
   $("#boton-edicion-asignaciones").css("display", "inline-block");
   $("#boton-borrar-asignaciones").css("display", "inline-block");
+  $("#agregarActividad").css('display', 'none');
+  while($(".actividadesDiv").length > 1){
+    $(".categoriaActividad").first().remove();
+  }
 }
 
 function cargarModalAsignar(){
@@ -141,13 +147,16 @@ function eliminarActividadesAsignadas(idAsignada, asignar){
     if (asignar === 1){
       asignarActividad();
     }
+    else{
+      location.reload();
+    }
   });
 }
 
 function editarActividadesAsignadas(idAsignada){
   eliminarActividadesAsignadas(idAsignada, 1);
   console.log("antes");
-  asignarActividad();
+  //asignarActividad();
   console.log("Despues");
 }
 
@@ -215,6 +224,10 @@ function cargarModalEditar(idAsignada){
         $(this).attr("selected", true);
       }
     });
+    $("#agregarActividad").css('display', 'none');
+    while($(".actividadesDiv").length > 1){
+      $(".categoriaActividad").last().remove();
+    }
     var div = $('#categoriasPosibles');
     cambiarActividades($(div));
     $(".opcionActividad").each(function(){
@@ -230,8 +243,11 @@ function llenaPanel(eventos, date) {
   url = url.split('/');
   var htmlALlenar = "";
   $(eventos).each(function () {
+    if(this.numeroSector < 0)
+      this.numeroSector = "Sin sector";
     htmlALlenar += "<div class='event-item'>";
     htmlALlenar += "<div class='event-item-name'>Actividad: " + this.title + "</div>";
+    htmlALlenar += "<div class='event-item-name'>Descripción de la actividad: " + this.descripcion + "</div>";
     htmlALlenar += "<div class='event-item-location'>Sector: " + this.numeroSector + "</div>";
     htmlALlenar += "<a class='event-item-details' onclick=cargarModalEditar("+ this.idAsignada +") href=#>Ver detalles</a>";
     htmlALlenar += "</div>";

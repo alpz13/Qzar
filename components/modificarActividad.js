@@ -19,12 +19,16 @@ var modifica = function (req, res) {
         var categoria = fields.roles;
         var img = files.imaMod[0];
 
+        if(nombreoriginal == '') {nombreoriginal = 'NULL';}
+
         var bd = mysql.createConnection(credenciales);   
-        var sql = 'UPDATE Actividades SET nombre = "' + nombre + '", descripcion = "' + descripcion + '", idCategoriaAct = "' + categoria + '", imagen = "' + id+ext + '" WHERE idActividad = "' + fields.idModActividad + '"';
+        var sql = 'UPDATE Actividades SET nombre = ?, descripcion = ?, idCategoriaAct = ?, imagen = ? WHERE idActividad = ?';
+		var params = [nombre, descripcion, categoria, nombreoriginal, fields.idModActividad];
 
         console.log(sql);
 
         bd.connect();
+		sql = mysql.format(sql, params);
         bd.query(sql, function (err, resultado) {
             if (err) {
                 bd.end();
@@ -49,6 +53,3 @@ var modifica = function (req, res) {
 module.exports = {
     'modifica' : modifica
 };
-
-
-

@@ -34,6 +34,11 @@ router.post('/crear/:id(\\d+)', function (req, res, next) {
   var alto = req.body.alto;
   var ancho = req.body.ancho;
   var cuadritos = req.body.cuadritos;
+  if (alto*ancho > 1300) {
+	var err = new Error("El tamaño de huerta seleccionado es demasiado grande");
+	next(err);
+	return;
+  }
   while (alto > 0) {
     altoA.push(alto);
     alto--;
