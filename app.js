@@ -80,9 +80,10 @@ app.use(function (req, res, next) {
 
 // error handlers
 
-app.set('env', 'development');
 // development error handler
 // will print stacktrace
+app.set('env', 'production');
+
 if (app.get('env') === 'development') {
     app.use(function (err, req, res, next) {
 		if (!req.session) {
