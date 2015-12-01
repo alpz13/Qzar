@@ -46,7 +46,7 @@ var __validarCredenciales = function (nombreUsuario, contrasenia, callback) {
         // Busca al usuario que tenga la contraseña dada.
         for (var i in renglones) {
 			if (bcrypt.compareSync(contrasenia, renglones[i].contrasena || ' ')) {
-				callback(null, true);
+				callback(null, renglones[i].idUsuario);
 				return;
 			}
 		}
@@ -95,12 +95,14 @@ var abrirSesion = function (req, res, callback) {
             callback(err);
             return;
         }
+		console.log(idUsuario);
 
         __cargarUsuario(idUsuario, function (err, usuario) {
             if (err) {
                 callback(err);
                 return;
             }
+			console.log(usuario);
 
             req.session.usuario = usuario;
             __obtenerPermisos(idUsuario, function (err, permisos) {

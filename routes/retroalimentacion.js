@@ -178,7 +178,7 @@ router.get('/:id(\\d+)', function (req, res, next) {
             next(err);
             return;
         }
-console.log(req.session.usuario.idModulo + " " + modulos[0].idModulo);
+
         if (req.session.usuario.permisos.indexOf("ver retroalimentacion") < 0 && req.session.usuario.permisos.indexOf("crear retroalimentacion") < 0 && req.session.usuario.permisos.indexOf("modificar retroalimentacion") < 0) {
             err = new Error();
             err.status = 403;
