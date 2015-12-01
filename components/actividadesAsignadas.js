@@ -362,7 +362,9 @@ function cancelarConfirmacionesHoy(idModulo, callback) {
                 connection.end();
                 if (err) {
                     callback(err);
-                }
+                } else {
+					callback(null);
+				}
             });
         }
     });
@@ -382,7 +384,9 @@ function confirmarActividadAsignada(idActividadesAsignadas, callback) {
                 connection.end();
                 if (err) {
                     callback(err);
-                }
+                } else {
+					callback(null);
+				}
             });
         }
     });

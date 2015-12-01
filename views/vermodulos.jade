@@ -235,8 +235,9 @@ block content
                 label(for="fechaFin") Fecha de fin:
                   input.endDate.form-control.dateCustom#endDate
             .modal-footer
-              button#boton-habilitar-campos.btn.btn-info(type="button" onclick="habilitarCamposModal()") Habilitar para edición
-              button#boton-edicion-asignaciones.btn.btn-primary(type="button" data-dismiss="modal") Editar
+              if usuario.permisos.indexOf("modificar asignacion") >= 0
+                button#boton-habilitar-campos.btn.btn-info(type="button" onclick="habilitarCamposModal()") Habilitar para edición
+                button#boton-edicion-asignaciones.btn.btn-primary(type="button" data-dismiss="modal") Editar
               button#boton-borrar-asignaciones.btn.btn-danger(type="button" data-dismiss="modal") Eliminar
               button#boton-modal-asignar.btn.btn-primary(onclick="asignarActividad()" data-dismiss="modal") Asignar
               button.btn.btn-danger(type="button" data-dismiss="modal") Cerrar

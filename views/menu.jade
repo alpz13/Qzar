@@ -93,7 +93,7 @@ block body
                   p.inline.leftsidebar CATEGORÍAS
 
           // Actividades
-          if usuario.permisos.indexOf("ver actividad") >= 0 || usuario.indexOf("crear actividad") >= 0
+          if usuario.permisos.indexOf("ver actividad") >= 0 || usuario.permisos.indexOf("crear actividad") >= 0
             if barraLateral && barraLateral === 'actividades'
               li.activo
                 a(href='/actividades')
@@ -106,7 +106,7 @@ block body
                   p.inline.leftsidebar ACTIVIDADES
 
           // Usuarios
-          if usuario.permisos.indexOf("ver usuario") >= 0 || usuario.indexOf("crear usuario") >= 0
+          if usuario.permisos.indexOf("ver usuario") >= 0 || usuario.permisos.indexOf("crear usuario") >= 0
             if barraLateral && barraLateral === 'usuarios'
               li.activo
                 a(href='/usuarios')
