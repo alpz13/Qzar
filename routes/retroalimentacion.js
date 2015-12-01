@@ -230,14 +230,14 @@ router.post('/verRetroalimentacion', function (req, res, next) {
 				if (!retros[filas[i].fecha]) {
 					retros[filas[i].fecha] = {
 						"date": filas[i].fecha,
-						"descripcion": filas[i].descripcion,
+						"descripcion": sanitizer.escape(filas[i].descripcion),
 						"ruta": filas[i].ruta,
 						"actividades": []
 					};
 				}
 				if (filas[i].nombre) {
 					retros[filas[i].fecha].actividades.push({
-						"nombre": filas[i].nombre,
+						"nombre": sanitizer.escape(filas[i].nombre),
 						"numeroSector": filas[i].numeroSector,
 						"cumplido": filas[i].cumplido
 					});

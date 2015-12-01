@@ -4,6 +4,7 @@
 */
 
 var moment = require('moment-timezone');
+var sanitizer = require('sanitizer');
 
 var listarActividadesAsignadas = function (idModulo, res) {
     var credenciales = require('../database/credencialesbd.json');
@@ -23,6 +24,10 @@ var listarActividadesAsignadas = function (idModulo, res) {
                 if (!err) {
                     //Si no ocurrio un error al realizar la query
                     //console.log(rows);
+                    for (var i in rows) {
+                        rows[i].title = sanitizer.escape(rows[i].title);
+                        rows[i].descripcion = sanitizer.escape(rows[i].descripcion);
+					}
                     res.setHeader('Content-Type', 'application/json');
                     res.send(JSON.stringify(rows));
                     return;
@@ -337,6 +342,9 @@ function obtenerActividadesHoy(res, idModulo, callback){
             connection.query(sql, function (err, actividades) {
                 connection.end();
                 if (!err) {
+                  for (var i in actividades) {
+                    actividades[i].nombre = sanitizer.escape(actividades[i].nombre);
+                  }
                   res.send(JSON.stringify(actividades))
                   return;
                 }
