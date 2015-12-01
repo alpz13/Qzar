@@ -4,6 +4,7 @@ var express = require('express');
 var multiparty = require('multiparty');
 var router = express.Router();
 var moment = require('moment-timezone');
+var sanitizer = require('sanitizer');
 var modulos = require('../components/modulos.js');
 var usuarios = require('../components/usuarios.js');
 var retroalimentaciones = require('../components/retroalimentaciones.js');
@@ -52,7 +53,7 @@ router.post('/nuevo', function (req, res, next) {
 		    next(err);
         } else {
             for (var campo in campos) {
-				retroalimentacion[campo] = campos[campo];
+				retroalimentacion[campo] = sanitizer.escape(campos[campo]);
 			}
 
 			// Ya pasó la fecha.
@@ -122,7 +123,7 @@ router.post('/actualizar', function (req, res, next) {
 		    next(err);
         } else {
             for (var campo in campos) {
-				retroalimentacion[campo] = campos[campo];
+				retroalimentacion[campo] = sanitizer.escape(campos[campo]);
 			}
 
 			// Ya pasó la fecha.
