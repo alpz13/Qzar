@@ -3,7 +3,7 @@
 
 var mysql = require('mysql');
 var credenciales = require('../database/credencialesbd.json');
-//var bcrypt = require('bcrypt');
+var bcrypt = require('bcrypt');
 
 /*
 */
@@ -45,8 +45,7 @@ var __validarCredenciales = function (nombreUsuario, contrasenia, callback) {
         
         // Busca al usuario que tenga la contraseña dada.
         for (var i in renglones) {
-			if (contrasenia === renglones[i].contrasena) {
-			//if (bcrypt.compareSync(contrasenia, renglones[i].contrasena || ' ')) {
+			if (bcrypt.compareSync(contrasenia, renglones[i].contrasena || ' ')) {
 				callback(null, renglones[i].idUsuario);
 				return;
 			}

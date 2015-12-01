@@ -4,7 +4,7 @@
 var mysql = require('mysql');
 var credenciales = require('../database/credencialesbd.json');
 
-//var bcrypt = require('bcrypt');
+var bcrypt = require('bcrypt');
 
 function listarUsuariosModulo(id, callback) {
 	var conexion = mysql.createConnection(credenciales);
@@ -116,7 +116,7 @@ var agregar = function (NuevoUsuario, callback) {
 	var conexion = mysql.createConnection(credenciales);
     var consulta = 'INSERT INTO Usuarios(idRoles, nombre, contrasena, idModulo, activo) VALUES(?, ?, ?, ?, 1);';
 
-    /*bcrypt.genSalt(10, function(err, salt) {
+    bcrypt.genSalt(10, function(err, salt) {
 		if (err) {
 			console.log(err);
 			callback(err);
@@ -130,8 +130,7 @@ var agregar = function (NuevoUsuario, callback) {
 				return;
 			}
 
-            var params = [NuevoUsuario.idRoles, NuevoUsuario.nombre, hash, NuevoUsuario.idModulo];*/
-            var params = [NuevoUsuario.idRoles, NuevoUsuario.nombre, NuevoUsuario.contrasenia, NuevoUsuario.idModulo];
+            var params = [NuevoUsuario.idRoles, NuevoUsuario.nombre, hash, NuevoUsuario.idModulo];
 			consulta = mysql.format(consulta, params);
 			conexion.connect();
 			conexion.query(consulta, function (err, resultado) {
@@ -144,15 +143,15 @@ var agregar = function (NuevoUsuario, callback) {
 				console.log("Usuario creado");
 				callback(null);
             });
-        //});
-    //});
+        });
+    });
 };
 
 var modificar = function (NuevoUsuario, callback) {
     var conexion = mysql.createConnection(credenciales);
     var consulta = 'UPDATE Usuarios SET idRoles = ?, nombre = ?, contrasena = ?, idModulo = ? WHERE idUsuario = ?';
 
-    /*bcrypt.genSalt(10, function(err, salt) {
+    bcrypt.genSalt(10, function(err, salt) {
 		if (err) {
 			console.log(err);
 			callback(err);
@@ -166,8 +165,7 @@ var modificar = function (NuevoUsuario, callback) {
 				return;
 			}
 
-            var params = [NuevoUsuario.idRoles, NuevoUsuario.nombre, hash, NuevoUsuario.idModulo, NuevoUsuario.idUsuario];*/
-            var params = [NuevoUsuario.idRoles, NuevoUsuario.nombre, NuevoUsuario.contrasenia, NuevoUsuario.idModulo, NuevoUsuario.idUsuario];
+            var params = [NuevoUsuario.idRoles, NuevoUsuario.nombre, hash, NuevoUsuario.idModulo, NuevoUsuario.idUsuario];
 			consulta = mysql.format(consulta, params);
 			conexion.connect();
 			conexion.query(consulta, function (err, resultado) {
@@ -180,8 +178,8 @@ var modificar = function (NuevoUsuario, callback) {
 				console.log("Usuario modificao");
 				callback(null);
             });
-        //});
-    //});
+        });
+    });
 };
 
 module.exports = {
